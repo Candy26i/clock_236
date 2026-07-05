@@ -125,6 +125,7 @@
   .progress-pill b{font-family:'ZCOOL KuaiLe'; color:var(--amber); font-size:15px}
   .pick-zone{flex:1; min-width:250px}
   .pick-zone h3{font-size:16px; margin:4px 0 10px}
+  .pick-zone h4{font-size:13.5px; color:var(--ink-soft); margin:14px 0 6px; font-family:'Noto Sans SC'; font-weight:700}
   .pick-zone .hint{font-size:12.5px; color:var(--ink-soft); margin-bottom:10px; line-height:1.6}
   .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(72px,1fr)); gap:8px}
   .opt{
@@ -229,6 +230,7 @@
   .wavea{animation:wave 3.4s ease-in-out infinite}
   .pop{animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
   .confetti{position:fixed; top:-20px; z-index:99; pointer-events:none; animation:confetti-fall linear forwards}
+  svg .pop, svg .twk, svg .sway, svg .bob, svg .bobx{transform-box:fill-box; transform-origin:center}
   @media (prefers-reduced-motion:reduce){
     .bob,.bobx,.twk,.sway,.drip-a,.wavea,.confetti{animation:none !important}
   }
@@ -294,7 +296,7 @@
   </section>
 
   <footer>
-    做不满 3 小时,当天的奶茶就作废咯 · 每多专注 1 小时,得 1 张小料/装饰券<br>
+    做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度
   </footer>
 </div>
@@ -317,8 +319,8 @@ const USERS = [
   {id:"u1", name:"Bedi"},
   {id:"u2", name:"Zhai"}
 ];
-const GOAL_MIN = 180;                      // 3 小时 = 一杯基础奶茶
-const TOPPING_STEP = 60;                   // 之后每 60 分钟 = 1 张小料券
+const GOAL_MIN = 180;                               // 3 小时 = 一杯基础奶茶
+const TOPPING_STEP = 25;                        // 之后每 25 分钟 = 1 张小料券
 const CATS = [
   {id:"ky", name:"科研", ico:"🔬", color:"var(--taro)",  hex:"#8E6FC9"},
   {id:"xx", name:"学习", ico:"📚", color:"var(--amber)", hex:"#E29A4B"},
@@ -350,7 +352,15 @@ const TOPPINGS = [
   {id:"xingxing",name:"星星闪闪",em:"✨", kind:"deco"},
   {id:"xiaoqi",  name:"小旗子", em:"🚩", kind:"deco"},
   {id:"mianhua", name:"棉花糖", em:"☁️", kind:"deco"},
-  {id:"tangzhen",name:"彩虹糖针",em:"🌈", kind:"deco"}
+  {id:"tangzhen",name:"彩虹糖针",em:"🍬", kind:"deco"},
+  {id:"maoer",   name:"猫耳盖", em:"🐱", kind:"deco"},
+  {id:"xiaoxiong",name:"小熊贴纸", em:"🐻", kind:"stick"},
+  {id:"xiaotu",  name:"小兔贴纸", em:"🐰", kind:"stick"},
+  {id:"xiaolian",name:"笑脸贴纸", em:"🙂", kind:"stick"},
+  {id:"aixin",   name:"爱心贴纸", em:"💗", kind:"stick"},
+  {id:"caihong", name:"彩虹贴纸", em:"🌈", kind:"stick"},
+  {id:"hudie",   name:"蝴蝶结",   em:"🎀", kind:"stick"},
+  {id:"biaoqian",name:"手作吊牌", em:"🏷️", kind:"stick"}
 ];
 
 /* ═══════════════ 数据层: Firebase / 本地演示 ═══════════════ */
@@ -426,7 +436,7 @@ function sessionRemain(s){
   if(!s) return 0;
   const paused = s.pauseTs ? (Date.now()-s.pauseTs) : 0;
   const elapsed = Date.now() - s.startTs - (s.pausedTotal||0) - paused;
-  return Math.max(0, s.durMin*60*1000 - elapsed);
+  return Math.max(0, s.durMin*60000 - elapsed);
 }
 function sessionElapsedMin(s){
   const paused = s.pauseTs ? (Date.now()-s.pauseTs) : 0;
@@ -508,7 +518,7 @@ function askMakeDrink(baseId){
   showModal(`
     <h3>确定封杯?</h3>
     <div class="base-preview" style="background:linear-gradient(180deg,${b.top},${b.bot})"></div>
-    <p>茶底选 <b>${b.name}</b>,封杯后今天就不能换了。<br>之后每多专注 1 小时,还能继续加料 ✨</p>
+    <p>茶底选 <b>${b.name}</b>,封杯后今天就不能换了。<br>之后每多专注 25 分钟,还能继续加料 ✨</p>
     <div class="mbtns">
       <button class="btn ghost" id="mNo">再想想</button>
       <button class="btn start" id="mYes">封杯!</button>
@@ -597,13 +607,13 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
         body += `<ellipse class="bob" style="animation-delay:${(i%4)*.5}s" cx="${x}" cy="${y}" rx="4.5" ry="3.4" fill="#8C3A3A"/>`; } }
     if(cnt("yeguo")){ const n = 5+inTop("yeguo")*3;
       for(let i=0;i<n;i++){ const x=68+((i*31)%54), y=Math.max(surf+16,botY-90)+((i*17)%60);
-        body += `<rect class="bobx" style="animation-delay:${(i%4)*.6}s" x="${x}" y="${y}" width="10" height="10" rx="3" fill="#FFFDF5" opacity=".92" transform="rotate(${(i*37)%40-20} ${x+5} ${y+5})"/>`; } }
+        body += `<g transform="rotate(${(i*37)%40-20} ${x+5} ${y+5})"><rect class="bobx" style="animation-delay:${(i%4)*.6}s" x="${x}" y="${y}" width="10" height="10" rx="3" fill="#FFFDF5" opacity=".92"/></g>`; } }
     if(cnt("yuyuan")){ const cs=["#C9A0E8","#F5B77E","#FFF3DE","#A6D3A0"]; const n=6+inTop("yuyuan")*3;
       for(let i=0;i<n;i++){ const x=70+((i*27)%56), y=Math.max(surf+14,botY-80)+((i*19)%50);
         body += `<circle class="bobx" style="animation-delay:${(i%5)*.45}s" cx="${x}" cy="${y}" r="5.5" fill="${cs[i%4]}"/>`; } }
     if(cnt("xiancao")){ const n=6+inTop("xiancao")*3;
       for(let i=0;i<n;i++){ const x=68+((i*25)%56), y=botY-12-((i*15)%40);
-        body += `<rect class="bob" style="animation-delay:${(i%4)*.5}s" x="${x}" y="${y}" width="11" height="9" rx="2.5" fill="#2E2018" opacity=".85" transform="rotate(${(i*29)%30-15} ${x+5} ${y+4})"/>`; } }
+        body += `<g transform="rotate(${(i*29)%30-15} ${x+5} ${y+4})"><rect class="bob" style="animation-delay:${(i%4)*.5}s" x="${x}" y="${y}" width="11" height="9" rx="2.5" fill="#2E2018" opacity=".85"/></g>`; } }
     if(cnt("buding")){
       const px=82, py=Math.min(botY-42, Math.max(surf+24, botY-70));
       body += `<g class="bobx"><rect x="${px}" y="${py}" width="36" height="26" rx="7" fill="#F6C453"/>
@@ -635,6 +645,61 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
     <radialGradient id="${U}ld" cx=".35" cy=".2" r="1.1">
       <stop offset="0" stop-color="#FFFEF9"/><stop offset=".55" stop-color="#FFF0DB"/><stop offset="1" stop-color="#EFD6AE"/>
     </radialGradient>`;
+  // ── 杯身贴纸(白边贴纸质感,重复购买会叠加错位) ──
+  const stickN = id => Math.min(cnt(id),3);
+  if(cnt("xiaolian")) for(let i=0;i<stickN("xiaolian");i++){
+    body += `<g transform="translate(${99+i*15-7},${132+i*10}) rotate(${-8+i*12})"><g class="pop">
+      <circle r="13" fill="#fff" stroke="#EDDCC5" stroke-width="1"/><circle r="10.5" fill="#FFD95E"/>
+      <circle cx="-3.5" cy="-2" r="1.6" fill="#4A2E1F"/><circle cx="3.5" cy="-2" r="1.6" fill="#4A2E1F"/>
+      <path d="M-4,2.5 Q0,6.5 4,2.5" stroke="#4A2E1F" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <circle cx="-6.2" cy="1.5" r="1.9" fill="#F2A2A2" opacity=".85"/><circle cx="6.2" cy="1.5" r="1.9" fill="#F2A2A2" opacity=".85"/></g></g>`;
+  }
+  if(cnt("aixin")){ const H = "M0,-2.6 C-1.8,-6.2 -7.5,-5.4 -7.5,-1.2 C-7.5,2 -3,4.8 0,8 C3,4.8 7.5,2 7.5,-1.2 C7.5,-5.4 1.8,-6.2 0,-2.6";
+    for(let i=0;i<stickN("aixin");i++){
+      body += `<g transform="translate(${83+i*13},${170+i*15}) rotate(${-12+i*15})"><g class="pop">
+        <path d="${H}" fill="#fff" stroke="#EDDCC5" stroke-width="1" transform="scale(1.35)"/>
+        <path d="${H}" fill="#F26D8D"/><circle cx="-2.5" cy="-1.5" r="1.3" fill="#fff" opacity=".7"/></g></g>`;
+    }
+  }
+  if(cnt("xiaoxiong")) for(let i=0;i<stickN("xiaoxiong");i++){
+    body += `<g transform="translate(${116-i*14},${158+i*13}) rotate(${6-i*10})"><g class="pop">
+      <circle cx="-7" cy="-8" r="5.5" fill="#fff" stroke="#EDDCC5" stroke-width="1"/><circle cx="7" cy="-8" r="5.5" fill="#fff" stroke="#EDDCC5" stroke-width="1"/>
+      <circle r="13" fill="#fff" stroke="#EDDCC5" stroke-width="1"/>
+      <circle cx="-7" cy="-8" r="4.2" fill="#B07B4F"/><circle cx="7" cy="-8" r="4.2" fill="#B07B4F"/>
+      <circle cx="-7" cy="-8" r="2" fill="#E8C39A"/><circle cx="7" cy="-8" r="2" fill="#E8C39A"/>
+      <circle r="10.5" fill="#B07B4F"/><ellipse cy="3" rx="5.2" ry="4.2" fill="#E8C39A"/>
+      <circle cx="-3.8" cy="-2.5" r="1.5" fill="#3A2A22"/><circle cx="3.8" cy="-2.5" r="1.5" fill="#3A2A22"/>
+      <ellipse cy="1.5" rx="1.7" ry="1.3" fill="#3A2A22"/>
+      <path d="M0,2.6 Q0,4.6 2.2,4.6 M0,2.6 Q0,4.6 -2.2,4.6" stroke="#3A2A22" stroke-width="1" fill="none" stroke-linecap="round"/></g></g>`;
+  }
+  if(cnt("xiaotu")) for(let i=0;i<stickN("xiaotu");i++){
+    body += `<g transform="translate(${85+i*14},${212-i*16}) rotate(${-6+i*10})"><g class="pop">
+      <ellipse cx="-4.5" cy="-13" rx="3.4" ry="8.5" fill="#fff" stroke="#EDDCC5" stroke-width="1"/>
+      <ellipse cx="4.5" cy="-13" rx="3.4" ry="8.5" fill="#fff" stroke="#EDDCC5" stroke-width="1"/>
+      <ellipse cx="-4.5" cy="-12.5" rx="1.7" ry="5.5" fill="#F6B8C6"/><ellipse cx="4.5" cy="-12.5" rx="1.7" ry="5.5" fill="#F6B8C6"/>
+      <circle r="10.5" fill="#fff" stroke="#EDDCC5" stroke-width="1.2"/>
+      <circle cx="-3.6" cy="-1" r="1.5" fill="#3A2A22"/><circle cx="3.6" cy="-1" r="1.5" fill="#3A2A22"/>
+      <ellipse cy="2.2" rx="1.5" ry="1.1" fill="#F26D8D"/>
+      <path d="M0,3 L0,4.6 M0,4.6 Q-1.8,6 -3,4.8 M0,4.6 Q1.8,6 3,4.8" stroke="#B08A78" stroke-width=".9" fill="none"/>
+      <circle cx="-6.4" cy="1.8" r="1.8" fill="#F6B8C6"/><circle cx="6.4" cy="1.8" r="1.8" fill="#F6B8C6"/></g></g>`;
+  }
+  if(cnt("caihong")) for(let i=0;i<stickN("caihong");i++){
+    body += `<g transform="translate(${112-i*22},${216-i*10}) rotate(${4-i*8})"><g class="pop">
+      <rect x="-16" y="-10" width="32" height="19" rx="7" fill="#fff" stroke="#EDDCC5" stroke-width="1"/>
+      <path d="M-11.5,6 A11.5,11.5 0 0 1 11.5,6" stroke="#E9756F" stroke-width="3" fill="none"/>
+      <path d="M-8,6 A8,8 0 0 1 8,6" stroke="#F0B26B" stroke-width="3" fill="none"/>
+      <path d="M-4.5,6 A4.5,4.5 0 0 1 4.5,6" stroke="#5BA8D9" stroke-width="3" fill="none"/>
+      <circle cx="-11.5" cy="6" r="2.4" fill="#FFF9F0" stroke="#EDDCC5" stroke-width=".8"/>
+      <circle cx="11.5" cy="6" r="2.4" fill="#FFF9F0" stroke="#EDDCC5" stroke-width=".8"/></g></g>`;
+  }
+  if(cnt("hudie")){
+    body += `<g transform="translate(100,103)"><g class="pop">
+      <path d="M-2,0 L-12,-6.5 Q-15.5,0 -12,6.5 Z" fill="#F26D8D"/><path d="M2,0 L12,-6.5 Q15.5,0 12,6.5 Z" fill="#F26D8D"/>
+      <path d="M-2,0 L-12,-6.5 Q-15.5,0 -12,6.5 Z" fill="#fff" opacity=".22" transform="scale(.62)"/>
+      <path d="M2,0 L12,-6.5 Q15.5,0 12,6.5 Z" fill="#fff" opacity=".22" transform="scale(.62)"/>
+      <path d="M-2.5,3 L-6,12 M2.5,3 L6,12" stroke="#D94F72" stroke-width="3.4" stroke-linecap="round"/>
+      <circle r="3.6" fill="#D94F72"/><circle cx="-1" cy="-1" r="1.1" fill="#fff" opacity=".6"/></g></g>`;
+  }
   // 刻度线(3小时目标)
   body += `<line x1="146" y1="${topY}" x2="153" y2="${topY}" stroke="#C9A87E" stroke-width="2"/>
            <text x="157" y="${topY+4}" font-size="10" fill="#B08F68">3h</text>`;
@@ -654,6 +719,23 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
            <rect x="49" y="77.5" width="102" height="3" rx="1.5" fill="#FFFDF6" opacity=".8"/>`;
 
   // ── 顶部装饰 ──
+  if(cnt("maoer")){
+    overlay += `<g class="pop">
+      <path d="M68,70 L58,38 L88,54 Z" fill="#F7E3C6" stroke="#C9A87E" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M68,62 L63,45 L79,53 Z" fill="#F6B8C6"/>
+      <path d="M132,70 L142,38 L112,54 Z" fill="#F7E3C6" stroke="#C9A87E" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M132,62 L137,45 L121,53 Z" fill="#F6B8C6"/></g>`;
+  }
+  if(cnt("biaoqian")){
+    overlay += `<g class="sway" style="animation-duration:3.6s">
+      <path d="M146,84 Q154,94 152,104" stroke="#B08050" stroke-width="1.6" fill="none"/>
+      <g transform="translate(152,104) rotate(14)">
+        <rect x="-10" y="0" width="20" height="26" rx="3" fill="#EFDFC2" stroke="#C9A87E" stroke-width="1.5"/>
+        <circle cx="0" cy="4.5" r="1.7" fill="none" stroke="#B08050" stroke-width="1.2"/>
+        <text x="0" y="16" font-size="7.5" text-anchor="middle" fill="#8A5E33">手作</text>
+        <text x="0" y="22.5" font-size="4.2" text-anchor="middle" fill="#B08F68">HANDMADE</text>
+      </g></g>`;
+  }
   const capDeco = Math.min(cnt("naiyou"),1);
   if(capDeco){
     overlay += `<g class="pop"><ellipse cx="100" cy="58" rx="26" ry="12" fill="#FFF9F0"/>
@@ -674,10 +756,10 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
         <circle cx="${x}" cy="${y}" r="7" fill="#D0384E"/><circle cx="${x-2.5}" cy="${y-2.5}" r="2" fill="#F08CA0"/></g>`; }
   }
   if(cnt("xiaosan")){
-    overlay += `<g class="sway" transform="rotate(-18 138 70)">
+    overlay += `<g transform="rotate(-18 138 70)"><g class="sway">
       <line x1="138" y1="70" x2="138" y2="18" stroke="#B08050" stroke-width="2.6"/>
       <path d="M110,26 Q138,-4 166,26 L157,26 Q152,18 147,26 L143,26 Q138,18 133,26 L129,26 Q124,18 119,26 Z" fill="#F08CA0" stroke="#D0384E" stroke-width="1.6"/>
-      <circle cx="138" cy="6" r="2.6" fill="#D0384E"/></g>`;
+      <circle cx="138" cy="6" r="2.6" fill="#D0384E"/></g></g>`;
   }
   if(cnt("bohe")){
     overlay += `<g class="sway"><path d="M92,64 q-10,-14 -2,-24 q10,4 6,22 Z" fill="#6E9E55"/>
@@ -693,8 +775,8 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
         <circle cx="${x+8}" cy="${y+2}" r="6.5" fill="#FDEFF6"/><circle cx="${x-7}" cy="${y+3}" r="6" fill="#FDEFF6"/></g>`; }
   }
   if(cnt("xingxing")){
-    const star = (x,y,s,d)=>`<path class="twk" style="animation-delay:${d}s" transform="translate(${x},${y}) scale(${s})"
-      d="M0,-7 L1.8,-1.8 L7,0 L1.8,1.8 L0,7 L-1.8,1.8 L-7,0 L-1.8,-1.8 Z" fill="#F5C84C"/>`;
+    const star = (x,y,s,d)=>`<g transform="translate(${x},${y}) scale(${s})"><path class="twk" style="animation-delay:${d}s"
+      d="M0,-7 L1.8,-1.8 L7,0 L1.8,1.8 L0,7 L-1.8,1.8 L-7,0 L-1.8,-1.8 Z" fill="#F5C84C"/></g>`;
     overlay += star(66,40,1,0)+star(140,34,.8,.5)+star(158,96,.7,1)+star(46,110,.75,1.4)+star(100,14,.9,.8);
   }
 
@@ -760,7 +842,7 @@ function renderStation(){
     if(sm >= GOAL_MIN){
       cap.textContent = "茶泡好啦!选一个茶底,封杯 🎉";
       pill.innerHTML = `已专注 <b>${fmtMin(sm)}</b> · 达标!`;
-      zone.innerHTML = `<h3>选择茶底</h3><div class="hint">今天只能做这一杯,想好再点哦。封杯后继续专注,每满 1 小时得 1 张小料券。</div>
+      zone.innerHTML = `<h3>选择茶底</h3><div class="hint">今天只能做这一杯,想好再点哦。封杯后继续专注,每满 25 分钟得 1 张小料券。</div>
         <div class="grid">`+ BASES.map(b=>
           `<div class="opt" data-b="${b.id}"><div class="sw" style="background:linear-gradient(180deg,${b.top},${b.bot})"></div>${b.name}</div>`
         ).join("") + `</div>`;
@@ -769,12 +851,13 @@ function renderStation(){
       const left = GOAL_MIN - sm;
       cap.textContent = sm===0 ? "杯子还空着,去开一个番茄钟吧" : "茶汤慢慢涨起来了…";
       pill.innerHTML = `奶茶进度 <b>${sm}</b> / ${GOAL_MIN} 分钟 · 还差 ${fmtMin(left)}`;
-      zone.innerHTML = `<h3>今日菜单</h3>
-        <div class="hint">科研 + 学习 满 <b>3 小时</b>就能兑一杯纯奶茶(茶底自选)。<br>
-        之后每多 <b>1 小时</b>,得 1 张券,可以加小料或装饰,时间越久这杯越豪华。<br>
+      zone.innerHTML = `<h3>茶底菜单 · 敬请期待</h3>
+        <div class="hint">科研 + 学习 满 <b>3 小时</b>就能从下面选一个茶底,兑一杯纯奶茶。<br>
+        封杯后每多专注 <b>25 分钟</b>,得 1 张券,可以加小料、装饰或贴纸。<br>
         今天做不满的话,这杯就作废啦——明天请早 🫠</div>
-        <div class="grid">`+ TOPPINGS.slice(0,8).map(t=>
-          `<div class="opt" style="opacity:.45; cursor:default"><span class="em">${t.em}</span>${t.name}</div>`).join("")+`</div>`;
+        <div class="grid">`+ BASES.map(b=>
+          `<div class="opt" style="opacity:.45; cursor:default"><div class="sw" style="background:linear-gradient(180deg,${b.top},${b.bot})"></div>${b.name}</div>`
+        ).join("")+`</div>`;
     }
   }else{
     const base = BASES.find(b=>b.id===d.base);
@@ -789,14 +872,18 @@ function renderStation(){
       const next = GOAL_MIN + (((d.tops&&d.tops.length)||0)+1)*TOPPING_STEP;
       html += `<h3>小料 & 装饰</h3><div class="hint">再专注 <b>${fmtMin(Math.max(0,next-sm))}</b> 就能得下一张券 🎟️</div>`;
     }
-    html += `<div class="grid">`+ TOPPINGS.map(t=>{
+    const optHTML = t=>{
       const n = (d.tops||[]).filter(x=>x===t.id).length;
       return `<div class="opt ${n?"sel":""}" data-t="${t.id}" style="${credits>0?"":"opacity:.5;cursor:default"}">
         <span class="cnt ${n?"show":""}">×${n}</span><span class="em">${t.em}</span>${t.name}</div>`;
-    }).join("")+`</div>`;
+    };
+    const groupsUI = [["🥤 小料",["in","cap"]], ["✨ 顶部装饰",["deco"]], ["🩷 杯身贴纸",["stick"]]];
+    html += groupsUI.map(([label,ks])=>
+      `<h4>${label}</h4><div class="grid">` +
+      TOPPINGS.filter(t=>ks.includes(t.kind)).map(optHTML).join("") + `</div>`).join("");
     if(d.tops&&d.tops.length) html += `<div class="done-note">这杯已经加了 ${d.tops.length} 份料,继续专注还能更豪华 ✨</div>`;
     zone.innerHTML = html;
-    if(credits>0) zone.querySelectorAll(".opt").forEach(o=> o.onclick = ()=> addTopping(o.dataset.t));
+    if(credits>0) zone.querySelectorAll(".opt[data-t]").forEach(o=> o.onclick = ()=> addTopping(o.dataset.t));
   }
 }
 
