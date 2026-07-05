@@ -215,7 +215,7 @@
   /* ── 动画 ── */
   @keyframes bob{from{transform:translateY(0)}to{transform:translateY(-7px)}}
   @keyframes bobx{from{transform:translate(0,0)}to{transform:translate(3px,-6px)}}
-  @keyframes twinkle{0%,100%{opacity:1; transform:scale(1)}50%{opacity:.25; transform:scale(.7)}}
+  @keyframes twinkle{0%,100%{opacity:1}50%{opacity:.15}}
   @keyframes sway{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
   @keyframes drip{0%{transform:translateY(0); opacity:0}15%{opacity:1}100%{transform:translateY(26px); opacity:0}}
   @keyframes wave{0%,100%{transform:translateX(-3px)}50%{transform:translateX(3px)}}
@@ -775,7 +775,8 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
         <circle cx="${x+8}" cy="${y+2}" r="6.5" fill="#FDEFF6"/><circle cx="${x-7}" cy="${y+3}" r="6" fill="#FDEFF6"/></g>`; }
   }
   if(cnt("xingxing")){
-    const star = (x,y,s,d)=>`<g transform="translate(${x},${y}) scale(${s})"><path class="twk" style="animation-delay:${d}s"
+    const boost = o.mini ? 1.6 : 1;   // 柜子里的迷你杯星星放大,否则看不清
+    const star = (x,y,s,d)=>`<g transform="translate(${x},${y}) scale(${s*boost})"><path class="twk" style="animation-delay:${d}s"
       d="M0,-7 L1.8,-1.8 L7,0 L1.8,1.8 L0,7 L-1.8,1.8 L-7,0 L-1.8,-1.8 Z" fill="#F5C84C"/></g>`;
     overlay += star(66,40,1,0)+star(140,34,.8,.5)+star(158,96,.7,1)+star(46,110,.75,1.4)+star(100,14,.9,.8);
   }
@@ -898,7 +899,7 @@ function renderShelves(){
       : `<div class="cups">` + made.slice(-24).reverse().map(([k,v],i)=>{
           const b = BASES.find(x=>x.id===v.drink.base);
           return `<div class="mini" title="${k} ${b?b.name:""} 加料${(v.drink.tops||[]).length}份">
-            <div class="cupwrap">${cupSVG({base:v.drink.base, tops:v.drink.tops||[], fill:1, uid:u.id+"m"+i, shadow:false})}</div>
+            <div class="cupwrap">${cupSVG({base:v.drink.base, tops:v.drink.tops||[], fill:1, uid:u.id+"m"+i, shadow:false, mini:true})}</div>
             <div class="plank"></div>
             <div class="d">${k.slice(5)}</div><div class="t">${b?b.name:""}·${(v.drink.tops||[]).length}料</div></div>`;
         }).join("") + `</div>`;
