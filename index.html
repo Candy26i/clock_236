@@ -212,6 +212,42 @@
   .mbox .base-preview{width:44px; height:44px; border-radius:12px; margin-bottom:8px; border:1px solid rgba(0,0,0,.08)}
   .tab.editbtn{padding:10px 16px; font-size:15px}
 
+
+  /* ── 陪学小人 ── */
+  .pet-zone{position:relative; display:flex; flex-direction:column; align-items:center; padding-top:64px}
+  .pet-bubble{
+    position:absolute; top:2px; left:0; right:0; margin:0 auto; width:max-content; max-width:300px;
+    background:#fff; border:2px solid var(--line); border-radius:16px; padding:9px 16px;
+    font-size:14px; box-shadow:var(--shadow); animation:pop .4s cubic-bezier(.2,1.4,.4,1) both; z-index:2;
+  }
+  .pet-bubble::after{
+    content:""; position:absolute; bottom:-9px; left:50%; margin-left:-8px;
+    border:8px solid transparent; border-top-color:#fff; border-bottom:0;
+  }
+  .pet-bubble[hidden]{display:none}
+  #petChar svg{width:200px; animation:floaty 4.2s ease-in-out infinite alternate}
+  .pet-status{color:var(--ink-soft); font-size:13px; margin-top:4px}
+  .clock-row{display:flex; align-items:flex-end; justify-content:center; gap:2px}
+  .mini-pet{position:relative; width:78px; flex:0 0 auto}
+  .mini-pet svg{width:74px; display:block; animation:floaty 3.6s ease-in-out infinite alternate}
+  .mini-bubble{
+    position:absolute; bottom:94%; right:4px; background:#fff; border:2px solid var(--line);
+    border-radius:12px; padding:5px 10px; font-size:11.5px; white-space:nowrap;
+    box-shadow:var(--shadow); animation:pop .35s both; z-index:3;
+  }
+  .mini-bubble[hidden]{display:none}
+  @media (max-width:430px){.mini-pet{width:58px}.mini-pet svg{width:56px}.mini-bubble{font-size:10.5px}}
+
+  .pet-img-wrap{position:relative; display:inline-block}
+  .pet-img{width:210px; max-width:62vw; display:block; filter:drop-shadow(0 10px 18px rgba(74,46,31,.18))}
+  .pet-fx{position:absolute; font-size:20px; pointer-events:none; animation:twinkle 1.7s ease-in-out infinite}
+  .pet-cup{position:absolute; right:-30px; bottom:-6px; width:78px; transform:rotate(8deg); filter:drop-shadow(0 4px 6px rgba(74,46,31,.2))}
+  .pet-cup svg{width:100%}
+  .gudu{position:absolute; right:-34px; bottom:78px; font-size:12px; color:var(--danger); animation:twinkle 1.9s ease-in-out infinite; white-space:nowrap}
+  .mini-pet .mini-wrap{position:relative; width:58px; margin:0 auto}
+  .mini-pet img.avatar{width:58px; height:58px; border-radius:50%; object-fit:cover; object-position:top; border:2.5px solid #fff; box-shadow:var(--shadow); display:block; background:linear-gradient(160deg,#FDEEDC,#F7DFC0)}
+  .mini-badge{position:absolute; right:-6px; bottom:-4px; font-size:17px}
+
   /* ── 动画 ── */
   @keyframes bob{from{transform:translateY(0)}to{transform:translateY(-7px)}}
   @keyframes bobx{from{transform:translate(0,0)}to{transform:translate(3px,-6px)}}
@@ -260,7 +296,10 @@
     <div class="presets">
       <button data-m="25">经典 25</button><button data-m="45">深度 45</button><button data-m="60">一小时</button><button data-m="90">马拉松 90</button>
     </div>
-    <div class="clock idle" id="clock">25:00</div>
+    <div class="clock-row">
+      <div class="clock idle" id="clock">25:00</div>
+      <div class="mini-pet"><div class="mini-bubble" id="miniBubble" hidden></div><div id="miniChar"></div></div>
+    </div>
     <div class="clock-note" id="clockNote">选好板块和时长,泡一壶好茶吧</div>
     <div class="btns" id="timerBtns"></div>
     <div class="today-row">
@@ -287,6 +326,16 @@
   <section class="card">
     <h2>🗄️ 奶茶收藏柜 <span class="tag">看看彼此攒了多少杯</span></h2>
     <div class="shelves" id="shelves"></div>
+  </section>
+
+  <!-- 陪学小人 -->
+  <section class="card">
+    <h2>🛋️ 陪学小人 <span class="tag" id="petOwnerTag"></span></h2>
+    <div class="pet-zone">
+      <div class="pet-bubble" id="petBubble" hidden></div>
+      <div id="petChar"></div>
+      <div class="pet-status" id="petStatus"></div>
+    </div>
   </section>
 
   <!-- 饼图 -->
@@ -319,6 +368,16 @@ const USERS = [
   {id:"u1", name:"Bedi"},
   {id:"u2", name:"Zhai"}
 ];
+const PET_NAME = "小煜";                    // 陪学小人的名字,想改就改
+// 心情 → 图片路径。把图片放进仓库的 pet/ 文件夹,想换图直接替换文件即可。
+// 某个心情不想配图就写 null,会自动用内置的手绘小人兜底。
+const PET_IMAGES = {
+  sleepy: "pet/sleepy.png", // 鱼帽闭眼,乖乖等你
+  ok:     "pet/ok.png",     // 站立日常
+  happy:  "pet/happy.png",  // 手托脸,看你努力
+  cheer:  "pet/cheer.png",  // 猫耳!全力打气
+  tea:    "pet/cheer.png"   // 做成奶茶,开心到长猫耳(旁边配真实奶茶)
+};
 const GOAL_MIN = 180;                               // 3 小时 = 一杯基础奶茶
 const TOPPING_STEP = 25;                        // 之后每 25 分钟 = 1 张小料券
 const CATS = [
@@ -445,6 +504,8 @@ function sessionElapsedMin(s){
 function startTimer(){
   const uid = view;
   DB.set("users/"+uid+"/session", {cat:localCat, durMin:localDur, startTs:Date.now(), pauseTs:null, pausedTotal:0});
+  say("miniBubble", "去吧,时间我看着,到点叫你 ❤️", 4500);
+  nextMiniTalk = Date.now() + 40000;
 }
 function pauseTimer(){
   const uid = view, s = data[uid].session; if(!s) return;
@@ -475,7 +536,11 @@ function claimSession(uid, creditMin){
     if(ok && claimed && creditMin>0){
       const cat = claimed.cat, k = todayKey();
       DB.txn("users/"+uid+"/days/"+k+"/m/"+cat, cur=> (cur||0)+creditMin);
-      if(creditMin >= claimed.durMin) celebrate();
+      if(creditMin >= claimed.durMin){
+        celebrate();
+        say("petBubble", "这一炉完成啦,"+creditMin+" 分钟我都记好了。辛苦了,歇一会儿 🍵", 6000);
+        nextBigTalk = Date.now() + 30000;
+      }
     }
   });
 }
@@ -512,6 +577,8 @@ function makeDrink(baseId){
   if(studyMin(uid) < GOAL_MIN || drinkOf(uid)) return;
   DB.set("users/"+uid+"/days/"+todayKey()+"/drink", {base:baseId, tops:[], ts:Date.now()});
   celebrate();
+  say("petBubble", "做好啦?给我看看…真棒。干杯,我的骄傲 🧋", 6500);
+  nextBigTalk = Date.now() + 30000;
 }
 function askMakeDrink(baseId){
   const b = BASES.find(x=>x.id===baseId);
@@ -551,6 +618,7 @@ function addTopping(tid){
   if(!d || creditsOf(uid)<=0) return;
   const tops = (d.tops||[]).concat([tid]);
   DB.set("users/"+uid+"/days/"+todayKey()+"/drink/tops", tops);
+  say("petBubble", "又豪华了一点,像你一样,闪闪的 ✨", 4500);
 }
 
 /* ═══════════════ 杯子 SVG 渲染 ═══════════════ */
@@ -784,6 +852,193 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
   return `<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg"><defs>${defs}</defs>${body}${overlay}</svg>`;
 }
 
+/* ═══════════════ 陪学小人 ═══════════════ */
+function charSVG(o){ // {mood:'sleepy'|'ok'|'happy'|'cheer'|'tea', tea:茶底id|null, uid}
+  const U = "p"+(o.uid||"0"), mood = o.mood||"ok";
+  const tb = o.tea ? BASES.find(b=>b.id===o.tea) : null;
+  let defs = `
+    <radialGradient id="${U}i" cx=".38" cy=".3" r="1">
+      <stop offset="0" stop-color="#9FE0F2"/><stop offset=".55" stop-color="#59A8CE"/><stop offset="1" stop-color="#2F6C9C"/>
+    </radialGradient>
+    <linearGradient id="${U}j" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7C766"/><stop offset="1" stop-color="#E8973B"/>
+    </linearGradient>`;
+  if(tb) defs += `<linearGradient id="${U}t" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${tb.top}"/><stop offset="1" stop-color="${tb.bot}"/></linearGradient>`;
+  let s = "";
+  // 后发 + 垂在脸侧的长发
+  s += `<ellipse cx="100" cy="88" rx="63" ry="58" fill="#5A3C78"/>
+        <path d="M42,92 Q32,150 50,162 Q58,150 56,124 Z" fill="#5A3C78"/>
+        <path d="M158,92 Q168,150 150,162 Q142,150 144,124 Z" fill="#5A3C78"/>`;
+  // 腿 + 鞋(先画,让外套盖住裤腰)
+  s += `<path d="M74,208 q-3,28 1,36 l20,0 q3,-18 2,-34 Z" fill="#9E3A52"/>
+        <path d="M126,208 q3,28 -1,36 l-20,0 q-3,-18 -2,-34 Z" fill="#9E3A52"/>
+        <ellipse cx="84" cy="246" rx="14" ry="6.5" fill="#FFFDF6" stroke="#D8C8B8" stroke-width="2"/>
+        <ellipse cx="116" cy="246" rx="14" ry="6.5" fill="#FFFDF6" stroke="#D8C8B8" stroke-width="2"/>
+        <line x1="78" y1="243" x2="90" y2="243" stroke="#5BA8D9" stroke-width="2"/>
+        <line x1="110" y1="243" x2="122" y2="243" stroke="#5BA8D9" stroke-width="2"/>`;
+  // 外套 + 白T + 拉链 + 帽兜领
+  s += `<path d="M58,158 Q100,144 142,158 L148,214 Q100,226 52,214 Z" fill="url(#${U}j)" stroke="#D68A2E" stroke-width="2"/>
+        <path d="M88,151 L100,167 L112,151 L112,159 L100,177 L88,159 Z" fill="#FFFDF6"/>
+        <path d="M96,160 q4,6 8,0" stroke="#5BA8D9" stroke-width="2" fill="none"/>
+        <line x1="100" y1="171" x2="100" y2="221" stroke="#D68A2E" stroke-width="2.5"/>
+        <path d="M60,160 Q76,148 88,151 L86,161 Q72,161 62,169 Z" fill="#E1953C"/>
+        <path d="M140,160 Q124,148 112,151 L114,161 Q128,161 138,169 Z" fill="#E1953C"/>
+        <rect x="128" y="188" width="12" height="5" rx="2.5" fill="#7FA85A"/>`;
+  // 左臂(始终垂下)
+  s += `<path d="M60,164 q-15,10 -12,36 q1,7 9,6 q7,-1 6,-8 q-1,-16 7,-26 Z" fill="#E89A3C" stroke="#D68A2E" stroke-width="2"/>
+        <circle cx="56" cy="204" r="6.5" fill="#FFE9DA"/>`;
+  // 右臂: 三种姿势
+  if(mood==="cheer"){
+    s += `<path d="M140,166 q17,-4 21,-27 q1,-7 -6,-9 q-7,-1 -9,6 q-3,15 -13,21 Z" fill="#E89A3C" stroke="#D68A2E" stroke-width="2"/>
+          <circle cx="157" cy="128" r="7.5" fill="#FFE9DA"/>
+          <path d="M166,118 l6,-7 M170,127 l8,-3 M160,113 l2,-9" stroke="#F5C84C" stroke-width="2.6" stroke-linecap="round"/>`;
+  }else if(mood!=="tea"){
+    s += `<path d="M140,164 q15,10 12,36 q-1,7 -9,6 q-7,-1 -6,-8 q1,-16 -7,-26 Z" fill="#E89A3C" stroke="#D68A2E" stroke-width="2"/>
+          <circle cx="144" cy="204" r="6.5" fill="#FFE9DA"/>`;
+  }
+  // 头 + 脸
+  s += `<ellipse cx="100" cy="100" rx="55" ry="50" fill="#FFE9DA"/>`;
+  // 腮红
+  const blushOp = {tea:.9, cheer:.75, happy:.7, ok:.45, sleepy:.3}[mood];
+  s += `<ellipse cx="64" cy="126" rx="9.5" ry="5.5" fill="#F6A8B8" opacity="${blushOp}"/>
+        <ellipse cx="136" cy="126" rx="9.5" ry="5.5" fill="#F6A8B8" opacity="${blushOp}"/>`;
+  // 眼睛
+  const eye = cx=>`
+    <ellipse cx="${cx}" cy="112" rx="11" ry="13" fill="#fff"/>
+    <circle cx="${cx}" cy="113" r="8.5" fill="url(#${U}i)"/>
+    <circle cx="${cx}" cy="113" r="4" fill="#1F3E54"/>
+    <circle cx="${cx-3}" cy="109" r="2.8" fill="#fff"/>
+    <circle cx="${cx+3.5}" cy="116.5" r="1.5" fill="#fff" opacity=".9"/>
+    <path d="M${cx-11},103 Q${cx},97 ${cx+11},103" stroke="#4A2E1F" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+  const happyEye = cx=>`<path d="M${cx-10},114 Q${cx},103 ${cx+10},114" stroke="#4A2E1F" stroke-width="3.6" fill="none" stroke-linecap="round"/>`;
+  const sleepEye = cx=>`<path d="M${cx-10},111 Q${cx},117 ${cx+10},111" stroke="#4A2E1F" stroke-width="3.2" fill="none" stroke-linecap="round"/>`;
+  if(mood==="tea") s += happyEye(78)+happyEye(122);
+  else if(mood==="sleepy") s += sleepEye(78)+sleepEye(122);
+  else s += eye(78)+eye(122);
+  // 嘴
+  if(mood==="tea") s += `<ellipse cx="104" cy="139" rx="3.8" ry="4.4" fill="#B3455E"/>`;
+  else if(mood==="cheer"||mood==="happy") s += `<path d="M90,134 Q100,148 112,134 Q101,140 90,134 Z" fill="#B3455E"/><path d="M96,141 q5,4 10,0 z" fill="#E98A9C"/>`;
+  else if(mood==="sleepy") s += `<path d="M95,140 q5,3.5 10,0" stroke="#B3455E" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+  else s += `<path d="M94,137 q6,6 12,0" stroke="#B3455E" stroke-width="2.8" fill="none" stroke-linecap="round"/>`;
+  // 刘海 + 侧发 + 呆毛(盖在脸上沿)
+  s += `<path d="M44,100 Q37,42 100,36 Q163,42 156,100 Q147,73 136,92 Q128,61 110,86 Q102,57 88,84 Q76,59 65,92 Q55,73 44,100 Z" fill="#6E4A8E"/>
+        <path d="M46,96 q-5,26 3,42 q7,-5 7,-15 q-2,-16 -10,-27 Z" fill="#6E4A8E"/>
+        <path d="M154,96 q5,26 -3,42 q-7,-5 -7,-15 q2,-16 10,-27 Z" fill="#6E4A8E"/>
+        <path d="M68,54 Q83,43 102,43" stroke="#9B77BF" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/>
+        <path d="M116,47 Q133,50 143,63" stroke="#9B77BF" stroke-width="4" fill="none" stroke-linecap="round" opacity=".7"/>
+        <path d="M97,37 q3,-15 17,-14 q-9,3 -10,15 Z" fill="#6E4A8E"/>`;
+  // 端奶茶的右臂 + 杯子(画在脸之后,举在脸旁)
+  if(mood==="tea" && tb){
+    s += `<path d="M138,164 q12,-6 11,-26 l-13,-3 q1,13 -9,20 Z" fill="#E89A3C" stroke="#D68A2E" stroke-width="2"/>
+          <rect x="118" y="106" width="24" height="30" rx="6" fill="url(#${U}t)" stroke="#C9A87E" stroke-width="2"/>
+          <rect x="115" y="101" width="30" height="7" rx="3.5" fill="#F7E3C6" stroke="#C9A87E" stroke-width="1.6"/>
+          <line x1="122" y1="103" x2="108" y2="136" stroke="#E9756F" stroke-width="3.4" stroke-linecap="round"/>
+          <circle cx="126" cy="130" r="2.8" fill="#33241C"/><circle cx="134" cy="124" r="2.4" fill="#33241C"/>
+          <circle cx="131" cy="139" r="6.5" fill="#FFE9DA" stroke="#E8C4A8" stroke-width="1"/>
+          <text class="twk" x="148" y="106" font-size="9" fill="#B3455E">咕嘟</text>
+          <text class="twk" style="animation-delay:.9s" x="152" y="94" font-size="8" fill="#B3455E">咕嘟</text>`;
+  }
+  // 特效
+  if(mood==="sleepy"){
+    s += `<text class="twk" x="146" y="60" font-size="13" fill="#B08F68">Z</text>
+          <text class="twk" style="animation-delay:.6s" x="156" y="44" font-size="16" fill="#B08F68">Z</text>
+          <text class="twk" style="animation-delay:1.2s" x="168" y="28" font-size="19" fill="#B08F68">Z</text>`;
+  }
+  if(mood==="cheer"||mood==="tea"){
+    const st = (x,y,sc,d)=>`<g transform="translate(${x},${y}) scale(${sc})"><path class="twk" style="animation-delay:${d}s" d="M0,-6 L1.5,-1.5 L6,0 L1.5,1.5 L0,6 L-1.5,1.5 L-6,0 L-1.5,-1.5 Z" fill="#F5C84C"/></g>`;
+    s += st(34,66,1,0)+st(172,74,.85,.55)+st(46,34,.8,1.1);
+  }
+  return `<svg viewBox="0 0 200 256" xmlns="http://www.w3.org/2000/svg"><defs>${defs}</defs>${s}</svg>`;
+}
+
+function petMood(uid){
+  if(drinkOf(uid)) return "tea";
+  const se = data[uid].session;
+  if(se && !se.pauseTs) return "cheer";
+  const sm = studyMin(uid);
+  if(sm>=90) return "happy";
+  if(sm>0) return "ok";
+  return "sleepy";
+}
+const SLEEP_MSGS=["宝,今天还没开始学呢…我在这儿等你哦","不急,休息好了就过来,我陪你一起","在忙什么呀?有点想你了,顺便提醒你该学习啦","过来坐,先学 25 分钟,剩下的交给我","今天的奶茶,我还想看你亲手做出来呢"];
+const IDLE_MSGS=["刚刚辛苦了,喝口水再继续,好不好?","你已经很棒了,再来一小段就好","别急,一步一步来,我一直都在","累的话靠一会儿,然后我们继续","离奶茶又近了一点,替你开心"];
+const RUN_MSGS=["我在旁边看着你,安心学","专注的你,真的很好看","不用回头,我一直在","累了就眨眨眼,时间我帮你数着","就快好了,最后一点点,乖","你负责努力,我负责心疼你"];
+const TEA_MSGS=["这杯我帮你拿着,你先歇歇","今天也辛苦了,该好好奖励你","甜吗?你比它甜","看你做成这杯,比我自己喝还开心","慢慢喝,别呛着,剩下的时间都是你的"];
+const pick = a => a[Math.floor(Math.random()*a.length)];
+function pickMsg(mood, uid){
+  const sm = studyMin(uid);
+  if(mood==="tea") return pick(TEA_MSGS);
+  if(mood==="cheer") return pick(RUN_MSGS);
+  if(sm>=100 && sm<GOAL_MIN) return "再坚持 "+(GOAL_MIN-sm)+" 分钟,奶茶就能捧到你手里了";
+  if(mood==="sleepy") return pick(SLEEP_MSGS);
+  return pick(IDLE_MSGS);
+}
+function say(id, txt, ms){
+  const el = document.getElementById(id); if(!el) return;
+  el.textContent = txt; el.hidden = false;
+  clearTimeout(el._t); el._t = setTimeout(()=>{ el.hidden = true; }, ms||6000);
+}
+let nextBigTalk = Date.now()+7000, nextMiniTalk = Date.now()+14000;
+function petTick(){
+  const now = Date.now(), uid = view, mood = petMood(uid);
+  if(now > nextBigTalk){
+    nextBigTalk = now + 32000 + Math.random()*26000;
+    say("petBubble", pickMsg(mood, uid), 6500);
+  }
+  const se = data[uid].session;
+  if(se && !se.pauseTs && now > nextMiniTalk){
+    nextMiniTalk = now + 36000 + Math.random()*24000;
+    say("miniBubble", pick(RUN_MSGS), 5000);
+  }
+}
+function petImgHTML(mood, tea, big){
+  const src = PET_IMAGES && PET_IMAGES[mood];
+  if(!src) return null;
+  if(big){
+    let fx = "";
+    if(mood==="sleepy") fx = `<span class="pet-fx" style="right:-8px; top:-16px">💤</span>`;
+    if(mood==="cheer")  fx = `<span class="pet-fx" style="left:-16px; top:-8px">✨</span>
+                              <span class="pet-fx" style="right:-14px; top:30px; animation-delay:.6s">✨</span>`;
+    let cup = "";
+    if(mood==="tea" && tea){
+      const dk = drinkOf(view);
+      cup = `<div class="pet-cup">${cupSVG({base:tea, tops:(dk&&dk.tops)||[], fill:1, uid:"petcup", shadow:false, mini:true})}</div>
+             <span class="gudu">咕嘟咕嘟…</span>`;
+      fx += `<span class="pet-fx" style="left:-14px; top:-10px">✨</span>`;
+    }
+    return `<div class="pet-img-wrap"><img class="pet-img" src="${src}" alt="${PET_NAME}">${fx}${cup}</div>`;
+  }
+  const badge = mood==="tea" ? `<span class="mini-badge">🧋</span>`
+              : mood==="cheer" ? `<span class="mini-badge">🔥</span>`
+              : mood==="sleepy" ? `<span class="mini-badge">💤</span>` : "";
+  return `<div class="mini-wrap"><img class="avatar" src="${src}" alt="${PET_NAME}">${badge}</div>`;
+}
+function renderPet(){
+  const uid = view, mood = petMood(uid);
+  const tea = drinkOf(uid) ? drinkOf(uid).base : null;
+  const big = document.getElementById("petChar"), mini = document.getElementById("miniChar");
+  if(big){
+    const html = petImgHTML(mood, tea, true);
+    big.innerHTML = html || charSVG({mood, tea, uid:"big"});
+    const im = big.querySelector("img");
+    if(im) im.onerror = ()=>{ big.innerHTML = charSVG({mood, tea, uid:"big"}); };
+  }
+  if(mini){
+    const html = petImgHTML(mood, tea, false);
+    mini.innerHTML = html || charSVG({mood, tea, uid:"mini"});
+    const im = mini.querySelector("img");
+    if(im) im.onerror = ()=>{ mini.innerHTML = charSVG({mood, tea, uid:"mini"}); };
+  }
+  const tag = document.getElementById("petOwnerTag");
+  if(tag) tag.textContent = uname(uid)+" 的搭子 · "+PET_NAME;
+  const st = {sleepy:"安静地等你来,偶尔打个小盹", ok:"陪在你身边,心情很好",
+              happy:"看你这么努力,眼睛都在发光", cheer:"屏住呼吸,全程守着你",
+              tea:"捧着你做的奶茶,嘴角压不下来"};
+  const stEl = document.getElementById("petStatus");
+  if(stEl) stEl.textContent = st[mood];
+}
+
 /* ═══════════════ 渲染 ═══════════════ */
 function renderTabs(){
   const el = document.getElementById("tabs");
@@ -934,7 +1189,7 @@ function renderPie(){
     </svg><div class="legend">${legend}</div>`;
 }
 
-function renderAll(){ renderTabs(); renderTimer(); renderStation(); renderShelves(); renderPie(); }
+function renderAll(){ renderTabs(); renderTimer(); renderStation(); renderShelves(); renderPie(); renderPet(); }
 
 /* ═══════════════ 撒花 ═══════════════ */
 function celebrate(){
@@ -981,7 +1236,7 @@ function start(){
     localDur = +b.dataset.m; document.getElementById("durSlider").value = localDur;
     document.getElementById("durLabel").textContent = localDur; tick();
   });
-  tickTimer = setInterval(tick, 500);
+  tickTimer = setInterval(()=>{ tick(); petTick(); }, 500);
   // 鼠标/手指划过大杯 → 3D 倾斜
   const stage = document.getElementById("cupStage");
   const reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
