@@ -248,6 +248,25 @@
   .mini-pet img.avatar{width:58px; height:58px; border-radius:50%; object-fit:cover; object-position:top; border:2.5px solid #fff; box-shadow:var(--shadow); display:block; background:linear-gradient(160deg,#FDEEDC,#F7DFC0)}
   .mini-badge{position:absolute; right:-6px; bottom:-4px; font-size:17px}
 
+  .pet-hit{cursor:pointer; -webkit-tap-highlight-color:transparent; user-select:none}
+  .pet-img-wrap{animation:peek 9s ease-in-out infinite}
+  .pet-img{animation:breathe 4.2s ease-in-out infinite}
+  .pet-shadow{
+    width:110px; height:14px; border-radius:50%; margin:-4px auto 2px;
+    background:radial-gradient(closest-side, rgba(74,46,31,.22), transparent);
+    animation:shadowPulse 4.2s ease-in-out infinite;
+  }
+  .squish{animation:squish .45s cubic-bezier(.3,1.6,.4,1) !important}
+  .pet-particle{
+    position:absolute; font-size:17px; pointer-events:none; z-index:5;
+    animation:partUp .9s ease-out forwards;
+  }
+  @keyframes breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  @keyframes peek{0%,90%,100%{transform:rotate(0)}92%{transform:rotate(-2.6deg)}95%{transform:rotate(2.4deg)}98%{transform:rotate(-1.2deg)}}
+  @keyframes shadowPulse{0%,100%{transform:scaleX(1); opacity:1}50%{transform:scaleX(.86); opacity:.75}}
+  @keyframes squish{0%{transform:scale(1,1)}30%{transform:scale(1.12,.84)}60%{transform:scale(.92,1.1)}100%{transform:scale(1,1)}}
+  @keyframes partUp{0%{opacity:1; transform:translate(0,0) scale(.7)}100%{opacity:0; transform:translate(var(--dx,0), -52px) scale(1.35)}}
+
   /* ── 动画 ── */
   @keyframes bob{from{transform:translateY(0)}to{transform:translateY(-7px)}}
   @keyframes bobx{from{transform:translate(0,0)}to{transform:translate(3px,-6px)}}
@@ -269,6 +288,7 @@
   svg .pop, svg .twk, svg .sway, svg .bob, svg .bobx{transform-box:fill-box; transform-origin:center}
   @media (prefers-reduced-motion:reduce){
     .bob,.bobx,.twk,.sway,.drip-a,.wavea,.confetti{animation:none !important}
+    .pet-img-wrap,.pet-img,.pet-shadow,.pet-particle{animation:none !important}
   }
 </style>
 </head>
@@ -1012,23 +1032,63 @@ function petImgHTML(mood, tea, big){
   const badge = mood==="tea" ? `<span class="mini-badge">🧋</span>`
               : mood==="cheer" ? `<span class="mini-badge">🔥</span>`
               : mood==="sleepy" ? `<span class="mini-badge">💤</span>` : "";
-  return `<div class="mini-wrap"><img class="avatar" src="${src}" alt="${PET_NAME}">${badge}</div>`;
+  return `<div class="mini-wrap pet-img-wrap"><img class="avatar" src="${src}" alt="${PET_NAME}">${badge}</div>`;
+}
+const POKE_MSGS=["干嘛呀…痒~","嗯?想我了?","戳一下,收你一个亲亲","我在呢,一直都在","别闹啦,番茄钟还等着你呢(但我喜欢)","把手给我,充会儿电再学"];
+const POKE_TEA_MSGS=["小心~奶茶要被你晃洒啦","要分你一口吗?啊——","我端着杯子呢,轻一点嘛"];
+const POKE_SPAM="再戳,我就把你抓过来一起学习了哦 😌";
+let pokeLog = [];
+function petPoke(e, big){
+  const box = e.currentTarget;
+  // 果冻抖动
+  const wrap = box.querySelector(".pet-img-wrap") || box.firstElementChild;
+  if(wrap){ wrap.classList.remove("squish"); void wrap.offsetWidth; wrap.classList.add("squish");
+            setTimeout(()=> wrap.classList.remove("squish"), 500); }
+  // 点击处爆出粒子
+  const r = box.getBoundingClientRect();
+  const x = (e.clientX||r.left+r.width/2) - r.left, y = (e.clientY||r.top+r.height/2) - r.top;
+  const emo = ["💗","✨","🫧","💜","⭐"];
+  const nP = big ? 6 : 3;
+  for(let i=0;i<nP;i++){
+    const p = document.createElement("span");
+    p.className = "pet-particle";
+    p.textContent = emo[Math.floor(Math.random()*emo.length)];
+    p.style.left = (x-9+(Math.random()*30-15))+"px";
+    p.style.top = (y-9)+"px";
+    p.style.setProperty("--dx", (Math.random()*44-22)+"px");
+    p.style.animationDelay = (Math.random()*.15)+"s";
+    box.appendChild(p);
+    setTimeout(()=> p.remove(), 1100);
+  }
+  // 说话回应(连戳有特殊台词)
+  const now = Date.now();
+  pokeLog = pokeLog.filter(t=> now-t < 3000); pokeLog.push(now);
+  const mood = petMood(view);
+  let msg;
+  if(pokeLog.length >= 5){ msg = POKE_SPAM; pokeLog = []; }
+  else if(mood==="tea" && Math.random()<.5) msg = pick(POKE_TEA_MSGS);
+  else msg = pick(POKE_MSGS);
+  say(big ? "petBubble" : "miniBubble", msg, 4500);
+  if(big) nextBigTalk = Date.now()+26000; else nextMiniTalk = Date.now()+30000;
 }
 function renderPet(){
   const uid = view, mood = petMood(uid);
   const tea = drinkOf(uid) ? drinkOf(uid).base : null;
   const big = document.getElementById("petChar"), mini = document.getElementById("miniChar");
+  const svgFallback = uid2 => `<div class="pet-img-wrap">${charSVG({mood, tea, uid:uid2})}</div><div class="pet-shadow"></div>`;
   if(big){
     const html = petImgHTML(mood, tea, true);
-    big.innerHTML = html || charSVG({mood, tea, uid:"big"});
+    big.innerHTML = html ? html + `<div class="pet-shadow"></div>` : svgFallback("big");
+    big.classList.add("pet-hit");
     const im = big.querySelector("img");
-    if(im) im.onerror = ()=>{ big.innerHTML = charSVG({mood, tea, uid:"big"}); };
+    if(im) im.onerror = ()=>{ big.innerHTML = svgFallback("big"); };
   }
   if(mini){
     const html = petImgHTML(mood, tea, false);
-    mini.innerHTML = html || charSVG({mood, tea, uid:"mini"});
+    mini.innerHTML = html || `<div class="mini-wrap pet-img-wrap">${charSVG({mood, tea, uid:"mini"})}</div>`;
+    mini.classList.add("pet-hit");
     const im = mini.querySelector("img");
-    if(im) im.onerror = ()=>{ mini.innerHTML = charSVG({mood, tea, uid:"mini"}); };
+    if(im) im.onerror = ()=>{ mini.innerHTML = `<div class="mini-wrap pet-img-wrap">${charSVG({mood, tea, uid:"mini"})}</div>`; };
   }
   const tag = document.getElementById("petOwnerTag");
   if(tag) tag.textContent = uname(uid)+" 的搭子 · "+PET_NAME;
@@ -1237,6 +1297,9 @@ function start(){
     document.getElementById("durLabel").textContent = localDur; tick();
   });
   tickTimer = setInterval(()=>{ tick(); petTick(); }, 500);
+  const bigPetEl = document.getElementById("petChar"), miniPetEl = document.getElementById("miniChar");
+  if(bigPetEl){ bigPetEl.style.position = "relative"; bigPetEl.addEventListener("click", e=> petPoke(e, true)); }
+  if(miniPetEl){ miniPetEl.style.position = "relative"; miniPetEl.style.pointerEvents = "auto"; miniPetEl.addEventListener("click", e=> petPoke(e, false)); }
   // 鼠标/手指划过大杯 → 3D 倾斜
   const stage = document.getElementById("cupStage");
   const reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
