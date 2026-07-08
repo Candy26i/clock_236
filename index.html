@@ -228,7 +228,7 @@
   #petChar svg{width:200px; animation:floaty 4.2s ease-in-out infinite alternate}
   .pet-status{color:var(--ink-soft); font-size:13px; margin-top:4px}
   .clock-row{display:flex; align-items:flex-end; justify-content:center; gap:2px}
-  .mini-pet{position:relative; width:78px; flex:0 0 auto}
+  .mini-pet{position:relative; width:94px; flex:0 0 auto}
   .mini-pet svg{width:74px; display:block; animation:floaty 3.6s ease-in-out infinite alternate}
   .mini-bubble{
     position:absolute; bottom:94%; right:4px; background:#fff; border:2px solid var(--line);
@@ -236,7 +236,7 @@
     box-shadow:var(--shadow); animation:pop .35s both; z-index:3;
   }
   .mini-bubble[hidden]{display:none}
-  @media (max-width:430px){.mini-pet{width:58px}.mini-pet svg{width:56px}.mini-bubble{font-size:10.5px}}
+  @media (max-width:430px){.mini-pet{width:70px}.mini-pet svg{width:58px}.mini-pet img.avatar{width:62px;height:62px}.mini-pet .mini-wrap{width:62px}.mini-bubble{font-size:10.5px}}
 
   .pet-img-wrap{position:relative; display:inline-block}
   .pet-img{width:210px; max-width:62vw; display:block; filter:drop-shadow(0 10px 18px rgba(74,46,31,.18))}
@@ -245,9 +245,9 @@
   .pet-cup{position:absolute; right:-30px; bottom:-6px; width:78px; transform:rotate(8deg); filter:drop-shadow(0 4px 6px rgba(74,46,31,.2))}
   .pet-cup svg{width:100%}
   .gudu{position:absolute; right:-34px; bottom:78px; font-size:12px; color:var(--danger); animation:twinkle 1.9s ease-in-out infinite; white-space:nowrap}
-  .mini-pet .mini-wrap{position:relative; width:58px; margin:0 auto}
-  .mini-pet img.avatar{width:58px; height:58px; border-radius:50%; object-fit:cover; object-position:top; border:2.5px solid #fff; box-shadow:var(--shadow); display:block; background:linear-gradient(160deg,#FDEEDC,#F7DFC0)}
-  .mini-badge{position:absolute; right:-6px; bottom:-4px; font-size:17px}
+  .mini-pet .mini-wrap{position:relative; width:74px; margin:0 auto}
+  .mini-pet img.avatar{width:74px; height:74px; border-radius:50%; object-fit:cover; object-position:top; border:3px solid #fff; box-shadow:var(--shadow); display:block; background:linear-gradient(160deg,#FDEEDC,#F7DFC0)}
+  .mini-badge{position:absolute; right:-4px; bottom:-2px; font-size:20px}
 
   .pet-hit{cursor:pointer; -webkit-tap-highlight-color:transparent; user-select:none}
   .pet-img-wrap{animation:peek 9s ease-in-out infinite}
@@ -367,7 +367,8 @@
 
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
-    提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度
+    提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
+    <span style="opacity:.7">v2.6 · 动图仅上方小窗</span>
   </footer>
 </div>
 
@@ -1014,7 +1015,7 @@ function petTick(){
   const now = Date.now(), uid = view, mood = petMood(uid);
   if(now > nextGifAt){
     nextGifAt = now + 30000 + Math.random()*45000;
-    playGif(true);
+    playGif(false);   // 随机小动作只在时钟旁的小窗口播
   }
   if(now > nextBigTalk){
     nextBigTalk = now + 32000 + Math.random()*26000;
@@ -1090,8 +1091,8 @@ function petPoke(e, big){
     box.appendChild(p);
     setTimeout(()=> p.remove(), 1100);
   }
-  // 播一段当前心情的动作
-  playGif(big);
+  // 播一段当前心情的动作(只有上方小窗口播,底部大图保持静态)
+  if(!big) playGif(false);
   // 说话回应(连戳有特殊台词)
   const now = Date.now();
   pokeLog = pokeLog.filter(t=> now-t < 3000); pokeLog.push(now);
