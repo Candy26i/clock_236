@@ -240,6 +240,7 @@
 
   .pet-img-wrap{position:relative; display:inline-block}
   .pet-img{width:210px; max-width:62vw; display:block; filter:drop-shadow(0 10px 18px rgba(74,46,31,.18))}
+  .pet-gif{mix-blend-mode:multiply; filter:none !important}
   .pet-fx{position:absolute; font-size:20px; pointer-events:none; animation:twinkle 1.7s ease-in-out infinite}
   .pet-cup{position:absolute; right:-30px; bottom:-6px; width:78px; transform:rotate(8deg); filter:drop-shadow(0 4px 6px rgba(74,46,31,.2))}
   .pet-cup svg{width:100%}
@@ -398,6 +399,15 @@ const PET_IMAGES = {
   cheer:  "pet/cheer.png",  // 猫耳!全力打气
   tea:    "pet/cheer.png"   // 做成奶茶,开心到长猫耳(旁边配真实奶茶)
 };
+// 动作 GIF 池: 点击或随机触发时,从当前心情的池子里抽一个播几秒,然后回到静态图
+const PET_GIFS = {
+  sleepy: ["pet/sleep1.gif","pet/sleep2.gif","pet/flop.gif"],
+  ok:     ["pet/sit.gif","pet/blink.gif"],
+  happy:  ["pet/blink.gif","pet/wiggle.gif"],
+  cheer:  ["pet/wiggle.gif","pet/blink.gif"],
+  tea:    ["pet/wiggle.gif","pet/blink.gif"]
+};
+const GIF_PLAY_MS = 4200;   // 每次动图播放时长
 const GOAL_MIN = 180;                               // 3 小时 = 一杯基础奶茶
 const TOPPING_STEP = 25;                        // 之后每 25 分钟 = 1 张小料券
 const CATS = [
@@ -1002,6 +1012,10 @@ function say(id, txt, ms){
 let nextBigTalk = Date.now()+7000, nextMiniTalk = Date.now()+14000;
 function petTick(){
   const now = Date.now(), uid = view, mood = petMood(uid);
+  if(now > nextGifAt){
+    nextGifAt = now + 30000 + Math.random()*45000;
+    playGif(true);
+  }
   if(now > nextBigTalk){
     nextBigTalk = now + 32000 + Math.random()*26000;
     say("petBubble", pickMsg(mood, uid), 6500);
@@ -1013,7 +1027,11 @@ function petTick(){
   }
 }
 function petImgHTML(mood, tea, big){
-  const src = PET_IMAGES && PET_IMAGES[mood];
+  let src = PET_IMAGES && PET_IMAGES[mood];
+  const slot = big ? gifState.big : gifState.mini;
+  const gifOn = slot.src && Date.now() < slot.until;
+  if(gifOn) src = slot.src;
+  const gifCls = gifOn ? " pet-gif" : "";
   if(!src) return null;
   if(big){
     let fx = "";
@@ -1027,12 +1045,24 @@ function petImgHTML(mood, tea, big){
              <span class="gudu">咕嘟咕嘟…</span>`;
       fx += `<span class="pet-fx" style="left:-14px; top:-10px">✨</span>`;
     }
-    return `<div class="pet-img-wrap"><img class="pet-img" src="${src}" alt="${PET_NAME}">${fx}${cup}</div>`;
+    return `<div class="pet-img-wrap"><img class="pet-img${gifCls}" src="${src}" alt="${PET_NAME}">${fx}${cup}</div>`;
   }
   const badge = mood==="tea" ? `<span class="mini-badge">🧋</span>`
               : mood==="cheer" ? `<span class="mini-badge">🔥</span>`
               : mood==="sleepy" ? `<span class="mini-badge">💤</span>` : "";
-  return `<div class="mini-wrap pet-img-wrap"><img class="avatar" src="${src}" alt="${PET_NAME}">${badge}</div>`;
+  return `<div class="mini-wrap pet-img-wrap"><img class="avatar${gifCls}" src="${src}" alt="${PET_NAME}">${badge}</div>`;
+}
+let gifState = {big:{src:null, until:0}, mini:{src:null, until:0}};
+let nextGifAt = Date.now() + 20000;
+function playGif(big){
+  if(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const pool = PET_GIFS[petMood(view)] || [];
+  if(!pool.length) return;
+  const slot = big ? gifState.big : gifState.mini;
+  slot.src = pick(pool);
+  slot.until = Date.now() + GIF_PLAY_MS;
+  renderPet();
+  setTimeout(()=>{ if(Date.now() >= slot.until) renderPet(); }, GIF_PLAY_MS + 80);
 }
 const POKE_MSGS=["干嘛呀…痒~","嗯?想我了?","戳一下,收你一个亲亲","我在呢,一直都在","别闹啦,番茄钟还等着你呢(但我喜欢)","把手给我,充会儿电再学"];
 const POKE_TEA_MSGS=["小心~奶茶要被你晃洒啦","要分你一口吗?啊——","我端着杯子呢,轻一点嘛"];
@@ -1060,6 +1090,8 @@ function petPoke(e, big){
     box.appendChild(p);
     setTimeout(()=> p.remove(), 1100);
   }
+  // 播一段当前心情的动作
+  playGif(big);
   // 说话回应(连戳有特殊台词)
   const now = Date.now();
   pokeLog = pokeLog.filter(t=> now-t < 3000); pokeLog.push(now);
