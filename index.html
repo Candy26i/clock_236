@@ -148,29 +148,51 @@
   .makebtn{margin-top:12px; width:100%}
   .done-note{font-size:13px; color:var(--matcha); background:var(--matcha-soft); border-radius:12px; padding:8px 12px; margin-top:10px; text-align:center}
 
-  /* ── 收藏柜(木柜风) ── */
+  /* ── 收藏柜(暖奶油玻璃) ── */
   .shelves{display:grid; grid-template-columns:1fr 1fr; gap:16px}
   @media (max-width:560px){.shelves{grid-template-columns:1fr}}
   .shelf{
-    background:linear-gradient(165deg,#F7E6C8,#EBCB9E 60%,#E2BC88);
-    border:2px solid #D9B07F; border-radius:16px; padding:14px 12px 10px;
-    box-shadow:inset 0 2px 10px rgba(255,255,255,.55), inset 0 -8px 16px rgba(110,67,38,.16), var(--shadow);
+    position:relative; border-radius:16px; padding:14px 12px 12px;
+    background:linear-gradient(160deg, rgba(255,250,242,.92), rgba(250,236,216,.8) 55%, rgba(248,238,222,.88));
+    border:1.5px solid rgba(255,255,255,.85);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 -10px 20px rgba(200,150,90,.14),
+               0 6px 20px rgba(150,110,60,.16);
+    overflow:hidden;
   }
-  .shelf h3{font-size:15px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:baseline; color:#6E4326}
-  .shelf h3 span{font-size:12px; color:#9A6C3E; font-family:'Noto Sans SC'}
-  .shelf .cups{display:grid; grid-template-columns:repeat(auto-fill,minmax(64px,1fr)); gap:10px 6px}
+  .shelf::before{  /* 玻璃斜向反光 */
+    content:""; position:absolute; top:0; left:-30%; width:55%; height:100%;
+    background:linear-gradient(105deg, transparent, rgba(255,255,255,.4) 45%, transparent 60%);
+    transform:skewX(-12deg); pointer-events:none;
+  }
+  .shelf h3{font-size:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:baseline; color:#7A5230; position:relative; z-index:1}
+  .shelf h3 span{font-size:12px; color:#A6835C; font-family:'Noto Sans SC'}
+  .shelf .cups{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:10px 4px; position:relative; z-index:1;
+    min-height:150px; align-content:start;
+  }
+  @media (max-width:560px){.shelf .cups{grid-template-columns:repeat(4,1fr)}}
   .mini{text-align:center; cursor:default}
   .mini .cupwrap{display:inline-block; transition:transform .18s ease}
   .mini:hover .cupwrap{transform:translateY(-5px) scale(1.07)}
-  .mini svg{width:52px; height:auto; display:block; margin:0 auto}
-  .mini .plank{
-    height:7px; border-radius:3px; margin:-6px 5px 3px;
-    background:linear-gradient(180deg,#CEA26B,#A97B45);
-    box-shadow:0 3px 5px rgba(110,67,38,.4), inset 0 1px 0 rgba(255,255,255,.4);
+  .mini svg{width:50px; height:auto; display:block; margin:0 auto}
+  .mini .plank{  /* 玻璃层板(暖调) */
+    height:6px; border-radius:3px; margin:-5px 3px 3px;
+    background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(232,208,172,.75));
+    box-shadow:0 3px 6px rgba(180,140,90,.3), inset 0 1px 0 rgba(255,255,255,.95);
   }
-  .mini .d{font-size:10px; color:#8A5E33}
-  .mini .t{font-size:10px; color:#6E4326; line-height:1.2}
-  .empty-shelf{font-size:12.5px; color:#9A6C3E; text-align:center; padding:16px 4px}
+  .mini .d{font-size:10px; color:#A6835C}
+  .mini .t{font-size:10px; color:#7A5230; line-height:1.2}
+  .empty-shelf{font-size:12.5px; color:#A6835C; text-align:center; padding:24px 4px; position:relative; z-index:1}
+  .shelf-nav{display:flex; align-items:center; justify-content:center; gap:12px; margin-top:8px; position:relative; z-index:1}
+  .shelf-arrow{
+    width:24px; height:24px; border-radius:50%; border:none; cursor:pointer;
+    background:rgba(255,255,255,.9); color:#7A5230; font-size:15px; font-weight:700; line-height:1;
+    box-shadow:0 2px 6px rgba(180,140,90,.28); transition:transform .12s, background .15s;
+  }
+  .shelf-arrow:hover{background:#fff; transform:scale(1.12)}
+  .shelf-arrow:active{transform:scale(.9)}
+  .shelf-arrow-off{opacity:.3; cursor:default; pointer-events:none}
+  .shelf-page{font-size:11px; color:#A6835C; min-width:52px; text-align:center}
 
   /* ── 时间轴 ── */
   .timeline{margin-top:14px; padding:12px 10px 10px; background:rgba(255,255,255,.55); border-radius:14px}
@@ -394,7 +416,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v4.5 · 小莲四态定版</span>
+    <span style="opacity:.7">v4.7 · 暖奶油柜</span>
   </footer>
 </div>
 
@@ -1105,7 +1127,7 @@ const PET_LINES = {
     idle:["刚那段挺好,踏实","歇会儿,累了就歇","一步一步来,不用赶","再一点点,快了","别急,慢慢磨,磨得出来"],
     run:["嗯,我在,你学","不吵你","你忙你的,我看着","这样就挺好,继续","快了,再一下","踏实,我不走"],
     tea:["行,这杯你应得的","苦过来了,甜甜的","慢点喝,不抢你的","今天可以,记着这感觉","喝吧,歇会儿"],
-    poke:["嗯?","去学习","我在呢,别急","干嘛,想偷懒?","行了,回去吧","别闹,我看着你呢"],
+    poke:["嗯?找我干嘛","戳我也没用,书还在那儿","诶,别摸鱼了","手感不错?够了啊","我又不会飞,急啥","乖,再学会儿,啊"],
     pokeTea:["哎,洒了","你喝,我不抢","轻点,烫"],
     pokeSpam:"再戳,罚你多学十分钟,说到做到 🙂",
     evStart:"去吧,我盯着时间 💪",
@@ -1365,22 +1387,39 @@ function renderStation(){
   }
 }
 
+const SHELF_PER_PAGE = 8;
+const shelfPage = {};   // 每人各自的翻页
+function shelfShift(uid, dir, totalPages){
+  shelfPage[uid] = Math.max(0, Math.min(totalPages-1, (shelfPage[uid]||0) + dir));
+  renderShelves();
+}
+window.shelfShift = shelfShift;
 function renderShelves(){
   const el = document.getElementById("shelves");
   el.innerHTML = USERS.map(u=>{
     const days = data[u.id].days || {};
-    const made = Object.entries(days).filter(([k,v])=>v && v.drink).sort((a,b)=> b[0]<a[0]?-1:1).reverse();
+    // 所有做过奶茶的日子,最新在前
+    const made = Object.entries(days).filter(([k,v])=>v && v.drink).sort((a,b)=> a[0]<b[0]?1:-1);
     const total = made.length;
+    const pages = Math.max(1, Math.ceil(total/SHELF_PER_PAGE));
+    let pg = shelfPage[u.id]||0; if(pg>pages-1){ pg=pages-1; shelfPage[u.id]=pg; }
+    const pageItems = made.slice(pg*SHELF_PER_PAGE, (pg+1)*SHELF_PER_PAGE);
     const inner = total===0
       ? `<div class="empty-shelf">柜子还空着,等第一杯 🧋</div>`
-      : `<div class="cups">` + made.slice(-24).reverse().map(([k,v],i)=>{
+      : `<div class="cups">` + pageItems.map(([k,v],i)=>{
           const b = BASES.find(x=>x.id===v.drink.base);
           return `<div class="mini" title="${k} ${b?b.name:""} 加料${(v.drink.tops||[]).length}份">
-            <div class="cupwrap">${cupSVG({base:v.drink.base, tops:v.drink.tops||[], fill:1, uid:u.id+"m"+i, shadow:false, mini:true})}</div>
+            <div class="cupwrap">${cupSVG({base:v.drink.base, tops:v.drink.tops||[], fill:1, uid:u.id+"m"+pg+"_"+i, shadow:false, mini:true})}</div>
             <div class="plank"></div>
             <div class="d">${k.slice(5)}</div><div class="t">${b?b.name:""}·${(v.drink.tops||[]).length}料</div></div>`;
         }).join("") + `</div>`;
-    return `<div class="shelf"><h3>${uname(u.id)} 的柜子 <span>共 ${total} 杯</span></h3>${inner}${timelineHTML(u.id)}</div>`;
+    // 翻页条(超过一页才显示)
+    const nav = pages>1 ? `<div class="shelf-nav">
+        <button class="shelf-arrow ${pg>0?'':'shelf-arrow-off'}" onclick="${pg>0?"shelfShift('"+u.id+"',-1,"+pages+")":''}">‹</button>
+        <span class="shelf-page">${pg+1} / ${pages}</span>
+        <button class="shelf-arrow ${pg<pages-1?'':'shelf-arrow-off'}" onclick="${pg<pages-1?"shelfShift('"+u.id+"',1,"+pages+")":''}">›</button>
+      </div>` : "";
+    return `<div class="shelf"><h3>${uname(u.id)} 的收藏柜 <span>共 ${total} 杯</span></h3>${inner}${nav}${timelineHTML(u.id)}</div>`;
   }).join("");
 }
 
