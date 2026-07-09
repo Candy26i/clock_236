@@ -394,7 +394,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v3.6 · pet2预填GIF</span>
+    <span style="opacity:.7">v4.1 · 小莲台词v5</span>
   </footer>
 </div>
 
@@ -604,7 +604,7 @@ function sessionElapsedMin(s){
 function startTimer(){
   const uid = view;
   DB.set("users/"+uid+"/session", {cat:localCat, durMin:localDur, startTs:Date.now(), pauseTs:null, pausedTotal:0});
-  say("miniBubble", "去吧,时间我看着,到点叫你 ❤️", 4500);
+  say("miniBubble", lines(uid).evStart, 4500);
   nextMiniTalk = Date.now() + 40000;
 }
 function pauseTimer(){
@@ -638,7 +638,7 @@ function claimSession(uid, creditMin){
       DB.txn("users/"+uid+"/days/"+k+"/m/"+cat, cur=> (cur||0)+creditMin);
       if(creditMin >= claimed.durMin){
         celebrate();
-        say("petBubble", "这一炉完成啦,"+creditMin+" 分钟我都记好了。辛苦了,歇一会儿 🍵", 6000);
+        say("petBubble", lines(uid).evDone(creditMin), 6000);
         nextBigTalk = Date.now() + 30000;
       }
     }
@@ -677,7 +677,7 @@ function makeDrink(baseId){
   if(studyMin(uid) < GOAL_MIN || drinkOf(uid)) return;
   DB.set("users/"+uid+"/days/"+todayKeyFor(uid)+"/drink", {base:baseId, tops:[], ts:Date.now()});
   celebrate();
-  say("petBubble", "做好啦?给我看看…真棒。干杯,我的骄傲 🧋", 6500);
+  say("petBubble", lines(uid).evTea, 6500);
   nextBigTalk = Date.now() + 30000;
 }
 function askMakeDrink(baseId){
@@ -742,7 +742,7 @@ function addTopping(tid){
   if(!d || creditsOf(uid)<=0) return;
   const tops = (d.tops||[]).concat([tid]);
   DB.set("users/"+uid+"/days/"+todayKeyFor(uid)+"/drink/tops", tops);
-  say("petBubble", "又豪华了一点,像你一样,闪闪的 ✨", 4500);
+  say("petBubble", lines(uid).evTopping, 4500);
 }
 
 /* ═══════════════ 杯子 SVG 渲染 ═══════════════ */
@@ -1085,18 +1085,44 @@ function petMood(uid){
   if(sm>0) return "ok";
   return "sleepy";
 }
-const SLEEP_MSGS=["宝,今天还没开始学呢…我在这儿等你哦","不急,休息好了就过来,我陪你一起","在忙什么呀?有点想你了,顺便提醒你该学习啦","过来坐,先学 25 分钟,剩下的交给我","今天的奶茶,我还想看你亲手做出来呢"];
-const IDLE_MSGS=["刚刚辛苦了,喝口水再继续,好不好?","你已经很棒了,再来一小段就好","别急,一步一步来,我一直都在","累的话靠一会儿,然后我们继续","离奶茶又近了一点,替你开心"];
-const RUN_MSGS=["我在旁边看着你,安心学","专注的你,真的很好看","不用回头,我一直在","累了就眨眨眼,时间我帮你数着","就快好了,最后一点点,乖","你负责努力,我负责心疼你"];
-const TEA_MSGS=["这杯我帮你拿着,你先歇歇","今天也辛苦了,该好好奖励你","甜吗?你比它甜","看你做成这杯,比我自己喝还开心","慢慢喝,别呛着,剩下的时间都是你的"];
+// 每人一套台词,互不覆盖。
+const PET_LINES = {
+  u1: {  // 小煜: 温柔恋人语气
+    sleep:["宝,今天还没开始学呢…我在这儿等你哦","不急,休息好了就过来,我陪你一起","在忙什么呀?有点想你了,顺便提醒你该学习啦","过来坐,先学 25 分钟,剩下的交给我","今天的奶茶,我还想看你亲手做出来呢"],
+    idle:["刚刚辛苦了,喝口水再继续,好不好?","你已经很棒了,再来一小段就好","别急,一步一步来,我一直都在","累的话靠一会儿,然后我们继续","离奶茶又近了一点,替你开心"],
+    run:["我在旁边看着你,安心学","专注的你,真的很好看","不用回头,我一直在","累了就眨眨眼,时间我帮你数着","就快好了,最后一点点,乖","你负责努力,我负责心疼你"],
+    tea:["这杯我帮你拿着,你先歇歇","今天也辛苦了,该好好奖励你","甜吗?你比它甜","看你做成这杯,比我自己喝还开心","慢慢喝,别呛着,剩下的时间都是你的"],
+    poke:["干嘛呀…痒~","嗯?想我了?","戳一下,收你一个亲亲","我在呢,一直都在","别闹啦,番茄钟还等着你呢(但我喜欢)","把手给我,充会儿电再学"],
+    pokeTea:["小心~奶茶要被你晃洒啦","要分你一口吗?啊——","我端着杯子呢,轻一点嘛"],
+    pokeSpam:"再戳,我就把你抓过来一起学习了哦 😌",
+    evStart:"去吧,时间我看着,到点叫你 ❤️",
+    evDone:m=>"这一炉完成啦,"+m+" 分钟我都记好了。辛苦了,歇一会儿 🍵",
+    evTea:"做好啦?给我看看…真棒。干杯,我的骄傲 🧋",
+    evTopping:"又豪华了一点,像你一样,闪闪的 ✨"
+  },
+  u2: {  // 小莲: 像真人随口发消息,松弛,有毛边,点缀一点口头语
+    sleep:["哎哟喂,可算醒了,等你半天","诶你今天还没开始呢","不学就不学吧,先坐会儿也行","起来啦,书摊那儿了,你看看它可怜的","困就再眯会儿,反正我也不困,骗你的"],
+    idle:["刚那下可以啊","歇会儿,不催","诶别刷手机了,我看见了","再来一点点就完事了","趁还有劲,搞起"],
+    run:["嗯,不打扰你了","你忙,我看着就行","别瞅我,瞅书","挺好的,这状态","快了快了,别停","诶我就在这儿哈"],
+    tea:["哎哟可以啊你","苦尽甘来懂不懂","慢点喝,烫","今天算你厉害","喝吧喝吧,应得的"],
+    poke:["嗯?","干嘛戳我,去学习","我跑不了,放心","要夸还是要损,你说","行了行了,该干活了","诶又摸鱼是吧"],
+    pokeTea:["哎洒了别怪我","想喝?你的你的,我不抢","轻点,烫手"],
+    pokeSpam:"再戳罚你加十分钟,自找的哈 🙂",
+    evStart:"去吧,盯着呢 💪",
+    evDone:m=>"记下了,这 "+m+" 分钟,歇会儿 🍵",
+    evTea:"哎哟成了!鼓个掌 🧋",
+    evTopping:"又加一样,挺好 ✨"
+  }
+};
+const lines = uid => PET_LINES[uid] || PET_LINES.u1;
 const pick = a => a[Math.floor(Math.random()*a.length)];
 function pickMsg(mood, uid){
-  const sm = studyMin(uid);
-  if(mood==="tea") return pick(TEA_MSGS);
-  if(mood==="cheer") return pick(RUN_MSGS);
+  const sm = studyMin(uid), L = lines(uid);
+  if(mood==="tea") return pick(L.tea);
+  if(mood==="cheer") return pick(L.run);
   if(sm>=100 && sm<GOAL_MIN) return "再坚持 "+(GOAL_MIN-sm)+" 分钟,奶茶就能捧到你手里了";
-  if(mood==="sleepy") return pick(SLEEP_MSGS);
-  return pick(IDLE_MSGS);
+  if(mood==="sleepy") return pick(L.sleep);
+  return pick(L.idle);
 }
 function say(id, txt, ms){
   const el = document.getElementById(id); if(!el) return;
@@ -1117,7 +1143,7 @@ function petTick(){
   const se = data[uid].session;
   if(se && !se.pauseTs && now > nextMiniTalk){
     nextMiniTalk = now + 36000 + Math.random()*24000;
-    say("miniBubble", pick(RUN_MSGS), 5000);
+    say("miniBubble", pick(lines(uid).run), 5000);
   }
 }
 function petImgHTML(mood, tea, big){
@@ -1159,9 +1185,6 @@ function playGif(big){
   renderPet();
   setTimeout(()=>{ if(Date.now() >= slot.until) renderPet(); }, GIF_PLAY_MS + 80);
 }
-const POKE_MSGS=["干嘛呀…痒~","嗯?想我了?","戳一下,收你一个亲亲","我在呢,一直都在","别闹啦,番茄钟还等着你呢(但我喜欢)","把手给我,充会儿电再学"];
-const POKE_TEA_MSGS=["小心~奶茶要被你晃洒啦","要分你一口吗?啊——","我端着杯子呢,轻一点嘛"];
-const POKE_SPAM="再戳,我就把你抓过来一起学习了哦 😌";
 let pokeLog = [];
 function petPoke(e, big){
   const box = e.currentTarget;
@@ -1192,9 +1215,10 @@ function petPoke(e, big){
   pokeLog = pokeLog.filter(t=> now-t < 3000); pokeLog.push(now);
   const mood = petMood(view);
   let msg;
-  if(pokeLog.length >= 5){ msg = POKE_SPAM; pokeLog = []; }
-  else if(mood==="tea" && Math.random()<.5) msg = pick(POKE_TEA_MSGS);
-  else msg = pick(POKE_MSGS);
+  const L = lines(view);
+  if(pokeLog.length >= 5){ msg = L.pokeSpam; pokeLog = []; }
+  else if(mood==="tea" && Math.random()<.5) msg = pick(L.pokeTea);
+  else msg = pick(L.poke);
   say(big ? "petBubble" : "miniBubble", msg, 4500);
   if(big) nextBigTalk = Date.now()+26000; else nextMiniTalk = Date.now()+30000;
 }
