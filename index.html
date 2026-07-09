@@ -394,7 +394,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v4.1 · 小莲台词v5</span>
+    <span style="opacity:.7">v4.2 · 修复确认</span>
   </footer>
 </div>
 
@@ -1249,7 +1249,7 @@ function renderPet(){
     if(im) im.onerror = onImgErr(false, mini);
   }
   const tag = document.getElementById("petOwnerTag");
-  if(tag) tag.textContent = uname(uid)+" 的搭子 · "+petName(uid);
+  if(tag) tag.textContent = uname(uid)+" 的搭子 · "+petName(uid)+"("+(uid==="u1"?"小煜":"小莲")+")";
   const st = {sleepy:"安静地等你来,偶尔打个小盹", ok:"陪在你身边,心情很好",
               happy:"看你这么努力,眼睛都在发光", cheer:"屏住呼吸,全程守着你",
               tea:"捧着你做的奶茶,嘴角压不下来"};
