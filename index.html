@@ -172,6 +172,32 @@
   .mini .t{font-size:10px; color:#6E4326; line-height:1.2}
   .empty-shelf{font-size:12.5px; color:#9A6C3E; text-align:center; padding:16px 4px}
 
+  /* ── 时间轴 ── */
+  .timeline{margin-top:14px; padding:12px 10px 10px; background:rgba(255,255,255,.55); border-radius:14px}
+  .tl-head{font-size:12px; color:#6E4326; margin-bottom:8px; font-weight:700; display:flex; align-items:center; gap:6px}
+  .tl-title{flex:1; text-align:center; line-height:1.3}
+  .tl-arrow{
+    flex:0 0 auto; width:26px; height:26px; border-radius:50%; border:none; cursor:pointer;
+    background:#EBCB9E; color:#6E4326; font-size:18px; line-height:1; font-weight:700;
+    box-shadow:var(--shadow); transition:transform .12s, background .15s;
+  }
+  .tl-arrow:hover{background:#E0B87E; transform:scale(1.08)}
+  .tl-arrow:active{transform:scale(.92)}
+  .tl-arrow-off{opacity:.3; cursor:default; box-shadow:none; pointer-events:none}
+  .tl-track{display:flex; align-items:flex-end; gap:3px; height:92px}
+  .tl-col{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; cursor:default}
+  .tl-cap{font-size:10px; height:14px; line-height:14px}
+  .tl-bar{width:64%; max-width:16px; display:flex; flex-direction:column-reverse; border-radius:4px 4px 0 0; overflow:hidden; transition:transform .15s}
+  .tl-col:hover .tl-bar{transform:scaleY(1.04)}
+  .tl-seg{width:100%}
+  .tl-empty{height:3px; width:100%; background:#E4D3BC; border-radius:3px}
+  .tl-date{font-size:9px; color:#9A6C3E; margin-top:3px}
+  .tl-today .tl-date{color:#E29A4B; font-weight:700}
+  .tl-today .tl-bar{outline:2px solid rgba(226,154,75,.5); outline-offset:1px}
+  .tl-legend{display:flex; flex-wrap:wrap; gap:8px 12px; margin-top:9px; font-size:10.5px; color:#8A5E33}
+  .tl-legend i{display:inline-block; width:9px; height:9px; border-radius:3px; margin-right:3px; vertical-align:-1px}
+  .tl-legend .tl-note{color:#9A6C3E}
+
   /* ── 饼图 ── */
   .pie-flex{display:flex; align-items:center; gap:24px; flex-wrap:wrap; justify-content:center}
   .pie-flex svg{width:180px; height:180px}
@@ -368,7 +394,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v2.6 · 动图仅上方小窗</span>
+    <span style="opacity:.7">v3.6 · pet2预填GIF</span>
   </footer>
 </div>
 
@@ -387,27 +413,44 @@ const firebaseConfig = {
 };
 const ROOM = "milktea-v1";                 // 数据库根节点
 const USERS = [
-  {id:"u1", name:"Bedi"},
-  {id:"u2", name:"Zhai"}
+  {id:"u1", name:"Bedi", tz:"America/Chicago"},   // 美中时间
+  {id:"u2", name:"Zhai", tz:"Asia/Shanghai"}      // 北京时间
 ];
-const PET_NAME = "小煜";                    // 陪学小人的名字,想改就改
-// 心情 → 图片路径。把图片放进仓库的 pet/ 文件夹,想换图直接替换文件即可。
-// 某个心情不想配图就写 null,会自动用内置的手绘小人兜底。
-const PET_IMAGES = {
-  sleepy: "pet/sleepy.png", // 鱼帽闭眼,乖乖等你
-  ok:     "pet/ok.png",     // 站立日常
-  happy:  "pet/happy.png",  // 手托脸,看你努力
-  cheer:  "pet/cheer.png",  // 猫耳!全力打气
-  tea:    "pet/cheer.png"   // 做成奶茶,开心到长猫耳(旁边配真实奶茶)
+// 每个用户一套独立的陪学小人。想给某人换立绘,改 TA 这一份即可。
+// name: 名字 · dir: 图片文件夹 · imgs: 五种心情静态图 · gifs: 动作GIF池
+const PETS = {
+  u1: {
+    name: "小煜",
+    imgs: {
+      sleepy: "pet/sleepy.png", ok: "pet/ok.png", happy: "pet/happy.png",
+      cheer:  "pet/cheer.png",  tea: "pet/cheer.png"
+    },
+    gifs: {
+      sleepy: ["pet/sleep1.gif","pet/sleep2.gif","pet/flop.gif"],
+      ok:     ["pet/sit.gif","pet/blink.gif"],
+      happy:  ["pet/blink.gif","pet/wiggle.gif"],
+      cheer:  ["pet/wiggle.gif","pet/blink.gif"],
+      tea:    ["pet/wiggle.gif","pet/blink.gif"]
+    }
+  },
+  u2: {
+    name: "小莲",   // Zhai 的搭子,想改名改这里
+    imgs: {
+      sleepy: "pet2/sleepy.png", ok: "pet2/ok.png", happy: "pet2/happy.png",
+      cheer:  "pet2/cheer.png",  tea: "pet2/cheer.png"
+    },
+    // GIF 传进仓库 pet2/ 文件夹(文件名对上即可),传一个动一个,缺的不播也不报错。
+    gifs: {
+      sleepy: ["pet2/sleep1.gif","pet2/sleep2.gif","pet2/flop.gif"],
+      ok:     ["pet2/sit.gif","pet2/blink.gif"],
+      happy:  ["pet2/blink.gif","pet2/wiggle.gif"],
+      cheer:  ["pet2/wiggle.gif","pet2/blink.gif"],
+      tea:    ["pet2/wiggle.gif","pet2/blink.gif"]
+    }
+  }
 };
-// 动作 GIF 池: 点击或随机触发时,从当前心情的池子里抽一个播几秒,然后回到静态图
-const PET_GIFS = {
-  sleepy: ["pet/sleep1.gif","pet/sleep2.gif","pet/flop.gif"],
-  ok:     ["pet/sit.gif","pet/blink.gif"],
-  happy:  ["pet/blink.gif","pet/wiggle.gif"],
-  cheer:  ["pet/wiggle.gif","pet/blink.gif"],
-  tea:    ["pet/wiggle.gif","pet/blink.gif"]
-};
+const petCfg = uid => PETS[uid] || PETS.u1;
+const petName = uid => (data[uid] && data[uid].petName) || petCfg(uid).name;
 const GIF_PLAY_MS = 4200;   // 每次动图播放时长
 const GOAL_MIN = 180;                               // 3 小时 = 一杯基础奶茶
 const TOPPING_STEP = 25;                        // 之后每 25 分钟 = 1 张小料券
@@ -417,14 +460,21 @@ const CATS = [
   {id:"dl", name:"锻炼", ico:"🏃", color:"var(--matcha)",hex:"#7FA85A"}
 ];
 const BASES = [
-  {id:"hong",  name:"红茶",   top:"#D89A5B", bot:"#B06E33"},
-  {id:"lv",    name:"绿茶",   top:"#CBDD9A", bot:"#9DBB63"},
-  {id:"wulong",name:"乌龙",   top:"#E0B27C", bot:"#A97B45"},
-  {id:"moli",  name:"茉莉",   top:"#F2E9C4", bot:"#D9C98A"},
-  {id:"mocha", name:"抹茶",   top:"#B7D69A", bot:"#7FA85A"},
-  {id:"heitang",name:"黑糖鲜奶",top:"#F4E3CB", bot:"#6E4326", streak:true},
-  {id:"yuni",  name:"芋泥",   top:"#D7C4F0", bot:"#9A79D1"},
-  {id:"caomei",name:"草莓",   top:"#F9CFD6", bot:"#E98A9C"}
+  {id:"hong",   name:"红茶",     top:"#C9743E", bot:"#8F3F1E"},
+  {id:"lv",     name:"绿茶",     top:"#CBDD9A", bot:"#9DBB63"},
+  {id:"wulong", name:"乌龙",     top:"#9A6B3E", bot:"#4A2E1A"},
+  {id:"moli",   name:"茉莉",     top:"#F2E9C4", bot:"#D9C98A"},
+  {id:"mocha",  name:"抹茶",     top:"#9DC46A", bot:"#4E7A32"},
+  {id:"heitang",name:"黑糖鲜奶", top:"#F4E3CB", bot:"#6E4326", streak:true},
+  {id:"yuni",   name:"芋泥",     top:"#D7C4F0", bot:"#9A79D1"},
+  {id:"caomei", name:"草莓",     top:"#F9CFD6", bot:"#E98A9C"},
+  {id:"boba",   name:"焦糖布蕾", top:"#F5DFA0", bot:"#D6A02A"},
+  {id:"mitao",  name:"蜜桃乌龙", top:"#FBD3B4", bot:"#EE7A48"},
+  {id:"baixiang",name:"白桃养乐多",top:"#FBE4EC", bot:"#F3A9C4"},
+  {id:"hailian",name:"海盐柠檬", top:"#FCF6C0", bot:"#CBD838"},
+  {id:"lanmei", name:"蓝莓",     top:"#BFD0F2", bot:"#4C63C4"},
+  {id:"bohe",   name:"薄荷可可", top:"#B8EAD6", bot:"#2FA88A"},
+  {id:"xiangcheng",name:"香橙",  top:"#FBC969", bot:"#F0790E"}
 ];
 const TOPPINGS = [
   {id:"zhenzhu", name:"珍珠",   em:"⚫", kind:"in"},
@@ -495,7 +545,7 @@ function initStore(){
 /* ═══════════════ 状态 ═══════════════ */
 let view = USERS[0].id;                    // 当前分页
 const data = {};                            // data[uid] = {days:{}, session:null, name:null}
-USERS.forEach(u=> data[u.id] = {days:{}, session:null, name:null});
+USERS.forEach(u=> data[u.id] = {days:{}, session:null, name:null, tz:null});
 let localDur = 25, localCat = "xx";
 let tickTimer = null;
 
@@ -512,12 +562,31 @@ function showModal(html, binds){
 }
 function closeModal(){ document.getElementById("modalWrap").hidden = true; }
 
-const todayKey = ()=>{
-  const d = new Date();
-  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-};
+// 方向三: 每个人按「自己的本地时区」判断今天,互不打断。
+// 时区存在数据库 users/<id>/tz 里,这样看对方时也用对方的时区。
+// 想统一时区就把两人的 tz 设成一样(或改 defaultTZ)。
+function tzShort(uid){
+  const tz = tzOf(uid);
+  const city = tz.split("/").pop().replace(/_/g," ");
+  // 当前该时区的 UTC 偏移
+  try{
+    const s = new Date().toLocaleString("en-US",{timeZone:tz,timeZoneName:"shortOffset"});
+    const m = s.match(/GMT([+-]\d+)/);
+    return city + (m? " "+m[0].replace("GMT","UTC") : "");
+  }catch(e){ return city; }
+}
+function tzOf(uid){
+  if(data[uid] && data[uid].tz) return data[uid].tz;          // 数据库里手动设过的优先
+  const u = USERS.find(x=>x.id===uid);
+  if(u && u.tz) return u.tz;                                   // 其次用默认配置
+  return Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
+}
+const keyInTZ = tz => new Date().toLocaleDateString("en-CA", {timeZone: tz});
+const todayKeyFor = uid => keyInTZ(tzOf(uid));
+// 全局 todayKey = 当前分页用户的今天(用于计时结算等"当前操作者"场景)
+const todayKey = ()=> todayKeyFor(view);
 const fmtMin = m => m>=60 ? Math.floor(m/60)+" 小时"+(m%60? " "+(m%60)+" 分":"") : m+" 分钟";
-const day = uid => (data[uid].days && data[uid].days[todayKey()]) || {};
+const day = uid => (data[uid].days && data[uid].days[todayKeyFor(uid)]) || {};
 const mins = (uid,c)=> (day(uid).m && day(uid).m[c]) || 0;
 const studyMin = uid => mins(uid,"ky") + mins(uid,"xx");
 
@@ -565,7 +634,7 @@ function claimSession(uid, creditMin){
     claimed = cur; return null;  // 删除会话
   }, ok=>{
     if(ok && claimed && creditMin>0){
-      const cat = claimed.cat, k = todayKey();
+      const cat = claimed.cat, k = todayKeyFor(uid);
       DB.txn("users/"+uid+"/days/"+k+"/m/"+cat, cur=> (cur||0)+creditMin);
       if(creditMin >= claimed.durMin){
         celebrate();
@@ -606,7 +675,7 @@ function creditsOf(uid){
 function makeDrink(baseId){
   const uid = view;
   if(studyMin(uid) < GOAL_MIN || drinkOf(uid)) return;
-  DB.set("users/"+uid+"/days/"+todayKey()+"/drink", {base:baseId, tops:[], ts:Date.now()});
+  DB.set("users/"+uid+"/days/"+todayKeyFor(uid)+"/drink", {base:baseId, tops:[], ts:Date.now()});
   celebrate();
   say("petBubble", "做好啦?给我看看…真棒。干杯,我的骄傲 🧋", 6500);
   nextBigTalk = Date.now() + 30000;
@@ -626,10 +695,27 @@ function askMakeDrink(baseId){
   });
 }
 function askRename(){
+  const TZ_OPTS = [
+    ["自动(本机)", ""],
+    ["北京 UTC+8", "Asia/Shanghai"],
+    ["美东 New York", "America/New_York"],
+    ["美中 Chicago", "America/Chicago"],
+    ["美西 Los Angeles", "America/Los_Angeles"],
+    ["伦敦 London", "Europe/London"],
+    ["东京 Tokyo", "Asia/Tokyo"]
+  ];
   showModal(`
-    <h3>改个名字</h3>` +
-    USERS.map(u=>`<label>${uname(u.id)} 的新名字</label>
-      <input type="text" id="nm_${u.id}" value="${uname(u.id).replace(/"/g,"&quot;")}" maxlength="12">`).join("") + `
+    <h3>名字 & 时区</h3>
+    <p style="margin-bottom:8px">每个人按自己的时区判断「今天」,互不打断。</p>` +
+    USERS.map(u=>{
+      const cur = data[u.id].tz || "";
+      return `<label>${uname(u.id)} 的名字</label>
+      <input type="text" id="nm_${u.id}" value="${uname(u.id).replace(/"/g,"&quot;")}" maxlength="12">
+      <label>${uname(u.id)} 的时区</label>
+      <select id="tz_${u.id}" style="width:100%; border:2px solid var(--line); border-radius:12px; padding:9px 12px; font-size:14px; font-family:inherit; color:var(--ink); box-sizing:border-box">`
+      + TZ_OPTS.map(([lbl,val])=> `<option value="${val}" ${val===cur?"selected":""}>${lbl}</option>`).join("")
+      + `</select>`;
+    }).join("") + `
     <div class="mbtns" style="margin-top:16px">
       <button class="btn ghost" id="mNo">取消</button>
       <button class="btn pause" id="mYes">保存</button>
@@ -639,6 +725,13 @@ function askRename(){
       USERS.forEach(u=>{
         const v = box.querySelector("#nm_"+u.id).value.trim();
         if(v) DB.set("users/"+u.id+"/name", v);
+        const tz = box.querySelector("#tz_"+u.id).value;
+        // 空=自动:写入本机时区(仅当改的是自己)否则清空让对方设备自动填
+        if(tz) DB.set("users/"+u.id+"/tz", tz);
+        else if(u.id===view){
+          const def = (USERS.find(x=>x.id===u.id)||{}).tz || Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
+          DB.set("users/"+u.id+"/tz", def);
+        }
       });
       closeModal();
     };
@@ -648,7 +741,7 @@ function addTopping(tid){
   const uid = view, d = drinkOf(uid);
   if(!d || creditsOf(uid)<=0) return;
   const tops = (d.tops||[]).concat([tid]);
-  DB.set("users/"+uid+"/days/"+todayKey()+"/drink/tops", tops);
+  DB.set("users/"+uid+"/days/"+todayKeyFor(uid)+"/drink/tops", tops);
   say("petBubble", "又豪华了一点,像你一样,闪闪的 ✨", 4500);
 }
 
@@ -1028,7 +1121,8 @@ function petTick(){
   }
 }
 function petImgHTML(mood, tea, big){
-  let src = PET_IMAGES && PET_IMAGES[mood];
+  const cfg = petCfg(view);
+  let src = cfg.imgs && cfg.imgs[mood];
   const slot = big ? gifState.big : gifState.mini;
   const gifOn = slot.src && Date.now() < slot.until;
   if(gifOn) src = slot.src;
@@ -1046,18 +1140,18 @@ function petImgHTML(mood, tea, big){
              <span class="gudu">咕嘟咕嘟…</span>`;
       fx += `<span class="pet-fx" style="left:-14px; top:-10px">✨</span>`;
     }
-    return `<div class="pet-img-wrap"><img class="pet-img${gifCls}" src="${src}" alt="${PET_NAME}">${fx}${cup}</div>`;
+    return `<div class="pet-img-wrap"><img class="pet-img${gifCls}" src="${src}" alt="${petName(view)}">${fx}${cup}</div>`;
   }
   const badge = mood==="tea" ? `<span class="mini-badge">🧋</span>`
               : mood==="cheer" ? `<span class="mini-badge">🔥</span>`
               : mood==="sleepy" ? `<span class="mini-badge">💤</span>` : "";
-  return `<div class="mini-wrap pet-img-wrap"><img class="avatar${gifCls}" src="${src}" alt="${PET_NAME}">${badge}</div>`;
+  return `<div class="mini-wrap pet-img-wrap"><img class="avatar${gifCls}" src="${src}" alt="${petName(view)}">${badge}</div>`;
 }
 let gifState = {big:{src:null, until:0}, mini:{src:null, until:0}};
 let nextGifAt = Date.now() + 20000;
 function playGif(big){
   if(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const pool = PET_GIFS[petMood(view)] || [];
+  const pool = (petCfg(view).gifs||{})[petMood(view)] || [];
   if(!pool.length) return;
   const slot = big ? gifState.big : gifState.mini;
   slot.src = pick(pool);
@@ -1109,22 +1203,29 @@ function renderPet(){
   const tea = drinkOf(uid) ? drinkOf(uid).base : null;
   const big = document.getElementById("petChar"), mini = document.getElementById("miniChar");
   const svgFallback = uid2 => `<div class="pet-img-wrap">${charSVG({mood, tea, uid:uid2})}</div><div class="pet-shadow"></div>`;
+  // 图片(静态或GIF)加载失败: 先作废当前GIF回退静态图重画;若静态图也失败才用手绘
+  const onImgErr = (isBig, el) => ()=>{
+    const slot = isBig ? gifState.big : gifState.mini;
+    if(slot.src){ slot.src = null; slot.until = 0; renderPet(); return; }   // GIF挂了→回退静态图
+    el.innerHTML = isBig ? svgFallback("big")
+                         : `<div class="mini-wrap pet-img-wrap">${charSVG({mood, tea, uid:"mini"})}</div>`;
+  };
   if(big){
     const html = petImgHTML(mood, tea, true);
     big.innerHTML = html ? html + `<div class="pet-shadow"></div>` : svgFallback("big");
     big.classList.add("pet-hit");
     const im = big.querySelector("img");
-    if(im) im.onerror = ()=>{ big.innerHTML = svgFallback("big"); };
+    if(im) im.onerror = onImgErr(true, big);
   }
   if(mini){
     const html = petImgHTML(mood, tea, false);
     mini.innerHTML = html || `<div class="mini-wrap pet-img-wrap">${charSVG({mood, tea, uid:"mini"})}</div>`;
     mini.classList.add("pet-hit");
     const im = mini.querySelector("img");
-    if(im) im.onerror = ()=>{ mini.innerHTML = `<div class="mini-wrap pet-img-wrap">${charSVG({mood, tea, uid:"mini"})}</div>`; };
+    if(im) im.onerror = onImgErr(false, mini);
   }
   const tag = document.getElementById("petOwnerTag");
-  if(tag) tag.textContent = uname(uid)+" 的搭子 · "+PET_NAME;
+  if(tag) tag.textContent = uname(uid)+" 的搭子 · "+petName(uid);
   const st = {sleepy:"安静地等你来,偶尔打个小盹", ok:"陪在你身边,心情很好",
               happy:"看你这么努力,眼睛都在发光", cheer:"屏住呼吸,全程守着你",
               tea:"捧着你做的奶茶,嘴角压不下来"};
@@ -1141,7 +1242,11 @@ function renderTabs(){
     return `<button class="tab u${i+1} ${view===u.id?"active":""}" data-u="${u.id}">
       <span class="dot"></span>${uname(u.id)}<span class="live">${live}</span></button>`;
   }).join("") + `<button class="tab editbtn" id="editNames" title="改名字">✏️</button>`;
-  el.querySelectorAll(".tab[data-u]").forEach(b=> b.onclick = ()=>{ view = b.dataset.u; renderAll(); });
+  el.querySelectorAll(".tab[data-u]").forEach(b=> b.onclick = ()=>{
+    view = b.dataset.u;
+    gifState = {big:{src:null, until:0}, mini:{src:null, until:0}};   // 换人清空动图,防串图
+    renderAll();
+  });
   document.getElementById("editNames").onclick = askRename;
 }
 
@@ -1251,8 +1356,68 @@ function renderShelves(){
             <div class="plank"></div>
             <div class="d">${k.slice(5)}</div><div class="t">${b?b.name:""}·${(v.drink.tops||[]).length}料</div></div>`;
         }).join("") + `</div>`;
-    return `<div class="shelf"><h3>${uname(u.id)} 的柜子 <span>共 ${total} 杯</span></h3>${inner}</div>`;
+    return `<div class="shelf"><h3>${uname(u.id)} 的柜子 <span>共 ${total} 杯</span></h3>${inner}${timelineHTML(u.id)}</div>`;
   }).join("");
+}
+
+// 近 N 天的日期 key(按指定用户的时区)
+function recentDayKeys(n, uid, offset){
+  offset = offset||0;   // 往前翻的天数(offset=14 表示上一个14天窗口)
+  const keys = [], today = todayKeyFor(uid);
+  let base = new Date(today + "T12:00:00");
+  for(let i=n-1;i>=0;i--){
+    const d = new Date(base.getTime() - (i+offset)*86400000);
+    keys.push(d.toLocaleDateString("en-CA"));
+  }
+  return keys;
+}
+const tlOffset = {};   // 每人各自的翻页偏移
+function tlShift(uid, dir){
+  tlOffset[uid] = Math.max(0, (tlOffset[uid]||0) + dir*14);
+  renderShelves();
+}
+window.tlShift = tlShift;   // 供时间轴箭头的 inline onclick 调用
+function timelineHTML(uid){
+  const days = data[uid].days || {};
+  const off = tlOffset[uid]||0;
+  const keys = recentDayKeys(14, uid, off);
+  const dayTotal = k => { const m = (days[k]&&days[k].m)||{}; return (m.ky||0)+(m.xx||0)+(m.dl||0); };
+  const peak = Math.max(60, ...keys.map(dayTotal));   // 至少 60 分钟做基准,避免小柱顶天
+  const grand = keys.reduce((s,k)=> s+dayTotal(k), 0);
+  const activeDays = keys.filter(k=> dayTotal(k)>0).length;
+  const bars = keys.map(k=>{
+    const m = (days[k]&&days[k].m)||{};
+    const tot = (m.ky||0)+(m.xx||0)+(m.dl||0);
+    const hasTea = !!(days[k]&&days[k].drink);
+    const H = 68;   // 柱子最大像素高
+    const segs = CATS.map(c=>{
+      const v = m[c.id]||0; if(!v) return "";
+      return `<div class="tl-seg" style="height:${(v/peak*H).toFixed(1)}px; background:${c.hex}" title="${c.ico}${c.name} ${fmtMin(v)}"></div>`;
+    }).join("");
+    const isToday = k===todayKeyFor(uid);
+    const tip = tot>0 ? k+" · 共"+fmtMin(tot)+(hasTea?" · 做了奶茶🧋":"") : k+" · 没有记录";
+    return `<div class="tl-col ${isToday?'tl-today':''}" title="${tip}">
+      <div class="tl-cap">${hasTea?'🧋':(tot>=180?'✦':'')}</div>
+      <div class="tl-bar">${segs || '<div class="tl-empty"></div>'}</div>
+      <div class="tl-date">${(+k.slice(8,10))}</div>
+    </div>`;
+  }).join("");
+  const range = keys[0].slice(5).replace("-","/") + " – " + keys[13].slice(5).replace("-","/");
+  const canNewer = off>0;   // 还没到最新窗口才能往后(→)
+  return `<div class="timeline">
+    <div class="tl-head">
+      <button class="tl-arrow" onclick="tlShift('${uid}',1)" title="更早的两周">‹</button>
+      <span class="tl-title">📈 ${range} · 打卡 ${activeDays} 天 · ${fmtMin(grand)} <span style="opacity:.6; font-weight:400">· ${tzShort(uid)}</span></span>
+      <button class="tl-arrow ${canNewer?'':'tl-arrow-off'}" onclick="${canNewer?"tlShift('"+uid+"',-1)":''}" title="更近的两周">›</button>
+    </div>
+    <div class="tl-track">${bars}</div>
+    <div class="tl-legend">
+      <span><i style="background:${CATS[0].hex}"></i>科研</span>
+      <span><i style="background:${CATS[1].hex}"></i>学习</span>
+      <span><i style="background:${CATS[2].hex}"></i>锻炼</span>
+      <span class="tl-note">🧋做了奶茶 · ✦满3小时</span>
+    </div>
+  </div>`;
 }
 
 function renderPie(){
@@ -1318,6 +1483,15 @@ function start(){
     DB.watch("users/"+u.id+"/days", v=>{ data[u.id].days = v||{}; renderAll(); });
     DB.watch("users/"+u.id+"/session", v=>{ data[u.id].session = v||null; renderAll(); });
     DB.watch("users/"+u.id+"/name", v=>{ data[u.id].name = v||null; renderAll(); });
+    DB.watch("users/"+u.id+"/tz", v=>{
+      data[u.id].tz = v||null;
+      // 我这一栏若数据库还没设过,写入默认时区(优先 USERS 配置,其次本机)
+      if(!v && u.id===view){
+        const def = (USERS.find(x=>x.id===u.id)||{}).tz || Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if(def) DB.set("users/"+u.id+"/tz", def);
+      }
+      renderAll();
+    });
   });
   document.getElementById("durSlider").addEventListener("input", e=>{
     localDur = +e.target.value;
@@ -1329,7 +1503,12 @@ function start(){
     localDur = +b.dataset.m; document.getElementById("durSlider").value = localDur;
     document.getElementById("durLabel").textContent = localDur; tick();
   });
-  tickTimer = setInterval(()=>{ tick(); petTick(); }, 500);
+  let _lastDays = USERS.map(u=> todayKeyFor(u.id)).join("|");
+  tickTimer = setInterval(()=>{
+    tick(); petTick();
+    const now = USERS.map(u=> todayKeyFor(u.id)).join("|");
+    if(now !== _lastDays){ _lastDays = now; renderAll(); }   // 任一人跨过各自午夜,自动刷新
+  }, 500);
   const bigPetEl = document.getElementById("petChar"), miniPetEl = document.getElementById("miniChar");
   if(bigPetEl){ bigPetEl.style.position = "relative"; bigPetEl.addEventListener("click", e=> petPoke(e, true)); }
   if(miniPetEl){ miniPetEl.style.position = "relative"; miniPetEl.style.pointerEvents = "auto"; miniPetEl.addEventListener("click", e=> petPoke(e, false)); }
