@@ -230,6 +230,20 @@
 
   footer{text-align:center; color:#C9B49D; font-size:12px; margin-top:26px; line-height:1.8}
 
+  /* ── 状态条 ── */
+  .pet-stats{
+    width:100%; max-width:330px; margin-top:12px; background:var(--milk2);
+    border-radius:14px; padding:11px 14px; font-size:12.5px;
+  }
+  .ps-row{display:flex; align-items:center; gap:8px; margin:6px 0}
+  .ps-label{flex:0 0 44px; color:var(--ink-soft)}
+  .ps-mood{font-size:13.5px; font-weight:700; color:var(--ink)}
+  .ps-bar{flex:1; height:10px; background:rgba(255,255,255,.85); border-radius:6px; overflow:hidden; box-shadow:inset 0 1px 2px rgba(74,46,31,.12)}
+  .ps-fill{height:100%; border-radius:6px; transition:width .5s ease}
+  .ps-fill.hp{background:linear-gradient(90deg,#8FBF6B,#5A9E3E)}
+  .ps-fill.iv{background:linear-gradient(90deg,#F0A8C0,#E96A94)}
+  .ps-num{flex:0 0 58px; text-align:right; color:var(--ink-soft); font-size:11.5px}
+
   /* ── 3D 展示台 ── */
   .cup-stage{perspective:900px; display:inline-block; touch-action:none}
   .cup-3d{transform-style:preserve-3d; transition:transform .25s ease; will-change:transform}
@@ -404,6 +418,7 @@
       <div class="pet-bubble" id="petBubble" hidden></div>
       <div id="petChar"></div>
       <div class="pet-status" id="petStatus"></div>
+      <div class="pet-stats" id="petStats"></div>
     </div>
   </section>
 
@@ -416,7 +431,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v4.7 · 暖奶油柜</span>
+    <span style="opacity:.7">v5.1 · 三类心愿</span>
   </footer>
 </div>
 
@@ -567,7 +582,7 @@ function initStore(){
 /* ═══════════════ 状态 ═══════════════ */
 let view = USERS[0].id;                    // 当前分页
 const data = {};                            // data[uid] = {days:{}, session:null, name:null}
-USERS.forEach(u=> data[u.id] = {days:{}, session:null, name:null, tz:null});
+USERS.forEach(u=> data[u.id] = {days:{}, session:null, name:null, tz:null, stats:null});
 let localDur = 25, localCat = "xx";
 let tickTimer = null;
 
@@ -763,8 +778,18 @@ function addTopping(tid){
   const uid = view, d = drinkOf(uid);
   if(!d || creditsOf(uid)<=0) return;
   const tops = (d.tops||[]).concat([tid]);
+  const before = (drinkOf(uid) && drinkOf(uid).tops) || [];
   DB.set("users/"+uid+"/days/"+todayKeyFor(uid)+"/drink/tops", tops);
-  say("petBubble", lines(uid).evTopping, 4500);
+  // 加的是今天的心愿小料(且此前没加过) → 亲密+2 + 专属反馈
+  const wishedIds = wishOf(uid).map(t=>t.id);
+  if(wishedIds.includes(tid) && !before.includes(tid)){
+    const s = data[uid].stats||{};
+    DB.update("users/"+uid+"/stats", {intimacy: Math.min(100,(s.intimacy||0)+2)});
+    celebrate();
+    say("petBubble", lines(uid).wishDone, 6000);
+  }else{
+    say("petBubble", lines(uid).evTopping, 4500);
+  }
 }
 
 /* ═══════════════ 杯子 SVG 渲染 ═══════════════ */
@@ -1098,6 +1123,67 @@ function charSVG(o){ // {mood:'sleepy'|'ok'|'happy'|'cheer'|'tea', tea:茶底id|
   return `<svg viewBox="0 0 200 256" xmlns="http://www.w3.org/2000/svg"><defs>${defs}</defs>${s}</svg>`;
 }
 
+/* ── 每日心愿 + 状态系统 ── */
+// 确定性随机: 同一人同一天,任何设备算出同一个心愿
+function seedRand(str){
+  let h = 2166136261;
+  for(let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return ()=>{ h = Math.imul(h ^ h>>>15, 2246822507); h = Math.imul(h ^ h>>>13, 3266489909);
+               return ((h ^= h>>>16)>>>0) / 4294967296; };
+}
+// 每天想要3样: 1小料 + 1装饰 + 1贴纸(种子随机,两端一致,跨天自动换)
+function wishOf(uid){
+  const r = seedRand(uid + "|" + todayKeyFor(uid));
+  const pickFrom = kinds => { const p = TOPPINGS.filter(t=> kinds.includes(t.kind)); return p[Math.floor(r()*p.length)]; };
+  return [ pickFrom(["in","cap"]), pickFrom(["deco"]), pickFrom(["stick"]) ];
+}
+// 还没做成的心愿小料
+function wishesLeft(uid){
+  const tops = (drinkOf(uid) && drinkOf(uid).tops) || [];
+  return wishOf(uid).filter(t=> !tops.includes(t.id));
+}
+// 健康: 从历史推导,喝了+20没喝-20,逐日封顶0-100;今天喝了立刻+20
+function healthOf(uid){
+  const days = data[uid].days||{};
+  const keys = Object.keys(days).filter(k=>/^\d{4}-\d{2}-\d{2}$/.test(k)).sort();
+  const today = todayKeyFor(uid);
+  let hp = 0;
+  if(keys.length){
+    const p = s=>{ const a=s.split("-").map(Number); return Date.UTC(a[0],a[1]-1,a[2],12); };
+    let t = p(keys[0]), end = p(today);
+    while(t < end){
+      const k = new Date(t).toISOString().slice(0,10);
+      hp += (days[k] && days[k].drink) ? 20 : -20;
+      hp = Math.max(0, Math.min(100, hp));
+      t += 86400000;
+    }
+  }
+  if(drinkOf(uid)) hp = Math.min(100, hp+20);
+  return hp;
+}
+const intimacyOf = uid => Math.max(0, Math.min(100, (data[uid].stats && data[uid].stats.intimacy) || 0));
+function intimacyToday(uid){
+  const s = data[uid].stats||{};
+  return s.petDay===todayKeyFor(uid) ? (s.petDayGain||0) : 0;
+}
+function pokeIntimacy(uid){
+  const gained = intimacyToday(uid);
+  if(gained >= 10) return 0;
+  const s = data[uid].stats||{};
+  DB.update("users/"+uid+"/stats", {
+    intimacy: Math.min(100,(s.intimacy||0)+2),
+    petDay: todayKeyFor(uid), petDayGain: gained+2
+  });
+  return 2;
+}
+function moodState(uid){
+  const sc = Math.round((healthOf(uid)+intimacyOf(uid))/2);
+  if(sc>=80) return {sc, em:"\u2600\uFE0F", txt:"\u5143\u6C14\u6EE1\u6EE1"};
+  if(sc>=60) return {sc, em:"\uD83D\uDE0A", txt:"\u5FC3\u60C5\u4E0D\u9519"};
+  if(sc>=40) return {sc, em:"\uD83D\uDE10", txt:"\u5E73\u5E73\u6DE1\u6DE1"};
+  if(sc>=20) return {sc, em:"\uD83D\uDE14", txt:"\u6709\u70B9\u852B"};
+  return {sc, em:"\uD83E\uDD7A", txt:"\u852B\u852B\u7684,\u9700\u8981\u5976\u8336\u548C\u6478\u6478"};
+}
 function petMood(uid){
   if(drinkOf(uid)) return "tea";
   const se = data[uid].session;
@@ -1114,32 +1200,92 @@ const PET_LINES = {
     idle:["刚刚辛苦了,喝口水再继续,好不好?","你已经很棒了,再来一小段就好","别急,一步一步来,我一直都在","累的话靠一会儿,然后我们继续","离奶茶又近了一点,替你开心"],
     run:["我在旁边看着你,安心学","专注的你,真的很好看","不用回头,我一直在","累了就眨眨眼,时间我帮你数着","就快好了,最后一点点,乖","你负责努力,我负责心疼你"],
     tea:["这杯我帮你拿着,你先歇歇","今天也辛苦了,该好好奖励你","甜吗?你比它甜","看你做成这杯,比我自己喝还开心","慢慢喝,别呛着,剩下的时间都是你的"],
-    poke:["干嘛呀…痒~","嗯?想我了?","戳一下,收你一个亲亲","我在呢,一直都在","别闹啦,番茄钟还等着你呢(但我喜欢)","把手给我,充会儿电再学"],
+    poke:["干嘛呀…痒~","嗯?想我了?","戳一下,收你一个亲亲","我在呢,一直都在","别闹啦,番茄钟还等着你呢(但我喜欢)","把手给我,充会儿电再学","抬头看到你就够了,快回去吧","累了?过来靠一会儿","偷戳我,被我发现了哦","再忙也要记得喝水,答应我","今天的你也很努力,我都看见了","好啦好啦,摸一下就要专心咯"],
     pokeTea:["小心~奶茶要被你晃洒啦","要分你一口吗?啊——","我端着杯子呢,轻一点嘛"],
     pokeSpam:"再戳,我就把你抓过来一起学习了哦 😌",
     evStart:"去吧,时间我看着,到点叫你 ❤️",
     evDone:m=>"这一炉完成啦,"+m+" 分钟我都记好了。辛苦了,歇一会儿 🍵",
     evTea:"做好啦?给我看看…真棒。干杯,我的骄傲 🧋",
-    evTopping:"又豪华了一点,像你一样,闪闪的 ✨"
+    evTopping:"又豪华了一点,像你一样,闪闪的 ✨",
+    wishT:{
+      zhenzhu:"今天想要小珍珠…猜猜我的眼泪会不会变成小珍珠",
+      yeguo:"想吃椰果,咬起来咯吱咯吱的,像偷听你的心跳",
+      yuyuan:"想要芋圆,软软糯糯的,像你揉我头发的时候",
+      hongdou:"今天想加红豆…红豆最相思,你懂的吧",
+      buding:"想要布丁,轻轻一碰就晃,和我见到你一样",
+      xiancao:"想来点仙草冻,凉凉的,压一压想你的温度",
+      ximi:"想要小西米,一颗一颗数,像数你今天的努力",
+      naigai:"想要厚厚的奶盖,在苦之前,先给你一口甜",
+      naiyou:"想要奶油顶,云朵一样,像靠在你肩膀上",
+      yingtao:"想要一颗樱桃,最红的那颗,像你在我心里的位置",
+      xiaosan:"想要小纸伞,给奶茶撑一把,想你的时候躲一躲",
+      bohe:"想要薄荷叶,清清凉凉,提醒我别太黏你…做不到",
+      xingxing:"想要星星闪闪,你一来,它们就都亮了",
+      xiaoqi:"想要小旗子,插上去,宣布这杯和你都是我的",
+      mianhua:"想要棉花糖,软乎乎的,抱起来大概像你",
+      tangzhen:"想要彩虹糖针,撒一点,平淡的日子就有颜色了",
+      maoer:"想要猫耳盖…戴上它,你会多看我两眼吗",
+      xiaoxiong:"想贴小熊贴纸,替我守着这杯,像我守着你",
+      xiaotu:"想贴小兔贴纸,乖乖的,和你努力的样子一样",
+      xiaolian:"想贴笑脸贴纸,你一抬头,就有人对你笑",
+      aixin:"想贴爱心贴纸…不解释,你懂的",
+      caihong:"想贴彩虹贴纸,雨后才有的东西,和甜一样",
+      hudie:"想要蝴蝶结,系在杯上,像把今天打包送你",
+      biaoqian:"想要手作吊牌…手作,就是你的名字的另一种写法"
+    },
+    wishDone:"是我想要的那个!你都记得…好开心 \uD83E\uDD79"
   },
   u2: {  // 小莲: 闷,真诚,话不多,不耍嘴皮子,踏实里带点憨
     sleep:["起来了?我等你呢","今天还没开始,不急,你来我就陪着","书在那儿摆着,坐下就行","慢慢来,一步一步的,不着急","哎哟喂,再睡下去我可要长蘑菇了"],
     idle:["刚那段挺好,踏实","歇会儿,累了就歇","一步一步来,不用赶","再一点点,快了","别急,慢慢磨,磨得出来"],
     run:["嗯,我在,你学","不吵你","你忙你的,我看着","这样就挺好,继续","快了,再一下","踏实,我不走"],
     tea:["行,这杯你应得的","苦过来了,甜甜的","慢点喝,不抢你的","今天可以,记着这感觉","喝吧,歇会儿"],
-    poke:["嗯?找我干嘛","戳我也没用,书还在那儿","诶,别摸鱼了","手感不错?够了啊","我又不会飞,急啥","乖,再学会儿,啊"],
+    poke:["嗯?找我干嘛","戳我也没用,书还在那儿","诶,别摸鱼了","手感不错?够了啊","我又不会飞,急啥","乖,再学会儿,啊","戳我的劲儿省下来翻页多好","我数着呢,这是今天第N下","有事说事,没事学习","行吧,陪你发十秒呆,计时开始","看会儿我可以,别看一下午","嗯,我也想你,回去吧"],
     pokeTea:["哎,洒了","你喝,我不抢","轻点,烫"],
     pokeSpam:"再戳,罚你多学十分钟,说到做到 🙂",
     evStart:"去吧,我盯着时间 💪",
     evDone:m=>"这 "+m+" 分钟,记下了,歇会儿 🍵",
     evTea:"成了,踏实,给你鼓个掌 🧋",
-    evTopping:"又添一样,挺好 ✨"
+    evTopping:"又添一样,挺好 ✨",
+    wishT:{
+      zhenzhu:"今天想嚼珍珠,一颗顶一个杂念,帮你嚼掉",
+      yeguo:"想吃椰果,咯吱咯吱,提神,比我说十句管用",
+      yuyuan:"想要芋圆,软软的,跟你的自制力相反,开玩笑的",
+      hongdou:"想加红豆,补一补,看你学习我也费心",
+      buding:"想要布丁,一戳就晃,像你摸鱼时的心虚",
+      xiancao:"想来口仙草,降降火,免得催你催上头",
+      ximi:"想要西米,小归小,攒多了就是一杯,跟分钟一个道理",
+      naigai:"想要奶盖,把苦盖住,日子也照这个做法过",
+      naiyou:"想要奶油顶,厚一点,把苦都盖过去",
+      yingtao:"想要颗樱桃,点个睛,这杯就算完整了",
+      xiaosan:"想要小纸伞,遮什么不知道,好看就行",
+      bohe:"想要薄荷叶,清醒用的,你比我更需要",
+      xingxing:"想要星星闪闪,亮晶晶的,衬你",
+      xiaoqi:"想插面小旗子,占个地,这杯谁也别想动",
+      mianhua:"想要棉花糖,软的,一天到头总得有点软的",
+      tangzhen:"想撒点彩虹糖针,日子糙,糖不能省",
+      maoer:"想要猫耳盖…别问,问就是可爱",
+      xiaoxiong:"想贴个小熊,看着憨,守杯子正合适",
+      xiaotu:"想贴小兔子,跑得快,跟你的假期一个样",
+      xiaolian:"想贴个笑脸,我不常笑,它替我笑",
+      aixin:"想贴爱心…贴上就行,别让我念出来",
+      caihong:"想贴彩虹,下过雨才有,忍过苦才甜,一个意思",
+      hudie:"想要蝴蝶结,收尾用的,今天也该好好收尾",
+      biaoqian:"想挂个手作吊牌,正经出品,得盖个章"
+    },
+    wishDone:"诶,这不正是我想要的,行啊你 \uD83D\uDE33"
   }
 };
 const lines = uid => PET_LINES[uid] || PET_LINES.u1;
 const pick = a => a[Math.floor(Math.random()*a.length)];
 function pickMsg(mood, uid){
   const sm = studyMin(uid), L = lines(uid);
+  // 还没做成的心愿小料,有一半概率念叨一句(做成一个就不再提那个)
+  const wl = wishesLeft(uid);
+  if(wl.length && Math.random() < 0.5){
+    const t = pick(wl);
+    return (L.wishT && L.wishT[t.id]) || ("\u4ECA\u5929\u60F3\u8981" + t.name + "\u2026");
+  }
   if(mood==="tea") return pick(L.tea);
   if(mood==="cheer") return pick(L.run);
   if(sm>=100 && sm<GOAL_MIN) return "再坚持 "+(GOAL_MIN-sm)+" 分钟,奶茶就能捧到你手里了";
@@ -1232,13 +1378,25 @@ function petPoke(e, big){
   }
   // 播一段当前心情的动作(只有上方小窗口播,底部大图保持静态)
   if(!big) playGif(false);
+  // 亲密度: 每次+2,每天封顶+10
+  const got = pokeIntimacy(view);
+  if(got > 0){
+    const p2 = document.createElement("span");
+    p2.className = "pet-particle";
+    p2.textContent = "+2❤";
+    p2.style.cssText = "left:50%; top:8px; font-size:14px; color:#E96A94; font-weight:700; --dx:0px";
+    box.appendChild(p2);
+    setTimeout(()=> p2.remove(), 1100);
+  }
   // 说话回应(连戳有特殊台词)
   const now = Date.now();
   pokeLog = pokeLog.filter(t=> now-t < 3000); pokeLog.push(now);
   const mood = petMood(view);
   let msg;
   const L = lines(view);
+  const wl2 = wishesLeft(view);
   if(pokeLog.length >= 5){ msg = L.pokeSpam; pokeLog = []; }
+  else if(wl2.length && Math.random() < .3){ const t = pick(wl2); msg = (L.wishT && L.wishT[t.id]) || pick(L.poke); }
   else if(mood==="tea" && Math.random()<.5) msg = pick(L.pokeTea);
   else msg = pick(L.poke);
   say(big ? "petBubble" : "miniBubble", msg, 4500);
@@ -1277,6 +1435,15 @@ function renderPet(){
               tea:"捧着你做的奶茶,嘴角压不下来"};
   const stEl = document.getElementById("petStatus");
   if(stEl) stEl.textContent = st[mood];
+  // 状态条
+  const ps = document.getElementById("petStats");
+  if(ps){
+    const hp = healthOf(uid), iv = intimacyOf(uid), md = moodState(uid), tg = intimacyToday(uid);
+    ps.innerHTML = `
+      <div class="ps-row"><span class="ps-label">\u5FC3\u60C5</span><span class="ps-mood">${md.em} ${md.txt}</span></div>
+      <div class="ps-row"><span class="ps-label">\u5065\u5EB7</span><div class="ps-bar"><div class="ps-fill hp" style="width:${hp}%"></div></div><span class="ps-num">${hp}/100</span></div>
+      <div class="ps-row"><span class="ps-label">\u4EB2\u5BC6</span><div class="ps-bar"><div class="ps-fill iv" style="width:${iv}%"></div></div><span class="ps-num">${iv}/100 \u00B7\u4ECA\u65E5${tg}/10</span></div>`;
+  }
 }
 
 /* ═══════════════ 渲染 ═══════════════ */
@@ -1546,6 +1713,7 @@ function start(){
     DB.watch("users/"+u.id+"/days", v=>{ data[u.id].days = v||{}; renderAll(); });
     DB.watch("users/"+u.id+"/session", v=>{ data[u.id].session = v||null; renderAll(); });
     DB.watch("users/"+u.id+"/name", v=>{ data[u.id].name = v||null; renderAll(); });
+    DB.watch("users/"+u.id+"/stats", v=>{ data[u.id].stats = v||null; renderAll(); });
     DB.watch("users/"+u.id+"/tz", v=>{
       data[u.id].tz = v||null;
       // 我这一栏若数据库还没设过,写入默认时区(优先 USERS 配置,其次本机)
