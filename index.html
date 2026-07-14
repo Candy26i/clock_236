@@ -441,7 +441,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v5.2 · 正计时</span>
+    <span style="opacity:.7">v5.3 · 正计时修复</span>
   </footer>
 </div>
 
@@ -651,7 +651,8 @@ function sessionElapsedMin(s){
 }
 function startTimer(){
   const uid = view;
-  DB.set("users/"+uid+"/session", {cat:localCat, mode:localMode, durMin: localMode==="up" ? 0 : localDur, startTs:Date.now(), pauseTs:null, pausedTotal:0});
+  // 正计时的durMin写成上限240: 旧版本客户端会把它当作240分钟倒计时,而不是"已到点"秒结算(混版本防御)
+  DB.set("users/"+uid+"/session", {cat:localCat, mode:localMode, durMin: localMode==="up" ? UP_CAP_MIN : localDur, startTs:Date.now(), pauseTs:null, pausedTotal:0});
   say("miniBubble", lines(uid).evStart, 4500);
   nextMiniTalk = Date.now() + 40000;
 }
