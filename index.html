@@ -81,6 +81,12 @@
   .cat.on{color:#fff; border-color:transparent}
   .cat.on[data-c="ky"]{background:var(--taro)} .cat.on[data-c="xx"]{background:var(--amber)} .cat.on[data-c="dl"]{background:var(--matcha)}
 
+  .mode-row{display:flex; gap:8px; margin-bottom:10px}
+  .mode-btn{
+    flex:1; padding:7px 0; border:2px solid var(--line); border-radius:12px; background:#fff;
+    font-family:inherit; font-size:13px; color:var(--ink-soft); cursor:pointer; transition:all .15s;
+  }
+  .mode-btn.on{background:var(--milk2); border-color:#E0B87E; color:var(--ink); font-weight:700}
   .slider-row{display:flex; align-items:center; gap:14px; margin-bottom:8px}
   .slider-row input[type=range]{flex:1; accent-color:var(--amber); height:32px}
   .slider-row .mins{font-family:'ZCOOL KuaiLe'; font-size:22px; min-width:86px; text-align:right}
@@ -372,11 +378,15 @@
   <section class="card">
     <h2>⏱️ 番茄钟 <span class="tag" id="timerOwner"></span></h2>
     <div class="cats" id="cats"></div>
-    <div class="slider-row">
+    <div class="mode-row">
+      <button class="mode-btn on" id="modeDown">⏳ 倒计时</button>
+      <button class="mode-btn" id="modeUp">⏱️ 正计时</button>
+    </div>
+    <div class="slider-row" id="sliderRow">
       <input type="range" id="durSlider" min="5" max="120" step="5" value="25">
       <div class="mins"><span id="durLabel">25</span> 分钟</div>
     </div>
-    <div class="presets">
+    <div class="presets" id="presetsRow">
       <button data-m="25">经典 25</button><button data-m="45">深度 45</button><button data-m="60">一小时</button><button data-m="90">马拉松 90</button>
     </div>
     <div class="clock-row">
@@ -431,7 +441,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v5.1 · 三类心愿</span>
+    <span style="opacity:.7">v5.2 · 正计时</span>
   </footer>
 </div>
 
@@ -584,6 +594,7 @@ let view = USERS[0].id;                    // 当前分页
 const data = {};                            // data[uid] = {days:{}, session:null, name:null}
 USERS.forEach(u=> data[u.id] = {days:{}, session:null, name:null, tz:null, stats:null});
 let localDur = 25, localCat = "xx";
+let localMode = "down";   // down=倒计时 up=正计时
 let tickTimer = null;
 
 const uname = uid => data[uid].name || USERS.find(u=>u.id===uid).name;
@@ -640,7 +651,7 @@ function sessionElapsedMin(s){
 }
 function startTimer(){
   const uid = view;
-  DB.set("users/"+uid+"/session", {cat:localCat, durMin:localDur, startTs:Date.now(), pauseTs:null, pausedTotal:0});
+  DB.set("users/"+uid+"/session", {cat:localCat, mode:localMode, durMin: localMode==="up" ? 0 : localDur, startTs:Date.now(), pauseTs:null, pausedTotal:0});
   say("miniBubble", lines(uid).evStart, 4500);
   nextMiniTalk = Date.now() + 40000;
 }
@@ -651,7 +662,21 @@ function pauseTimer(){
 }
 function giveUp(){
   const uid = view, s = data[uid].session; if(!s) return;
-  const keep = Math.min(sessionElapsedMin(s), s.durMin);
+  const isUp = s.mode==="up";
+  const keep = isUp ? Math.min(sessionElapsedMin(s), UP_CAP_MIN) : Math.min(sessionElapsedMin(s), s.durMin);
+  if(isUp){
+    showModal(`
+      <h3>结束正计时?</h3>
+      <p>${keep>0 ? "本次专注 <b>"+keep+" 分钟</b>将计入今天。" : "还不足 1 分钟,这次不会计入。"}</p>
+      <div class="mbtns">
+        <button class="btn ghost" id="mNo">继续专注</button>
+        <button class="btn start" id="mYes">结束并计入</button>
+      </div>`, box=>{
+      box.querySelector("#mNo").onclick = closeModal;
+      box.querySelector("#mYes").onclick = ()=>{ closeModal(); claimSession(uid, keep); };
+    });
+    return;
+  }
   showModal(`
     <h3>提前结束这一炉?</h3>
     <p>${keep>0 ? "已专注的 <b>"+keep+" 分钟</b>会保留计入今天。" : "还不足 1 分钟,这次不会计入。"}</p>
@@ -673,7 +698,7 @@ function claimSession(uid, creditMin){
     if(ok && claimed && creditMin>0){
       const cat = claimed.cat, k = todayKeyFor(uid);
       DB.txn("users/"+uid+"/days/"+k+"/m/"+cat, cur=> (cur||0)+creditMin);
-      if(creditMin >= claimed.durMin){
+      if(claimed.mode==="up" ? creditMin>=25 : creditMin >= claimed.durMin){
         celebrate();
         say("petBubble", lines(uid).evDone(creditMin), 6000);
         nextBigTalk = Date.now() + 30000;
@@ -681,25 +706,39 @@ function claimSession(uid, creditMin){
     }
   });
 }
+const UP_CAP_MIN = 240;   // 正计时单次最多计入240分钟(防忘关)
+function sessionElapsedMs(s){
+  const paused = s.pauseTs ? (Date.now()-s.pauseTs) : 0;
+  return Math.max(0, Date.now()-s.startTs-(s.pausedTotal||0)-paused);
+}
 function tick(){
-  // 任一端发现有人的计时到点,就自动结算(事务防重复),关页期间到点也会补记
+  // 倒计时到点自动结算(事务防重复,关页期间到点也会补记);正计时不自动结束
   USERS.forEach(u=>{
     const su = data[u.id].session;
-    if(su && sessionRemain(su)<=0) claimSession(u.id, su.durMin);
+    if(su && su.mode!=="up" && sessionRemain(su)<=0) claimSession(u.id, su.durMin);
   });
   const s = data[view].session;
   const clock = document.getElementById("clock"), note = document.getElementById("clockNote");
   if(!s){
     clock.classList.add("idle");
-    clock.textContent = String(localDur).padStart(2,"0")+":00";
+    clock.textContent = localMode==="up" ? "00:00" : String(localDur).padStart(2,"0")+":00";
     return;
   }
   clock.classList.remove("idle");
-  const rem = sessionRemain(s);
-  const mm = Math.floor(rem/60000), ss = Math.floor(rem%60000/1000);
-  clock.textContent = String(mm).padStart(2,"0")+":"+String(ss).padStart(2,"0");
   const c = CATS.find(c=>c.id===s.cat);
-  note.textContent = (s.pauseTs? "⏸ 已暂停 · " : "☕ 专注中 · ") + c.ico+" "+c.name+" · 共 "+s.durMin+" 分钟";
+  if(s.mode==="up"){
+    const el = sessionElapsedMs(s);
+    const mm = Math.floor(el/60000), ss = Math.floor(el%60000/1000);
+    clock.textContent = String(mm).padStart(2,"0")+":"+String(ss).padStart(2,"0");
+    const capped = mm >= UP_CAP_MIN;
+    note.textContent = (s.pauseTs? "⏸ 已暂停 · " : "⏱️ 正计时中 · ") + c.ico+" "+c.name
+                     + (capped ? " · 已达单次上限"+UP_CAP_MIN+"分钟,记得结算" : "");
+  }else{
+    const rem = sessionRemain(s);
+    const mm = Math.floor(rem/60000), ss = Math.floor(rem%60000/1000);
+    clock.textContent = String(mm).padStart(2,"0")+":"+String(ss).padStart(2,"0");
+    note.textContent = (s.pauseTs? "⏸ 已暂停 · " : "☕ 专注中 · ") + c.ico+" "+c.name+" · 共 "+s.durMin+" 分钟";
+  }
 }
 
 /* ═══════════════ 奶茶逻辑 ═══════════════ */
@@ -1485,7 +1524,7 @@ function renderTimer(){
     document.getElementById("clockNote").textContent = "选好板块和时长,泡一壶好茶吧";
   }else{
     btns.innerHTML = `<button class="btn pause" id="bPause">${s.pauseTs?"继续 ▶":"暂停 ⏸"}</button>
-                      <button class="btn giveup" id="bGive">提前结束</button>`;
+                      <button class="btn giveup" id="bGive">${s.mode==="up"?"结束并计入 ✓":"提前结束"}</button>`;
     document.getElementById("bPause").onclick = pauseTimer;
     document.getElementById("bGive").onclick = giveUp;
   }
@@ -1724,6 +1763,16 @@ function start(){
       renderAll();
     });
   });
+  const mdBtn = document.getElementById("modeDown"), muBtn = document.getElementById("modeUp");
+  const setMode = m=>{
+    localMode = m;
+    mdBtn.classList.toggle("on", m==="down"); muBtn.classList.toggle("on", m==="up");
+    document.getElementById("sliderRow").style.display = m==="down" ? "" : "none";
+    document.getElementById("presetsRow").style.display = m==="down" ? "" : "none";
+    if(!data[view].session) tick();
+  };
+  mdBtn.onclick = ()=> setMode("down");
+  muBtn.onclick = ()=> setMode("up");
   document.getElementById("durSlider").addEventListener("input", e=>{
     localDur = +e.target.value;
     document.getElementById("durLabel").textContent = localDur;
