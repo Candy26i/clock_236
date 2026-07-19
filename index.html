@@ -179,20 +179,20 @@
   .shelf h3 span{font-size:11.5px; color:#D9BC94; font-family:'Noto Sans SC'; text-shadow:0 1px 1px rgba(40,22,8,.6)}
   .shelf-body{
     position:relative; margin:9px; border-radius:7px; padding:4px; perspective:1100px;
-    /* 柜内深色背板,衬托奶茶 */
+    /* 柜内背板: 暖褐木色,不压奶茶 */
     background:
-      repeating-linear-gradient(90deg, rgba(30,18,8,.25) 0 1px, transparent 1px 7px),
-      linear-gradient(160deg, #3E2614, #2E1C0E 55%, #3A2312);
-    box-shadow:inset 0 3px 10px rgba(20,10,4,.7), inset 0 0 0 1px rgba(20,10,4,.5),
-               inset 0 0 30px rgba(15,8,3,.4);
+      repeating-linear-gradient(90deg, rgba(90,58,28,.14) 0 1px, transparent 1px 7px),
+      linear-gradient(160deg, #8A6038, #7A5230 55%, #82593450);
+    box-shadow:inset 0 2px 8px rgba(70,45,20,.45), inset 0 0 0 1px rgba(60,38,16,.4),
+               inset 0 0 24px rgba(90,58,28,.3);
   }
   .shelf .cups{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:16px 4px; position:relative; z-index:1;
-    min-height:150px; align-content:start; padding:8px 4px 4px;
+    display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:min-content; gap:16px 4px; position:relative; z-index:1;
+    min-height:310px; align-content:start; padding:8px 4px 4px;
   }
   @media (max-width:560px){.shelf .cups{grid-template-columns:repeat(4,1fr)}}
   .mini{text-align:center; cursor:default}
-  .mini .cupwrap{display:inline-block; transition:transform .18s ease; filter:drop-shadow(0 3px 4px rgba(0,0,0,.35))}
+  .mini .cupwrap{display:inline-block; transition:transform .18s ease; filter:drop-shadow(0 3px 4px rgba(50,30,12,.28))}
   .mini:hover .cupwrap{transform:translateY(-5px) scale(1.07)}
   .mini svg{width:50px; height:auto; display:block; margin:0 auto}
   .mini .plank{  /* 实木隔板(每层杯子下方的搁板) */
@@ -202,9 +202,9 @@
       linear-gradient(180deg, #C79355 0%, #A06E38 50%, #7A4E24 100%);
     box-shadow:0 5px 8px rgba(20,10,4,.6), inset 0 1px 0 rgba(240,205,155,.7), inset 0 -2px 2px rgba(50,28,12,.5);
   }
-  .mini .d{font-size:10px; color:#E8CFA8; text-shadow:0 1px 2px rgba(20,10,4,.7)}
-  .mini .t{font-size:10px; color:#F5E6CC; line-height:1.2; text-shadow:0 1px 2px rgba(20,10,4,.7)}
-  .empty-shelf{font-size:12.5px; color:#D9BC94; text-align:center; padding:28px 4px; position:relative; z-index:1; text-shadow:0 1px 2px rgba(20,10,4,.6)}
+  .mini .d{font-size:10px; color:#FBEEDA; text-shadow:0 1px 2px rgba(60,38,16,.6)}
+  .mini .t{font-size:10px; color:#FFF6E8; line-height:1.2; text-shadow:0 1px 2px rgba(60,38,16,.6)}
+  .empty-shelf{font-size:12.5px; color:#F0DCC0; text-align:center; padding:28px 4px; position:relative; z-index:1; text-shadow:0 1px 2px rgba(60,38,16,.5)}
 
   /* ── 双开玻璃柜门 ── */
   .shelf-inner{position:relative; perspective:1100px}
@@ -510,7 +510,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v6.2 · 精致展示柜</span>
+    <span style="opacity:.7">v6.3 · 柜子调浅统一</span>
   </footer>
 </div>
 
