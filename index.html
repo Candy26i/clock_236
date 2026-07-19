@@ -154,92 +154,120 @@
   .makebtn{margin-top:12px; width:100%}
   .done-note{font-size:13px; color:var(--matcha); background:var(--matcha-soft); border-radius:12px; padding:8px 12px; margin-top:10px; text-align:center}
 
-  /* ── 收藏柜(实木展示柜) ── */
-  .shelves{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  /* ── 收藏柜(精致实木展示柜) ── */
+  .shelves{display:grid; grid-template-columns:1fr 1fr; gap:18px}
   @media (max-width:560px){.shelves{grid-template-columns:1fr}}
   .shelf{
-    position:relative; border-radius:14px; padding:16px 14px 13px;
+    position:relative; border-radius:12px; padding:0; overflow:hidden;
+    /* 外层胡桃木框 */
     background:
-      repeating-linear-gradient(91deg, rgba(90,55,25,.06) 0 2px, transparent 2px 7px),
-      repeating-linear-gradient(89deg, rgba(120,75,35,.05) 0 4px, transparent 4px 11px),
-      linear-gradient(158deg, #C9975E, #B07C44 45%, #A06E38 70%, #B58150);
-    border:3px solid #8A5A2E;
+      repeating-linear-gradient(93deg, rgba(50,28,12,.06) 0 1px, transparent 1px 5px),
+      linear-gradient(150deg, #8A5A30, #6E4423 45%, #5E3A1D 70%, #7A4E28);
+    border:1px solid #4A2E16;
     box-shadow:
-      inset 0 2px 3px rgba(255,225,180,.35), inset 0 -14px 26px rgba(80,45,18,.32),
-      inset 0 0 0 1px rgba(60,35,15,.3), 0 7px 22px rgba(90,55,25,.3);
-    overflow:hidden;
+      inset 0 1px 0 rgba(210,160,110,.5),
+      0 10px 30px rgba(60,36,15,.4), 0 2px 6px rgba(60,36,15,.3);
   }
-  .shelf::before{  /* 顶部木纹高光 */
-    content:""; position:absolute; inset:0; pointer-events:none; border-radius:11px;
-    background:linear-gradient(180deg, rgba(255,235,200,.22), transparent 20%);
+  .shelf h3{
+    font-size:14.5px; margin:0; padding:11px 16px 10px; display:flex; justify-content:space-between; align-items:baseline;
+    color:#F8E8CE; position:relative; z-index:1; letter-spacing:.5px;
+    background:linear-gradient(180deg, #7A4E28, #5E3A1D);
+    border-bottom:2px solid #4A2E16;
+    box-shadow:inset 0 1px 0 rgba(220,175,120,.4), 0 2px 4px rgba(50,28,12,.3);
+    text-shadow:0 1px 2px rgba(40,22,8,.7);
   }
-  .shelf h3{font-size:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:baseline; color:#FBEEDA; position:relative; z-index:1; text-shadow:0 1px 2px rgba(60,35,15,.5)}
-  .shelf h3 span{font-size:12px; color:#EAD2B0; font-family:'Noto Sans SC'; text-shadow:0 1px 1px rgba(60,35,15,.4)}
+  .shelf h3 span{font-size:11.5px; color:#D9BC94; font-family:'Noto Sans SC'; text-shadow:0 1px 1px rgba(40,22,8,.6)}
+  .shelf-body{
+    position:relative; margin:9px; border-radius:7px; padding:4px; perspective:1100px;
+    /* 柜内深色背板,衬托奶茶 */
+    background:
+      repeating-linear-gradient(90deg, rgba(30,18,8,.25) 0 1px, transparent 1px 7px),
+      linear-gradient(160deg, #3E2614, #2E1C0E 55%, #3A2312);
+    box-shadow:inset 0 3px 10px rgba(20,10,4,.7), inset 0 0 0 1px rgba(20,10,4,.5),
+               inset 0 0 30px rgba(15,8,3,.4);
+  }
   .shelf .cups{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:12px 4px; position:relative; z-index:1;
-    min-height:150px; align-content:start;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:16px 4px; position:relative; z-index:1;
+    min-height:150px; align-content:start; padding:8px 4px 4px;
   }
   @media (max-width:560px){.shelf .cups{grid-template-columns:repeat(4,1fr)}}
   .mini{text-align:center; cursor:default}
-  .mini .cupwrap{display:inline-block; transition:transform .18s ease}
+  .mini .cupwrap{display:inline-block; transition:transform .18s ease; filter:drop-shadow(0 3px 4px rgba(0,0,0,.35))}
   .mini:hover .cupwrap{transform:translateY(-5px) scale(1.07)}
   .mini svg{width:50px; height:auto; display:block; margin:0 auto}
-  .mini .plank{  /* 实木隔板 */
-    height:8px; border-radius:2px; margin:-6px 1px 3px;
+  .mini .plank{  /* 实木隔板(每层杯子下方的搁板) */
+    height:9px; border-radius:2px; margin:-5px 0 4px;
     background:
-      repeating-linear-gradient(90deg, rgba(90,55,25,.14) 0 3px, transparent 3px 8px),
-      linear-gradient(180deg, #D9A868 0%, #A87038 60%, #8A5A2C 100%);
-    box-shadow:0 4px 7px rgba(70,40,15,.5), inset 0 1px 0 rgba(255,230,190,.6), inset 0 -1px 1px rgba(60,35,15,.4);
+      repeating-linear-gradient(90deg, rgba(60,35,15,.18) 0 2px, transparent 2px 8px),
+      linear-gradient(180deg, #C79355 0%, #A06E38 50%, #7A4E24 100%);
+    box-shadow:0 5px 8px rgba(20,10,4,.6), inset 0 1px 0 rgba(240,205,155,.7), inset 0 -2px 2px rgba(50,28,12,.5);
   }
-  .mini .d{font-size:10px; color:#F5E3C8; text-shadow:0 1px 1px rgba(60,35,15,.45)}
-  .mini .t{font-size:10px; color:#FBEEDA; line-height:1.2; text-shadow:0 1px 1px rgba(60,35,15,.45)}
-  .empty-shelf{font-size:12.5px; color:#F0DcC0; text-align:center; padding:24px 4px; position:relative; z-index:1; text-shadow:0 1px 2px rgba(60,35,15,.5)}
-  /* ── 玻璃柜门 ── */
-  .shelf-inner{position:relative}
-  .glass-door{
-    position:absolute; inset:-4px -2px; z-index:5; cursor:pointer; border-radius:8px;
-    background:linear-gradient(135deg, rgba(220,238,246,.5), rgba(198,222,236,.32) 40%, rgba(224,240,248,.46) 75%);
-    border:2px solid rgba(255,255,255,.55);
-    box-shadow:inset 0 2px 8px rgba(255,255,255,.5), inset 0 -6px 14px rgba(120,150,170,.25), 0 2px 8px rgba(80,110,130,.15);
-    backdrop-filter:blur(.5px);
-    transition:transform .5s cubic-bezier(.5,0,.2,1), opacity .5s ease;
-    transform-origin:top center;
+  .mini .d{font-size:10px; color:#E8CFA8; text-shadow:0 1px 2px rgba(20,10,4,.7)}
+  .mini .t{font-size:10px; color:#F5E6CC; line-height:1.2; text-shadow:0 1px 2px rgba(20,10,4,.7)}
+  .empty-shelf{font-size:12.5px; color:#D9BC94; text-align:center; padding:28px 4px; position:relative; z-index:1; text-shadow:0 1px 2px rgba(20,10,4,.6)}
+
+  /* ── 双开玻璃柜门 ── */
+  .shelf-inner{position:relative; perspective:1100px}
+  .glass-doors{position:absolute; inset:-4px; z-index:5; cursor:pointer; transform-style:preserve-3d}
+  .door-leaf{
+    position:absolute; top:0; bottom:0; width:50%;
+    transition:transform .65s cubic-bezier(.45,.05,.2,1);
+    transform-style:preserve-3d;
+  }
+  .door-leaf.left{left:0; transform-origin:left center}
+  .door-leaf.right{right:0; transform-origin:right center}
+  .door-glass{
+    position:absolute; inset:0;
+    /* 玻璃 + 细木门框 */
+    background:
+      linear-gradient(118deg, rgba(228,244,251,.5), rgba(198,222,236,.28) 42%, rgba(232,244,250,.46) 80%);
+    border:3px solid; border-image:linear-gradient(160deg,#8A5A30,#5E3A1D) 1;
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,.4),
+      inset 0 2px 12px rgba(255,255,255,.5), inset 0 -10px 20px rgba(110,145,165,.22),
+      0 4px 14px rgba(50,70,85,.2);
     overflow:hidden;
   }
-  .glass-door::before{  /* 斜向高光反光 */
-    content:""; position:absolute; top:-20%; left:-10%; width:45%; height:140%;
-    background:linear-gradient(105deg, transparent, rgba(255,255,255,.55) 50%, transparent);
-    transform:skewX(-14deg);
+  .door-leaf.left .door-glass{border-radius:7px 3px 3px 7px}
+  .door-leaf.right .door-glass{border-radius:3px 7px 7px 3px}
+  .door-glass::before{  /* 斜向大反光 */
+    content:""; position:absolute; top:-25%; left:-18%; width:52%; height:150%;
+    background:linear-gradient(105deg, transparent, rgba(255,255,255,.62) 50%, transparent);
+    transform:skewX(-15deg);
   }
-  .glass-door::after{  /* 第二道细反光 */
-    content:""; position:absolute; top:-20%; left:55%; width:14%; height:140%;
-    background:linear-gradient(105deg, transparent, rgba(255,255,255,.35) 50%, transparent);
-    transform:skewX(-14deg);
+  .door-glass::after{  /* 细反光 */
+    content:""; position:absolute; top:-25%; left:62%; width:11%; height:150%;
+    background:linear-gradient(105deg, transparent, rgba(255,255,255,.42) 50%, transparent);
+    transform:skewX(-15deg);
   }
   .door-handle{
-    position:absolute; top:50%; right:8px; transform:translateY(-50%);
-    width:7px; height:42px; border-radius:4px;
-    background:linear-gradient(180deg,#F5E8D0,#B89058); box-shadow:0 1px 3px rgba(60,35,15,.4), inset 0 1px 0 rgba(255,255,255,.6);
+    position:absolute; top:50%; transform:translateY(-50%); width:7px; height:44px; border-radius:4px; z-index:2;
+    background:linear-gradient(180deg,#FBEED4,#C89A5E 45%,#A0783E);
+    box-shadow:0 1px 4px rgba(40,22,8,.5), inset 0 1px 0 rgba(255,255,255,.7), inset 0 -1px 1px rgba(80,50,20,.4);
   }
+  .door-leaf.left .door-handle{right:6px}
+  .door-leaf.right .door-handle{left:6px}
   .door-hint{
-    position:absolute; bottom:10px; left:0; right:0; text-align:center;
-    font-size:12px; color:#4A6272; font-weight:700; text-shadow:0 1px 2px rgba(255,255,255,.6);
-    animation:hintPulse 2s ease-in-out infinite;
+    position:absolute; bottom:12px; left:0; right:0; text-align:center; z-index:3;
+    font-size:12px; color:#3E5665; font-weight:700; text-shadow:0 1px 3px rgba(255,255,255,.8);
+    animation:hintPulse 2s ease-in-out infinite; transition:opacity .3s;
   }
-  @keyframes hintPulse{0%,100%{opacity:.65}50%{opacity:1}}
-  .glass-door.open{
-    transform:translateY(-8px) rotateX(-92deg); opacity:0; pointer-events:none;
-  }
-  .shelf-nav{display:flex; align-items:center; justify-content:center; gap:12px; margin-top:8px; position:relative; z-index:1}
+  @keyframes hintPulse{0%,100%{opacity:.6}50%{opacity:1}}
+  .glass-doors.open .door-leaf.left{transform:rotateY(-112deg)}
+  .glass-doors.open .door-leaf.right{transform:rotateY(112deg)}
+  .glass-doors.open .door-hint{opacity:0}
+  .glass-doors.open{pointer-events:none}
+  .glass-doors.open .door-leaf{pointer-events:none}
+  .shelf-nav{display:flex; align-items:center; justify-content:center; gap:12px; margin:6px 0 10px; position:relative; z-index:1}
   .shelf-arrow{
     width:24px; height:24px; border-radius:50%; border:none; cursor:pointer;
-    background:#F5E0C0; color:#7A4E24; font-size:15px; font-weight:700; line-height:1;
-    box-shadow:0 2px 6px rgba(70,40,15,.4); transition:transform .12s, background .15s;
+    background:linear-gradient(180deg,#F5E0C0,#D9B888); color:#5E3A1D; font-size:15px; font-weight:700; line-height:1;
+    box-shadow:0 2px 6px rgba(40,22,8,.4), inset 0 1px 0 rgba(255,255,255,.6); transition:transform .12s, background .15s;
   }
   .shelf-arrow:hover{background:#fff; transform:scale(1.12)}
   .shelf-arrow:active{transform:scale(.9)}
   .shelf-arrow-off{opacity:.35; cursor:default; pointer-events:none}
-  .shelf-page{font-size:11px; color:#F0DCC0; min-width:52px; text-align:center; text-shadow:0 1px 1px rgba(60,35,15,.4)}
+  .shelf-page{font-size:11px; color:#E8CFA8; min-width:52px; text-align:center; text-shadow:0 1px 2px rgba(20,10,4,.6)}
 
   /* ── 时间轴 ── */
   .timeline{margin-top:14px; padding:12px 10px 10px; background:rgba(255,248,236,.75); border-radius:12px}
@@ -482,7 +510,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v6.0 · 小料精致化</span>
+    <span style="opacity:.7">v6.2 · 精致展示柜</span>
   </footer>
 </div>
 
@@ -1733,12 +1761,13 @@ function renderShelves(){
         <button class="shelf-arrow ${pg<pages-1?'':'shelf-arrow-off'}" onclick="${pg<pages-1?"shelfShift('"+u.id+"',1,"+pages+")":''}">›</button>
       </div>` : "";
     const opened = shelfOpen[u.id] ? " open" : "";
-    const door = `<div class="glass-door${opened}" onclick="toggleDoor('${u.id}')" title="${shelfOpen[u.id]?'点击关上柜门':'点击打开柜门'}">
-        <div class="door-handle"></div>
-        <div class="door-hint">${shelfOpen[u.id]?'':'\u70b9\u4e00\u4e0b\u6253\u5f00 \uD83D\uDC46'}</div>
+    const door = `<div class="glass-doors${opened}" onclick="toggleDoor('${u.id}')" title="${shelfOpen[u.id]?'点击关上柜门':'点击打开柜门'}">
+        <div class="door-leaf left"><div class="door-glass"></div><div class="door-handle"></div></div>
+        <div class="door-leaf right"><div class="door-glass"></div><div class="door-handle"></div></div>
+        <div class="door-hint">${shelfOpen[u.id]?'':'\u8f7b\u89e6\u5f00\u67dc \uD83D\uDC46'}</div>
       </div>`;
     return `<div class="shelf"><h3>${uname(u.id)} 的收藏柜 <span>共 ${total} 杯</span></h3>
-      <div class="shelf-inner">${inner}${nav}${door}</div>${timelineHTML(u.id)}</div>`;
+      <div class="shelf-inner"><div class="shelf-body">${inner}${door}</div>${nav}</div>${timelineHTML(u.id)}</div>`;
   }).join("");
 }
 
