@@ -154,26 +154,29 @@
   .makebtn{margin-top:12px; width:100%}
   .done-note{font-size:13px; color:var(--matcha); background:var(--matcha-soft); border-radius:12px; padding:8px 12px; margin-top:10px; text-align:center}
 
-  /* ── 收藏柜(暖奶油玻璃) ── */
+  /* ── 收藏柜(实木展示柜) ── */
   .shelves{display:grid; grid-template-columns:1fr 1fr; gap:16px}
   @media (max-width:560px){.shelves{grid-template-columns:1fr}}
   .shelf{
-    position:relative; border-radius:16px; padding:14px 12px 12px;
-    background:linear-gradient(160deg, rgba(232,206,168,.95), rgba(214,182,138,.9) 55%, rgba(222,194,154,.95));
-    border:1.5px solid rgba(255,248,236,.7);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.7), inset 0 -10px 20px rgba(150,105,55,.2),
-               0 6px 20px rgba(130,90,45,.22);
+    position:relative; border-radius:14px; padding:16px 14px 13px;
+    background:
+      repeating-linear-gradient(91deg, rgba(90,55,25,.06) 0 2px, transparent 2px 7px),
+      repeating-linear-gradient(89deg, rgba(120,75,35,.05) 0 4px, transparent 4px 11px),
+      linear-gradient(158deg, #C9975E, #B07C44 45%, #A06E38 70%, #B58150);
+    border:3px solid #8A5A2E;
+    box-shadow:
+      inset 0 2px 3px rgba(255,225,180,.35), inset 0 -14px 26px rgba(80,45,18,.32),
+      inset 0 0 0 1px rgba(60,35,15,.3), 0 7px 22px rgba(90,55,25,.3);
     overflow:hidden;
   }
-  .shelf::before{  /* 玻璃斜向反光 */
-    content:""; position:absolute; top:0; left:-30%; width:55%; height:100%;
-    background:linear-gradient(105deg, transparent, rgba(255,255,255,.4) 45%, transparent 60%);
-    transform:skewX(-12deg); pointer-events:none;
+  .shelf::before{  /* 顶部木纹高光 */
+    content:""; position:absolute; inset:0; pointer-events:none; border-radius:11px;
+    background:linear-gradient(180deg, rgba(255,235,200,.22), transparent 20%);
   }
-  .shelf h3{font-size:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:baseline; color:#5C3D1E; position:relative; z-index:1}
-  .shelf h3 span{font-size:12px; color:#8A5E33; font-family:'Noto Sans SC'}
+  .shelf h3{font-size:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:baseline; color:#FBEEDA; position:relative; z-index:1; text-shadow:0 1px 2px rgba(60,35,15,.5)}
+  .shelf h3 span{font-size:12px; color:#EAD2B0; font-family:'Noto Sans SC'; text-shadow:0 1px 1px rgba(60,35,15,.4)}
   .shelf .cups{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:10px 4px; position:relative; z-index:1;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:12px 4px; position:relative; z-index:1;
     min-height:150px; align-content:start;
   }
   @media (max-width:560px){.shelf .cups{grid-template-columns:repeat(4,1fr)}}
@@ -181,27 +184,65 @@
   .mini .cupwrap{display:inline-block; transition:transform .18s ease}
   .mini:hover .cupwrap{transform:translateY(-5px) scale(1.07)}
   .mini svg{width:50px; height:auto; display:block; margin:0 auto}
-  .mini .plank{  /* 玻璃层板(深焦糖调) */
-    height:6px; border-radius:3px; margin:-5px 3px 3px;
-    background:linear-gradient(180deg, rgba(255,250,240,.85), rgba(198,164,118,.8));
-    box-shadow:0 3px 6px rgba(140,100,55,.4), inset 0 1px 0 rgba(255,255,255,.85);
+  .mini .plank{  /* 实木隔板 */
+    height:8px; border-radius:2px; margin:-6px 1px 3px;
+    background:
+      repeating-linear-gradient(90deg, rgba(90,55,25,.14) 0 3px, transparent 3px 8px),
+      linear-gradient(180deg, #D9A868 0%, #A87038 60%, #8A5A2C 100%);
+    box-shadow:0 4px 7px rgba(70,40,15,.5), inset 0 1px 0 rgba(255,230,190,.6), inset 0 -1px 1px rgba(60,35,15,.4);
   }
-  .mini .d{font-size:10px; color:#8A5E33}
-  .mini .t{font-size:10px; color:#5C3D1E; line-height:1.2}
-  .empty-shelf{font-size:12.5px; color:#A6835C; text-align:center; padding:24px 4px; position:relative; z-index:1}
+  .mini .d{font-size:10px; color:#F5E3C8; text-shadow:0 1px 1px rgba(60,35,15,.45)}
+  .mini .t{font-size:10px; color:#FBEEDA; line-height:1.2; text-shadow:0 1px 1px rgba(60,35,15,.45)}
+  .empty-shelf{font-size:12.5px; color:#F0DcC0; text-align:center; padding:24px 4px; position:relative; z-index:1; text-shadow:0 1px 2px rgba(60,35,15,.5)}
+  /* ── 玻璃柜门 ── */
+  .shelf-inner{position:relative}
+  .glass-door{
+    position:absolute; inset:-4px -2px; z-index:5; cursor:pointer; border-radius:8px;
+    background:linear-gradient(135deg, rgba(220,238,246,.5), rgba(198,222,236,.32) 40%, rgba(224,240,248,.46) 75%);
+    border:2px solid rgba(255,255,255,.55);
+    box-shadow:inset 0 2px 8px rgba(255,255,255,.5), inset 0 -6px 14px rgba(120,150,170,.25), 0 2px 8px rgba(80,110,130,.15);
+    backdrop-filter:blur(.5px);
+    transition:transform .5s cubic-bezier(.5,0,.2,1), opacity .5s ease;
+    transform-origin:top center;
+    overflow:hidden;
+  }
+  .glass-door::before{  /* 斜向高光反光 */
+    content:""; position:absolute; top:-20%; left:-10%; width:45%; height:140%;
+    background:linear-gradient(105deg, transparent, rgba(255,255,255,.55) 50%, transparent);
+    transform:skewX(-14deg);
+  }
+  .glass-door::after{  /* 第二道细反光 */
+    content:""; position:absolute; top:-20%; left:55%; width:14%; height:140%;
+    background:linear-gradient(105deg, transparent, rgba(255,255,255,.35) 50%, transparent);
+    transform:skewX(-14deg);
+  }
+  .door-handle{
+    position:absolute; top:50%; right:8px; transform:translateY(-50%);
+    width:7px; height:42px; border-radius:4px;
+    background:linear-gradient(180deg,#F5E8D0,#B89058); box-shadow:0 1px 3px rgba(60,35,15,.4), inset 0 1px 0 rgba(255,255,255,.6);
+  }
+  .door-hint{
+    position:absolute; bottom:10px; left:0; right:0; text-align:center;
+    font-size:12px; color:#4A6272; font-weight:700; text-shadow:0 1px 2px rgba(255,255,255,.6);
+    animation:hintPulse 2s ease-in-out infinite;
+  }
+  @keyframes hintPulse{0%,100%{opacity:.65}50%{opacity:1}}
+  .glass-door.open{
+    transform:translateY(-8px) rotateX(-92deg); opacity:0; pointer-events:none;
+  }
   .shelf-nav{display:flex; align-items:center; justify-content:center; gap:12px; margin-top:8px; position:relative; z-index:1}
   .shelf-arrow{
     width:24px; height:24px; border-radius:50%; border:none; cursor:pointer;
-    background:rgba(255,255,255,.9); color:#7A5230; font-size:15px; font-weight:700; line-height:1;
-    box-shadow:0 2px 6px rgba(180,140,90,.28); transition:transform .12s, background .15s;
+    background:#F5E0C0; color:#7A4E24; font-size:15px; font-weight:700; line-height:1;
+    box-shadow:0 2px 6px rgba(70,40,15,.4); transition:transform .12s, background .15s;
   }
   .shelf-arrow:hover{background:#fff; transform:scale(1.12)}
   .shelf-arrow:active{transform:scale(.9)}
-  .shelf-arrow-off{opacity:.3; cursor:default; pointer-events:none}
-  .shelf-page{font-size:11px; color:#A6835C; min-width:52px; text-align:center}
+  .shelf-arrow-off{opacity:.35; cursor:default; pointer-events:none}
+  .shelf-page{font-size:11px; color:#F0DCC0; min-width:52px; text-align:center; text-shadow:0 1px 1px rgba(60,35,15,.4)}
 
   /* ── 时间轴 ── */
-  .timeline{margin-top:14px; padding:12px 10px 10px; background:rgba(255,255,255,.55); border-radius:14px}
+  .timeline{margin-top:14px; padding:12px 10px 10px; background:rgba(255,248,236,.75); border-radius:12px}
   .tl-head{font-size:12px; color:#6E4326; margin-bottom:8px; font-weight:700; display:flex; align-items:center; gap:6px}
   .tl-title{flex:1; text-align:center; line-height:1.3}
   .tl-arrow{
@@ -441,7 +482,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v5.7 · Beijing显示</span>
+    <span style="opacity:.7">v6.0 · 小料精致化</span>
   </footer>
 </div>
 
@@ -902,35 +943,53 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
     }
     if(cnt("ximi")){ const n = 12+inTop("ximi")*6;
       for(let i=0;i<n;i++){ const x=68+((i*17)%62), y=botY-6-((i*9)%20);
-        body += `<circle class="bob" style="animation-delay:${(i%6)*.3}s" cx="${x}" cy="${y}" r="2.6" fill="#F6EBD8" opacity=".9"/>`; } }
+        body += `<circle class="bob" style="animation-delay:${(i%6)*.3}s" cx="${x}" cy="${y}" r="2.9" fill="#EFE2CC" opacity=".92"/>
+                 <circle class="bob" style="animation-delay:${(i%6)*.3}s" cx="${x-.8}" cy="${y-.9}" r="1" fill="#FFFDF7" opacity=".9"/>`; } }
     if(cnt("hongdou")){ const n = 7+inTop("hongdou")*4;
-      for(let i=0;i<n;i++){ const x=70+((i*23)%54), y=botY-10-((i*11)%22);
-        body += `<ellipse class="bob" style="animation-delay:${(i%4)*.5}s" cx="${x}" cy="${y}" rx="4.5" ry="3.4" fill="#8C3A3A"/>`; } }
+      for(let i=0;i<n;i++){ const x=70+((i*23)%54), y=botY-10-((i*11)%22); const rot=(i*47)%50-25;
+        body += `<g class="bob" style="animation-delay:${(i%4)*.5}s" transform="rotate(${rot} ${x} ${y})">
+          <ellipse cx="${x}" cy="${y}" rx="4.8" ry="3.4" fill="#7A2E2E"/>
+          <ellipse cx="${x}" cy="${y}" rx="4.8" ry="3.4" fill="url(#${U}rd)"/>
+          <line x1="${x-3}" y1="${y}" x2="${x+3}" y2="${y}" stroke="#5A1E1E" stroke-width=".7" opacity=".6"/>
+          <ellipse cx="${x-1.4}" cy="${y-1.2}" rx="1.5" ry="1" fill="#B85C5C" opacity=".7"/></g>`; } }
     if(cnt("yeguo")){ const n = 5+inTop("yeguo")*3;
       for(let i=0;i<n;i++){ const x=68+((i*31)%54), y=Math.max(surf+16,botY-90)+((i*17)%60);
-        body += `<g transform="rotate(${(i*37)%40-20} ${x+5} ${y+5})"><rect class="bobx" style="animation-delay:${(i%4)*.6}s" x="${x}" y="${y}" width="10" height="10" rx="3" fill="#FFFDF5" opacity=".92"/></g>`; } }
-    if(cnt("yuyuan")){ const cs=["#C9A0E8","#F5B77E","#FFF3DE","#A6D3A0"]; const n=6+inTop("yuyuan")*3;
-      for(let i=0;i<n;i++){ const x=70+((i*27)%56), y=Math.max(surf+14,botY-80)+((i*19)%50);
-        body += `<circle class="bobx" style="animation-delay:${(i%5)*.45}s" cx="${x}" cy="${y}" r="5.5" fill="${cs[i%4]}"/>`; } }
+        body += `<g transform="rotate(${(i*37)%40-20} ${x+5} ${y+5})"><g class="bobx" style="animation-delay:${(i%4)*.6}s">
+          <rect x="${x}" y="${y}" width="10" height="10" rx="3" fill="#FBF6EC" opacity=".95"/>
+          <rect x="${x}" y="${y}" width="10" height="10" rx="3" fill="none" stroke="#E0D2B8" stroke-width=".6" opacity=".7"/>
+          <rect x="${x+1.5}" y="${y+1.5}" width="3.5" height="3.5" rx="1.5" fill="#fff" opacity=".85"/></g></g>`; } }
+    if(cnt("yuyuan")){ const cs=[["#C9A0E8","#A876D0"],["#F5B77E","#E0925A"],["#FFF3DE","#E8D5B8"],["#A6D3A0","#7FB278"]]; const n=6+inTop("yuyuan")*3;
+      for(let i=0;i<n;i++){ const x=70+((i*27)%56), y=Math.max(surf+14,botY-80)+((i*19)%50); const c=cs[i%4];
+        defs += `<radialGradient id="${U}yy${i}" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></radialGradient>`;
+        body += `<g class="bobx" style="animation-delay:${(i%5)*.45}s"><circle cx="${x}" cy="${y}" r="5.6" fill="url(#${U}yy${i})"/>
+          <ellipse cx="${x-2}" cy="${y-2.2}" rx="2" ry="1.4" fill="#fff" opacity=".5"/></g>`; } }
     if(cnt("xiancao")){ const n=6+inTop("xiancao")*3;
       for(let i=0;i<n;i++){ const x=68+((i*25)%56), y=botY-12-((i*15)%40);
-        body += `<g transform="rotate(${(i*29)%30-15} ${x+5} ${y+4})"><rect class="bob" style="animation-delay:${(i%4)*.5}s" x="${x}" y="${y}" width="11" height="9" rx="2.5" fill="#2E2018" opacity=".85"/></g>`; } }
+        body += `<g transform="rotate(${(i*29)%30-15} ${x+5} ${y+4})"><g class="bob" style="animation-delay:${(i%4)*.5}s">
+          <rect x="${x}" y="${y}" width="11" height="9" rx="2.5" fill="#241A22" opacity=".9"/>
+          <rect x="${x+1}" y="${y+1}" width="4" height="3" rx="1.5" fill="#5A4A55" opacity=".7"/></g></g>`; } }
     if(cnt("buding")){
       const px=82, py=Math.min(botY-42, Math.max(surf+24, botY-70));
-      body += `<g class="bobx"><rect x="${px}" y="${py}" width="36" height="26" rx="7" fill="#F6C453"/>
-        <rect x="${px}" y="${py}" width="36" height="9" rx="4.5" fill="#B4762B"/>
-        <circle cx="${px+10}" cy="${py+17}" r="2" fill="#fff" opacity=".55"/></g>`;
+      defs += `<linearGradient id="${U}bd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBD968"/><stop offset="1" stop-color="#EDB53F"/></linearGradient>`;
+      body += `<g class="bobx">
+        <path d="M${px+4},${py} L${px+32},${py} L${px+30},${py+26} Q${px+18},${py+30} ${px+6},${py+26} Z" fill="url(#${U}bd)"/>
+        <path d="M${px+4},${py} L${px+32},${py} L${px+31},${py+7} L${px+5},${py+7} Z" fill="#C77E2A" opacity=".9"/>
+        <ellipse cx="${px+18}" cy="${py}" rx="14" ry="3.5" fill="#8A5418" opacity=".55"/>
+        <ellipse cx="${px+11}" cy="${py+13}" rx="2.5" ry="4" fill="#fff" opacity=".5"/></g>`;
     }
     body += `</g>`;
-    // 奶盖(液面上的一层)
+    defs += `<radialGradient id="${U}rd" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#9A3A3A"/><stop offset="1" stop-color="#6E2626"/></radialGradient>`;
+    // 奶盖(液面上的一层,绵密有光泽)
     if(cnt("naigai")){
       const capH = 20, cb = Math.min(botY-8, surf+capH);
+      defs += `<linearGradient id="${U}ng" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFDF8"/><stop offset="1" stop-color="#F5E6CE"/></linearGradient>`;
       body += `<g clip-path="url(#${U}cp)">
-        <rect x="50" y="${surf-4}" width="100" height="${cb-surf+4}" fill="#FFF9EE"/>
-        <ellipse cx="100" cy="${cb}" rx="${halfW(cb)-2}" ry="5" fill="#FFF9EE"/>
-        <path class="drip-a" d="M80,${cb+2} q3,0 3,6 q0,5 -3,5 q-3,0 -3,-5 q0,-6 3,-6" fill="#FFF9EE"/>
-        <path class="drip-a" style="animation-delay:1.3s" d="M118,${cb+2} q3,0 3,6 q0,5 -3,5 q-3,0 -3,-5 q0,-6 3,-6" fill="#FFF9EE"/>
-        <ellipse cx="100" cy="${surf}" rx="${halfW(surf)}" ry="4" fill="#FFFDF7"/></g>`;
+        <rect x="50" y="${surf-4}" width="100" height="${cb-surf+4}" fill="url(#${U}ng)"/>
+        <ellipse cx="100" cy="${cb}" rx="${halfW(cb)-2}" ry="5" fill="#EFDCC0" opacity=".8"/>
+        <path class="drip-a" d="M80,${cb+2} q3,0 3,6 q0,5 -3,5 q-3,0 -3,-5 q0,-6 3,-6" fill="#F8ECD8"/>
+        <path class="drip-a" style="animation-delay:1.3s" d="M118,${cb+2} q3,0 3,6 q0,5 -3,5 q-3,0 -3,-5 q0,-6 3,-6" fill="#F8ECD8"/>
+        <ellipse cx="100" cy="${surf}" rx="${halfW(surf)}" ry="4" fill="#FFFEFB"/>
+        <ellipse cx="88" cy="${surf-1}" rx="10" ry="2.2" fill="#fff" opacity=".7"/></g>`;
     }
   }
 
@@ -1039,10 +1098,16 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
   }
   const capDeco = Math.min(cnt("naiyou"),1);
   if(capDeco){
-    overlay += `<g class="pop"><ellipse cx="100" cy="58" rx="26" ry="12" fill="#FFF9F0"/>
-      <ellipse cx="100" cy="48" rx="19" ry="10" fill="#FFF4E6"/>
-      <ellipse cx="100" cy="39" rx="12" ry="8" fill="#FFEFDC"/>
-      <circle cx="100" cy="31" r="6" fill="#FFF9F0"/></g>`;
+    defs += `<radialGradient id="${U}cr" cx=".4" cy=".3" r=".9"><stop offset="0" stop-color="#FFFEFB"/><stop offset="1" stop-color="#F3E2C8"/></radialGradient>`;
+    overlay += `<g class="pop">
+      <ellipse cx="100" cy="60" rx="27" ry="11" fill="url(#${U}cr)"/>
+      <path d="M74,60 Q78,50 100,49 Q122,50 126,60" fill="none" stroke="#E8D4B4" stroke-width="1" opacity=".6"/>
+      <ellipse cx="100" cy="50" rx="20" ry="9.5" fill="url(#${U}cr)"/>
+      <path d="M82,50 Q88,42 100,41 Q112,42 118,50" fill="none" stroke="#E8D4B4" stroke-width="1" opacity=".6"/>
+      <ellipse cx="100" cy="41" rx="13" ry="8" fill="url(#${U}cr)"/>
+      <ellipse cx="100" cy="33" rx="7" ry="5.5" fill="url(#${U}cr)"/>
+      <circle cx="100" cy="27" r="3.5" fill="#FFFEFB"/>
+      <ellipse cx="93" cy="37" rx="4" ry="2.5" fill="#fff" opacity=".6"/></g>`;
   }
   if(cnt("tangzhen")){
     const cs=["#E9756F","#F0B26B","#8E6FC9","#7FA85A","#5BA8D9"];
@@ -1052,9 +1117,12 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
     }
   }
   if(cnt("yingtao")){
+    defs += `<radialGradient id="${U}ch" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#E8536A"/><stop offset="1" stop-color="#B02338"/></radialGradient>`;
     for(let i=0;i<Math.min(cnt("yingtao"),3);i++){ const x=88+i*14, y=capDeco?30:62;
-      overlay += `<g class="bob" style="animation-delay:${i*.5}s"><path d="M${x},${y-14} q6,-8 12,-6" stroke="#5C7A3E" stroke-width="2.2" fill="none"/>
-        <circle cx="${x}" cy="${y}" r="7" fill="#D0384E"/><circle cx="${x-2.5}" cy="${y-2.5}" r="2" fill="#F08CA0"/></g>`; }
+      overlay += `<g class="bob" style="animation-delay:${i*.5}s"><path d="M${x},${y-14} q6,-9 13,-6" stroke="#6B8A3E" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <circle cx="${x}" cy="${y}" r="7.5" fill="url(#${U}ch)"/>
+        <ellipse cx="${x-2.6}" cy="${y-3}" rx="2.4" ry="1.6" fill="#FBB" opacity=".85"/>
+        <circle cx="${x-3}" cy="${y-3.4}" r="1" fill="#fff" opacity=".9"/></g>`; }
   }
   if(cnt("xiaosan")){
     overlay += `<g transform="rotate(-18 138 70)"><g class="sway">
@@ -1072,8 +1140,11 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
   }
   if(cnt("mianhua")){
     for(let i=0;i<Math.min(cnt("mianhua"),2);i++){ const x=80+i*36, y=capDeco?26:58;
-      overlay += `<g class="bobx" style="animation-delay:${i*.7}s"><circle cx="${x}" cy="${y}" r="8" fill="#FFF6FA"/>
-        <circle cx="${x+8}" cy="${y+2}" r="6.5" fill="#FDEFF6"/><circle cx="${x-7}" cy="${y+3}" r="6" fill="#FDEFF6"/></g>`; }
+      overlay += `<g class="bobx" style="animation-delay:${i*.7}s">
+        <circle cx="${x-6}" cy="${y+3}" r="6.5" fill="#FCE4EF"/><circle cx="${x+7}" cy="${y+2}" r="7" fill="#FCE4EF"/>
+        <circle cx="${x+1}" cy="${y+5}" r="6" fill="#FCE4EF"/>
+        <circle cx="${x}" cy="${y-2}" r="8.5" fill="#FFF3F9"/><circle cx="${x+6}" cy="${y-1}" r="6" fill="#FFF6FB"/>
+        <circle cx="${x-4}" cy="${y-4}" r="3" fill="#fff" opacity=".8"/></g>`; }
   }
   if(cnt("xingxing")){
     const boost = o.mini ? 1.6 : 1;   // 柜子里的迷你杯星星放大,否则看不清
@@ -1628,6 +1699,9 @@ function renderStation(){
 
 const SHELF_PER_PAGE = 8;
 const shelfPage = {};   // 每人各自的翻页
+const shelfOpen = {};   // 每人柜门开关状态
+function toggleDoor(uid){ shelfOpen[uid] = !shelfOpen[uid]; renderShelves(); }
+window.toggleDoor = toggleDoor;
 function shelfShift(uid, dir, totalPages){
   shelfPage[uid] = Math.max(0, Math.min(totalPages-1, (shelfPage[uid]||0) + dir));
   renderShelves();
@@ -1658,7 +1732,13 @@ function renderShelves(){
         <span class="shelf-page">${pg+1} / ${pages}</span>
         <button class="shelf-arrow ${pg<pages-1?'':'shelf-arrow-off'}" onclick="${pg<pages-1?"shelfShift('"+u.id+"',1,"+pages+")":''}">›</button>
       </div>` : "";
-    return `<div class="shelf"><h3>${uname(u.id)} 的收藏柜 <span>共 ${total} 杯</span></h3>${inner}${nav}${timelineHTML(u.id)}</div>`;
+    const opened = shelfOpen[u.id] ? " open" : "";
+    const door = `<div class="glass-door${opened}" onclick="toggleDoor('${u.id}')" title="${shelfOpen[u.id]?'点击关上柜门':'点击打开柜门'}">
+        <div class="door-handle"></div>
+        <div class="door-hint">${shelfOpen[u.id]?'':'\u70b9\u4e00\u4e0b\u6253\u5f00 \uD83D\uDC46'}</div>
+      </div>`;
+    return `<div class="shelf"><h3>${uname(u.id)} 的收藏柜 <span>共 ${total} 杯</span></h3>
+      <div class="shelf-inner">${inner}${nav}${door}</div>${timelineHTML(u.id)}</div>`;
   }).join("");
 }
 
