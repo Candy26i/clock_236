@@ -159,10 +159,10 @@
   @media (max-width:560px){.shelves{grid-template-columns:1fr}}
   .shelf{
     position:relative; border-radius:16px; padding:14px 12px 12px;
-    background:linear-gradient(160deg, rgba(255,250,242,.92), rgba(250,236,216,.8) 55%, rgba(248,238,222,.88));
-    border:1.5px solid rgba(255,255,255,.85);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.95), inset 0 -10px 20px rgba(200,150,90,.14),
-               0 6px 20px rgba(150,110,60,.16);
+    background:linear-gradient(160deg, rgba(232,206,168,.95), rgba(214,182,138,.9) 55%, rgba(222,194,154,.95));
+    border:1.5px solid rgba(255,248,236,.7);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7), inset 0 -10px 20px rgba(150,105,55,.2),
+               0 6px 20px rgba(130,90,45,.22);
     overflow:hidden;
   }
   .shelf::before{  /* 玻璃斜向反光 */
@@ -170,8 +170,8 @@
     background:linear-gradient(105deg, transparent, rgba(255,255,255,.4) 45%, transparent 60%);
     transform:skewX(-12deg); pointer-events:none;
   }
-  .shelf h3{font-size:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:baseline; color:#7A5230; position:relative; z-index:1}
-  .shelf h3 span{font-size:12px; color:#A6835C; font-family:'Noto Sans SC'}
+  .shelf h3{font-size:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:baseline; color:#5C3D1E; position:relative; z-index:1}
+  .shelf h3 span{font-size:12px; color:#8A5E33; font-family:'Noto Sans SC'}
   .shelf .cups{
     display:grid; grid-template-columns:repeat(4,1fr); gap:10px 4px; position:relative; z-index:1;
     min-height:150px; align-content:start;
@@ -181,13 +181,13 @@
   .mini .cupwrap{display:inline-block; transition:transform .18s ease}
   .mini:hover .cupwrap{transform:translateY(-5px) scale(1.07)}
   .mini svg{width:50px; height:auto; display:block; margin:0 auto}
-  .mini .plank{  /* 玻璃层板(暖调) */
+  .mini .plank{  /* 玻璃层板(深焦糖调) */
     height:6px; border-radius:3px; margin:-5px 3px 3px;
-    background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(232,208,172,.75));
-    box-shadow:0 3px 6px rgba(180,140,90,.3), inset 0 1px 0 rgba(255,255,255,.95);
+    background:linear-gradient(180deg, rgba(255,250,240,.85), rgba(198,164,118,.8));
+    box-shadow:0 3px 6px rgba(140,100,55,.4), inset 0 1px 0 rgba(255,255,255,.85);
   }
-  .mini .d{font-size:10px; color:#A6835C}
-  .mini .t{font-size:10px; color:#7A5230; line-height:1.2}
+  .mini .d{font-size:10px; color:#8A5E33}
+  .mini .t{font-size:10px; color:#5C3D1E; line-height:1.2}
   .empty-shelf{font-size:12.5px; color:#A6835C; text-align:center; padding:24px 4px; position:relative; z-index:1}
   .shelf-nav{display:flex; align-items:center; justify-content:center; gap:12px; margin-top:8px; position:relative; z-index:1}
   .shelf-arrow{
@@ -441,7 +441,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v5.5 · 小莲陪读版</span>
+    <span style="opacity:.7">v5.7 · Beijing显示</span>
   </footer>
 </div>
 
@@ -615,7 +615,9 @@ function closeModal(){ document.getElementById("modalWrap").hidden = true; }
 // 想统一时区就把两人的 tz 设成一样(或改 defaultTZ)。
 function tzShort(uid){
   const tz = tzOf(uid);
-  const city = tz.split("/").pop().replace(/_/g," ");
+  const CITY_ALIAS = { "Shanghai":"Beijing" };   // 显示名映射(中国大陆时区代码是Shanghai,但习惯叫北京)
+  let city = tz.split("/").pop().replace(/_/g," ");
+  city = CITY_ALIAS[city] || city;
   // 当前该时区的 UTC 偏移
   try{
     const s = new Date().toLocaleString("en-US",{timeZone:tz,timeZoneName:"shortOffset"});
@@ -865,19 +867,39 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
       <ellipse cx="100" cy="265" rx="30" ry="6" fill="#2A1608" opacity=".12"/>
       <ellipse class="wavea" cx="100" cy="${surf}" rx="${halfW(surf)}" ry="5.5" fill="#2A1608" opacity=".12"/>
       <ellipse class="wavea" cx="100" cy="${surf-1.5}" rx="${halfW(surf)-3.5}" ry="4.2" fill="#FFFFFF" opacity=".5"/>`;
-    // 黑糖挂壁
+    // 黑糖挂壁: 粗细深浅不一,自然下淌
     if(base && base.streak){
-      for(let i=0;i<5;i++){
-        const x = 62+i*18;
-        body += `<path d="M${x},${surf+4} q3,${18+i*6} 0,${40+i*8}" stroke="#5C3317" stroke-width="5" fill="none" stroke-linecap="round" opacity=".55"/>`;
-      }
+      const streaks = [
+        {x:64, w:6.5, len:52, o:.6},{x:80, w:4, len:34, o:.5},{x:96, w:7.5, len:64, o:.62},
+        {x:112, w:3.5, len:28, o:.45},{x:126, w:5.5, len:46, o:.55},{x:138, w:4.5, len:38, o:.5}
+      ];
+      streaks.forEach((s,i)=>{
+        const sway = (i%2?1:-1)*4;
+        body += `<path d="M${s.x},${surf+2} q${sway},${s.len*.4} ${sway*.3},${s.len} q${-sway*.2},${s.len*.2} ${sway*.15},${s.len*.28}"
+                 stroke="#4A2A12" stroke-width="${s.w}" fill="none" stroke-linecap="round" opacity="${s.o}"/>
+                 <path d="M${s.x},${surf+2} q${sway},${s.len*.4} ${sway*.3},${s.len}"
+                 stroke="#7A4A24" stroke-width="${s.w*.4}" fill="none" stroke-linecap="round" opacity=".4"/>`;
+        // 底部积糖珠
+        body += `<ellipse cx="${s.x+sway*.3}" cy="${surf+2+s.len}" rx="${s.w*.7}" ry="${s.w*.5}" fill="#3A2010" opacity="${s.o*.8}"/>`;
+      });
     }
     // ── 杯内小料 ──
     const inTop = id => Math.min(cnt(id),3);
-    if(cnt("zhenzhu")){ const n = 6+inTop("zhenzhu")*4;
-      for(let i=0;i<n;i++){ const x=70+((i*29)%56), y=botY-8-((i*13)%26);
-        body += `<circle class="bob" style="animation-delay:${(i%5)*.4}s" cx="${x}" cy="${y}" r="6" fill="#33241C"/>
-                 <circle cx="${x-2}" cy="${y-2}" r="1.6" fill="#6b4f3f" style="animation-delay:${(i%5)*.4}s" class="bob"/>`; } }
+    if(cnt("zhenzhu")){ const n = 7+inTop("zhenzhu")*4;
+      // 底部堆叠分布: 分层错开,不重叠成坨
+      const cols = 6;
+      for(let i=0;i<n;i++){
+        const row = Math.floor(i/cols), col = i%cols;
+        const jitter = ((i*37)%7-3);
+        const x = 66 + col*11.5 + (row%2)*5.5 + jitter*.6;
+        const y = botY-9 - row*10 - (jitter*.4);
+        if(x<64||x>136) continue;
+        body += `<circle class="bob" style="animation-delay:${(i%5)*.4}s" cx="${x}" cy="${y}" r="6.2" fill="#2B1D16"/>
+                 <ellipse class="bob" style="animation-delay:${(i%5)*.4}s" cx="${x+1.8}" cy="${y+2}" rx="3.4" ry="2.6" fill="#000" opacity=".35"/>
+                 <ellipse class="bob" style="animation-delay:${(i%5)*.4}s" cx="${x-2.2}" cy="${y-2.4}" rx="2.2" ry="1.7" fill="#9a7f6c" opacity=".85"/>
+                 <circle class="bob" style="animation-delay:${(i%5)*.4}s" cx="${x-2.6}" cy="${y-2.8}" r="1.1" fill="#d0bcac"/>`;
+      }
+    }
     if(cnt("ximi")){ const n = 12+inTop("ximi")*6;
       for(let i=0;i<n;i++){ const x=68+((i*17)%62), y=botY-6-((i*9)%20);
         body += `<circle class="bob" style="animation-delay:${(i%6)*.3}s" cx="${x}" cy="${y}" r="2.6" fill="#F6EBD8" opacity=".9"/>`; } }
