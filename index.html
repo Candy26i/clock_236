@@ -212,8 +212,8 @@
     display:flex; align-items:flex-end; justify-content:center;
     transition:transform .18s ease;
   }
-  .mini .cupwrap::after{  /* 搁板: 对准杯底(SVG底部有留白,上移) */
-    content:""; position:absolute; bottom:7px; left:-2px; right:-2px; height:10px; border-radius:2px; z-index:-1;
+  .mini .cupwrap::after{  /* 搁板: 对准杯底(mini已裁掉底部空白) */
+    content:""; position:absolute; bottom:2px; left:-2px; right:-2px; height:10px; border-radius:2px; z-index:-1;
     background:
       repeating-linear-gradient(90deg, rgba(110,72,35,.28) 0 1px, transparent 1px 4px, rgba(80,50,22,.18) 4px 5px, transparent 5px 11px),
       linear-gradient(180deg, #EFCF98 0%, #D2A566 45%, #A87A42 100%);
@@ -521,7 +521,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v7.4 · 去日期留悬停</span>
+    <span style="opacity:.7">v7.5 · 杯坐搁板+3h</span>
   </footer>
 </div>
 
@@ -845,7 +845,7 @@ function makeDrink(baseId){
   say("petBubble", lines(uid).evTea, 6500);
   nextBigTalk = Date.now() + 30000;
 }
-const BASE_PER_PAGE = 8;
+const BASE_PER_PAGE = 12;
 let basePage = 0;
 function renderBasePicker(zone, disabled){
   const grid = zone.querySelector("#baseGrid"); if(!grid) return;
@@ -1221,7 +1221,9 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
     overlay += star(66,40,1,0)+star(140,34,.8,.5)+star(158,96,.7,1)+star(46,110,.75,1.4)+star(100,14,.9,.8);
   }
 
-  return `<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg"><defs>${defs}</defs>${body}${overlay}</svg>`;
+  // mini(收藏柜)模式: 裁掉杯底多余空白,让杯底≈SVG底部,便于搁板对齐;非mini保留完整画布
+  const vb = o.mini ? "0 0 200 273" : "0 0 200 300";
+  return `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg"><defs>${defs}</defs>${body}${overlay}</svg>`;
 }
 
 /* ═══════════════ 陪学小人 ═══════════════ */
