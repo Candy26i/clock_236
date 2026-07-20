@@ -159,56 +159,62 @@
   @media (max-width:560px){.shelves{grid-template-columns:1fr}}
   .shelf{
     position:relative; border-radius:12px; padding:0; overflow:hidden;
-    /* 外层胡桃木框 */
+    /* 外层实木框: 多层不等距木纹 */
     background:
-      repeating-linear-gradient(93deg, rgba(50,28,12,.06) 0 1px, transparent 1px 5px),
-      linear-gradient(150deg, #8A5A30, #6E4423 45%, #5E3A1D 70%, #7A4E28);
-    border:1px solid #4A2E16;
+      repeating-linear-gradient(90deg, rgba(90,55,22,.09) 0 2px, transparent 2px 4px, rgba(120,80,38,.05) 4px 5px, transparent 5px 13px),
+      repeating-linear-gradient(90deg, rgba(60,36,14,.07) 0 1px, transparent 1px 9px, rgba(150,105,55,.06) 9px 11px, transparent 11px 23px),
+      repeating-linear-gradient(90deg, transparent 0 17px, rgba(80,48,18,.06) 17px 19px, transparent 19px 41px),
+      linear-gradient(96deg, #C99E6A, #BE9159 30%, #C89C64 52%, #B58A52 74%, #C59A63);
+    border:1px solid #9A7040;
     box-shadow:
-      inset 0 1px 0 rgba(210,160,110,.5),
-      0 10px 30px rgba(60,36,15,.4), 0 2px 6px rgba(60,36,15,.3);
+      inset 0 1px 0 rgba(248,225,188,.6),
+      0 10px 30px rgba(120,85,45,.3), 0 2px 6px rgba(120,85,45,.22);
   }
   .shelf h3{
     font-size:14.5px; margin:0; padding:11px 16px 10px; display:flex; justify-content:space-between; align-items:baseline;
-    color:#F8E8CE; position:relative; z-index:1; letter-spacing:.5px;
-    background:linear-gradient(180deg, #7A4E28, #5E3A1D);
-    border-bottom:2px solid #4A2E16;
-    box-shadow:inset 0 1px 0 rgba(220,175,120,.4), 0 2px 4px rgba(50,28,12,.3);
-    text-shadow:0 1px 2px rgba(40,22,8,.7);
+    color:#5A3D1E; position:relative; z-index:1; letter-spacing:.5px;
+    background:
+      repeating-linear-gradient(90deg, rgba(90,55,22,.08) 0 2px, transparent 2px 7px, rgba(150,105,55,.05) 7px 9px, transparent 9px 19px),
+      linear-gradient(180deg, #C0925A, #A87E47);
+    border-bottom:2px solid #8A6236;
+    box-shadow:inset 0 1px 0 rgba(245,220,180,.5), 0 2px 4px rgba(120,85,45,.25);
+    text-shadow:0 1px 2px rgba(100,68,32,.4);
   }
-  .shelf h3 span{font-size:11.5px; color:#D9BC94; font-family:'Noto Sans SC'; text-shadow:0 1px 1px rgba(40,22,8,.6)}
+  .shelf h3 span{font-size:11.5px; color:#7A5630; font-family:'Noto Sans SC'; text-shadow:0 1px 1px rgba(245,220,180,.4)}
   .shelf-body{
     position:relative; margin:9px; border-radius:7px; padding:4px; perspective:1100px;
-    /* 柜内背板: 暖褐木色,不压奶茶 */
+    /* 柜内背板: 横向实木纹(与外框竖纹区分,像另一块木板) */
     background:
-      repeating-linear-gradient(90deg, rgba(90,58,28,.14) 0 1px, transparent 1px 7px),
-      linear-gradient(160deg, #8A6038, #7A5230 55%, #82593450);
-    box-shadow:inset 0 2px 8px rgba(70,45,20,.45), inset 0 0 0 1px rgba(60,38,16,.4),
-               inset 0 0 24px rgba(90,58,28,.3);
+      repeating-linear-gradient(0deg, rgba(120,80,38,.08) 0 2px, transparent 2px 5px, rgba(160,115,60,.05) 5px 6px, transparent 6px 15px),
+      repeating-linear-gradient(0deg, rgba(90,58,28,.06) 0 1px, transparent 1px 11px, rgba(170,120,65,.05) 11px 13px, transparent 13px 27px),
+      linear-gradient(172deg, #C6A472, #BC985F 50%, #C4A06A);
+    box-shadow:inset 0 2px 8px rgba(120,85,45,.28), inset 0 0 0 1px rgba(120,85,45,.25),
+               inset 0 0 24px rgba(150,110,65,.16);
   }
   .shelf .cups{
-    display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:min-content; gap:16px 4px; position:relative; z-index:1;
-    min-height:310px; align-content:start; padding:8px 4px 4px;
+    display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(2,142px); gap:8px 4px; position:relative; z-index:1;
+    align-content:start; padding:8px 4px 4px;
   }
   @media (max-width:560px){.shelf .cups{grid-template-columns:repeat(4,1fr)}}
-  .mini{text-align:center; cursor:default}
+  .mini{text-align:center; cursor:default; display:flex; flex-direction:column; align-items:center; justify-content:flex-start}
   .mini .cupwrap{display:inline-block; transition:transform .18s ease; filter:drop-shadow(0 3px 4px rgba(50,30,12,.28))}
   .mini:hover .cupwrap{transform:translateY(-5px) scale(1.07)}
   .mini svg{width:50px; height:auto; display:block; margin:0 auto}
   .mini .plank{  /* 实木隔板(每层杯子下方的搁板) */
     height:9px; border-radius:2px; margin:-5px 0 4px;
     background:
-      repeating-linear-gradient(90deg, rgba(60,35,15,.18) 0 2px, transparent 2px 8px),
-      linear-gradient(180deg, #C79355 0%, #A06E38 50%, #7A4E24 100%);
-    box-shadow:0 5px 8px rgba(20,10,4,.6), inset 0 1px 0 rgba(240,205,155,.7), inset 0 -2px 2px rgba(50,28,12,.5);
+      repeating-linear-gradient(90deg, rgba(120,85,45,.2) 0 1px, transparent 1px 4px, rgba(90,58,28,.12) 4px 5px, transparent 5px 11px),
+      linear-gradient(180deg, #E0BE88 0%, #C49A60 50%, #A87E48 100%);
+    box-shadow:0 4px 7px rgba(120,85,45,.4), inset 0 1px 0 rgba(255,238,205,.8), inset 0 -2px 2px rgba(120,85,45,.35);
   }
-  .mini .d{font-size:10px; color:#FBEEDA; text-shadow:0 1px 2px rgba(60,38,16,.6)}
-  .mini .t{font-size:10px; color:#FFF6E8; line-height:1.2; text-shadow:0 1px 2px rgba(60,38,16,.6)}
-  .empty-shelf{font-size:12.5px; color:#F0DCC0; text-align:center; padding:28px 4px; position:relative; z-index:1; text-shadow:0 1px 2px rgba(60,38,16,.5)}
+  .mini .d{font-size:10px; color:#6A4A24; text-shadow:0 1px 1px rgba(255,240,210,.5)}
+  .mini .t{font-size:10px; color:#5A3D1E; line-height:1.2; text-shadow:0 1px 1px rgba(255,240,210,.5)}
+  .empty-shelf{font-size:12.5px; color:#7A5630; text-align:center; padding:28px 4px; position:relative; z-index:1; text-shadow:0 1px 1px rgba(255,240,210,.4)}
 
   /* ── 双开玻璃柜门 ── */
-  .shelf-inner{position:relative; perspective:1100px}
-  .glass-doors{position:absolute; inset:-4px; z-index:5; cursor:pointer; transform-style:preserve-3d}
+  .shelf-inner{position:relative}
+  .shelf-body{cursor:pointer}
+  .glass-doors{position:absolute; inset:-4px; z-index:5; pointer-events:none; transform-style:preserve-3d}
   .door-leaf{
     position:absolute; top:0; bottom:0; width:50%;
     transition:transform .65s cubic-bezier(.45,.05,.2,1);
@@ -221,7 +227,7 @@
     /* 玻璃 + 细木门框 */
     background:
       linear-gradient(118deg, rgba(228,244,251,.5), rgba(198,222,236,.28) 42%, rgba(232,244,250,.46) 80%);
-    border:3px solid; border-image:linear-gradient(160deg,#8A5A30,#5E3A1D) 1;
+    border:3px solid; border-image:linear-gradient(160deg,#C99E6A,#A87E47) 1;
     box-shadow:
       inset 0 0 0 1px rgba(255,255,255,.4),
       inset 0 2px 12px rgba(255,255,255,.5), inset 0 -10px 20px rgba(110,145,165,.22),
@@ -247,27 +253,18 @@
   }
   .door-leaf.left .door-handle{right:6px}
   .door-leaf.right .door-handle{left:6px}
-  .door-hint{
-    position:absolute; bottom:12px; left:0; right:0; text-align:center; z-index:3;
-    font-size:12px; color:#3E5665; font-weight:700; text-shadow:0 1px 3px rgba(255,255,255,.8);
-    animation:hintPulse 2s ease-in-out infinite; transition:opacity .3s;
-  }
-  @keyframes hintPulse{0%,100%{opacity:.6}50%{opacity:1}}
   .glass-doors.open .door-leaf.left{transform:rotateY(-112deg)}
   .glass-doors.open .door-leaf.right{transform:rotateY(112deg)}
-  .glass-doors.open .door-hint{opacity:0}
-  .glass-doors.open{pointer-events:none}
-  .glass-doors.open .door-leaf{pointer-events:none}
   .shelf-nav{display:flex; align-items:center; justify-content:center; gap:12px; margin:6px 0 10px; position:relative; z-index:1}
   .shelf-arrow{
     width:24px; height:24px; border-radius:50%; border:none; cursor:pointer;
-    background:linear-gradient(180deg,#F5E0C0,#D9B888); color:#5E3A1D; font-size:15px; font-weight:700; line-height:1;
+    background:linear-gradient(180deg,#F5E4C8,#DDBB8C); color:#6A4A24; font-size:15px; font-weight:700; line-height:1;
     box-shadow:0 2px 6px rgba(40,22,8,.4), inset 0 1px 0 rgba(255,255,255,.6); transition:transform .12s, background .15s;
   }
   .shelf-arrow:hover{background:#fff; transform:scale(1.12)}
   .shelf-arrow:active{transform:scale(.9)}
   .shelf-arrow-off{opacity:.35; cursor:default; pointer-events:none}
-  .shelf-page{font-size:11px; color:#E8CFA8; min-width:52px; text-align:center; text-shadow:0 1px 2px rgba(20,10,4,.6)}
+  .shelf-page{font-size:11px; color:#7A5630; min-width:52px; text-align:center; text-shadow:0 1px 1px rgba(255,240,210,.4)}
 
   /* ── 时间轴 ── */
   .timeline{margin-top:14px; padding:12px 10px 10px; background:rgba(255,248,236,.75); border-radius:12px}
@@ -510,7 +507,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v6.3 · 柜子调浅统一</span>
+    <span style="opacity:.7">v6.7 · 真实木纹</span>
   </footer>
 </div>
 
@@ -1754,20 +1751,19 @@ function renderShelves(){
             <div class="plank"></div>
             <div class="d">${k.slice(5)}</div><div class="t">${b?b.name:""}·${(v.drink.tops||[]).length}料</div></div>`;
         }).join("") + `</div>`;
-    // 翻页条(超过一页才显示)
-    const nav = pages>1 ? `<div class="shelf-nav">
+    // 翻页条(始终显示,不足一页时箭头灰掉,保持两柜对称)
+    const nav = `<div class="shelf-nav">
         <button class="shelf-arrow ${pg>0?'':'shelf-arrow-off'}" onclick="${pg>0?"shelfShift('"+u.id+"',-1,"+pages+")":''}">‹</button>
         <span class="shelf-page">${pg+1} / ${pages}</span>
         <button class="shelf-arrow ${pg<pages-1?'':'shelf-arrow-off'}" onclick="${pg<pages-1?"shelfShift('"+u.id+"',1,"+pages+")":''}">›</button>
-      </div>` : "";
+      </div>`;
     const opened = shelfOpen[u.id] ? " open" : "";
-    const door = `<div class="glass-doors${opened}" onclick="toggleDoor('${u.id}')" title="${shelfOpen[u.id]?'点击关上柜门':'点击打开柜门'}">
+    const door = `<div class="glass-doors${opened}">
         <div class="door-leaf left"><div class="door-glass"></div><div class="door-handle"></div></div>
         <div class="door-leaf right"><div class="door-glass"></div><div class="door-handle"></div></div>
-        <div class="door-hint">${shelfOpen[u.id]?'':'\u8f7b\u89e6\u5f00\u67dc \uD83D\uDC46'}</div>
       </div>`;
     return `<div class="shelf"><h3>${uname(u.id)} 的收藏柜 <span>共 ${total} 杯</span></h3>
-      <div class="shelf-inner"><div class="shelf-body">${inner}${door}</div>${nav}</div>${timelineHTML(u.id)}</div>`;
+      <div class="shelf-inner"><div class="shelf-body${opened?' body-open':''}" onclick="toggleDoor('${u.id}')" title="${shelfOpen[u.id]?'点击关上柜门':'点击打开柜门'}">${inner}${door}</div>${nav}</div>${timelineHTML(u.id)}</div>`;
   }).join("");
 }
 
