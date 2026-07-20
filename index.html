@@ -205,30 +205,24 @@
     display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(2,142px); gap:8px 4px; position:relative; z-index:1;
     align-content:start; padding:8px 4px 4px;
   }
-  /* 每行一条通长木搁板(杯子坐落其上) */
-  .shelf .cups::before, .shelf .cups::after{
-    content:""; position:absolute; left:2px; right:2px; height:10px; border-radius:2px; z-index:0;
-    background:
-      repeating-linear-gradient(90deg, rgba(120,85,45,.22) 0 1px, transparent 1px 5px, rgba(90,58,28,.13) 5px 6px, transparent 6px 13px),
-      linear-gradient(180deg, #E6C692 0%, #CBA268 45%, #A87E48 100%);
-    box-shadow:0 5px 9px rgba(120,85,45,.4), 0 1px 0 rgba(255,240,208,.7) inset, 0 -2px 3px rgba(120,85,45,.3) inset;
-  }
-  .shelf .cups::before{top:calc(8px + 108px)}    /* 第1行搁板 */
-  .shelf .cups::after{top:calc(8px + 142px + 8px + 108px)}  /* 第2行搁板 */
   @media (max-width:560px){.shelf .cups{grid-template-columns:repeat(4,1fr)}}
   .mini{text-align:center; cursor:default; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; position:relative; z-index:1}
-  .mini .cupwrap{display:inline-block; transition:transform .18s ease; filter:drop-shadow(0 4px 3px rgba(80,50,20,.35)); height:102px}
-  .mini:hover .cupwrap{transform:translateY(-5px) scale(1.07)}
-  .mini svg{width:50px; height:auto; display:block; margin:0 auto}
-  .mini .plank{  /* 实木隔板(每层杯子下方的搁板) */
-    height:9px; border-radius:2px; margin:-5px 0 4px;
-    background:
-      repeating-linear-gradient(90deg, rgba(120,85,45,.2) 0 1px, transparent 1px 4px, rgba(90,58,28,.12) 4px 5px, transparent 5px 11px),
-      linear-gradient(180deg, #E0BE88 0%, #C49A60 50%, #A87E48 100%);
-    box-shadow:0 4px 7px rgba(120,85,45,.4), inset 0 1px 0 rgba(255,238,205,.8), inset 0 -2px 2px rgba(120,85,45,.35);
+  .mini .cupwrap{
+    position:relative; z-index:2; width:100%; height:104px;
+    display:flex; align-items:flex-end; justify-content:center;
+    transition:transform .18s ease;
   }
-  .mini .d{font-size:10px; color:#6A4A24; text-shadow:0 1px 1px rgba(255,240,210,.5)}
-  .mini .t{font-size:10px; color:#5A3D1E; line-height:1.2; text-shadow:0 1px 1px rgba(255,240,210,.5)}
+  .mini .cupwrap::after{  /* 搁板: 对准杯底(SVG底部有留白,上移) */
+    content:""; position:absolute; bottom:7px; left:-2px; right:-2px; height:10px; border-radius:2px; z-index:-1;
+    background:
+      repeating-linear-gradient(90deg, rgba(110,72,35,.28) 0 1px, transparent 1px 4px, rgba(80,50,22,.18) 4px 5px, transparent 5px 11px),
+      linear-gradient(180deg, #EFCF98 0%, #D2A566 45%, #A87A42 100%);
+    box-shadow:0 6px 10px rgba(90,58,25,.5), inset 0 1.5px 0 rgba(255,244,215,.9), inset 0 -2px 3px rgba(90,58,25,.5);
+  }
+  .mini:hover .cupwrap{transform:translateY(-4px) scale(1.06)}
+  .mini svg{width:48px; height:auto; display:block; margin:0 auto; position:relative; z-index:1; filter:drop-shadow(0 2px 2px rgba(80,50,20,.28))}
+  .mini .d{font-size:10px; color:#6A4A24; text-shadow:0 1px 1px rgba(255,240,210,.5); margin-top:5px}
+  .mini .t{font-size:10.5px; color:#5A3D1E; line-height:1.2; text-shadow:0 1px 1px rgba(255,240,210,.5); margin-top:6px}
   .empty-shelf{font-size:12.5px; color:#7A5630; text-align:center; padding:28px 4px; position:relative; z-index:1; text-shadow:0 1px 1px rgba(255,240,210,.4)}
 
   /* ── 双开玻璃柜门 ── */
@@ -527,7 +521,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v7.0 · 粉色系拉开</span>
+    <span style="opacity:.7">v7.4 · 去日期留悬停</span>
   </footer>
 </div>
 
@@ -1792,9 +1786,9 @@ function renderShelves(){
       ? `<div class="empty-shelf">柜子还空着,等第一杯 🧋</div>`
       : `<div class="cups">` + pageItems.map(([k,v],i)=>{
           const b = BASES.find(x=>x.id===v.drink.base);
-          return `<div class="mini" title="${k} ${b?b.name:""} 加料${(v.drink.tops||[]).length}份">
+          return `<div class="mini" title="${k} · ${b?b.name:""} · 加料${(v.drink.tops||[]).length}份">
             <div class="cupwrap">${cupSVG({base:v.drink.base, tops:v.drink.tops||[], fill:1, uid:u.id+"m"+pg+"_"+i, shadow:false, mini:true})}</div>
-            <div class="d">${k.slice(5)}</div><div class="t">${b?b.name:""}·${(v.drink.tops||[]).length}料</div></div>`;
+            <div class="t">${b?b.name:""}·${(v.drink.tops||[]).length}料</div></div>`;
         }).join("") + `</div>`;
     // 翻页条(始终显示,不足一页时箭头灰掉,保持两柜对称)
     const nav = `<div class="shelf-nav">
