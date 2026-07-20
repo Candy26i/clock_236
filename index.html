@@ -208,12 +208,12 @@
   @media (max-width:560px){.shelf .cups{grid-template-columns:repeat(4,1fr)}}
   .mini{text-align:center; cursor:default; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; position:relative; z-index:1}
   .mini .cupwrap{
-    position:relative; z-index:2; width:100%; height:104px;
+    position:relative; z-index:2; width:100%; height:104px; margin-bottom:10px;
     display:flex; align-items:flex-end; justify-content:center;
     transition:transform .18s ease;
   }
-  .mini .cupwrap::after{  /* 搁板: 对准杯底(mini已裁掉底部空白) */
-    content:""; position:absolute; bottom:2px; left:-2px; right:-2px; height:10px; border-radius:2px; z-index:-1;
+  .mini .cupwrap::after{  /* 搁板: 顶面贴杯底,杯子坐其上 */
+    content:""; position:absolute; bottom:-9px; left:-2px; right:-2px; height:10px; border-radius:2px; z-index:-1;
     background:
       repeating-linear-gradient(90deg, rgba(110,72,35,.28) 0 1px, transparent 1px 4px, rgba(80,50,22,.18) 4px 5px, transparent 5px 11px),
       linear-gradient(180deg, #EFCF98 0%, #D2A566 45%, #A87A42 100%);
@@ -521,7 +521,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v7.5 · 杯坐搁板+3h</span>
+    <span style="opacity:.7">v7.6 · 杯坐板+3h标签</span>
   </footer>
 </div>
 
@@ -1128,9 +1128,15 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
       <path d="M-2.5,3 L-6,12 M2.5,3 L6,12" stroke="#D94F72" stroke-width="3.4" stroke-linecap="round"/>
       <circle r="3.6" fill="#D94F72"/><circle cx="-1" cy="-1" r="1.1" fill="#fff" opacity=".6"/></g></g>`;
   }
-  // 刻度线(3小时目标)
-  body += `<line x1="146" y1="${topY}" x2="153" y2="${topY}" stroke="#C9A87E" stroke-width="2"/>
-           <text x="157" y="${topY+4}" font-size="10" fill="#B08F68">3h</text>`;
+  // 3小时标记: 大图=刻度线, 收藏柜mini=杯身上的粉色小标签(清晰可见)
+  if(o.mini){
+    body += `<g transform="translate(128,150)">
+      <rect x="-16" y="-11" width="32" height="22" rx="6" fill="#FBD3DE" stroke="#F2A8BE" stroke-width="1.5"/>
+      <text x="0" y="6" font-size="14" font-weight="700" text-anchor="middle" fill="#E86A8A">3h</text></g>`;
+  }else{
+    body += `<line x1="146" y1="${topY}" x2="153" y2="${topY}" stroke="#C9A87E" stroke-width="2"/>
+             <text x="157" y="${topY+4}" font-size="10" fill="#B08F68">3h</text>`;
+  }
 
   // 吸管(穿过杯盖)
   body += `<g transform="rotate(9 100 80)"><rect x="103" y="16" width="13" height="90" rx="6" fill="#E9756F"/>
@@ -1222,7 +1228,7 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
   }
 
   // mini(收藏柜)模式: 裁掉杯底多余空白,让杯底≈SVG底部,便于搁板对齐;非mini保留完整画布
-  const vb = o.mini ? "0 0 200 273" : "0 0 200 300";
+  const vb = o.mini ? "0 0 200 268" : "0 0 200 300";
   return `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg"><defs>${defs}</defs>${body}${overlay}</svg>`;
 }
 
