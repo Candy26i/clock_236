@@ -133,7 +133,17 @@
   .pick-zone h3{font-size:16px; margin:4px 0 10px}
   .pick-zone h4{font-size:13.5px; color:var(--ink-soft); margin:14px 0 6px; font-family:'Noto Sans SC'; font-weight:700}
   .pick-zone .hint{font-size:12.5px; color:var(--ink-soft); margin-bottom:10px; line-height:1.6}
-  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(72px,1fr)); gap:8px}
+  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:8px}
+  .base-nav{display:flex; align-items:center; justify-content:center; gap:14px; margin-top:12px}
+  .base-arrow{
+    width:30px; height:30px; border-radius:50%; border:none; cursor:pointer;
+    background:var(--milk2); color:var(--ink); font-size:17px; font-weight:700; line-height:1;
+    box-shadow:var(--shadow); transition:transform .12s, background .15s;
+  }
+  .base-arrow:hover{background:#E8D0A8; transform:scale(1.1)}
+  .base-arrow:active{transform:scale(.9)}
+  .base-arrow-off{opacity:.3; cursor:default; pointer-events:none}
+  .base-page{font-size:12px; color:var(--ink-soft); min-width:44px; text-align:center}
   .opt{
     border:2px solid var(--line); border-radius:14px; background:#fff; cursor:pointer;
     padding:8px 4px 7px; text-align:center; font-size:12px; transition:all .15s; position:relative;
@@ -195,9 +205,19 @@
     display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(2,142px); gap:8px 4px; position:relative; z-index:1;
     align-content:start; padding:8px 4px 4px;
   }
+  /* 每行一条通长木搁板(杯子坐落其上) */
+  .shelf .cups::before, .shelf .cups::after{
+    content:""; position:absolute; left:2px; right:2px; height:10px; border-radius:2px; z-index:0;
+    background:
+      repeating-linear-gradient(90deg, rgba(120,85,45,.22) 0 1px, transparent 1px 5px, rgba(90,58,28,.13) 5px 6px, transparent 6px 13px),
+      linear-gradient(180deg, #E6C692 0%, #CBA268 45%, #A87E48 100%);
+    box-shadow:0 5px 9px rgba(120,85,45,.4), 0 1px 0 rgba(255,240,208,.7) inset, 0 -2px 3px rgba(120,85,45,.3) inset;
+  }
+  .shelf .cups::before{top:calc(8px + 108px)}    /* 第1行搁板 */
+  .shelf .cups::after{top:calc(8px + 142px + 8px + 108px)}  /* 第2行搁板 */
   @media (max-width:560px){.shelf .cups{grid-template-columns:repeat(4,1fr)}}
-  .mini{text-align:center; cursor:default; display:flex; flex-direction:column; align-items:center; justify-content:flex-start}
-  .mini .cupwrap{display:inline-block; transition:transform .18s ease; filter:drop-shadow(0 3px 4px rgba(50,30,12,.28))}
+  .mini{text-align:center; cursor:default; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; position:relative; z-index:1}
+  .mini .cupwrap{display:inline-block; transition:transform .18s ease; filter:drop-shadow(0 4px 3px rgba(80,50,20,.35)); height:102px}
   .mini:hover .cupwrap{transform:translateY(-5px) scale(1.07)}
   .mini svg{width:50px; height:auto; display:block; margin:0 auto}
   .mini .plank{  /* 实木隔板(每层杯子下方的搁板) */
@@ -507,7 +527,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v6.7 · 真实木纹</span>
+    <span style="opacity:.7">v7.0 · 粉色系拉开</span>
   </footer>
 </div>
 
@@ -580,14 +600,20 @@ const BASES = [
   {id:"mocha",  name:"抹茶",     top:"#9DC46A", bot:"#4E7A32"},
   {id:"heitang",name:"黑糖鲜奶", top:"#F4E3CB", bot:"#6E4326", streak:true},
   {id:"yuni",   name:"芋泥",     top:"#D7C4F0", bot:"#9A79D1"},
-  {id:"caomei", name:"草莓",     top:"#F9CFD6", bot:"#E98A9C"},
+  {id:"caomei", name:"草莓",     top:"#EE9AAC", bot:"#D23A5C"},
   {id:"boba",   name:"焦糖布蕾", top:"#F5DFA0", bot:"#D6A02A"},
   {id:"mitao",  name:"蜜桃乌龙", top:"#FBD3B4", bot:"#EE7A48"},
-  {id:"baixiang",name:"白桃养乐多",top:"#FBE4EC", bot:"#F3A9C4"},
+  {id:"baixiang",name:"白桃养乐多",top:"#FCE6D4", bot:"#F5A878"},
   {id:"hailian",name:"海盐柠檬", top:"#FCF6C0", bot:"#CBD838"},
   {id:"lanmei", name:"蓝莓",     top:"#BFD0F2", bot:"#4C63C4"},
   {id:"bohe",   name:"薄荷可可", top:"#B8EAD6", bot:"#2FA88A"},
-  {id:"xiangcheng",name:"香橙",  top:"#FBC969", bot:"#F0790E"}
+  {id:"xiangcheng",name:"香橙",  top:"#FBC969", bot:"#F0790E"},
+  {id:"xigua",   name:"西瓜",     top:"#FFC2CC", bot:"#F87A8E"},
+  {id:"qingti",  name:"青提",     top:"#DCEBA0", bot:"#8FB03E"},
+  {id:"putao",   name:"葡萄",     top:"#D3B0E8", bot:"#7A3FA0"},
+  {id:"tiannai", name:"焦糖奶咖", top:"#E0C29A", bot:"#9A6A3A"},
+  {id:"yinghua", name:"樱花",     top:"#F5DCEE", bot:"#D48AC8"},
+  {id:"wumei",   name:"乌梅",     top:"#C88A82", bot:"#6E2A2E"}
 ];
 const TOPPINGS = [
   {id:"zhenzhu", name:"珍珠",   em:"⚫", kind:"in"},
@@ -824,6 +850,29 @@ function makeDrink(baseId){
   celebrate();
   say("petBubble", lines(uid).evTea, 6500);
   nextBigTalk = Date.now() + 30000;
+}
+const BASE_PER_PAGE = 8;
+let basePage = 0;
+function renderBasePicker(zone, disabled){
+  const grid = zone.querySelector("#baseGrid"); if(!grid) return;
+  const pages = Math.ceil(BASES.length / BASE_PER_PAGE);
+  if(basePage > pages-1) basePage = pages-1;
+  if(basePage < 0) basePage = 0;
+  const items = BASES.slice(basePage*BASE_PER_PAGE, (basePage+1)*BASE_PER_PAGE);
+  const opts = items.map(b=> disabled
+    ? `<div class="opt" style="opacity:.45; cursor:default"><div class="sw" style="background:linear-gradient(180deg,${b.top},${b.bot})"></div>${b.name}</div>`
+    : `<div class="opt" data-b="${b.id}"><div class="sw" style="background:linear-gradient(180deg,${b.top},${b.bot})"></div>${b.name}</div>`
+  ).join("");
+  grid.innerHTML = `<div class="grid">${opts}</div>
+    <div class="base-nav">
+      <button class="base-arrow ${basePage>0?'':'base-arrow-off'}" id="bPrev">‹</button>
+      <span class="base-page">${basePage+1} / ${pages}</span>
+      <button class="base-arrow ${basePage<pages-1?'':'base-arrow-off'}" id="bNext">›</button>
+    </div>`;
+  const prev = grid.querySelector("#bPrev"), next = grid.querySelector("#bNext");
+  if(basePage>0) prev.onclick = ()=>{ basePage--; renderBasePicker(zone, disabled); };
+  if(basePage<pages-1) next.onclick = ()=>{ basePage++; renderBasePicker(zone, disabled); };
+  if(!disabled) grid.querySelectorAll(".opt").forEach(o=> o.onclick = ()=> askMakeDrink(o.dataset.b));
 }
 function askMakeDrink(baseId){
   const b = BASES.find(x=>x.id===baseId);
@@ -1678,10 +1727,8 @@ function renderStation(){
       cap.textContent = "茶泡好啦!选一个茶底,封杯 🎉";
       pill.innerHTML = `已专注 <b>${fmtMin(sm)}</b> · 达标!`;
       zone.innerHTML = `<h3>选择茶底</h3><div class="hint">今天只能做这一杯,想好再点哦。封杯后继续专注,每满 25 分钟得 1 张小料券。</div>
-        <div class="grid">`+ BASES.map(b=>
-          `<div class="opt" data-b="${b.id}"><div class="sw" style="background:linear-gradient(180deg,${b.top},${b.bot})"></div>${b.name}</div>`
-        ).join("") + `</div>`;
-      zone.querySelectorAll(".opt").forEach(o=> o.onclick = ()=> askMakeDrink(o.dataset.b));
+        <div id="baseGrid"></div>`;
+      renderBasePicker(zone);
     }else{
       const left = GOAL_MIN - sm;
       cap.textContent = sm===0 ? "杯子还空着,去开一个番茄钟吧" : "茶汤慢慢涨起来了…";
@@ -1690,9 +1737,8 @@ function renderStation(){
         <div class="hint">科研 + 学习 满 <b>3 小时</b>就能从下面选一个茶底,兑一杯纯奶茶。<br>
         封杯后每多专注 <b>25 分钟</b>,得 1 张券,可以加小料、装饰或贴纸。<br>
         今天做不满的话,这杯就作废啦——明天请早 🫠</div>
-        <div class="grid">`+ BASES.map(b=>
-          `<div class="opt" style="opacity:.45; cursor:default"><div class="sw" style="background:linear-gradient(180deg,${b.top},${b.bot})"></div>${b.name}</div>`
-        ).join("")+`</div>`;
+        <div id="baseGrid"></div>`;
+      renderBasePicker(zone, true);
     }
   }else{
     const base = BASES.find(b=>b.id===d.base);
@@ -1748,7 +1794,6 @@ function renderShelves(){
           const b = BASES.find(x=>x.id===v.drink.base);
           return `<div class="mini" title="${k} ${b?b.name:""} 加料${(v.drink.tops||[]).length}份">
             <div class="cupwrap">${cupSVG({base:v.drink.base, tops:v.drink.tops||[], fill:1, uid:u.id+"m"+pg+"_"+i, shadow:false, mini:true})}</div>
-            <div class="plank"></div>
             <div class="d">${k.slice(5)}</div><div class="t">${b?b.name:""}·${(v.drink.tops||[]).length}料</div></div>`;
         }).join("") + `</div>`;
     // 翻页条(始终显示,不足一页时箭头灰掉,保持两柜对称)
