@@ -524,7 +524,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v8.1 · 隔板下移</span>
+    <span style="opacity:.7">v8.2 · 新增3茶底</span>
   </footer>
 </div>
 
@@ -610,7 +610,10 @@ const BASES = [
   {id:"putao",   name:"葡萄",     top:"#D3B0E8", bot:"#7A3FA0"},
   {id:"tiannai", name:"焦糖奶咖", top:"#E0C29A", bot:"#9A6A3A"},
   {id:"yinghua", name:"樱花",     top:"#F5DCEE", bot:"#D48AC8"},
-  {id:"wumei",   name:"乌梅",     top:"#C88A82", bot:"#6E2A2E"}
+  {id:"wumei",   name:"乌梅",     top:"#C88A82", bot:"#6E2A2E"},
+  {id:"niunai",  name:"白牛乳",   top:"#FFFFFF", bot:"#F0E8DC"},
+  {id:"riluo",   name:"日落鸡尾酒",top:"#F5C542", bot:"#E8506E", cocktail:true},
+  {id:"qingningqp",name:"青柠气泡",top:"#EAF7D8", bot:"#A8D86E", cocktail:true}
 ];
 const TOPPINGS = [
   {id:"zhenzhu", name:"珍珠",   em:"⚫", kind:"in"},
@@ -962,9 +965,16 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
   // 地面投影(3D 落地感; 货架上的迷你杯用木板代替)
   if(o.shadow !== false) body += `<ellipse cx="100" cy="286" rx="50" ry="8" fill="#4A2E1F" opacity=".13"/>`;
   const liquid = base
-    ? `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
-         <stop offset="0" stop-color="${base.top}"/><stop offset="1" stop-color="${base.bot}"/>
-       </linearGradient>`
+    ? (base.cocktail
+      ? `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
+           <stop offset="0" stop-color="${base.top}" stop-opacity=".82"/>
+           <stop offset=".5" stop-color="${base.top}" stop-opacity=".7"/>
+           <stop offset=".5" stop-color="${base.bot}" stop-opacity=".7"/>
+           <stop offset="1" stop-color="${base.bot}" stop-opacity=".9"/>
+         </linearGradient>`
+      : `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
+           <stop offset="0" stop-color="${base.top}"/><stop offset="1" stop-color="${base.bot}"/>
+         </linearGradient>`)
     : `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
          <stop offset="0" stop-color="#F2E3CF"/><stop offset="1" stop-color="#E3C9A6"/>
        </linearGradient>`;
@@ -979,6 +989,16 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
       <ellipse cx="100" cy="265" rx="30" ry="6" fill="#2A1608" opacity=".12"/>
       <ellipse class="wavea" cx="100" cy="${surf}" rx="${halfW(surf)}" ry="5.5" fill="#2A1608" opacity=".12"/>
       <ellipse class="wavea" cx="100" cy="${surf-1.5}" rx="${halfW(surf)-3.5}" ry="4.2" fill="#FFFFFF" opacity=".5"/>`;
+    // 鸡尾酒: 加冰块(半透明方块,漂浮感)
+    if(base && base.cocktail){
+      const ice = [ {x:78,y:surf+18,s:17,r:-12},{x:104,y:surf+10,s:20,r:8},{x:92,y:surf+40,s:15,r:18},{x:116,y:surf+34,s:14,r:-8} ];
+      ice.forEach((c,i)=>{
+        body += `<g transform="rotate(${c.r} ${c.x+c.s/2} ${c.y+c.s/2})" class="bob" style="animation-delay:${i*.5}s">
+          <rect x="${c.x}" y="${c.y}" width="${c.s}" height="${c.s}" rx="3" fill="#FFFFFF" opacity=".32"/>
+          <rect x="${c.x}" y="${c.y}" width="${c.s}" height="${c.s}" rx="3" fill="none" stroke="#FFFFFF" stroke-width="1.2" opacity=".55"/>
+          <rect x="${c.x+2.5}" y="${c.y+2.5}" width="${c.s*.3}" height="${c.s*.3}" rx="1.5" fill="#FFFFFF" opacity=".6"/></g>`;
+      });
+    }
     // 黑糖挂壁: 粗细深浅不一,自然下淌
     if(base && base.streak){
       const streaks = [
