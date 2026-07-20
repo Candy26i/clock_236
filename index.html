@@ -192,7 +192,7 @@
   }
   .shelf h3 span{font-size:11.5px; color:#7A5630; font-family:'Noto Sans SC'; text-shadow:0 1px 1px rgba(245,220,180,.4)}
   .shelf-body{
-    position:relative; margin:9px; border-radius:7px; padding:4px; perspective:1100px;
+    position:relative; margin:9px; border-radius:52px 52px 7px 7px; padding:4px; perspective:1100px;
     /* 柜内背板: 横向实木纹(与外框竖纹区分,像另一块木板) */
     background:
       repeating-linear-gradient(0deg, rgba(120,80,38,.08) 0 2px, transparent 2px 5px, rgba(160,115,60,.05) 5px 6px, transparent 6px 15px),
@@ -203,21 +203,24 @@
   }
   .shelf .cups{
     display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(2,142px); gap:8px 4px; position:relative; z-index:1;
-    align-content:start; padding:8px 4px 4px;
+    align-content:start; padding:22px 4px 4px;
   }
+  /* 柜子自带的两条通长木隔板(有没有奶茶都在) */
+  .shelf .cups::before, .shelf .cups::after{
+    content:""; position:absolute; left:-3px; right:-3px; height:11px; border-radius:2px; z-index:0;
+    background:
+      repeating-linear-gradient(90deg, rgba(110,72,35,.28) 0 1px, transparent 1px 4px, rgba(80,50,22,.18) 4px 5px, transparent 5px 11px),
+      linear-gradient(180deg, #EFCF98 0%, #D2A566 45%, #A87A42 100%);
+    box-shadow:0 6px 11px rgba(90,58,25,.5), inset 0 1.5px 0 rgba(255,244,215,.9), inset 0 -2px 3px rgba(90,58,25,.5);
+  }
+  .shelf .cups::before{top:117px}   /* 第1行隔板(对准第1行杯底) */
+  .shelf .cups::after{top:267px}    /* 第2行隔板(对准第2行杯底) */
   @media (max-width:560px){.shelf .cups{grid-template-columns:repeat(4,1fr)}}
   .mini{text-align:center; cursor:default; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; position:relative; z-index:1}
   .mini .cupwrap{
     position:relative; z-index:2; width:100%; height:104px; margin-bottom:10px;
     display:flex; align-items:flex-end; justify-content:center;
     transition:transform .18s ease;
-  }
-  .mini .cupwrap::after{  /* 搁板: 顶面贴杯底,杯子坐其上 */
-    content:""; position:absolute; bottom:-9px; left:-2px; right:-2px; height:10px; border-radius:2px; z-index:-1;
-    background:
-      repeating-linear-gradient(90deg, rgba(110,72,35,.28) 0 1px, transparent 1px 4px, rgba(80,50,22,.18) 4px 5px, transparent 5px 11px),
-      linear-gradient(180deg, #EFCF98 0%, #D2A566 45%, #A87A42 100%);
-    box-shadow:0 6px 10px rgba(90,58,25,.5), inset 0 1.5px 0 rgba(255,244,215,.9), inset 0 -2px 3px rgba(90,58,25,.5);
   }
   .mini:hover .cupwrap{transform:translateY(-4px) scale(1.06)}
   .mini svg{width:48px; height:auto; display:block; margin:0 auto; position:relative; z-index:1; filter:drop-shadow(0 2px 2px rgba(80,50,20,.28))}
@@ -248,8 +251,8 @@
       0 4px 14px rgba(50,70,85,.2);
     overflow:hidden;
   }
-  .door-leaf.left .door-glass{border-radius:7px 3px 3px 7px}
-  .door-leaf.right .door-glass{border-radius:3px 7px 7px 3px}
+  .door-leaf.left .door-glass{border-radius:52px 3px 3px 7px}
+  .door-leaf.right .door-glass{border-radius:3px 52px 7px 3px}
   .door-glass::before{  /* 斜向大反光 */
     content:""; position:absolute; top:-25%; left:-18%; width:52%; height:150%;
     background:linear-gradient(105deg, transparent, rgba(255,255,255,.62) 50%, transparent);
@@ -521,7 +524,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v7.6 · 杯坐板+3h标签</span>
+    <span style="opacity:.7">v7.8 · 通长隔板+3h虚线</span>
   </footer>
 </div>
 
@@ -1128,11 +1131,10 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
       <path d="M-2.5,3 L-6,12 M2.5,3 L6,12" stroke="#D94F72" stroke-width="3.4" stroke-linecap="round"/>
       <circle r="3.6" fill="#D94F72"/><circle cx="-1" cy="-1" r="1.1" fill="#fff" opacity=".6"/></g></g>`;
   }
-  // 3小时标记: 大图=刻度线, 收藏柜mini=杯身上的粉色小标签(清晰可见)
+  // 3小时标记: 右侧虚线刻度 + 3h文字(收藏柜mini放大字号,清晰)
   if(o.mini){
-    body += `<g transform="translate(128,150)">
-      <rect x="-16" y="-11" width="32" height="22" rx="6" fill="#FBD3DE" stroke="#F2A8BE" stroke-width="1.5"/>
-      <text x="0" y="6" font-size="14" font-weight="700" text-anchor="middle" fill="#E86A8A">3h</text></g>`;
+    body += `<line x1="144" y1="${topY}" x2="158" y2="${topY}" stroke="#C9A87E" stroke-width="2" stroke-dasharray="3 2.5"/>
+             <text x="162" y="${topY+5}" font-size="15" font-weight="600" fill="#B08F68">3h</text>`;
   }else{
     body += `<line x1="146" y1="${topY}" x2="153" y2="${topY}" stroke="#C9A87E" stroke-width="2"/>
              <text x="157" y="${topY+4}" font-size="10" fill="#B08F68">3h</text>`;
