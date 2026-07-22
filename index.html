@@ -525,7 +525,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v8.5 · 杯上移+字缩小</span>
+    <span style="opacity:.7">v8.6 · 鸡尾酒渐变+布丁</span>
   </footer>
 </div>
 
@@ -613,8 +613,8 @@ const BASES = [
   {id:"yinghua", name:"樱花",     top:"#F5DCEE", bot:"#D48AC8"},
   {id:"wumei",   name:"乌梅",     top:"#C88A82", bot:"#6E2A2E"},
   {id:"niunai",  name:"白牛乳",   top:"#FFFFFF", bot:"#F0E8DC"},
-  {id:"riluo",   name:"日落鸡尾酒",top:"#F5C542", bot:"#E8506E", cocktail:true},
-  {id:"qingningqp",name:"青柠气泡",top:"#EAF7D8", bot:"#A8D86E", cocktail:true}
+  {id:"riluo",   name:"日落鸡尾酒",top:"#F7D14B", mid:"#F5A24B", mid2:"#F07E6A", bot:"#E8506E", cocktail:true},
+  {id:"qingningqp",name:"青柠气泡",top:"#EAF7D8", mid:"#C6E89A", mid2:"#8FD0A0", bot:"#5FBFA0", cocktail:true}
 ];
 const TOPPINGS = [
   {id:"zhenzhu", name:"珍珠",   em:"⚫", kind:"in"},
@@ -968,10 +968,10 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
   const liquid = base
     ? (base.cocktail
       ? `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
-           <stop offset="0" stop-color="${base.top}" stop-opacity=".82"/>
-           <stop offset=".5" stop-color="${base.top}" stop-opacity=".7"/>
-           <stop offset=".5" stop-color="${base.bot}" stop-opacity=".7"/>
-           <stop offset="1" stop-color="${base.bot}" stop-opacity=".9"/>
+           <stop offset="0" stop-color="${base.top}" stop-opacity=".9"/>
+           <stop offset=".3" stop-color="${base.mid||base.top}" stop-opacity=".78"/>
+           <stop offset=".62" stop-color="${base.mid2||base.bot}" stop-opacity=".78"/>
+           <stop offset="1" stop-color="${base.bot}" stop-opacity=".92"/>
          </linearGradient>`
       : `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
            <stop offset="0" stop-color="${base.top}"/><stop offset="1" stop-color="${base.bot}"/>
@@ -1061,13 +1061,17 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
           <rect x="${x}" y="${y}" width="11" height="9" rx="2.5" fill="#241A22" opacity=".9"/>
           <rect x="${x+1}" y="${y+1}" width="4" height="3" rx="1.5" fill="#5A4A55" opacity=".7"/></g></g>`; } }
     if(cnt("buding")){
-      const px=82, py=Math.min(botY-42, Math.max(surf+24, botY-70));
-      defs += `<linearGradient id="${U}bd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBD968"/><stop offset="1" stop-color="#EDB53F"/></linearGradient>`;
+      const px=100, py=Math.min(botY-40, Math.max(surf+26, botY-64)), w=17;
+      // 布丁本体渐变(蛋黄色,上亮下深)
+      defs += `<linearGradient id="${U}bd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FCE07A"/><stop offset=".55" stop-color="#F6C94E"/><stop offset="1" stop-color="#E5A828"/></linearGradient>
+               <linearGradient id="${U}bdc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B5651E"/><stop offset="1" stop-color="#8A4512"/></linearGradient>`;
       body += `<g class="bobx">
-        <path d="M${px+4},${py} L${px+32},${py} L${px+30},${py+26} Q${px+18},${py+30} ${px+6},${py+26} Z" fill="url(#${U}bd)"/>
-        <path d="M${px+4},${py} L${px+32},${py} L${px+31},${py+7} L${px+5},${py+7} Z" fill="#C77E2A" opacity=".9"/>
-        <ellipse cx="${px+18}" cy="${py}" rx="14" ry="3.5" fill="#8A5418" opacity=".55"/>
-        <ellipse cx="${px+11}" cy="${py+13}" rx="2.5" ry="4" fill="#fff" opacity=".5"/></g>`;
+        <ellipse cx="${px}" cy="${py+30}" rx="${w-1}" ry="4" fill="#7A4A16" opacity=".3"/>
+        <path d="M${px-w+3},${py+2} Q${px-w},${py+3} ${px-w+1},${py+9} L${px-w+4},${py+27} Q${px-w+5},${py+31} ${px},${py+31} Q${px+w-5},${py+31} ${px+w-4},${py+27} L${px+w-1},${py+9} Q${px+w},${py+3} ${px+w-3},${py+2} Z" fill="url(#${U}bd)"/>
+        <path d="M${px-w+3},${py+2} Q${px},${py-4} ${px+w-3},${py+2} Q${px+w-1},${py+7} ${px+w-5},${py+9} Q${px},${py+5} ${px-w+5},${py+9} Q${px-w+1},${py+7} ${px-w+3},${py+2} Z" fill="url(#${U}bdc)"/>
+        <path d="M${px-2},${py-1} Q${px+3},${py-3} ${px+7},${py+1} Q${px+9},${py+9} ${px+5},${py+16}" fill="none" stroke="#6E3810" stroke-width="1.4" stroke-linecap="round" opacity=".5"/>
+        <ellipse cx="${px-6}" cy="${py+14}" rx="2.5" ry="6" fill="#fff" opacity=".45"/>
+        <ellipse cx="${px}" cy="${py-1.5}" rx="4" ry="1.4" fill="#fff" opacity=".4"/></g>`;
     }
     body += `</g>`;
     defs += `<radialGradient id="${U}rd" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#9A3A3A"/><stop offset="1" stop-color="#6E2626"/></radialGradient>`;
@@ -1155,7 +1159,7 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
   // 3小时标记: 右侧虚线刻度 + 3h文字(收藏柜mini放大字号,清晰)
   if(o.mini){
     body += `<line x1="144" y1="${topY}" x2="158" y2="${topY}" stroke="#C9A87E" stroke-width="2" stroke-dasharray="3 2.5"/>
-             <text x="162" y="${topY+5}" font-size="18" font-weight="700" fill="#F2799B" stroke="#FFFFFF" stroke-width="0.5">3h</text>`;
+             <text x="162" y="${topY+5}" font-size="15" font-weight="600" fill="#B08F68">3h</text>`;
   }else{
     body += `<line x1="146" y1="${topY}" x2="153" y2="${topY}" stroke="#C9A87E" stroke-width="2"/>
              <text x="157" y="${topY+4}" font-size="10" fill="#B08F68">3h</text>`;
