@@ -525,7 +525,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v8.6 · 鸡尾酒渐变+布丁</span>
+    <span style="opacity:.7">v8.7 · 抹茶芋泥牛奶渐变</span>
   </footer>
 </div>
 
@@ -595,9 +595,9 @@ const BASES = [
   {id:"lv",     name:"绿茶",     top:"#CBDD9A", bot:"#9DBB63"},
   {id:"wulong", name:"乌龙",     top:"#9A6B3E", bot:"#4A2E1A"},
   {id:"moli",   name:"茉莉",     top:"#F2E9C4", bot:"#D9C98A"},
-  {id:"mocha",  name:"抹茶",     top:"#9DC46A", bot:"#4E7A32"},
+  {id:"mocha",  name:"抹茶牛奶", top:"#3E6B26", mid:"#7BAA55", mid2:"#C5DDA8", bot:"#FBF7EE", milk:true},
   {id:"heitang",name:"黑糖鲜奶", top:"#F4E3CB", bot:"#6E4326", streak:true},
-  {id:"yuni",   name:"芋泥",     top:"#D7C4F0", bot:"#9A79D1"},
+  {id:"yuni",   name:"芋泥牛奶", top:"#8A63C4", mid:"#AE8ADB", mid2:"#DCCCF2", bot:"#FBF7F5", milk:true},
   {id:"caomei", name:"草莓",     top:"#EE9AAC", bot:"#D23A5C"},
   {id:"boba",   name:"焦糖布蕾", top:"#F5DFA0", bot:"#D6A02A"},
   {id:"mitao",  name:"蜜桃乌龙", top:"#FBD3B4", bot:"#EE7A48"},
@@ -852,6 +852,11 @@ function makeDrink(baseId){
   say("petBubble", lines(uid).evTea, 6500);
   nextBigTalk = Date.now() + 30000;
 }
+// 茶底色块渐变(支持多色过渡)
+function baseGrad(b){
+  if(b.mid && b.mid2) return `linear-gradient(180deg,${b.top},${b.mid} 30%,${b.mid2} 60%,${b.bot})`;
+  return `linear-gradient(180deg,${b.top},${b.bot})`;
+}
 const BASE_PER_PAGE = 12;
 let basePage = 0;
 function renderBasePicker(zone, disabled){
@@ -861,8 +866,8 @@ function renderBasePicker(zone, disabled){
   if(basePage < 0) basePage = 0;
   const items = BASES.slice(basePage*BASE_PER_PAGE, (basePage+1)*BASE_PER_PAGE);
   const opts = items.map(b=> disabled
-    ? `<div class="opt" style="opacity:.45; cursor:default"><div class="sw" style="background:linear-gradient(180deg,${b.top},${b.bot})"></div>${b.name}</div>`
-    : `<div class="opt" data-b="${b.id}"><div class="sw" style="background:linear-gradient(180deg,${b.top},${b.bot})"></div>${b.name}</div>`
+    ? `<div class="opt" style="opacity:.45; cursor:default"><div class="sw" style="background:${baseGrad(b)}"></div>${b.name}</div>`
+    : `<div class="opt" data-b="${b.id}"><div class="sw" style="background:${baseGrad(b)}"></div>${b.name}</div>`
   ).join("");
   grid.innerHTML = `<div class="grid">${opts}</div>
     <div class="base-nav">
@@ -879,7 +884,7 @@ function askMakeDrink(baseId){
   const b = BASES.find(x=>x.id===baseId);
   showModal(`
     <h3>确定封杯?</h3>
-    <div class="base-preview" style="background:linear-gradient(180deg,${b.top},${b.bot})"></div>
+    <div class="base-preview" style="background:${baseGrad(b)}"></div>
     <p>茶底选 <b>${b.name}</b>,封杯后今天就不能换了。<br>之后每多专注 25 分钟,还能继续加料 ✨</p>
     <div class="mbtns">
       <button class="btn ghost" id="mNo">再想想</button>
@@ -972,6 +977,14 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid}
            <stop offset=".3" stop-color="${base.mid||base.top}" stop-opacity=".78"/>
            <stop offset=".62" stop-color="${base.mid2||base.bot}" stop-opacity=".78"/>
            <stop offset="1" stop-color="${base.bot}" stop-opacity=".92"/>
+         </linearGradient>`
+      : base.milk
+      ? `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
+           <stop offset="0" stop-color="${base.top}"/>
+           <stop offset=".28" stop-color="${base.mid}"/>
+           <stop offset=".58" stop-color="${base.mid2}"/>
+           <stop offset=".82" stop-color="${base.bot}"/>
+           <stop offset="1" stop-color="${base.bot}"/>
          </linearGradient>`
       : `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
            <stop offset="0" stop-color="${base.top}"/><stop offset="1" stop-color="${base.bot}"/>
