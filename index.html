@@ -160,6 +160,7 @@
   .opt.sel{border-color:var(--taro); background:var(--taro-soft)}
   .opt .sw{width:34px; height:34px; border-radius:10px; margin:0 auto 4px; border:1px solid rgba(0,0,0,.06)}
   .opt .em{font-size:24px; line-height:34px; display:block; height:34px}
+  .opt .dot{display:block; width:22px; height:22px; border-radius:50%; margin:6px auto; box-shadow:inset 0 -2px 3px rgba(0,0,0,.2), inset 0 2px 3px rgba(255,255,255,.5), 0 1px 2px rgba(0,0,0,.15)}
   .opt .cnt{
     position:absolute; top:-7px; right:-6px; background:var(--taro); color:#fff; font-size:11px;
     border-radius:999px; min-width:19px; height:19px; line-height:19px; display:none;
@@ -533,7 +534,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v9.4 · 果切emoji去重</span>
+    <span style="opacity:.7">v9.8 · 移除茶底特色元素</span>
   </footer>
 </div>
 
@@ -612,7 +613,7 @@ const BASES = [
   {id:"tiannai", name:"焦糖奶咖", top:"#F0DBBE", mid:"#CFA06A", bot:"#9A6636", grad:true},
   {id:"niunai",  name:"白牛乳",   top:"#FFFFFF", mid:"#FBF4EA", bot:"#EDE2D2", grad:true},
   // ── 粉红系(靠色相/明度大幅拉开) ──
-  {id:"caomei", name:"草莓",     top:"#F4A6B6", mid:"#E8567C", bot:"#C82858", grad:true},   // 深莓红
+  {id:"caomei", name:"草莓",     top:"#F0A0BE", mid:"#DC4A84", bot:"#A82064", grad:true},   // 深莓红(偏品红)
   {id:"xigua",   name:"西瓜",     top:"#FFB0BC", mid:"#F76F84", bot:"#E63E5C", grad:true},  // 西瓜红
   {id:"yangmei",  name:"杨梅",     top:"#E88AA0", mid:"#C43A66", bot:"#8E2048", grad:true}, // 暗玫红
   {id:"yinghua", name:"樱花",     top:"#FBE2F0", mid:"#EDA8D2", bot:"#D072B0", grad:true},  // 淡紫粉
@@ -637,16 +638,16 @@ const BASES = [
   {id:"riluo",   name:"日落鸡尾酒",top:"#F7D14B", mid:"#F5A24B", mid2:"#F07E6A", bot:"#E8506E", cocktail:true}
 ];
 const TOPPINGS = [
-  {id:"zhenzhu", name:"珍珠",   em:"⚫", kind:"in"},
-  {id:"yeguo",   name:"椰果",   em:"⬜", kind:"in"},
-  {id:"yuyuan",  name:"芋圆",   em:"🟣", kind:"in"},
-  {id:"hongdou", name:"红豆",   em:"🫘", kind:"in"},
+  {id:"zhenzhu", name:"珍珠",   em:"⚫", dot:"#2B1D16", kind:"in"},
+  {id:"yeguo",   name:"椰果",   em:"⬜", dot:"#FBF6EC", kind:"in"},
+  {id:"yuyuan",  name:"芋圆",   em:"🟣", dot:"#B586DC", kind:"in"},
+  {id:"hongdou", name:"红豆",   em:"🫘", dot:"#7A2E2E", kind:"in"},
   {id:"buding",  name:"布丁",   em:"🍮", kind:"in"},
-  {id:"xiancao", name:"仙草冻", em:"🟤", kind:"in"},
-  {id:"ximi",    name:"西米",   em:"🔘", kind:"in"},
+  {id:"xiancao", name:"仙草冻", em:"🟤", dot:"#2E2230", kind:"in"},
+  {id:"ximi",    name:"西米",   em:"🔘", dot:"#EFE2CC", kind:"in"},
   {id:"ningmeng",name:"柠檬片", em:"🍋", kind:"fruit"},
-  {id:"qingning",name:"青柠片", em:"🍈", kind:"fruit"},
-  {id:"xiyoupian",name:"西柚片",em:"🍑", kind:"fruit"},
+  {id:"qingning",name:"青柠片", em:"🟩", kind:"fruit"},
+  {id:"xiyoupian",name:"西柚片",em:"🟠", kind:"fruit"},
   {id:"chengpian",name:"橙片",  em:"🍊", kind:"fruit"},
   {id:"caomeipian",name:"草莓片",em:"🍓", kind:"fruit"},
   {id:"naigai",  name:"奶盖",   em:"🥛", kind:"cap"},
@@ -1925,8 +1926,11 @@ function renderStation(){
     }
     const optHTML = t=>{
       const n = (d.tops||[]).filter(x=>x===t.id).length;
+      const icon = t.dot
+        ? `<span class="dot" style="background:${t.dot}"></span>`
+        : `<span class="em">${t.em}</span>`;
       return `<div class="opt ${n?"sel":""}" data-t="${t.id}" style="${credits>0?"":"opacity:.5;cursor:default"}">
-        <span class="cnt ${n?"show":""}">×${n}</span><span class="em">${t.em}</span>${t.name}</div>`;
+        <span class="cnt ${n?"show":""}">×${n}</span>${icon}${t.name}</div>`;
     };
     const groupsUI = [["🥤 小料",["in","cap"]], ["🍋 果切",["fruit"]], ["✨ 顶部装饰",["deco"]], ["🩷 杯身贴纸",["stick"]]];
     html += groupsUI.map(([label,ks])=>
