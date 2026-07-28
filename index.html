@@ -439,8 +439,8 @@
   @keyframes rise{from{transform:translateY(6px); opacity:0}to{transform:translateY(0); opacity:1}}
   @keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
   @keyframes confetti-fall{to{transform:translateY(110vh) rotate(720deg); opacity:.9}}
-  .bob{animation:bob 2.4s ease-in-out infinite alternate}
-  .bobx{animation:bobx 3s ease-in-out infinite alternate}
+  .bob{animation:none}
+  .bobx{animation:none}
   .twk{animation:twinkle 1.6s ease-in-out infinite}
   .sway{animation:sway 2.6s ease-in-out infinite alternate; transform-origin:bottom center}
   .drip-a{animation:drip 2.8s ease-in infinite}
@@ -534,7 +534,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v9.9 · 玻璃杯拉高修吸管</span>
+    <span style="opacity:.7">v10.0 · 果切修复+小料不闪</span>
   </footer>
 </div>
 
@@ -1161,41 +1161,46 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
     // ── 果切小料(漂在液面/挂杯口,贴杯壁) ──
     const rndF = (i,s)=>{ const v=Math.sin(i*33.7+s*91.3)*4391.7; return v-Math.floor(v); };
     // 圆形柑橘切片: 半透明果肉 + 放射瓣 + 白边
-    const citrus = (id, rim, flesh, cnt2)=>{
+    const citrus = (id, rim, flesh)=>{
       if(!cnt(id)) return "";
       let s=""; const n=Math.min(cnt(id),2)+1;
       for(let i=0;i<n;i++){
         const onLeft = i%2===0;
-        const cx = onLeft ? 62+rndF(i,1)*6 : 138-rndF(i,2)*6;
-        const cy = surf+8+rndF(i,3)*20+i*14;
-        const r = 13, rot = (onLeft?-1:1)*(18+rndF(i,4)*16);
+        // 沿液面下方分布,x按该高度的杯宽动态定位(不出界)
+        const cy = surf+22+rndF(i,3)*24+i*16;
+        const hw = halfW(cy);
+        const cx = onLeft ? 100-hw*0.42 : 100+hw*0.42;
+        const r = Math.min(11, hw*0.34), rot = (onLeft?-1:1)*(16+rndF(i,4)*14);
         let seg="";
-        for(let k=0;k<8;k++){ const a=k/8*Math.PI*2; seg+=`<path d="M0,0 L${(Math.cos(a)*r*.82).toFixed(1)},${(Math.sin(a)*r*.82).toFixed(1)} A${r*.82},${r*.82} 0 0 1 ${(Math.cos(a+Math.PI/4)*r*.82).toFixed(1)},${(Math.sin(a+Math.PI/4)*r*.82).toFixed(1)} Z" fill="${flesh}" opacity=".55" stroke="#fff" stroke-width=".6"/>`; }
-        s += `<g transform="translate(${cx.toFixed(1)},${cy.toFixed(1)}) rotate(${rot.toFixed(0)})" class="bob" style="animation-delay:${i*.6}s">
-          <circle r="${r}" fill="${rim}" opacity=".92"/><circle r="${r-2.5}" fill="${flesh}" opacity=".5"/>
-          ${seg}<circle r="${r}" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85"/>
+        for(let k=0;k<8;k++){ const a=k/8*Math.PI*2; seg+=`<path d="M0,0 L${(Math.cos(a)*r*.82).toFixed(1)},${(Math.sin(a)*r*.82).toFixed(1)} A${(r*.82).toFixed(1)},${(r*.82).toFixed(1)} 0 0 1 ${(Math.cos(a+Math.PI/4)*r*.82).toFixed(1)},${(Math.sin(a+Math.PI/4)*r*.82).toFixed(1)} Z" fill="${flesh}" opacity=".55" stroke="#fff" stroke-width=".6"/>`; }
+        s += `<g transform="translate(${cx.toFixed(1)},${cy.toFixed(1)}) rotate(${rot.toFixed(0)})">
+          <circle r="${r.toFixed(1)}" fill="${rim}" opacity=".92"/><circle r="${(r-2.5).toFixed(1)}" fill="${flesh}" opacity=".5"/>
+          ${seg}<circle r="${r.toFixed(1)}" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85"/>
           <circle r="1.8" fill="#fff" opacity=".7"/></g>`;
       }
       return s;
     };
+    body += `<g clip-path="url(#${U}cp)">`;
     body += citrus("ningmeng", "#F2D84E", "#FCEE9E");   // 柠檬:黄
     body += citrus("qingning", "#9AD24E", "#DCF0A8");   // 青柠:绿
     body += citrus("chengpian","#F5A030", "#FCD590");   // 橙:橙
     body += citrus("xiyoupian","#F07868", "#FBC4B4");   // 西柚:粉红
-    // 草莓片: 半心形红果 + 白点籽
+    // 草莓片: 半心形红果 + 白点籽(动态定位,不闪)
     if(cnt("caomeipian")){ const n=Math.min(cnt("caomeipian"),2)+1;
       for(let i=0;i<n;i++){
         const onLeft=i%2===0;
-        const cx=onLeft?64+rndF(i,5)*8:136-rndF(i,6)*8;
-        const cy=surf+10+rndF(i,7)*22+i*15;
-        const rot=(onLeft?-1:1)*(14+rndF(i,8)*18);
-        body += `<g transform="translate(${cx.toFixed(1)},${cy.toFixed(1)}) rotate(${rot.toFixed(0)})" class="bob" style="animation-delay:${i*.5}s">
+        const cy=surf+22+rndF(i,7)*24+i*16;
+        const hw=halfW(cy);
+        const cx=onLeft?100-hw*0.4:100+hw*0.4;
+        const rot=(onLeft?-1:1)*(14+rndF(i,8)*16);
+        body += `<g transform="translate(${cx.toFixed(1)},${cy.toFixed(1)}) rotate(${rot.toFixed(0)}) scale(.85)">
           <path d="M-9,-7 Q0,-10 9,-7 Q10,2 0,11 Q-10,2 -9,-7 Z" fill="#F26B7E" stroke="#fff" stroke-width="1.4"/>
           <path d="M-9,-7 Q0,-10 9,-7 Q7,-4 0,-4 Q-7,-4 -9,-7 Z" fill="#FBCED4" opacity=".7"/>
           <circle cx="-3.5" cy="-1" r="1" fill="#FFF3D0"/><circle cx="3.5" cy="-1" r="1" fill="#FFF3D0"/>
           <circle cx="0" cy="3" r="1" fill="#FFF3D0"/><circle cx="-2" cy="6" r="1" fill="#FFF3D0"/><circle cx="3" cy="5" r="1" fill="#FFF3D0"/></g>`;
       }
     }
+    body += `</g>`;
     // 奶盖(液面上的一层,绵密有光泽)
     if(cnt("naigai")){
       const capH = 20, cb = Math.min(botY-8, surf+capH);
