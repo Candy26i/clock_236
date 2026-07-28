@@ -534,7 +534,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v9.8 · 移除茶底特色元素</span>
+    <span style="opacity:.7">v9.9 · 玻璃杯拉高修吸管</span>
   </footer>
 </div>
 
@@ -1015,10 +1015,10 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
     },
     // 玻璃杯: 矮胖直壁,厚玻璃,无盖,短粗吸管
     glass: {
-      topY:104, botY:262, lidY:100,
-      halfW: y => 46 - 6*(y-100)/162,
-      outline: "M56,100 Q54,100 54,106 L58,254 Q59,266 71,266 L129,266 Q141,266 142,254 L146,106 Q146,100 144,100 Z",
-      clip:    "M58,104 L61,253 Q62,262 71,262 L129,262 Q138,262 139,253 L142,104 Z",
+      topY:90, botY:266, lidY:88,
+      halfW: y => 44 - 10*(y-88)/178,
+      outline: "M56,88 Q54,88 54,94 L60,256 Q61,268 73,268 L127,268 Q139,268 140,256 L146,94 Q146,88 144,88 Z",
+      clip:    "M57,90 L63,255 Q64,264 73,264 L127,264 Q136,264 137,255 L143,90 Z",
       hasLid:false, hasStraw:true
     }
   }[cupType];
@@ -1216,10 +1216,10 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
     body += `<path d="M67,100 L76,240" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity=".5"/>
              <path d="M133,100 L124,238" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".22"/>`;
   }else{
-    // 玻璃杯: 更强的厚壁反光,竖直
-    body += `<path d="M64,116 L67,246" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity=".55"/>
-             <path d="M74,116 L76,244" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".3"/>
-             <path d="M135,118 L132,244" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".25"/>`;
+    // 玻璃杯: 厚壁反光,竖直贯穿
+    body += `<path d="M62,102 L66,250" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity=".55"/>
+             <path d="M72,102 L75,248" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".3"/>
+             <path d="M136,104 L132,248" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".25"/>`;
   }
   defs += `<linearGradient id="${U}gl" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".28" stop-color="#fff" stop-opacity=".05"/>
@@ -1298,10 +1298,10 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
              <rect x="103" y="16" width="13" height="90" rx="6" fill="url(#${U}st)"/>
              <rect x="103" y="16" width="4" height="90" rx="2" fill="#fff" opacity=".35"/></g>`;
   }else{
-    // 玻璃杯: 短粗吸管,斜插,从杯口露出
-    body += `<g transform="rotate(11 108 108)"><rect x="110" y="52" width="12" height="76" rx="6" fill="#E9756F"/>
-             <rect x="110" y="52" width="12" height="76" rx="6" fill="url(#${U}st)"/>
-             <rect x="110" y="52" width="3.5" height="76" rx="2" fill="#fff" opacity=".35"/></g>`;
+    // 玻璃杯: 一根吸管,竖直插入杯口(略斜)
+    body += `<g transform="rotate(8 100 90)"><rect x="104" y="30" width="12" height="86" rx="6" fill="#E9756F"/>
+             <rect x="104" y="30" width="12" height="86" rx="6" fill="url(#${U}st)"/>
+             <rect x="104" y="30" width="3.5" height="86" rx="2" fill="#fff" opacity=".35"/></g>`;
   }
   defs += `<linearGradient id="${U}st" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".25" stop-color="#fff" stop-opacity="0"/>
@@ -1314,11 +1314,10 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
              <rect x="47" y="76" width="106" height="10" rx="5" fill="#F7E3C6" stroke="#C9A87E" stroke-width="2.5"/>
              <rect x="49" y="77.5" width="102" height="3" rx="1.5" fill="#FFFDF6" opacity=".8"/>`;
   }else{
-    // 玻璃杯口: 厚玻璃圈(椭圆杯口 + 内壁)
-    body += `<ellipse cx="100" cy="104" rx="46" ry="9" fill="#F7EFE0" stroke="#C9A87E" stroke-width="3"/>
-             <ellipse cx="100" cy="104" rx="40" ry="6" fill="#EADFCB" opacity=".7"/>
-             <ellipse cx="100" cy="103" rx="40" ry="5.5" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity=".5"/>
-             <ellipse cx="84" cy="102" rx="10" ry="2.5" fill="#FFFFFF" opacity=".6" transform="rotate(-12 84 102)"/>`;
+    // 玻璃杯口: 厚玻璃圈(椭圆杯口)
+    body += `<ellipse cx="100" cy="90" rx="45" ry="8" fill="#F7EFE0" stroke="#C9A87E" stroke-width="3"/>
+             <ellipse cx="100" cy="90" rx="39" ry="5" fill="#EADFCB" opacity=".7"/>
+             <ellipse cx="82" cy="88.5" rx="9" ry="2.2" fill="#FFFFFF" opacity=".55" transform="rotate(-10 82 88.5)"/>`;
   }
 
   // ── 顶部装饰 ──
