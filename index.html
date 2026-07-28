@@ -441,13 +441,15 @@
   @keyframes confetti-fall{to{transform:translateY(110vh) rotate(720deg); opacity:.9}}
   .bob{animation:none}
   .bobx{animation:none}
+  @keyframes floaty{from{transform:translateY(0)}to{transform:translateY(-4px)}}
+  .float{animation:floaty 2.6s ease-in-out infinite alternate}
   .twk{animation:twinkle 1.6s ease-in-out infinite}
   .sway{animation:sway 2.6s ease-in-out infinite alternate; transform-origin:bottom center}
   .drip-a{animation:drip 2.8s ease-in infinite}
   .wavea{animation:wave 3.4s ease-in-out infinite}
   .pop{animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
   .confetti{position:fixed; top:-20px; z-index:99; pointer-events:none; animation:confetti-fall linear forwards}
-  svg .pop, svg .twk, svg .sway, svg .bob, svg .bobx{transform-box:fill-box; transform-origin:center}
+  svg .pop, svg .twk, svg .sway, svg .bob, svg .bobx, svg .float{transform-box:fill-box; transform-origin:center}
   @media (prefers-reduced-motion:reduce){
     .bob,.bobx,.twk,.sway,.drip-a,.wavea,.confetti{animation:none !important}
     .pet-img-wrap,.pet-img,.pet-shadow,.pet-particle{animation:none !important}
@@ -534,7 +536,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v10.0 · 果切修复+小料不闪</span>
+    <span style="opacity:.7">v10.1 · 冰块漂浮+玻璃杯加高</span>
   </footer>
 </div>
 
@@ -1015,10 +1017,10 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
     },
     // 玻璃杯: 矮胖直壁,厚玻璃,无盖,短粗吸管
     glass: {
-      topY:90, botY:266, lidY:88,
-      halfW: y => 44 - 10*(y-88)/178,
-      outline: "M56,88 Q54,88 54,94 L60,256 Q61,268 73,268 L127,268 Q139,268 140,256 L146,94 Q146,88 144,88 Z",
-      clip:    "M57,90 L63,255 Q64,264 73,264 L127,264 Q136,264 137,255 L143,90 Z",
+      topY:82, botY:268, lidY:80,
+      halfW: y => 44 - 10*(y-80)/188,
+      outline: "M56,80 Q54,80 54,86 L60,258 Q61,270 73,270 L127,270 Q139,270 140,258 L146,86 Q146,80 144,80 Z",
+      clip:    "M57,82 L63,257 Q64,266 73,266 L127,266 Q136,266 137,257 L143,82 Z",
       hasLid:false, hasStraw:true
     }
   }[cupType];
@@ -1072,7 +1074,7 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
     if(base && base.cocktail){
       const ice = [ {x:78,y:surf+18,s:17,r:-12},{x:104,y:surf+10,s:20,r:8},{x:92,y:surf+40,s:15,r:18},{x:116,y:surf+34,s:14,r:-8} ];
       ice.forEach((c,i)=>{
-        body += `<g transform="rotate(${c.r} ${c.x+c.s/2} ${c.y+c.s/2})" class="bob" style="animation-delay:${i*.5}s">
+        body += `<g transform="rotate(${c.r} ${c.x+c.s/2} ${c.y+c.s/2})" class="float" style="animation-delay:${i*.5}s">
           <rect x="${c.x}" y="${c.y}" width="${c.s}" height="${c.s}" rx="3" fill="#FFFFFF" opacity=".32"/>
           <rect x="${c.x}" y="${c.y}" width="${c.s}" height="${c.s}" rx="3" fill="none" stroke="#FFFFFF" stroke-width="1.2" opacity=".55"/>
           <rect x="${c.x+2.5}" y="${c.y+2.5}" width="${c.s*.3}" height="${c.s*.3}" rx="1.5" fill="#FFFFFF" opacity=".6"/></g>`;
@@ -1222,9 +1224,9 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
              <path d="M133,100 L124,238" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".22"/>`;
   }else{
     // 玻璃杯: 厚壁反光,竖直贯穿
-    body += `<path d="M62,102 L66,250" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity=".55"/>
-             <path d="M72,102 L75,248" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".3"/>
-             <path d="M136,104 L132,248" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".25"/>`;
+    body += `<path d="M62,94 L66,252" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity=".55"/>
+             <path d="M72,94 L75,250" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".3"/>
+             <path d="M136,96 L132,250" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".25"/>`;
   }
   defs += `<linearGradient id="${U}gl" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".28" stop-color="#fff" stop-opacity=".05"/>
@@ -1304,9 +1306,9 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
              <rect x="103" y="16" width="4" height="90" rx="2" fill="#fff" opacity=".35"/></g>`;
   }else{
     // 玻璃杯: 一根吸管,竖直插入杯口(略斜)
-    body += `<g transform="rotate(8 100 90)"><rect x="104" y="30" width="12" height="86" rx="6" fill="#E9756F"/>
-             <rect x="104" y="30" width="12" height="86" rx="6" fill="url(#${U}st)"/>
-             <rect x="104" y="30" width="3.5" height="86" rx="2" fill="#fff" opacity=".35"/></g>`;
+    body += `<g transform="rotate(8 100 82)"><rect x="104" y="24" width="12" height="86" rx="6" fill="#E9756F"/>
+             <rect x="104" y="24" width="12" height="86" rx="6" fill="url(#${U}st)"/>
+             <rect x="104" y="24" width="3.5" height="86" rx="2" fill="#fff" opacity=".35"/></g>`;
   }
   defs += `<linearGradient id="${U}st" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".25" stop-color="#fff" stop-opacity="0"/>
@@ -1320,9 +1322,9 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
              <rect x="49" y="77.5" width="102" height="3" rx="1.5" fill="#FFFDF6" opacity=".8"/>`;
   }else{
     // 玻璃杯口: 厚玻璃圈(椭圆杯口)
-    body += `<ellipse cx="100" cy="90" rx="45" ry="8" fill="#F7EFE0" stroke="#C9A87E" stroke-width="3"/>
-             <ellipse cx="100" cy="90" rx="39" ry="5" fill="#EADFCB" opacity=".7"/>
-             <ellipse cx="82" cy="88.5" rx="9" ry="2.2" fill="#FFFFFF" opacity=".55" transform="rotate(-10 82 88.5)"/>`;
+    body += `<ellipse cx="100" cy="82" rx="45" ry="8" fill="#F7EFE0" stroke="#C9A87E" stroke-width="3"/>
+             <ellipse cx="100" cy="82" rx="39" ry="5" fill="#EADFCB" opacity=".7"/>
+             <ellipse cx="82" cy="80.5" rx="9" ry="2.2" fill="#FFFFFF" opacity=".55" transform="rotate(-10 82 80.5)"/>`;
   }
 
   // ── 顶部装饰 ──
