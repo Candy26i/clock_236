@@ -538,7 +538,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v10.3 · 玻璃杯杯脚棱面</span>
+    <span style="opacity:.7">v10.6 · 学习配色扩充茶底</span>
   </footer>
 </div>
 
@@ -605,25 +605,25 @@ const CATS = [
 ];
 const BASES = [
   // ── 茶系(琥珀/黄绿,靠明度饱和区分) ──
-  {id:"hong",   name:"红茶",     top:"#E8A868", mid:"#D07E3E", bot:"#A85824", grad:true},
+  {id:"hong",   name:"珍珠奶茶", top:"#F3DFC2", mid:"#D5A875", bot:"#A96F45", grad:true},
   {id:"wulong", name:"乌龙",     top:"#CFA063", mid:"#A9743C", bot:"#6E4620", grad:true},
   {id:"lv",     name:"绿茶",     top:"#D6E6A0", mid:"#AEC868", bot:"#7E9E42", grad:true},
   {id:"moli",   name:"茉莉",     top:"#F7F0D0", mid:"#EADFA8", bot:"#CFBE78", grad:true},
   {id:"boba",   name:"焦糖布蕾", top:"#FBE7A0", mid:"#F0C255", bot:"#CE9420", grad:true},
   // ── 奶系(上深下白牛奶渐变) ──
-  {id:"mocha",  name:"抹茶牛奶", top:"#3E6B26", mid:"#7BAA55", mid2:"#C5DDA8", bot:"#FBF7EE", milk:true},
-  {id:"yuni",   name:"芋泥牛奶", top:"#8A63C4", mid:"#AE8ADB", mid2:"#DCCCF2", bot:"#FBF7F5", milk:true},
+  {id:"mocha",  name:"抹茶牛乳", top:"#597744", mid:"#78995A", mid2:"#C7D99A", bot:"#F8F6E8", milk:true},
+  {id:"yuni",   name:"芋泥牛乳", top:"#8E6698", mid:"#B98CBE", mid2:"#E6CBE8", bot:"#FFF9FC", milk:true},
   {id:"heitang",name:"黑糖鲜奶", top:"#F4E3CB", bot:"#6E4326", streak:true},
   {id:"tiannai", name:"焦糖奶咖", top:"#F0DBBE", mid:"#CFA06A", bot:"#9A6636", grad:true},
   {id:"niunai",  name:"白牛乳",   top:"#FFFFFF", mid:"#FBF4EA", bot:"#EDE2D2", grad:true},
   // ── 粉红系(靠色相/明度大幅拉开) ──
-  {id:"caomei", name:"草莓",     top:"#F0A0BE", mid:"#DC4A84", bot:"#A82064", grad:true},   // 深莓红(偏品红)
-  {id:"xigua",   name:"西瓜",     top:"#FFB0BC", mid:"#F76F84", bot:"#E63E5C", grad:true},  // 西瓜红
+  {id:"caomei", name:"草莓牛乳", top:"#FFF8F5", mid:"#FFD4D9", mid2:"#F58A9B", bot:"#E94D61", milk:true},
+  {id:"xigua",   name:"西瓜冰饮", top:"#FFE5E3", mid:"#FF9B9A", bot:"#EF5357", grad:true},
   {id:"yangmei",  name:"杨梅",     top:"#E88AA0", mid:"#C43A66", bot:"#8E2048", grad:true}, // 暗玫红
   {id:"yinghua", name:"樱花",     top:"#FBE2F0", mid:"#EDA8D2", bot:"#D072B0", grad:true},  // 淡紫粉
   {id:"wumei",   name:"乌梅",     top:"#D8968C", mid:"#A0464A", bot:"#6E282E", grad:true},  // 暗红
   // ── 橙桃系(拉开色相) ──
-  {id:"mitao",  name:"蜜桃乌龙", top:"#FFCFA8", mid:"#F79A66", bot:"#E86E3A", grad:true},
+  {id:"mitao",  name:"蜜桃乌龙", top:"#FFE8DD", mid:"#F7B49D", mid2:"#C87B55", bot:"#F58F82", grad:true},
   {id:"baixiang",name:"白桃养乐多",top:"#FDE8D6", mid:"#F8C098", bot:"#F0956A", grad:true},
   {id:"xiangcheng",name:"香橙",  top:"#FFDC82", mid:"#FBA83E", bot:"#F0790E", grad:true},
   {id:"xiyou",   name:"西柚",     top:"#FBC6B8", mid:"#F58A72", bot:"#E85A48", grad:true},
@@ -636,10 +636,20 @@ const BASES = [
   {id:"bohe",   name:"薄荷",     top:"#D6F2E6", mid:"#8FDCC2", bot:"#4FBF9E", grad:true},
   {id:"qingningqp",name:"青柠气泡",top:"#EAF7D8", mid:"#C6E89A", mid2:"#8FD0A0", bot:"#5FBFA0", cocktail:true},
   // ── 蓝紫系 ──
-  {id:"lanmei", name:"蓝莓",     top:"#D2DEF7", mid:"#8296E2", bot:"#4E60C8", grad:true},
-  {id:"putao",   name:"葡萄",     top:"#E2CAF0", mid:"#B074D6", bot:"#8044B0", grad:true},
+  {id:"lanmei", name:"蓝莓星云", top:"#F8F5FF", mid:"#D8CBFF", mid2:"#8D7BE6", bot:"#42388E", milk:true},
+  {id:"putao",   name:"葡萄酸奶", top:"#FFF5FB", mid:"#D8B2E5", mid2:"#82529B", bot:"#62417D", milk:true},
   // ── 鸡尾酒 ──
-  {id:"riluo",   name:"日落鸡尾酒",top:"#F7D14B", mid:"#F5A24B", mid2:"#F07E6A", bot:"#E8506E", cocktail:true}
+  {id:"riluo",   name:"日落鸡尾酒",top:"#F7D14B", mid:"#F5A24B", mid2:"#F07E6A", bot:"#E8506E", cocktail:true},
+  {id:"mangye",  name:"芒果椰奶", top:"#FFF8CF", mid:"#FFD761", bot:"#F5A623", grad:true},
+  {id:"langan",  name:"蓝柑气泡", top:"#DFF9FF", mid:"#70D9F0", bot:"#278FC4", cocktail:true},
+  {id:"jiguang", name:"极光葡萄", top:"#EAFBFF", mid:"#C9C2FF", mid2:"#8D6BCE", bot:"#6D4BA3", cocktail:true},
+  {id:"dieudou", name:"蝶豆花柠檬",top:"#DDF8FF", mid:"#8ED9FF", mid2:"#6F88E8", bot:"#FFF1A8", cocktail:true},
+  {id:"heizhima",name:"黑芝麻拿铁",top:"#F7F2EC", mid:"#D8CEC2", mid2:"#9B8E86", bot:"#4A403B", milk:true},
+  {id:"guihua",  name:"桂花雪梨", top:"#FFF9E8", mid:"#F5E2A6", mid2:"#D8A95E", bot:"#A86F3D", grad:true},
+  {id:"yukaixin",name:"芋泥开心果",top:"#FDFBFF", mid:"#DCC5E4", mid2:"#B29AC4", bot:"#A9C98A", milk:true},
+  {id:"xiyoumei",name:"西柚玫瑰", top:"#FFF9F6", mid:"#FFD8CC", mid2:"#FFA69A", bot:"#F57C75", grad:true},
+  {id:"yinglizhi",name:"樱花荔枝",top:"#FFFDFC", mid:"#FFEFF3", mid2:"#FFC9D6", bot:"#F39AB1", milk:true},
+  {id:"boheqingti",name:"薄荷青提",top:"#F9FFF8", mid:"#DFF7D4", mid2:"#AEE58F", bot:"#76C96D", grad:true}
 ];
 const TOPPINGS = [
   {id:"zhenzhu", name:"珍珠",   em:"⚫", dot:"#2B1D16", kind:"in"},
@@ -1019,11 +1029,11 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
     },
     // 玻璃杯: 矮胖直壁,厚玻璃,无盖,短粗吸管
     glass: {
-      topY:82, botY:272, lidY:80,
-      halfW: y => y<210 ? 45 - 4*(y-80)/130 : 41 - 9*(y-210)/62,
-      outline: "M55,80 Q53,80 53,86 L57,200 Q57,208 62,214 L66,258 Q67,272 76,272 L124,272 Q133,272 134,258 L138,214 Q143,208 143,200 L147,86 Q147,80 145,80 Z",
-      clip:    "M56,82 L59,201 Q59,208 64,214 L68,256 Q69,266 76,266 L124,266 Q131,266 132,256 L136,214 Q141,208 141,201 L144,82 Z",
-      hasLid:false, hasStraw:true, footed:true
+      topY:82, botY:268, lidY:80,
+      halfW: y => 44 - 8*(y-80)/188,
+      outline: "M56,80 Q54,80 54,86 L60,256 Q61,268 73,268 L127,268 Q139,268 140,256 L146,86 Q146,80 144,80 Z",
+      clip:    "M57,82 L63,255 Q64,264 73,264 L127,264 Q136,264 137,255 L143,82 Z",
+      hasLid:false, hasStraw:true
     }
   }[cupType];
   const topY = CUP.topY, botY = CUP.botY;
@@ -1225,16 +1235,10 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
     body += `<path d="M67,100 L76,240" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity=".5"/>
              <path d="M133,100 L124,238" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".22"/>`;
   }else{
-    // 玻璃杯: 厚壁竖直反光(到杯脚收窄处)
-    body += `<path d="M62,94 L65,205" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity=".55"/>
-             <path d="M72,94 L74,203" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".3"/>
-             <path d="M136,96 L133,205" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".25"/>`;
-    // 杯脚棱面: 收窄处的转折高光 + 底部厚玻璃反光
-    body += `<path d="M62,214 L67,256" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity=".45"/>
-             <path d="M136,214 L131,256" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".28"/>
-             <path d="M57,200 Q70,210 100,210 Q130,210 141,200" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity=".4"/>
-             <ellipse cx="100" cy="264" rx="26" ry="5" fill="#FFFFFF" opacity=".22"/>
-             <ellipse cx="88" cy="262" rx="8" ry="2.5" fill="#FFFFFF" opacity=".4"/>`;
+    // 玻璃杯: 厚壁竖直反光
+    body += `<path d="M62,94 L66,250" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity=".55"/>
+             <path d="M72,94 L75,248" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".3"/>
+             <path d="M136,96 L132,248" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".25"/>`;
   }
   defs += `<linearGradient id="${U}gl" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".28" stop-color="#fff" stop-opacity=".05"/>
