@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='t' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23E8A868'/%3E%3Cstop offset='1' stop-color='%23A85824'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M28 32 L34 84 Q35 90 41 90 L59 90 Q65 90 66 84 L72 32 Z' fill='url(%23t)' stroke='%23C9A87E' stroke-width='3'/%3E%3Cpath d='M25 32 Q50 20 75 32 Z' fill='%23FBEED4' stroke='%23C9A87E' stroke-width='3'/%3E%3Crect x='23' y='30' width='54' height='6' rx='3' fill='%23F7E3C6' stroke='%23C9A87E' stroke-width='2'/%3E%3Cg transform='rotate(9 50 32)'%3E%3Crect x='52' y='8' width='7' height='50' rx='3' fill='%23E9756F'/%3E%3C/g%3E%3Ccircle cx='42' cy='76' r='4' fill='%232B1D16'/%3E%3Ccircle cx='54' cy='80' r='4' fill='%232B1D16'/%3E%3Ccircle cx='48' cy='72' r='4' fill='%232B1D16'/%3E%3C/svg%3E">
 <!--
   ═══════════════════════════════════════════════════════════
-  🧋 夏日最强奶茶铺 · 双人同步番茄钟
+  🧋 夏日奶茶铺 · 双人同步番茄钟
   ───────────────────────────────────────────────────────────
   使用说明:
   1. 在下方 JS 的 firebaseConfig 里填入你们的 Firebase 配置
@@ -161,6 +161,7 @@
   .opt:hover{transform:translateY(-2px); border-color:var(--amber)}
   .opt.sel{border-color:var(--taro); background:var(--taro-soft)}
   .opt .sw{width:34px; height:34px; border-radius:10px; margin:0 auto 4px; border:1px solid rgba(0,0,0,.06)}
+  .opt .bn{font-size:11px; white-space:nowrap; display:block; letter-spacing:-.3px}
   .opt .em{font-size:24px; line-height:34px; display:block; height:34px}
   .opt .dot{display:block; width:22px; height:22px; border-radius:50%; margin:6px auto; box-shadow:inset 0 -2px 3px rgba(0,0,0,.2), inset 0 2px 3px rgba(255,255,255,.5), 0 1px 2px rgba(0,0,0,.15)}
   .opt .cnt{
@@ -237,7 +238,7 @@
   .mini:hover .cupwrap{transform:translateY(-9px) scale(1.06)}
   .mini svg{width:48px; height:auto; display:block; margin:0 auto; position:relative; z-index:1; filter:drop-shadow(0 2px 2px rgba(80,50,20,.28))}
   .mini .d{font-size:10px; color:#6A4A24; text-shadow:0 1px 1px rgba(255,240,210,.5); margin-top:5px}
-  .mini .t{font-size:9.5px; color:#5A3D1E; line-height:1.2; text-shadow:0 1px 1px rgba(255,240,210,.5); margin-top:6px; white-space:nowrap}
+  .mini .t{font-size:9px; color:#5A3D1E; line-height:1.2; text-shadow:0 1px 1px rgba(255,240,210,.5); margin-top:6px; white-space:nowrap; letter-spacing:-.3px}
   .empty-shelf{font-size:12.5px; color:#7A5630; text-align:center; padding:28px 4px; position:relative; z-index:1; text-shadow:0 1px 1px rgba(255,240,210,.4)}
 
   /* ── 双开玻璃柜门 ── */
@@ -538,7 +539,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v10.6 · 学习配色扩充茶底</span>
+    <span style="opacity:.7">v11.0 · 玻璃杯广口收窄</span>
   </footer>
 </div>
 
@@ -605,7 +606,7 @@ const CATS = [
 ];
 const BASES = [
   // ── 茶系(琥珀/黄绿,靠明度饱和区分) ──
-  {id:"hong",   name:"珍珠奶茶", top:"#F3DFC2", mid:"#D5A875", bot:"#A96F45", grad:true},
+  {id:"hong",   name:"泰式奶茶", top:"#F3DFC2", mid:"#D5A875", bot:"#A96F45", grad:true},
   {id:"wulong", name:"乌龙",     top:"#CFA063", mid:"#A9743C", bot:"#6E4620", grad:true},
   {id:"lv",     name:"绿茶",     top:"#D6E6A0", mid:"#AEC868", bot:"#7E9E42", grad:true},
   {id:"moli",   name:"茉莉",     top:"#F7F0D0", mid:"#EADFA8", bot:"#CFBE78", grad:true},
@@ -637,19 +638,18 @@ const BASES = [
   {id:"qingningqp",name:"青柠气泡",top:"#EAF7D8", mid:"#C6E89A", mid2:"#8FD0A0", bot:"#5FBFA0", cocktail:true},
   // ── 蓝紫系 ──
   {id:"lanmei", name:"蓝莓星云", top:"#F8F5FF", mid:"#D8CBFF", mid2:"#8D7BE6", bot:"#42388E", milk:true},
-  {id:"putao",   name:"葡萄酸奶", top:"#FFF5FB", mid:"#D8B2E5", mid2:"#82529B", bot:"#62417D", milk:true},
+  {id:"putao",   name:"葡萄酸奶饮", top:"#FFF5FB", mid:"#D8B2E5", mid2:"#82529B", bot:"#62417D", milk:true},
   // ── 鸡尾酒 ──
   {id:"riluo",   name:"日落鸡尾酒",top:"#F7D14B", mid:"#F5A24B", mid2:"#F07E6A", bot:"#E8506E", cocktail:true},
-  {id:"mangye",  name:"芒果椰奶", top:"#FFF8CF", mid:"#FFD761", bot:"#F5A623", grad:true},
-  {id:"langan",  name:"蓝柑气泡", top:"#DFF9FF", mid:"#70D9F0", bot:"#278FC4", cocktail:true},
-  {id:"jiguang", name:"极光葡萄", top:"#EAFBFF", mid:"#C9C2FF", mid2:"#8D6BCE", bot:"#6D4BA3", cocktail:true},
+  {id:"mangye",  name:"芒果椰椰奶", top:"#FFF8CF", mid:"#FFD761", bot:"#F5A623", grad:true},
+  {id:"langan",  name:"蓝柑气泡饮", top:"#DFF9FF", mid:"#70D9F0", bot:"#278FC4", cocktail:true},
+  {id:"jiguang", name:"极光葡萄气泡", top:"#EAFBFF", mid:"#C9C2FF", mid2:"#8D6BCE", bot:"#6D4BA3", cocktail:true},
   {id:"dieudou", name:"蝶豆花柠檬",top:"#DDF8FF", mid:"#8ED9FF", mid2:"#6F88E8", bot:"#FFF1A8", cocktail:true},
-  {id:"heizhima",name:"黑芝麻拿铁",top:"#F7F2EC", mid:"#D8CEC2", mid2:"#9B8E86", bot:"#4A403B", milk:true},
-  {id:"guihua",  name:"桂花雪梨", top:"#FFF9E8", mid:"#F5E2A6", mid2:"#D8A95E", bot:"#A86F3D", grad:true},
+  {id:"heizhima",name:"黑芝麻云顶",top:"#F7F2EC", mid:"#D8CEC2", mid2:"#9B8E86", bot:"#4A403B", milk:true},
+  {id:"guihua",  name:"桂花雪梨乌龙", top:"#FFF9E8", mid:"#F5E2A6", mid2:"#D8A95E", bot:"#A86F3D", grad:true},
   {id:"yukaixin",name:"芋泥开心果",top:"#FDFBFF", mid:"#DCC5E4", mid2:"#B29AC4", bot:"#A9C98A", milk:true},
-  {id:"xiyoumei",name:"西柚玫瑰", top:"#FFF9F6", mid:"#FFD8CC", mid2:"#FFA69A", bot:"#F57C75", grad:true},
-  {id:"yinglizhi",name:"樱花荔枝",top:"#FFFDFC", mid:"#FFEFF3", mid2:"#FFC9D6", bot:"#F39AB1", milk:true},
-  {id:"boheqingti",name:"薄荷青提",top:"#F9FFF8", mid:"#DFF7D4", mid2:"#AEE58F", bot:"#76C96D", grad:true}
+  {id:"xiyoumei",name:"西柚玫瑰冰茶", top:"#FFF9F6", mid:"#FFD8CC", mid2:"#FFA69A", bot:"#F57C75", grad:true},
+  {id:"yinglizhi",name:"樱花荔枝奶冻",top:"#FFFDFC", mid:"#FFEFF3", mid2:"#FFC9D6", bot:"#F39AB1", milk:true}
 ];
 const TOPPINGS = [
   {id:"zhenzhu", name:"珍珠",   em:"⚫", dot:"#2B1D16", kind:"in"},
@@ -664,6 +664,11 @@ const TOPPINGS = [
   {id:"xiyoupian",name:"西柚片",em:"🟠", kind:"fruit"},
   {id:"chengpian",name:"橙片",  em:"🍊", kind:"fruit"},
   {id:"caomeipian",name:"草莓片",em:"🍓", kind:"fruit"},
+  {id:"mangguo",  name:"芒果粒", em:"🥭", dot:"#FFB51B", kind:"in"},
+  {id:"guihua",   name:"桂花",   em:"🌼", dot:"#EFCB5C", kind:"in"},
+  {id:"lizhidong",name:"荔枝冻", em:"🤍", dot:"#F5EEF0", kind:"in"},
+  {id:"kaixinguo",name:"开心果碎",em:"🟢", dot:"#9ABC6C", kind:"in"},
+  {id:"zhima",    name:"芝麻碎", em:"⬛", dot:"#3B3431", kind:"in"},
   {id:"naigai",  name:"奶盖",   em:"🥛", kind:"cap"},
   {id:"naiyou",  name:"奶油顶", em:"🍦", kind:"deco"},
   {id:"yingtao", name:"樱桃",   em:"🍒", kind:"deco"},
@@ -907,8 +912,8 @@ function renderBasePicker(zone, disabled){
   if(basePage < 0) basePage = 0;
   const items = BASES.slice(basePage*BASE_PER_PAGE, (basePage+1)*BASE_PER_PAGE);
   const opts = items.map(b=> disabled
-    ? `<div class="opt" style="opacity:.45; cursor:default"><div class="sw" style="background:${baseGrad(b)}"></div>${b.name}</div>`
-    : `<div class="opt" data-b="${b.id}"><div class="sw" style="background:${baseGrad(b)}"></div>${b.name}</div>`
+    ? `<div class="opt" style="opacity:.45; cursor:default"><div class="sw" style="background:${baseGrad(b)}"></div><span class="bn">${b.name}</span></div>`
+    : `<div class="opt" data-b="${b.id}"><div class="sw" style="background:${baseGrad(b)}"></div><span class="bn">${b.name}</span></div>`
   ).join("");
   grid.innerHTML = `<div class="grid">${opts}</div>
     <div class="base-nav">
@@ -1030,9 +1035,9 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
     // 玻璃杯: 矮胖直壁,厚玻璃,无盖,短粗吸管
     glass: {
       topY:82, botY:268, lidY:80,
-      halfW: y => 44 - 8*(y-80)/188,
-      outline: "M56,80 Q54,80 54,86 L60,256 Q61,268 73,268 L127,268 Q139,268 140,256 L146,86 Q146,80 144,80 Z",
-      clip:    "M57,82 L63,255 Q64,264 73,264 L127,264 Q136,264 137,255 L143,82 Z",
+      halfW: y => 48 - 18*(y-80)/188,
+      outline: "M52,80 Q50,80 50,86 L64,258 Q65,268 76,268 L124,268 Q135,268 136,258 L150,86 Q150,80 148,80 Z",
+      clip:    "M53,82 L67,256 Q68,264 76,264 L124,264 Q132,264 133,256 L147,82 Z",
       hasLid:false, hasStraw:true
     }
   }[cupType];
@@ -1079,8 +1084,20 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
     body += `<g clip-path="url(#${U}cp)">
       <rect x="50" y="${surf}" width="100" height="${botY-surf+10}" fill="url(#${U}lg)"/>
       <path d="M145,80 L128,262 Q127,272 117,272 L106,272 L123,80 Z" fill="#2A1608" opacity=".08"/>
-      <ellipse cx="100" cy="265" rx="30" ry="6" fill="#2A1608" opacity=".12"/>
-      <ellipse class="wavea" cx="100" cy="${surf}" rx="${halfW(surf)}" ry="5.5" fill="#2A1608" opacity=".12"/>
+      <ellipse cx="100" cy="265" rx="30" ry="6" fill="#2A1608" opacity=".12"/>`;
+    // 质感: 液面顶部柔光 + 底部暗角(水润立体感)
+    defs += `<radialGradient id="${U}shine" cx=".4" cy="0" r="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".28"/><stop offset=".5" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+             <radialGradient id="${U}shade" cx=".5" cy="1" r=".8"><stop offset="0" stop-color="#2A1608" stop-opacity=".14"/><stop offset="1" stop-color="#2A1608" stop-opacity="0"/></radialGradient>`;
+    body += `<rect x="50" y="${surf}" width="100" height="${(botY-surf)*.5}" fill="url(#${U}shine)"/>
+             <rect x="50" y="${surf+(botY-surf)*.4}" width="100" height="${(botY-surf)*.6+10}" fill="url(#${U}shade)"/>`;
+    // 奶纹路: milk类茶底加搅拌未匀的白色涡流(脏脏奶/星云感)
+    if(base && (base.id==="lanmei" || base.id==="heizhima")){
+      defs += `<radialGradient id="${U}sw1" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFFDF8" stop-opacity=".42"/><stop offset="1" stop-color="#FFFDF8" stop-opacity="0"/></radialGradient>`;
+      const sw=[[76,.42,20],[120,.55,16],[92,.66,22],[110,.34,14]];
+      sw.forEach(([sx,fy,sr])=>{ const sy=surf+(botY-surf)*fy;
+        body += `<ellipse cx="${sx}" cy="${sy.toFixed(0)}" rx="${sr}" ry="${(sr*.6).toFixed(0)}" fill="url(#${U}sw1)"/>`; });
+    }
+    body += `<ellipse class="wavea" cx="100" cy="${surf}" rx="${halfW(surf)}" ry="5.5" fill="#2A1608" opacity=".12"/>
       <ellipse class="wavea" cx="100" cy="${surf-1.5}" rx="${halfW(surf)-3.5}" ry="4.2" fill="#FFFFFF" opacity=".5"/>`;
     // 鸡尾酒: 加冰块(半透明方块,漂浮感)
     if(base && base.cocktail){
@@ -1091,6 +1108,12 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
           <rect x="${c.x}" y="${c.y}" width="${c.s}" height="${c.s}" rx="3" fill="none" stroke="#FFFFFF" stroke-width="1.2" opacity=".55"/>
           <rect x="${c.x+2.5}" y="${c.y+2.5}" width="${c.s*.3}" height="${c.s*.3}" rx="1.5" fill="#FFFFFF" opacity=".6"/></g>`;
       });
+      // 气泡: 散落的小气泡(径向高光,通透)
+      defs += `<radialGradient id="${U}bub" cx=".3" cy=".3" r=".8"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".85"/><stop offset=".45" stop-color="#FFFFFF" stop-opacity=".35"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>`;
+      const rndBub=(i,s)=>{const v=Math.sin(i*19.7+s*51.3)*2917.3;return v-Math.floor(v);};
+      for(let i=0;i<12;i++){ const x=62+rndBub(i,1)*76, y=surf+10+rndBub(i,2)*(botY-surf-20), r=1.5+rndBub(i,3)*3;
+        body += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="url(#${U}bub)"/>
+                 <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="none" stroke="#FFFFFF" stroke-width=".5" opacity=".5"/>`; }
     }
     // 黑糖挂壁: 粗细深浅不一,自然下淌
     if(base && base.streak){
@@ -1151,6 +1174,32 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
         defs += `<radialGradient id="${U}yy${i}" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></radialGradient>`;
         body += `<g class="bobx" style="animation-delay:${(i%5)*.45}s"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5.6" fill="url(#${U}yy${i})"/>
           <ellipse cx="${(x-2).toFixed(1)}" cy="${(y-2.2).toFixed(1)}" rx="2" ry="1.4" fill="#fff" opacity=".5"/></g>`; } }
+    // 芒果粒: 橙黄小方块,散落
+    if(cnt("mangguo")){ const n=8+inTop("mangguo")*4;
+      for(let i=0;i<n;i++){ const x=66+rnd(i,41)*60, y=botY-10-rnd(i,42)*30, rot=rnd(i,43)*50-25;
+        body += `<g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(0)})">
+          <rect x="-3.5" y="-3" width="7" height="6" rx="1.5" fill="#FFB51B"/>
+          <rect x="-3.5" y="-3" width="3" height="2.5" rx="1" fill="#FFD877" opacity=".8"/></g>`; } }
+    // 桂花: 小金黄花粒,散在液体中
+    if(cnt("guihua")){ const n=12+inTop("guihua")*6;
+      for(let i=0;i<n;i++){ const x=62+rnd(i,44)*74, y=surf+14+rnd(i,45)*(botY-surf-24);
+        body += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.8" fill="#EFCB5C"/>
+                 <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1" fill="#F7E08A"/>`; } }
+    // 荔枝冻: 半透明白块
+    if(cnt("lizhidong")){ const n=6+inTop("lizhidong")*3;
+      for(let i=0;i<n;i++){ const x=66+rnd(i,46)*60, y=botY-12-rnd(i,47)*30, rot=rnd(i,48)*40-20;
+        body += `<g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(0)})">
+          <rect x="-5" y="-4.5" width="10" height="9" rx="3" fill="#FBF6F8" opacity=".82"/>
+          <rect x="-5" y="-4.5" width="10" height="9" rx="3" fill="none" stroke="#fff" stroke-width=".6" opacity=".7"/>
+          <rect x="-3" y="-2.5" width="3" height="3" rx="1.5" fill="#fff" opacity=".8"/></g>`; } }
+    // 开心果碎: 绿色小碎粒
+    if(cnt("kaixinguo")){ const n=14+inTop("kaixinguo")*6;
+      for(let i=0;i<n;i++){ const x=62+rnd(i,49)*74, y=surf+12+rnd(i,50)*(botY-surf-20), rot=rnd(i,51)*90;
+        body += `<rect transform="rotate(${rot.toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})" x="${(x-2).toFixed(1)}" y="${(y-1.4).toFixed(1)}" width="4" height="2.8" rx="1" fill="#9ABC6C"/>`; } }
+    // 芝麻碎: 黑色小粒
+    if(cnt("zhima")){ const n=16+inTop("zhima")*8;
+      for(let i=0;i<n;i++){ const x=62+rnd(i,52)*74, y=surf+10+rnd(i,53)*(botY-surf-18);
+        body += `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="1.6" ry="2.2" fill="#3B3431" transform="rotate(${(rnd(i,54)*60-30).toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`; } }
     if(cnt("xiancao")){ const n=6+inTop("xiancao")*3;
       for(let i=0;i<n;i++){ const x=68+((i*25)%56), y=botY-12-((i*15)%40);
         body += `<g transform="rotate(${(i*29)%30-15} ${x+5} ${y+4})"><g class="bob" style="animation-delay:${(i%4)*.5}s">
@@ -1235,10 +1284,10 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
     body += `<path d="M67,100 L76,240" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity=".5"/>
              <path d="M133,100 L124,238" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".22"/>`;
   }else{
-    // 玻璃杯: 厚壁竖直反光
-    body += `<path d="M62,94 L66,250" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity=".55"/>
-             <path d="M72,94 L75,248" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".3"/>
-             <path d="M136,96 L132,248" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".25"/>`;
+    // 玻璃杯: 厚壁反光(跟随锥形斜度,上宽下窄)
+    body += `<path d="M60,94 L70,250" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity=".55"/>
+             <path d="M71,94 L79,248" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".3"/>
+             <path d="M139,96 L129,248" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".25"/>`;
   }
   defs += `<linearGradient id="${U}gl" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".28" stop-color="#fff" stop-opacity=".05"/>
@@ -1333,10 +1382,10 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
              <rect x="47" y="76" width="106" height="10" rx="5" fill="#F7E3C6" stroke="#C9A87E" stroke-width="2.5"/>
              <rect x="49" y="77.5" width="102" height="3" rx="1.5" fill="#FFFDF6" opacity=".8"/>`;
   }else{
-    // 玻璃杯口: 厚玻璃圈(椭圆杯口)
-    body += `<ellipse cx="100" cy="82" rx="45" ry="8" fill="#F7EFE0" stroke="#C9A87E" stroke-width="3"/>
-             <ellipse cx="100" cy="82" rx="39" ry="5" fill="#EADFCB" opacity=".7"/>
-             <ellipse cx="82" cy="80.5" rx="9" ry="2.2" fill="#FFFFFF" opacity=".55" transform="rotate(-10 82 80.5)"/>`;
+    // 玻璃杯口: 厚玻璃圈(广口椭圆)
+    body += `<ellipse cx="100" cy="82" rx="49" ry="8.5" fill="#F7EFE0" stroke="#C9A87E" stroke-width="3"/>
+             <ellipse cx="100" cy="82" rx="43" ry="5.5" fill="#EADFCB" opacity=".7"/>
+             <ellipse cx="80" cy="80.5" rx="10" ry="2.4" fill="#FFFFFF" opacity=".55" transform="rotate(-10 80 80.5)"/>`;
   }
 
   // ── 顶部装饰 ──
