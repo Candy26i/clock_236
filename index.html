@@ -609,86 +609,98 @@ const BASES = [
   {id:"hong",   name:"泰式奶茶", top:"#F3DFC2", mid:"#D5A875", bot:"#A96F45", grad:true},
   {id:"wulong", name:"乌龙",     top:"#CFA063", mid:"#A9743C", bot:"#6E4620", grad:true},
   {id:"lv",     name:"绿茶",     top:"#D6E6A0", mid:"#AEC868", bot:"#7E9E42", grad:true},
-  {id:"moli",   name:"茉莉",     top:"#F7F0D0", mid:"#EADFA8", bot:"#CFBE78", grad:true},
+  {id:"moli",   name:"茉莉",     top:"#FFF8D9", mid:"#E8D89C", bot:"#BFA85F", grad:true},
   {id:"boba",   name:"焦糖布蕾", top:"#FBE7A0", mid:"#F0C255", bot:"#CE9420", grad:true},
+
   // ── 奶系(上深下白牛奶渐变) ──
-  {id:"mocha",  name:"抹茶牛乳", top:"#597744", mid:"#78995A", mid2:"#C7D99A", bot:"#F8F6E8", milk:true},
-  {id:"yuni",   name:"芋泥牛乳", top:"#8E6698", mid:"#B98CBE", mid2:"#E6CBE8", bot:"#FFF9FC", milk:true},
-  {id:"heitang",name:"黑糖鲜奶", top:"#F4E3CB", bot:"#6E4326", streak:true},
+  {id:"mocha",   name:"抹茶牛乳", top:"#597744", mid:"#78995A", mid2:"#C7D99A", bot:"#F8F6E8", milk:true},
+  {id:"yuni",    name:"芋泥牛乳", top:"#8E6698", mid:"#B98CBE", mid2:"#E6CBE8", bot:"#FFF9FC", milk:true},
+  {id:"heitang", name:"黑糖鲜奶", top:"#F4E3CB", bot:"#6E4326", streak:true},
   {id:"tiannai", name:"焦糖奶咖", top:"#F0DBBE", mid:"#CFA06A", bot:"#9A6636", grad:true},
-  {id:"niunai",  name:"白牛乳",   top:"#FFFFFF", mid:"#FBF4EA", bot:"#EDE2D2", grad:true},
+  {id:"niunai",  name:"白牛乳",   top:"#FFFDF7", mid:"#F7EDDF", bot:"#E5D6C4", grad:true},
+
   // ── 粉红系(靠色相/明度大幅拉开) ──
-  {id:"caomei", name:"草莓牛乳", top:"#FFF8F5", mid:"#FFD4D9", mid2:"#F58A9B", bot:"#E94D61", milk:true},
+  {id:"caomei",  name:"草莓牛乳", top:"#FFF8F5", mid:"#FFD4D9", mid2:"#F58A9B", bot:"#E94D61", milk:true},
   {id:"xigua",   name:"西瓜冰饮", top:"#FFE5E3", mid:"#FF9B9A", bot:"#EF5357", grad:true},
-  {id:"yangmei",  name:"杨梅",     top:"#E88AA0", mid:"#C43A66", bot:"#8E2048", grad:true}, // 暗玫红
-  {id:"yinghua", name:"樱花",     top:"#FBE2F0", mid:"#EDA8D2", bot:"#D072B0", grad:true},  // 淡紫粉
-  {id:"wumei",   name:"乌梅",     top:"#D8968C", mid:"#A0464A", bot:"#6E282E", grad:true},  // 暗红
+  {id:"yangmei", name:"杨梅",     top:"#E88AA0", mid:"#C43A66", bot:"#8E2048", grad:true}, // 暗玫红
+  {id:"yinghua", name:"樱花",     top:"#FBE2F0", mid:"#EDA8D2", bot:"#D072B0", grad:true}, // 淡紫粉
+  {id:"wumei",   name:"乌梅",     top:"#D8968C", mid:"#A0464A", bot:"#6E282E", grad:true}, // 暗红
+
   // ── 橙桃系(拉开色相) ──
-  {id:"mitao",  name:"蜜桃乌龙", top:"#FFE8DD", mid:"#F7B49D", mid2:"#C87B55", bot:"#F58F82", grad:true},
-  {id:"baixiang",name:"白桃养乐多",top:"#FDE8D6", mid:"#F8C098", bot:"#F0956A", grad:true},
-  {id:"xiangcheng",name:"香橙",  top:"#FFDC82", mid:"#FBA83E", bot:"#F0790E", grad:true},
-  {id:"xiyou",   name:"西柚",     top:"#FBC6B8", mid:"#F58A72", bot:"#E85A48", grad:true},
-  {id:"youzi",   name:"柚子蜂蜜", top:"#FDF0BE", mid:"#F8D264", bot:"#EAAC30", grad:true},
-  {id:"yangzhi", name:"杨枝甘露", top:"#FDE4A0", mid:"#FBBE5E", mid2:"#F79A62", bot:"#F5C89A", milk:true}, // 芒果橙渐白
+  {id:"mitao", name:"蜜桃乌龙", top:"#FFF0E8", mid:"#F8C5B1", mid2:"#E99A7C", bot:"#A96F4A", grad:true},
+  {id:"baixiang", name:"白桃养乐多", top:"#FDE8D6", mid:"#F8C098", bot:"#F0956A", grad:true},
+  {id:"xiangcheng", name:"香橙", top:"#FFDC82", mid:"#FBA83E", bot:"#F0790E", grad:true},
+  {id:"xiyou", name:"西柚", top:"#FBC6B8", mid:"#F58A72", bot:"#E85A48", grad:true},
+  {id:"youzi", name:"柚子蜂蜜", top:"#FDF0BE", mid:"#F8D264", bot:"#EAAC30", grad:true},
+  {id:"yangzhi", name:"杨枝甘露", top:"#F59A3D", mid:"#FFC45C", mid2:"#FFE2A5", bot:"#FFF4E8", milk:true},
+
   // ── 黄绿系 ──
-  {id:"hailian",name:"海盐柠檬", top:"#FEF9D2", mid:"#EDE86A", bot:"#C6D838", grad:true},
+  {id:"hailian", name:"海盐柠檬", top:"#FEF9D2", mid:"#EDE86A", bot:"#C6D838", grad:true},
   {id:"qingti",  name:"青提",     top:"#EAF4B8", mid:"#C2DC72", bot:"#94B848", grad:true},
+
   // ── 青绿系 ──
-  {id:"bohe",   name:"薄荷",     top:"#D6F2E6", mid:"#8FDCC2", bot:"#4FBF9E", grad:true},
-  {id:"qingningqp",name:"青柠气泡",top:"#EAF7D8", mid:"#C6E89A", mid2:"#8FD0A0", bot:"#5FBFA0", cocktail:true},
+  {id:"bohe", name:"薄荷", top:"#D6F2E6", mid:"#8FDCC2", bot:"#4FBF9E", grad:true},
+  {id:"qingningqp", name:"青柠气泡", top:"#EAF7D8", mid:"#C6E89A", mid2:"#8FD0A0", bot:"#5FBFA0", cocktail:true},
+
   // ── 蓝紫系 ──
   {id:"lanmei", name:"蓝莓星云", top:"#F8F5FF", mid:"#D8CBFF", mid2:"#8D7BE6", bot:"#42388E", milk:true},
-  {id:"putao",   name:"葡萄酸奶饮", top:"#FFF5FB", mid:"#D8B2E5", mid2:"#82529B", bot:"#62417D", milk:true},
+  {id:"putao", name:"葡萄酸奶饮", top:"#FFF5FB", mid:"#D8B2E5", mid2:"#82529B", bot:"#62417D", milk:true},
+
   // ── 鸡尾酒 ──
-  {id:"riluo",   name:"日落鸡尾酒",top:"#F7D14B", mid:"#F5A24B", mid2:"#F07E6A", bot:"#E8506E", cocktail:true},
-  {id:"mangye",  name:"芒果椰椰奶", top:"#FFF8CF", mid:"#FFD761", bot:"#F5A623", grad:true},
-  {id:"langan",  name:"蓝柑气泡饮", top:"#DFF9FF", mid:"#70D9F0", bot:"#278FC4", cocktail:true},
+  {id:"riluo", name:"日落鸡尾酒", top:"#F7D14B", mid:"#F5A24B", mid2:"#F07E6A", bot:"#E8506E", cocktail:true},
+  {id:"mangye", name:"芒果椰椰奶", top:"#F5A623", mid:"#FFD761", mid2:"#FFF0B8", bot:"#FFF9F0", milk:true},
+  {id:"langan", name:"蓝柑气泡饮", top:"#DFF9FF", mid:"#70D9F0", bot:"#278FC4", cocktail:true},
   {id:"jiguang", name:"极光葡萄气泡", top:"#EAFBFF", mid:"#C9C2FF", mid2:"#8D6BCE", bot:"#6D4BA3", cocktail:true},
-  {id:"dieudou", name:"蝶豆花柠檬",top:"#DDF8FF", mid:"#8ED9FF", mid2:"#6F88E8", bot:"#FFF1A8", cocktail:true},
-  {id:"heizhima",name:"黑芝麻云顶",top:"#F7F2EC", mid:"#D8CEC2", mid2:"#9B8E86", bot:"#4A403B", milk:true},
-  {id:"guihua",  name:"桂花雪梨乌龙", top:"#FFF9E8", mid:"#F5E2A6", mid2:"#D8A95E", bot:"#A86F3D", grad:true},
-  {id:"yukaixin",name:"芋泥开心果",top:"#FDFBFF", mid:"#DCC5E4", mid2:"#B29AC4", bot:"#A9C98A", milk:true},
-  {id:"xiyoumei",name:"西柚玫瑰冰茶", top:"#FFF9F6", mid:"#FFD8CC", mid2:"#FFA69A", bot:"#F57C75", grad:true},
-  {id:"yinglizhi",name:"樱花荔枝奶冻",top:"#FFFDFC", mid:"#FFEFF3", mid2:"#FFC9D6", bot:"#F39AB1", milk:true}
-];
-const TOPPINGS = [
-  {id:"zhenzhu", name:"珍珠",   em:"⚫", dot:"#2B1D16", kind:"in"},
-  {id:"yeguo",   name:"椰果",   em:"⬜", dot:"#FBF6EC", kind:"in"},
-  {id:"yuyuan",  name:"芋圆",   em:"🟣", dot:"#B586DC", kind:"in"},
-  {id:"hongdou", name:"红豆",   em:"🫘", dot:"#7A2E2E", kind:"in"},
-  {id:"buding",  name:"布丁",   em:"🍮", kind:"in"},
-  {id:"xiancao", name:"仙草冻", em:"🟤", dot:"#2E2230", kind:"in"},
-  {id:"ximi",    name:"西米",   em:"🔘", dot:"#EFE2CC", kind:"in"},
-  {id:"ningmeng",name:"柠檬片", em:"🍋", kind:"fruit"},
-  {id:"qingning",name:"青柠片", em:"🟩", kind:"fruit"},
-  {id:"xiyoupian",name:"西柚片",em:"🟠", kind:"fruit"},
-  {id:"chengpian",name:"橙片",  em:"🍊", kind:"fruit"},
-  {id:"caomeipian",name:"草莓片",em:"🍓", kind:"fruit"},
-  {id:"mangguo",  name:"芒果粒", em:"🥭", dot:"#FFB51B", kind:"in"},
-  {id:"guihua",   name:"桂花",   em:"🌼", dot:"#EFCB5C", kind:"in"},
-  {id:"lizhidong",name:"荔枝冻", em:"🤍", dot:"#F5EEF0", kind:"in"},
-  {id:"kaixinguo",name:"开心果碎",em:"🟢", dot:"#9ABC6C", kind:"in"},
-  {id:"zhima",    name:"芝麻碎", em:"⬛", dot:"#3B3431", kind:"in"},
-  {id:"naigai",  name:"奶盖",   em:"🥛", kind:"cap"},
-  {id:"naiyou",  name:"奶油顶", em:"🍦", kind:"deco"},
-  {id:"yingtao", name:"樱桃",   em:"🍒", kind:"deco"},
-  {id:"xiaosan", name:"小纸伞", em:"🌂", kind:"deco"},
-  {id:"bohe",    name:"薄荷叶", em:"🌿", kind:"deco"},
-  {id:"xingxing",name:"星星闪闪",em:"✨", kind:"deco"},
-  {id:"xiaoqi",  name:"小旗子", em:"🚩", kind:"deco"},
-  {id:"mianhua", name:"棉花糖", em:"☁️", kind:"deco"},
-  {id:"tangzhen",name:"彩虹糖针",em:"🍬", kind:"deco"},
-  {id:"maoer",   name:"猫耳盖", em:"🐱", kind:"deco"},
-  {id:"xiaoxiong",name:"小熊贴纸", em:"🐻", kind:"stick"},
-  {id:"xiaotu",  name:"小兔贴纸", em:"🐰", kind:"stick"},
-  {id:"xiaolian",name:"笑脸贴纸", em:"🙂", kind:"stick"},
-  {id:"aixin",   name:"爱心贴纸", em:"💗", kind:"stick"},
-  {id:"caihong", name:"彩虹贴纸", em:"🌈", kind:"stick"},
-  {id:"hudie",   name:"蝴蝶结",   em:"🎀", kind:"stick"},
-  {id:"biaoqian",name:"手作吊牌", em:"🏷️", kind:"stick"}
+  {id:"dieudou", name:"蝶豆花柠檬", top:"#FFF4B8", mid:"#D7F3ED", mid2:"#93BDEB", bot:"#6875D6", cocktail:true},
+  {id:"heizhima", name:"黑芝麻云顶", top:"#F7F2EC", mid:"#D8CEC2", mid2:"#9B8E86", bot:"#4A403B", milk:true},
+  {id:"guihua", name:"桂花雪梨乌龙", top:"#FFF9E8", mid:"#F5E2A6", mid2:"#D8A95E", bot:"#A86F3D", grad:true},
+  {id:"yukaixin", name:"芋泥开心果", top:"#E9DDF0", mid:"#C9A8D2", mid2:"#F5E8D5", bot:"#AFC88B", milk:true},
+  {id:"xiyoumei", name:"西柚玫瑰冰茶", top:"#FFF9F6", mid:"#FFD8CC", mid2:"#FFA69A", bot:"#F57C75", grad:true},
+  {id:"yinglizhi", name:"樱花荔枝奶冻", top:"#FFFDFC", mid:"#FFE8EF", mid2:"#F8B9C9", bot:"#E982A0", milk:true}
 ];
 
-/* ═══════════════ 数据层: Firebase / 本地演示 ═══════════════ */
+const TOPPINGS = [
+  {id:"zhenzhu", name:"珍珠", em:"⚫", dot:"#2B1D16", kind:"in"},
+  {id:"yeguo", name:"椰果", em:"⬜", dot:"#FBF6EC", kind:"in"},
+  {id:"yuyuan", name:"芋圆", em:"🟣", dot:"#B586DC", kind:"in"},
+  {id:"hongdou", name:"红豆", em:"🫘", dot:"#7A2E2E", kind:"in"},
+  {id:"buding", name:"布丁", em:"🍮", kind:"in"},
+  {id:"xiancao", name:"仙草冻", em:"🟤", dot:"#2E2230", kind:"in"},
+  {id:"ximi", name:"西米", em:"🔘", dot:"#EFE2CC", kind:"in"},
+
+  {id:"ningmeng", name:"柠檬片", em:"🍋", kind:"fruit"},
+  {id:"qingning", name:"青柠片", em:"🟩", kind:"fruit"},
+  {id:"xiyoupian", name:"西柚片", em:"🟠", kind:"fruit"},
+  {id:"chengpian", name:"橙片", em:"🍊", kind:"fruit"},
+  {id:"caomeipian", name:"草莓片", em:"🍓", kind:"fruit"},
+
+  {id:"mangguo", name:"芒果粒", em:"🥭", dot:"#FFB51B", kind:"in"},
+  {id:"guihua", name:"桂花", em:"🌼", dot:"#EFCB5C", kind:"in"},
+  {id:"lizhidong", name:"荔枝冻", em:"🤍", dot:"#F5EEF0", kind:"in"},
+  {id:"kaixinguo", name:"开心果碎", em:"🟢", dot:"#9ABC6C", kind:"in"},
+  {id:"zhima", name:"芝麻碎", em:"⬛", dot:"#3B3431", kind:"in"},
+
+  {id:"naigai", name:"奶盖", em:"🥛", kind:"cap"},
+
+  {id:"naiyou", name:"奶油顶", em:"🍦", kind:"deco"},
+  {id:"yingtao", name:"樱桃", em:"🍒", kind:"deco"},
+  {id:"xiaosan", name:"小纸伞", em:"🌂", kind:"deco"},
+  {id:"bohe", name:"薄荷叶", em:"🌿", kind:"deco"},
+  {id:"xingxing", name:"星星闪闪", em:"✨", kind:"deco"},
+  {id:"xiaoqi", name:"小旗子", em:"🚩", kind:"deco"},
+  {id:"mianhua", name:"棉花糖", em:"☁️", kind:"deco"},
+  {id:"tangzhen", name:"彩虹糖针", em:"🍬", kind:"deco"},
+  {id:"maoer", name:"猫耳盖", em:"🐱", kind:"deco"},
+
+  {id:"xiaoxiong", name:"小熊贴纸", em:"🐻", kind:"stick"},
+  {id:"xiaotu", name:"小兔贴纸", em:"🐰", kind:"stick"},
+  {id:"xiaolian", name:"笑脸贴纸", em:"🙂", kind:"stick"},
+  {id:"aixin", name:"爱心贴纸", em:"💗", kind:"stick"},
+  {id:"caihong", name:"彩虹贴纸", em:"🌈", kind:"stick"},
+  {id:"hudie", name:"蝴蝶结", em:"🎀", kind:"stick"},
+  {id:"biaoqian", name:"手作吊牌", em:"🏷️", kind:"stick"}
+];
+  /* ═══════════════ 数据层: Firebase / 本地演示 ═══════════════ */
 let DB;
 function initStore(){
   const hasCfg = firebaseConfig && firebaseConfig.apiKey && window.firebase;
@@ -1049,35 +1061,48 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
   // 地面投影(3D 落地感; 货架上的迷你杯用木板代替)
   if(o.shadow !== false) body += `<ellipse cx="100" cy="286" rx="50" ry="8" fill="#4A2E1F" opacity=".13"/>`;
   const liquid = base
-    ? (base.cocktail
-      ? `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
-           <stop offset="0" stop-color="${base.top}" stop-opacity=".9"/>
-           <stop offset=".3" stop-color="${base.mid||base.top}" stop-opacity=".78"/>
-           <stop offset=".62" stop-color="${base.mid2||base.bot}" stop-opacity=".78"/>
-           <stop offset="1" stop-color="${base.bot}" stop-opacity=".92"/>
-         </linearGradient>`
-      : base.milk
-      ? `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
-           <stop offset="0" stop-color="${base.top}"/>
-           <stop offset=".28" stop-color="${base.mid}"/>
-           <stop offset=".58" stop-color="${base.mid2||base.mid}"/>
-           <stop offset=".82" stop-color="${base.bot}"/>
-           <stop offset="1" stop-color="${base.bot}"/>
-         </linearGradient>`
-      : base.grad && base.mid
-      ? `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
-           <stop offset="0" stop-color="${base.top}"/>
-           <stop offset=".45" stop-color="${base.mid}"/>
-           <stop offset="1" stop-color="${base.bot}"/>
-         </linearGradient>`
-      : `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
-           <stop offset="0" stop-color="${base.top}"/><stop offset="1" stop-color="${base.bot}"/>
-         </linearGradient>`)
+    ? (
+      base.cocktail
+        ? `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
+             <stop offset="0" stop-color="${base.top}" stop-opacity=".9"/>
+             <stop offset=".3" stop-color="${base.mid || base.top}" stop-opacity=".78"/>
+             <stop offset=".62" stop-color="${base.mid2 || base.bot}" stop-opacity=".78"/>
+             <stop offset="1" stop-color="${base.bot}" stop-opacity=".92"/>
+           </linearGradient>`
+
+        : base.milk
+        ? `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
+             <stop offset="0" stop-color="${base.top}"/>
+             <stop offset=".28" stop-color="${base.mid || base.top}"/>
+             <stop offset=".58" stop-color="${base.mid2 || base.mid || base.bot}"/>
+             <stop offset=".82" stop-color="${base.bot}"/>
+             <stop offset="1" stop-color="${base.bot}"/>
+           </linearGradient>`
+
+        : base.grad && base.mid2
+        ? `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
+             <stop offset="0" stop-color="${base.top}"/>
+             <stop offset=".30" stop-color="${base.mid}"/>
+             <stop offset=".62" stop-color="${base.mid2}"/>
+             <stop offset="1" stop-color="${base.bot}"/>
+           </linearGradient>`
+
+        : base.grad && base.mid
+        ? `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
+             <stop offset="0" stop-color="${base.top}"/>
+             <stop offset=".45" stop-color="${base.mid}"/>
+             <stop offset="1" stop-color="${base.bot}"/>
+           </linearGradient>`
+
+        : `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
+             <stop offset="0" stop-color="${base.top}"/>
+             <stop offset="1" stop-color="${base.bot}"/>
+           </linearGradient>`
+    )
     : `<linearGradient id="${U}lg" x1="0" y1="0" x2="0" y2="1">
-         <stop offset="0" stop-color="#F2E3CF"/><stop offset="1" stop-color="#E3C9A6"/>
+         <stop offset="0" stop-color="#F2E3CF"/>
+         <stop offset="1" stop-color="#E3C9A6"/>
        </linearGradient>`;
-  defs += liquid;
-  defs += `<clipPath id="${U}cp"><path d="${CUP.clip}"/></clipPath>`;
 
   // 液体 + 3D 液面
   if(fill>0.01){
@@ -1149,7 +1174,35 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
       }
     }
     // 伪随机(确定性,同一杯每次一样)
-    const rnd = (i,seed)=>{ const s=Math.sin(i*12.9898+seed*78.233)*43758.5453; return s-Math.floor(s); };
+        // 稳定伪随机：
+    // 不同杯子的小料位置不同，但同一杯重新渲染时不会不停乱跳
+    const seedKey = [
+      o.uid ?? "",
+      o.base ?? "",
+      cupType,
+      ...tops
+    ].join("|");
+
+    let seedBase = 2166136261;
+
+    for(let k = 0; k < seedKey.length; k++){
+      seedBase ^= seedKey.charCodeAt(k);
+      seedBase = Math.imul(seedBase, 16777619);
+    }
+
+    const rnd = (i, seed) => {
+      let x = (
+        seedBase
+        + Math.imul(i + 1, 374761393)
+        + Math.imul(seed + 1, 668265263)
+      ) >>> 0;
+
+      x ^= x >>> 13;
+      x = Math.imul(x, 1274126177) >>> 0;
+      x ^= x >>> 16;
+
+      return (x >>> 0) / 4294967296;
+    };
     if(cnt("ximi")){ const n = 14+inTop("ximi")*7;
       for(let i=0;i<n;i++){
         const x=64+rnd(i,1)*72, y=botY-4-rnd(i,2)*26-rnd(i,5)*4;
@@ -1174,32 +1227,138 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
         defs += `<radialGradient id="${U}yy${i}" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></radialGradient>`;
         body += `<g class="bobx" style="animation-delay:${(i%5)*.45}s"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5.6" fill="url(#${U}yy${i})"/>
           <ellipse cx="${(x-2).toFixed(1)}" cy="${(y-2.2).toFixed(1)}" rx="2" ry="1.4" fill="#fff" opacity=".5"/></g>`; } }
-    // 芒果粒: 橙黄小方块,散落
-    if(cnt("mangguo")){ const n=8+inTop("mangguo")*4;
-      for(let i=0;i<n;i++){ const x=66+rnd(i,41)*60, y=botY-10-rnd(i,42)*30, rot=rnd(i,43)*50-25;
-        body += `<g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(0)})">
-          <rect x="-3.5" y="-3" width="7" height="6" rx="1.5" fill="#FFB51B"/>
-          <rect x="-3.5" y="-3" width="3" height="2.5" rx="1" fill="#FFD877" opacity=".8"/></g>`; } }
-    // 桂花: 小金黄花粒,散在液体中
-    if(cnt("guihua")){ const n=12+inTop("guihua")*6;
-      for(let i=0;i<n;i++){ const x=62+rnd(i,44)*74, y=surf+14+rnd(i,45)*(botY-surf-24);
-        body += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.8" fill="#EFCB5C"/>
-                 <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1" fill="#F7E08A"/>`; } }
-    // 荔枝冻: 半透明白块
-    if(cnt("lizhidong")){ const n=6+inTop("lizhidong")*3;
-      for(let i=0;i<n;i++){ const x=66+rnd(i,46)*60, y=botY-12-rnd(i,47)*30, rot=rnd(i,48)*40-20;
-        body += `<g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(0)})">
-          <rect x="-5" y="-4.5" width="10" height="9" rx="3" fill="#FBF6F8" opacity=".82"/>
-          <rect x="-5" y="-4.5" width="10" height="9" rx="3" fill="none" stroke="#fff" stroke-width=".6" opacity=".7"/>
-          <rect x="-3" y="-2.5" width="3" height="3" rx="1.5" fill="#fff" opacity=".8"/></g>`; } }
-    // 开心果碎: 绿色小碎粒
-    if(cnt("kaixinguo")){ const n=14+inTop("kaixinguo")*6;
-      for(let i=0;i<n;i++){ const x=62+rnd(i,49)*74, y=surf+12+rnd(i,50)*(botY-surf-20), rot=rnd(i,51)*90;
-        body += `<rect transform="rotate(${rot.toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})" x="${(x-2).toFixed(1)}" y="${(y-1.4).toFixed(1)}" width="4" height="2.8" rx="1" fill="#9ABC6C"/>`; } }
-    // 芝麻碎: 黑色小粒
-    if(cnt("zhima")){ const n=16+inTop("zhima")*8;
-      for(let i=0;i<n;i++){ const x=62+rnd(i,52)*74, y=surf+10+rnd(i,53)*(botY-surf-18);
-        body += `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="1.6" ry="2.2" fill="#3B3431" transform="rotate(${(rnd(i,54)*60-30).toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`; } }
+    // ── 芒果粒：大部分沉在底部，大小和角度略有差异 ──
+    if(cnt("mangguo")){
+      const n = 6 + inTop("mangguo") * 3;
+      const band = Math.max(10, Math.min(38, botY - surf - 10));
+
+      for(let i = 0; i < n; i++){
+        const y = botY - 8 - rnd(i, 41) * band;
+        const hw = Math.max(14, halfW(y) - 9);
+        const x = 100 + (rnd(i, 42) * 2 - 1) * hw * .78;
+
+        const w = 5.5 + rnd(i, 43) * 3.2;
+        const h = 5 + rnd(i, 44) * 2.5;
+        const rot = rnd(i, 45) * 52 - 26;
+
+        body += `
+          <g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(0)})">
+            <rect
+              x="${(-w / 2).toFixed(1)}"
+              y="${(-h / 2).toFixed(1)}"
+              width="${w.toFixed(1)}"
+              height="${h.toFixed(1)}"
+              rx="1.7"
+              fill="#FFB51B"
+            />
+            <path
+              d="M${(-w / 2 + 1).toFixed(1)},${(-h / 2 + 1).toFixed(1)}
+                 L${(w / 2 - 1).toFixed(1)},${(-h / 2 + 1).toFixed(1)}"
+              stroke="#FFE28A"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              opacity=".9"
+            />
+            <rect
+              x="${(-w / 2 + 1).toFixed(1)}"
+              y="${(-h / 2 + 1).toFixed(1)}"
+              width="${(w * .32).toFixed(1)}"
+              height="${(h * .30).toFixed(1)}"
+              rx="1"
+              fill="#FFF0A6"
+              opacity=".65"
+            />
+          </g>`;
+      }
+    }
+
+    // ── 桂花：主要漂在上层，少量悬浮在中层；画成四瓣小花而不是圆点 ──
+    if(cnt("guihua")){
+      const n = 8 + inTop("guihua") * 4;
+      const available = Math.max(12, botY - surf - 18);
+
+      for(let i = 0; i < n; i++){
+        const mainlyUpper = rnd(i, 61) < .78;
+
+        const rawY = mainlyUpper
+          ? surf + 8
+            + Math.pow(rnd(i, 62), 1.7)
+            * Math.min(46, available * .38)
+          : surf + 14
+            + rnd(i, 63)
+            * Math.min(82, available * .68);
+
+        const y = Math.min(botY - 10, rawY);
+        const hw = Math.max(10, halfW(y) - 7);
+        const x = 100 + (rnd(i, 64) * 2 - 1) * hw * .90;
+
+        const scale = .68 + rnd(i, 65) * .55;
+        const rot = rnd(i, 66) * 180;
+
+        body += `
+          <g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(0)}) scale(${scale.toFixed(2)})">
+            <ellipse cx="0" cy="-2.1" rx="1.15" ry="2.05" fill="#F5D368"/>
+            <ellipse cx="2.1" cy="0" rx="2.05" ry="1.15" fill="#EFC34F"/>
+            <ellipse cx="0" cy="2.1" rx="1.15" ry="2.05" fill="#F7DA75"/>
+            <ellipse cx="-2.1" cy="0" rx="2.05" ry="1.15" fill="#E8B63F"/>
+            <circle r=".75" fill="#FFF1A5"/>
+          </g>`;
+      }
+    }
+
+    // ── 荔枝冻：主要位于杯底和下半部分，形状大小不完全一致 ──
+    if(cnt("lizhidong")){
+      const n = 5 + inTop("lizhidong") * 3;
+      const band = Math.max(12, Math.min(58, botY - surf - 12));
+
+      for(let i = 0; i < n; i++){
+        const y = botY - 10 - rnd(i, 71) * band;
+        const hw = Math.max(14, halfW(y) - 9);
+        const x = 100 + (rnd(i, 72) * 2 - 1) * hw * .78;
+
+        const w = 8 + rnd(i, 73) * 4;
+        const h = 7 + rnd(i, 74) * 3;
+        const rot = rnd(i, 75) * 44 - 22;
+
+        body += `
+          <g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(0)})">
+            <rect
+              x="${(-w / 2).toFixed(1)}"
+              y="${(-h / 2).toFixed(1)}"
+              width="${w.toFixed(1)}"
+              height="${h.toFixed(1)}"
+              rx="3.2"
+              fill="#FBF6F8"
+              opacity=".76"
+            />
+            <rect
+              x="${(-w / 2).toFixed(1)}"
+              y="${(-h / 2).toFixed(1)}"
+              width="${w.toFixed(1)}"
+              height="${h.toFixed(1)}"
+              rx="3.2"
+              fill="none"
+              stroke="#FFFFFF"
+              stroke-width=".8"
+              opacity=".75"
+            />
+            <path
+              d="M${(-w / 2 + 2).toFixed(1)},${(-h / 2 + 2).toFixed(1)}
+                 Q0,${(-h / 2 + .5).toFixed(1)}
+                 ${(w / 2 - 2).toFixed(1)},${(-h / 2 + 2).toFixed(1)}"
+              fill="none"
+              stroke="#FFFFFF"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              opacity=".8"
+            />
+          </g>`;
+      }
+    }
+
+    // 开心果碎和芝麻碎不再散布整杯；
+    // 它们会在后面统一画在液面或奶盖顶部。
+    
     if(cnt("xiancao")){ const n=6+inTop("xiancao")*3;
       for(let i=0;i<n;i++){ const x=68+((i*25)%56), y=botY-12-((i*15)%40);
         body += `<g transform="rotate(${(i*29)%30-15} ${x+5} ${y+4})"><g class="bob" style="animation-delay:${(i%4)*.5}s">
@@ -1275,6 +1434,95 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
         <path class="drip-a" style="animation-delay:1.3s" d="M118,${cb+2} q3,0 3,6 q0,5 -3,5 q-3,0 -3,-5 q0,-6 3,-6" fill="#F8ECD8"/>
         <ellipse cx="100" cy="${surf}" rx="${halfW(surf)}" ry="4" fill="#FFFEFB"/>
         <ellipse cx="88" cy="${surf-1}" rx="10" ry="2.2" fill="#fff" opacity=".7"/></g>`;
+    }
+        // ── 液面／奶盖顶部撒料 ──
+    // 有奶盖时撒在奶盖顶部；没有奶盖时漂在饮品液面
+    const garnishY = surf - 1;
+    const garnishSpread = Math.max(18, halfW(surf) - 14);
+
+    // 少量桂花漂在最上层
+    if(cnt("guihua")){
+      const n = 3 + inTop("guihua") * 2;
+
+      for(let i = 0; i < n; i++){
+        const x = 100 + (rnd(i, 81) * 2 - 1) * garnishSpread * .82;
+        const y = garnishY - 3 + rnd(i, 82) * 8;
+        const rot = rnd(i, 83) * 180;
+        const scale = .72 + rnd(i, 84) * .42;
+
+        body += `
+          <g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(0)}) scale(${scale.toFixed(2)})">
+            <ellipse cx="0" cy="-2" rx="1.1" ry="2" fill="#F5D368"/>
+            <ellipse cx="2" cy="0" rx="2" ry="1.1" fill="#EFC34F"/>
+            <ellipse cx="0" cy="2" rx="1.1" ry="2" fill="#F7DA75"/>
+            <ellipse cx="-2" cy="0" rx="2" ry="1.1" fill="#E8B63F"/>
+            <circle r=".7" fill="#FFF1A5"/>
+          </g>`;
+      }
+    }
+
+    // 开心果碎：集中在表面，不再铺满整杯
+    if(cnt("kaixinguo")){
+      const n = 8 + inTop("kaixinguo") * 4;
+
+      for(let i = 0; i < n; i++){
+        const x = 100 + (rnd(i, 91) * 2 - 1) * garnishSpread * .82;
+        const y = garnishY - 4 + rnd(i, 92) * 10;
+
+        const w = 3.3 + rnd(i, 93) * 2.3;
+        const h = 2.1 + rnd(i, 94) * 1.6;
+        const rot = rnd(i, 95) * 180;
+
+        const green = i % 3 === 0
+          ? "#7FA45C"
+          : i % 3 === 1
+          ? "#9ABC6C"
+          : "#B2CB7E";
+
+        body += `
+          <g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(0)})">
+            <path
+              d="M${(-w / 2).toFixed(1)},0
+                 Q${(-w * .18).toFixed(1)},${(-h / 2).toFixed(1)}
+                 ${(w / 2).toFixed(1)},${(-h * .12).toFixed(1)}
+                 Q${(w * .22).toFixed(1)},${(h / 2).toFixed(1)}
+                 ${(-w / 2).toFixed(1)},0 Z"
+              fill="${green}"
+            />
+            <path
+              d="M${(-w * .22).toFixed(1)},${(-h * .12).toFixed(1)}
+                 L${(w * .2).toFixed(1)},${(-h * .25).toFixed(1)}"
+              stroke="#DCE8AF"
+              stroke-width=".65"
+              stroke-linecap="round"
+              opacity=".8"
+            />
+          </g>`;
+      }
+    }
+
+    // 芝麻碎：大部分停在表面，少量深浅和角度变化
+    if(cnt("zhima")){
+      const n = 10 + inTop("zhima") * 5;
+
+      for(let i = 0; i < n; i++){
+        const x = 100 + (rnd(i, 101) * 2 - 1) * garnishSpread * .86;
+        const y = garnishY - 3 + rnd(i, 102) * 9;
+
+        const rx = .8 + rnd(i, 103) * .6;
+        const ry = 1.45 + rnd(i, 104) * .7;
+        const rot = rnd(i, 105) * 180;
+
+        body += `
+          <ellipse
+            cx="${x.toFixed(1)}"
+            cy="${y.toFixed(1)}"
+            rx="${rx.toFixed(1)}"
+            ry="${ry.toFixed(1)}"
+            fill="${i % 4 === 0 ? "#5B504A" : "#2F2927"}"
+            transform="rotate(${rot.toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"
+          />`;
+      }
     }
   }
 
@@ -1360,34 +1608,157 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
              <text x="157" y="${topY+4}" font-size="10" fill="#B08F68">3h</text>`;
   }
 
-  // 吸管(穿过杯盖/插入杯口)
-  if(cupType==="plastic"){
-    body += `<g transform="rotate(9 100 80)"><rect x="103" y="16" width="13" height="90" rx="6" fill="#E9756F"/>
-             <rect x="103" y="16" width="13" height="90" rx="6" fill="url(#${U}st)"/>
-             <rect x="103" y="16" width="4" height="90" rx="2" fill="#fff" opacity=".35"/></g>`;
-  }else{
-    // 玻璃杯: 一根吸管,竖直插入杯口(略斜)
-    body += `<g transform="rotate(8 100 82)"><rect x="104" y="24" width="12" height="86" rx="6" fill="#E9756F"/>
-             <rect x="104" y="24" width="12" height="86" rx="6" fill="url(#${U}st)"/>
-             <rect x="104" y="24" width="3.5" height="86" rx="2" fill="#fff" opacity=".35"/></g>`;
-  }
+  // ── 吸管与杯口穿插关系 ──
   defs += `<linearGradient id="${U}st" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".25" stop-color="#fff" stop-opacity="0"/>
-      <stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset=".75" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset=".25" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset=".75" stop-color="#fff" stop-opacity="0"/>
     </linearGradient>`;
-  // 杯盖(塑料杯圆顶盖; 玻璃杯无盖,只有厚玻璃杯口)
-  if(cupType==="plastic"){
-    body += `<path d="M52,80 Q100,44 148,80 Z" fill="url(#${U}ld)" stroke="#C9A87E" stroke-width="3"/>
-             <ellipse cx="84" cy="61" rx="13" ry="5" fill="#FFFFFF" opacity=".65" transform="rotate(-16 84 61)"/>
-             <rect x="47" y="76" width="106" height="10" rx="5" fill="#F7E3C6" stroke="#C9A87E" stroke-width="2.5"/>
-             <rect x="49" y="77.5" width="102" height="3" rx="1.5" fill="#FFFDF6" opacity=".8"/>`;
-  }else{
-    // 玻璃杯口: 厚玻璃圈(广口椭圆)
-    body += `<ellipse cx="100" cy="82" rx="49" ry="8.5" fill="#F7EFE0" stroke="#C9A87E" stroke-width="3"/>
-             <ellipse cx="100" cy="82" rx="43" ry="5.5" fill="#EADFCB" opacity=".7"/>
-             <ellipse cx="80" cy="80.5" rx="10" ry="2.4" fill="#FFFFFF" opacity=".55" transform="rotate(-10 80 80.5)"/>`;
-  }
 
+  if(cupType === "plastic"){
+
+    // 塑料杯吸管
+    body += `
+      <g transform="rotate(9 100 80)">
+        <rect x="103" y="16" width="13" height="90" rx="6" fill="#E9756F"/>
+        <rect x="103" y="16" width="13" height="90" rx="6" fill="url(#${U}st)"/>
+        <rect x="103" y="16" width="4" height="90" rx="2" fill="#fff" opacity=".35"/>
+      </g>`;
+
+    // 塑料杯圆顶盖
+    body += `
+      <path
+        d="M52,80 Q100,44 148,80 Z"
+        fill="url(#${U}ld)"
+        stroke="#C9A87E"
+        stroke-width="3"
+      />
+
+      <ellipse
+        cx="84"
+        cy="61"
+        rx="13"
+        ry="5"
+        fill="#FFFFFF"
+        opacity=".65"
+        transform="rotate(-16 84 61)"
+      />
+
+      <rect
+        x="47"
+        y="76"
+        width="106"
+        height="10"
+        rx="5"
+        fill="#F7E3C6"
+        stroke="#C9A87E"
+        stroke-width="2.5"
+      />
+
+      <rect
+        x="49"
+        y="77.5"
+        width="102"
+        height="3"
+        rx="1.5"
+        fill="#FFFDF6"
+        opacity=".8"
+      />`;
+
+  }else{
+
+    // 玻璃杯内部开口底色
+    body += `
+      <ellipse
+        cx="100"
+        cy="82"
+        rx="46"
+        ry="7"
+        fill="#EADFCB"
+        opacity=".36"
+      />`;
+
+    // 杯口后半圈：先画，在吸管后面
+    body += `
+      <path
+        d="M52,82 Q100,67 148,82"
+        fill="none"
+        stroke="#C9A87E"
+        stroke-width="3"
+        stroke-linecap="round"
+      />
+
+      <path
+        d="M56,81.5 Q100,70 144,81.5"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="2"
+        stroke-linecap="round"
+        opacity=".62"
+      />`;
+
+    // 玻璃杯吸管：位于杯口后半圈前面
+    body += `
+      <g transform="rotate(8 105 82)">
+        <rect
+          x="104"
+          y="20"
+          width="12"
+          height="101"
+          rx="6"
+          fill="#E9756F"
+        />
+
+        <rect
+          x="104"
+          y="20"
+          width="12"
+          height="101"
+          rx="6"
+          fill="url(#${U}st)"
+        />
+
+        <rect
+          x="104"
+          y="20"
+          width="3.5"
+          height="101"
+          rx="2"
+          fill="#FFFFFF"
+          opacity=".36"
+        />
+      </g>`;
+
+    // 杯口前半圈：最后画，挡住吸管插入杯中的一小段
+    body += `
+      <path
+        d="M148,82 Q100,97 52,82"
+        fill="none"
+        stroke="#C9A87E"
+        stroke-width="3.4"
+        stroke-linecap="round"
+      />
+
+      <path
+        d="M144,82.5 Q100,93 56,82.5"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="2.3"
+        stroke-linecap="round"
+        opacity=".58"
+      />
+
+      <path
+        d="M57,81.5 Q72,78.5 87,78"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="2.2"
+        stroke-linecap="round"
+        opacity=".75"
+      />`;
+  }
+  
   // ── 顶部装饰 ──
   if(cnt("maoer")){
     overlay += `<g class="pop">
