@@ -1790,16 +1790,65 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
   }
   const capDeco = Math.min(cnt("naiyou"),1);
   if(capDeco){
-    defs += `<radialGradient id="${U}cr" cx=".4" cy=".3" r=".9"><stop offset="0" stop-color="#FFFEFB"/><stop offset="1" stop-color="#F3E2C8"/></radialGradient>`;
-    overlay += `<g class="pop">
-      <ellipse cx="100" cy="60" rx="27" ry="11" fill="url(#${U}cr)"/>
-      <path d="M74,60 Q78,50 100,49 Q122,50 126,60" fill="none" stroke="#E8D4B4" stroke-width="1" opacity=".6"/>
-      <ellipse cx="100" cy="50" rx="20" ry="9.5" fill="url(#${U}cr)"/>
-      <path d="M82,50 Q88,42 100,41 Q112,42 118,50" fill="none" stroke="#E8D4B4" stroke-width="1" opacity=".6"/>
-      <ellipse cx="100" cy="41" rx="13" ry="8" fill="url(#${U}cr)"/>
-      <ellipse cx="100" cy="33" rx="7" ry="5.5" fill="url(#${U}cr)"/>
-      <circle cx="100" cy="27" r="3.5" fill="#FFFEFB"/>
-      <ellipse cx="93" cy="37" rx="4" ry="2.5" fill="#fff" opacity=".6"/></g>`;
+    defs += `<radialGradient id="${U}cr" cx=".38" cy=".26" r=".95">
+        <stop offset="0" stop-color="#FFFFFF"/>
+        <stop offset=".58" stop-color="#FFF9EE"/>
+        <stop offset="1" stop-color="#EFDCC0"/>
+      </radialGradient>
+      <linearGradient id="${U}crShade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#FFFDF8" stop-opacity=".25"/>
+        <stop offset="1" stop-color="#D9BE9B" stop-opacity=".72"/>
+      </linearGradient>`;
+
+    if(cupType === "glass"){
+      // 玻璃杯：矮一些、宽一些，奶油直接坐在广口杯沿上
+      overlay += `<g class="pop">
+        <ellipse cx="100" cy="80" rx="31" ry="6.5" fill="#CBB393" opacity=".22"/>
+
+        <path d="M69,78
+                 C70,70 77,67 84,68
+                 C86,61 93,59 99,61
+                 C101,55 108,53 113,57
+                 C120,58 124,64 122,69
+                 C130,70 132,75 129,79
+                 C116,83 83,83 69,78 Z"
+              fill="url(#${U}cr)"/>
+
+        <path d="M73,76
+                 C80,72 87,73 93,74
+                 C88,69 91,65 98,64
+                 C104,62 112,64 115,68
+                 C119,71 120,74 126,76"
+              fill="none" stroke="#DFC9AA" stroke-width="1.35"
+              stroke-linecap="round" opacity=".70"/>
+
+        <path d="M82,67
+                 C88,63 93,64 99,65
+                 C96,60 99,57 104,57
+                 C110,57 114,60 114,64"
+              fill="none" stroke="#E5D2B7" stroke-width="1.15"
+              stroke-linecap="round" opacity=".68"/>
+
+        <path d="M96,60 C98,56 101,52 105,52 C108,52 110,54 111,57"
+              fill="none" stroke="#F3E5D0" stroke-width="1.05"
+              stroke-linecap="round" opacity=".72"/>
+
+        <ellipse cx="87" cy="70" rx="8" ry="3.3" fill="#FFFFFF" opacity=".34" transform="rotate(-12 87 70)"/>
+        <ellipse cx="103" cy="58" rx="4.2" ry="2" fill="#FFFFFF" opacity=".52" transform="rotate(-10 103 58)"/>
+        <path d="M72,78 Q100,84 128,78" fill="none" stroke="url(#${U}crShade)" stroke-width="1.2" opacity=".45"/>
+      </g>`;
+    }else{
+      // 塑料杯保持原来的奶油顶
+      overlay += `<g class="pop">
+        <ellipse cx="100" cy="60" rx="27" ry="11" fill="url(#${U}cr)"/>
+        <path d="M74,60 Q78,50 100,49 Q122,50 126,60" fill="none" stroke="#E8D4B4" stroke-width="1" opacity=".6"/>
+        <ellipse cx="100" cy="50" rx="20" ry="9.5" fill="url(#${U}cr)"/>
+        <path d="M82,50 Q88,42 100,41 Q112,42 118,50" fill="none" stroke="#E8D4B4" stroke-width="1" opacity=".6"/>
+        <ellipse cx="100" cy="41" rx="13" ry="8" fill="url(#${U}cr)"/>
+        <ellipse cx="100" cy="33" rx="7" ry="5.5" fill="url(#${U}cr)"/>
+        <circle cx="100" cy="27" r="3.5" fill="#FFFEFB"/>
+        <ellipse cx="93" cy="37" rx="4" ry="2.5" fill="#fff" opacity=".6"/></g>`;
+    }
   }
   if(cnt("tangzhen")){
     const cs=["#E9756F","#F0B26B","#8E6FC9","#7FA85A","#5BA8D9"];
@@ -1810,7 +1859,7 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
   }
   if(cnt("yingtao")){
     defs += `<radialGradient id="${U}ch" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#E8536A"/><stop offset="1" stop-color="#B02338"/></radialGradient>`;
-    for(let i=0;i<Math.min(cnt("yingtao"),3);i++){ const x=88+i*14, y=capDeco?30:62;
+    for(let i=0;i<Math.min(cnt("yingtao"),3);i++){ const x=88+i*14, y=capDeco?(cupType==="glass"?49:30):62;
       overlay += `<g class="bob" style="animation-delay:${i*.5}s"><path d="M${x},${y-14} q6,-9 13,-6" stroke="#6B8A3E" stroke-width="2.4" fill="none" stroke-linecap="round"/>
         <circle cx="${x}" cy="${y}" r="7.5" fill="url(#${U}ch)"/>
         <ellipse cx="${x-2.6}" cy="${y-3}" rx="2.4" ry="1.6" fill="#FBB" opacity=".85"/>
