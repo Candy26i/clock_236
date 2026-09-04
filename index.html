@@ -334,65 +334,174 @@
 
   /* ── 状态条 ── */
   .pet-stats{
-    width:100%; max-width:420px; margin-top:12px; background:var(--milk2);
-    border-radius:16px; padding:11px 14px; font-size:12.5px; overflow:hidden;
+    width:100%;
+    max-width:820px;
+    margin-top:14px;
+    background:var(--milk2);
+    border-radius:20px;
+    padding:15px 20px;
+    font-size:13px;
+    overflow:hidden;
+    box-sizing:border-box;
   }
-  .ps-row{display:flex; align-items:center; gap:8px; margin:6px 0}
-  .ps-label{flex:0 0 44px; color:var(--ink-soft)}
-  .ps-mood{font-size:13.5px; font-weight:700; color:var(--ink)}
-  .ps-bar{flex:1; height:10px; background:rgba(255,255,255,.85); border-radius:6px; overflow:hidden; box-shadow:inset 0 1px 2px rgba(74,46,31,.12)}
-  .ps-fill{height:100%; border-radius:6px; transition:width .5s ease}
+  .ps-row{display:flex;align-items:center;gap:12px;margin:8px 0}
+  .ps-label{flex:0 0 52px;color:var(--ink-soft)}
+  .ps-mood{font-size:14px;font-weight:700;color:var(--ink)}
+  .ps-bar{
+    flex:1;height:10px;background:rgba(255,255,255,.88);border-radius:6px;overflow:hidden;
+    box-shadow:inset 0 1px 2px rgba(74,46,31,.12)
+  }
+  .ps-fill{height:100%;border-radius:6px;transition:width .5s ease}
   .ps-fill.hp{background:linear-gradient(90deg,#8FBF6B,#5A9E3E)}
   .ps-fill.iv{background:linear-gradient(90deg,#F0A8C0,#E96A94)}
-  .ps-num{flex:0 0 58px; text-align:right; color:var(--ink-soft); font-size:11.5px}
-  /* ── 伴学小人互动扩展 v1（原状态/点击/GIF 全部保留） ── */
+  .ps-num{flex:0 0 76px;text-align:right;color:var(--ink-soft);font-size:12px}
+
+  /* ── 伴学小人互动扩展：桌面端横向控制台 ── */
   .ps-fill.food{background:linear-gradient(90deg,#F2C76D,#E49B43)}
   .ps-fill.crave{background:linear-gradient(90deg,#F2A8B8,#D95F7A)}
-  .pet-life-note{margin-top:9px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.82);color:var(--ink-soft);line-height:1.55}
-  .pet-life-note b{color:var(--ink)}
-  .main-life-note{
-    margin:10px -14px -11px; padding:12px 14px;
-    border-radius:0 0 16px 16px; border-top:1px solid rgba(201,168,126,.18);
-    display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:12px;
-    background:rgba(255,255,255,.90);
+
+  .pet-life-note{
+    margin-top:11px;
+    padding:12px 14px;
+    border-radius:14px;
+    background:rgba(255,255,255,.84);
+    color:var(--ink-soft);
+    line-height:1.55;
+    box-sizing:border-box;
   }
-  .pet-life-copy{min-width:0; line-height:1.55}
-  .pet-life-copy .pet-life-kicker{display:block;font-size:10.5px;color:#B18B63;margin-bottom:1px;letter-spacing:.15px}
-  .pet-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:9px}
-  .main-life-note .pet-actions{margin-top:0;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:8px}
+  .pet-life-note b{color:var(--ink)}
+
+  .main-life-note{
+    margin:14px -20px -15px;
+    padding:16px 20px;
+    border-radius:0 0 20px 20px;
+    border-top:1px solid rgba(201,168,126,.18);
+    display:grid;
+    grid-template-columns:minmax(230px,1fr) auto;
+    align-items:center;
+    gap:22px;
+    background:rgba(255,255,255,.92);
+  }
+  .pet-life-copy{
+    min-width:0;
+    line-height:1.5;
+    font-size:13px;
+  }
+  .pet-life-copy .pet-life-kicker{
+    display:block;
+    font-size:10.5px;
+    line-height:1.2;
+    color:#B18B63;
+    margin-bottom:5px;
+    letter-spacing:.9px;
+    white-space:nowrap;
+  }
+  .pet-wish-line{
+    display:flex;
+    align-items:baseline;
+    gap:4px;
+    min-width:0;
+    white-space:normal;
+  }
+  .pet-wish-line b{font-size:14px}
+
+  .pet-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+    margin-top:9px;
+  }
+  .main-life-note .pet-actions{
+    margin-top:0;
+    justify-content:flex-end;
+    align-items:center;
+    flex-wrap:nowrap;
+    gap:8px;
+  }
   .main-life-note .pet-act{
     white-space:nowrap;
-    min-height:40px;
-    padding:0 14px;
+    min-height:38px;
+    padding:0 15px;
     display:inline-flex;
     align-items:center;
     justify-content:center;
     border-radius:999px;
   }
   .main-life-note .pet-act.primary{
-    min-width:118px;
-    padding:0 20px;
-    box-shadow:0 4px 10px rgba(233,162,74,.18);
+    min-width:126px;
+    padding:0 22px;
+    box-shadow:0 4px 10px rgba(233,162,74,.16);
   }
-  .guest-life-note{margin-top:10px;background:#FFF7ED;border:1px dashed #E8C9A4;padding:10px 11px}
-  .guest-life-note .pet-actions{margin-top:7px}
-  .neighbor-life-note{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;background:#FFF8FB;border:1px dashed #E9C6D2;padding:10px 11px}
-  .neighbor-life-note .pet-actions{margin-top:0;flex:0 0 auto}
-  .neighbor-life-note .pet-act.pink{white-space:nowrap;padding:8px 15px}
-  .lure-choice small{display:block;margin-top:3px;color:var(--ink-soft);font-size:10.5px;line-height:1.35;font-weight:400}
-  @media (max-width:500px){.neighbor-life-note{align-items:flex-start;flex-direction:column}.neighbor-life-note .pet-actions{width:100%}.neighbor-life-note .pet-act{width:100%}}
-  @media (max-width:500px){
-    .pet-stats{max-width:360px}
-    .main-life-note{grid-template-columns:1fr;gap:8px}
-    .main-life-note .pet-actions{justify-content:flex-start;flex-wrap:wrap}
-    .main-life-note .pet-act{flex:1 1 auto;text-align:center}
+
+  .guest-life-note{
+    margin-top:12px;
+    background:#FFF7ED;
+    border:1px dashed #E8C9A4;
+    padding:12px 14px;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:center;
+    gap:16px;
   }
-  .pet-act{border:1.5px solid #E7D3B8;background:#FFFDF9;color:var(--ink);border-radius:999px;padding:8px 12px;font:inherit;font-size:12px;cursor:pointer;transition:transform .12s,border-color .15s,background .15s,box-shadow .15s}
-  .pet-act:hover{border-color:var(--amber);background:#FFF8EC}.pet-act:active{transform:scale(.96)}
+  .guest-life-note .pet-actions{
+    margin-top:0;
+    flex-wrap:nowrap;
+    justify-content:flex-end;
+  }
+
+  .neighbor-life-note{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:center;
+    gap:18px;
+    margin:13px 0 0;
+    background:#FFF8FB;
+    border:1px dashed #E9C6D2;
+    padding:12px 14px;
+  }
+  .neighbor-life-note .pet-actions{
+    margin-top:0;
+    flex:0 0 auto;
+    justify-content:flex-end;
+  }
+  .neighbor-life-note .pet-act.pink{
+    white-space:nowrap;
+    min-width:142px;
+    padding:8px 18px;
+  }
+
+  .lure-choice small{
+    display:block;
+    margin-top:3px;
+    color:var(--ink-soft);
+    font-size:10.5px;
+    line-height:1.35;
+    font-weight:400;
+  }
+
+  .pet-act{
+    border:1.5px solid #E7D3B8;
+    background:#FFFDF9;
+    color:var(--ink);
+    border-radius:999px;
+    padding:8px 12px;
+    font:inherit;
+    font-size:12px;
+    cursor:pointer;
+    transition:transform .12s,border-color .15s,background .15s,box-shadow .15s;
+  }
+  .pet-act:hover{border-color:var(--amber);background:#FFF8EC}
+  .pet-act:active{transform:scale(.96)}
   .pet-act.primary{background:linear-gradient(135deg,#F4C77D,#E9A24A);color:#fff;border-color:transparent}
   .pet-act.pink{background:linear-gradient(135deg,#F2ADC0,#E57595);color:#fff;border-color:transparent}
-  .pet-away-card{position:relative;display:inline-flex;min-height:190px;width:min(260px,72vw);flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:28px 16px 20px;border:2px dashed #DFC8AA;background:#FFF9F0;border-radius:22px;color:var(--ink-soft);vertical-align:bottom}
-  .pet-away-card .note-ico{font-size:42px}.pet-away-card b{color:var(--ink);font-size:15px}
+
+  .pet-away-card{
+    position:relative;display:inline-flex;min-height:190px;width:min(260px,72vw);
+    flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:28px 16px 20px;
+    border:2px dashed #DFC8AA;background:#FFF9F0;border-radius:22px;color:var(--ink-soft);vertical-align:bottom
+  }
+  .pet-away-card .note-ico{font-size:42px}
+  .pet-away-card b{color:var(--ink);font-size:15px}
   .pet-away-pickup{
     position:absolute;top:10px;left:10px;z-index:3;
     min-height:34px;padding:0 12px;border:1.5px solid #E2C299;border-radius:999px;
@@ -400,23 +509,65 @@
     display:inline-flex;align-items:center;justify-content:center;gap:4px;cursor:pointer;
     box-shadow:0 3px 8px rgba(120,82,47,.10);transition:transform .12s,border-color .15s,background .15s;
   }
-  .pet-away-pickup:hover{border-color:#D79D57;background:#FFF6E9}.pet-away-pickup:active{transform:scale(.96)}
-  .pet-guest-card{display:inline-flex;vertical-align:bottom;flex-direction:column;align-items:center;justify-content:flex-end;margin-left:8px;padding:8px 8px 5px;border-radius:18px;background:rgba(255,248,236,.74);border:1.5px dashed #E1C7A5;cursor:pointer}
+  .pet-away-pickup:hover{border-color:#D79D57;background:#FFF6E9}
+  .pet-away-pickup:active{transform:scale(.96)}
+  .pet-guest-card{
+    display:inline-flex;vertical-align:bottom;flex-direction:column;align-items:center;justify-content:flex-end;
+    margin-left:8px;padding:8px 8px 5px;border-radius:18px;background:rgba(255,248,236,.74);
+    border:1.5px dashed #E1C7A5;cursor:pointer
+  }
   .pet-guest-card img{width:135px;max-width:36vw;display:block;filter:drop-shadow(0 8px 12px rgba(74,46,31,.15))}
   .pet-guest-tag{font-size:11px;color:#A66B35;background:#FFF0D5;padding:3px 8px;border-radius:999px;margin-top:2px}
-  .mini-away{width:64px;height:64px;margin:0 auto;border-radius:50%;border:2px dashed #D8B98E;background:#FFF8EA;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#9A7045;font-size:10px;line-height:1.1}
+  .mini-away{
+    width:64px;height:64px;margin:0 auto;border-radius:50%;border:2px dashed #D8B98E;background:#FFF8EA;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;color:#9A7045;font-size:10px;line-height:1.1
+  }
   .mini-away span:first-child{font-size:24px;margin-bottom:2px}
   .pet-feed-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 16px}
-  .pet-feed-btn{border:1.5px solid var(--line);background:#FFFDF9;border-radius:13px;padding:10px 8px;cursor:pointer;color:var(--ink);font:inherit;font-size:13px}
-  .pet-feed-btn:hover{border-color:var(--amber);background:#FFF8EC}
-  .pet-play-grid{grid-template-columns:1fr 1fr}
-  .pet-play-grid .pet-rps{grid-column:1 / -1;background:#FFF8EC;border-color:#E7C99C}
-  .pet-rps-grid{grid-template-columns:repeat(3,1fr)}
-  @media (max-width:500px){
-    .pet-rps-grid{grid-template-columns:1fr}
+  .pet-feed-btn{
+    border:1.5px solid var(--line);background:#FFFDF9;border-radius:13px;padding:10px 8px;
+    cursor:pointer;color:var(--ink);font:inherit;font-size:13px
   }
-  .quest-card{padding:11px 12px;background:#FFF5E8;border:1px dashed #E6BD82;border-radius:13px;margin:8px 0 14px;line-height:1.65;color:var(--ink-soft)}
+  .pet-feed-btn:hover{border-color:var(--amber);background:#FFF8EC}
+  .quest-card{
+    padding:11px 12px;background:#FFF5E8;border:1px dashed #E6BD82;border-radius:13px;
+    margin:8px 0 14px;line-height:1.65;color:var(--ink-soft)
+  }
   .quest-card b{color:var(--ink)}
+
+  /* 桌面端：让整个伴学控制区真正按电脑宽度排版 */
+  @media (min-width:760px){
+    .pet-zone{padding-top:58px}
+    #petChar svg{width:210px}
+    .pet-status{font-size:13.5px;margin-top:6px}
+  }
+
+  /* 平板 / 手机端再逐级收回 */
+  @media (max-width:759px){
+    .pet-stats{max-width:520px;padding:13px 16px}
+    .main-life-note{
+      margin:12px -16px -13px;
+      padding:14px 16px;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+    .main-life-note .pet-actions{justify-content:flex-start;flex-wrap:wrap}
+    .guest-life-note,.neighbor-life-note{grid-template-columns:1fr;gap:9px}
+    .guest-life-note .pet-actions,.neighbor-life-note .pet-actions{justify-content:flex-start;flex-wrap:wrap}
+  }
+
+  @media (max-width:500px){
+    .pet-stats{max-width:360px;padding:11px 14px;border-radius:16px}
+    .ps-row{gap:8px;margin:6px 0}
+    .ps-label{flex-basis:44px}
+    .ps-num{flex-basis:58px;font-size:11.5px}
+    .main-life-note{margin:10px -14px -11px;padding:12px 14px;border-radius:0 0 16px 16px}
+    .main-life-note .pet-act{flex:1 1 auto;text-align:center;padding:0 11px;min-height:38px}
+    .main-life-note .pet-act.primary{min-width:0;padding:0 13px}
+    .pet-wish-line{display:block}
+    .neighbor-life-note .pet-actions,.guest-life-note .pet-actions{width:100%}
+    .neighbor-life-note .pet-act,.guest-life-note .pet-act{width:100%}
+  }
 
   /* ── 3D 展示台 ── */
   .cup-stage{perspective:900px; display:inline-block; touch-action:none}
@@ -2384,7 +2535,7 @@ function renderPetInteraction(uid){
   ps.insertAdjacentHTML('beforeend',`
     <div class="ps-row"><span class="ps-label">饱腹</span><div class="ps-bar"><div class="ps-fill food" style="width:${life.fullness}%"></div></div><span class="ps-num">${life.fullness}/100</span></div>
     <div class="ps-row"><span class="ps-label">想喝</span><div class="ps-bar"><div class="ps-fill crave" style="width:${life.craving}%"></div></div><span class="ps-num">${life.craving}/100</span></div>
-    <div class="pet-life-note main-life-note"><div class="pet-life-copy">${home?`<span class="pet-life-kicker">MILK TEA WISH</span>今天想喝：${taste.em} <b>${taste.txt}</b>`:`<span class="pet-life-kicker">AWAY FROM HOME</span>🏃 现在在 <b>${uname(life.location)}</b> 家串门`}</div><div class="pet-actions" id="petLifeActs"></div></div>`);
+    <div class="pet-life-note main-life-note"><div class="pet-life-copy">${home?`<span class="pet-life-kicker">MILK TEA WISH</span><div class="pet-wish-line"><span>今天想喝：${taste.em}</span><b>${taste.txt}</b></div>`:`<span class="pet-life-kicker">AWAY FROM HOME</span><div class="pet-wish-line">🏃 现在在 <b>${uname(life.location)}</b> 家串门</div>`}</div><div class="pet-actions" id="petLifeActs"></div></div>`);
   const acts=ps.querySelector('#petLifeActs');
   if(home){
     acts.innerHTML='<button class="pet-act" data-a="snack">🍪 投喂</button><button class="pet-act primary" data-a="tea">🧋 请喝奶茶</button><button class="pet-act" data-a="play">🎈 玩一会</button><button class="pet-act" data-a="taste">💭 奶茶心愿</button>';
