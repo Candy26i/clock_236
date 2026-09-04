@@ -334,8 +334,8 @@
 
   /* ── 状态条 ── */
   .pet-stats{
-    width:100%; max-width:330px; margin-top:12px; background:var(--milk2);
-    border-radius:14px; padding:11px 14px; font-size:12.5px;
+    width:100%; max-width:420px; margin-top:12px; background:var(--milk2);
+    border-radius:16px; padding:11px 14px; font-size:12.5px; overflow:hidden;
   }
   .ps-row{display:flex; align-items:center; gap:8px; margin:6px 0}
   .ps-label{flex:0 0 44px; color:var(--ink-soft)}
@@ -344,34 +344,78 @@
   .ps-fill{height:100%; border-radius:6px; transition:width .5s ease}
   .ps-fill.hp{background:linear-gradient(90deg,#8FBF6B,#5A9E3E)}
   .ps-fill.iv{background:linear-gradient(90deg,#F0A8C0,#E96A94)}
+  .ps-num{flex:0 0 58px; text-align:right; color:var(--ink-soft); font-size:11.5px}
+  /* ── 伴学小人互动扩展 v1（原状态/点击/GIF 全部保留） ── */
   .ps-fill.food{background:linear-gradient(90deg,#F2C76D,#E49B43)}
   .ps-fill.crave{background:linear-gradient(90deg,#F2A8B8,#D95F7A)}
-  .ps-num{flex:0 0 58px; text-align:right; color:var(--ink-soft); font-size:11.5px}
-  .pet-life-note{margin-top:8px; padding:8px 10px; border-radius:11px; background:rgba(255,255,255,.72); color:var(--ink-soft); line-height:1.55}
+  .pet-life-note{margin-top:9px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.82);color:var(--ink-soft);line-height:1.55}
   .pet-life-note b{color:var(--ink)}
-  .pet-actions{display:flex; flex-wrap:wrap; gap:7px; margin-top:10px}
-  .pet-act{border:1.5px solid #E7D3B8; background:#FFFDF9; color:var(--ink); border-radius:999px; padding:7px 11px; font:inherit; font-size:12px; cursor:pointer; transition:transform .12s,border-color .15s,background .15s}
-  .pet-act:hover{border-color:var(--amber); background:#FFF8EC}
-  .pet-act:active{transform:scale(.96)}
-  .pet-act.primary{background:linear-gradient(135deg,#F4C77D,#E9A24A); color:#fff; border-color:transparent}
-  .pet-act.pink{background:linear-gradient(135deg,#F2ADC0,#E57595); color:#fff; border-color:transparent}
-  .pet-away-card{min-height:190px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:22px 18px; border:2px dashed #DFC8AA; background:#FFF9F0; border-radius:22px; color:var(--ink-soft); width:min(260px,72vw)}
-  .pet-away-card .note-ico{font-size:44px}
-  .pet-away-card b{color:var(--ink); font-size:15px}
-  .pet-scene{display:flex; align-items:flex-end; justify-content:center; gap:8px; flex-wrap:wrap; min-height:230px}
-  .pet-scene-main{position:relative; min-width:190px; text-align:center}
-  .pet-guest{position:relative; text-align:center; padding:8px 8px 2px; border-radius:18px; background:rgba(255,248,236,.72); border:1.5px dashed #E1C7A5}
-  .pet-guest-img{width:145px; max-width:38vw; display:block; filter:drop-shadow(0 8px 12px rgba(74,46,31,.15))}
-  .pet-guest svg{width:145px!important; max-width:38vw}
-  .pet-guest-tag{font-size:11px; color:#A66B35; background:#FFF0D5; padding:3px 8px; border-radius:999px; display:inline-block; margin-top:2px}
-  .pet-visit-box{margin-top:9px; padding:9px 10px; border-radius:12px; background:#FFF5E7; border:1px dashed #E4BE86; line-height:1.55}
-  .pet-visit-box b{color:var(--ink)}
-  .mini-away{width:64px; height:64px; margin:0 auto; border-radius:50%; border:2px dashed #D8B98E; background:#FFF8EA; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#9A7045; font-size:10px; line-height:1.1}
-  .mini-away span:first-child{font-size:25px; margin-bottom:2px}
-  .pet-feed-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0 16px}
-  .pet-feed-btn{border:1.5px solid var(--line); background:#FFFDF9; border-radius:13px; padding:10px 8px; cursor:pointer; color:var(--ink); font:inherit; font-size:13px}
-  .pet-feed-btn:hover{border-color:var(--amber); background:#FFF8EC}
-  .quest-card{padding:11px 12px; background:#FFF5E8; border:1px dashed #E6BD82; border-radius:13px; margin:8px 0 14px; line-height:1.65; color:var(--ink-soft)}
+  .main-life-note{
+    margin:10px -14px -11px; padding:12px 14px;
+    border-radius:0 0 16px 16px; border-top:1px solid rgba(201,168,126,.18);
+    display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:12px;
+    background:rgba(255,255,255,.90);
+  }
+  .pet-life-copy{min-width:0; line-height:1.55}
+  .pet-life-copy .pet-life-kicker{display:block;font-size:10.5px;color:#B18B63;margin-bottom:1px;letter-spacing:.15px}
+  .pet-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:9px}
+  .main-life-note .pet-actions{margin-top:0;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:8px}
+  .main-life-note .pet-act{
+    white-space:nowrap;
+    min-height:40px;
+    padding:0 14px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:999px;
+  }
+  .main-life-note .pet-act.primary{
+    min-width:118px;
+    padding:0 20px;
+    box-shadow:0 4px 10px rgba(233,162,74,.18);
+  }
+  .guest-life-note{margin-top:10px;background:#FFF7ED;border:1px dashed #E8C9A4;padding:10px 11px}
+  .guest-life-note .pet-actions{margin-top:7px}
+  .neighbor-life-note{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;background:#FFF8FB;border:1px dashed #E9C6D2;padding:10px 11px}
+  .neighbor-life-note .pet-actions{margin-top:0;flex:0 0 auto}
+  .neighbor-life-note .pet-act.pink{white-space:nowrap;padding:8px 15px}
+  .lure-choice small{display:block;margin-top:3px;color:var(--ink-soft);font-size:10.5px;line-height:1.35;font-weight:400}
+  @media (max-width:500px){.neighbor-life-note{align-items:flex-start;flex-direction:column}.neighbor-life-note .pet-actions{width:100%}.neighbor-life-note .pet-act{width:100%}}
+  @media (max-width:500px){
+    .pet-stats{max-width:360px}
+    .main-life-note{grid-template-columns:1fr;gap:8px}
+    .main-life-note .pet-actions{justify-content:flex-start;flex-wrap:wrap}
+    .main-life-note .pet-act{flex:1 1 auto;text-align:center}
+  }
+  .pet-act{border:1.5px solid #E7D3B8;background:#FFFDF9;color:var(--ink);border-radius:999px;padding:8px 12px;font:inherit;font-size:12px;cursor:pointer;transition:transform .12s,border-color .15s,background .15s,box-shadow .15s}
+  .pet-act:hover{border-color:var(--amber);background:#FFF8EC}.pet-act:active{transform:scale(.96)}
+  .pet-act.primary{background:linear-gradient(135deg,#F4C77D,#E9A24A);color:#fff;border-color:transparent}
+  .pet-act.pink{background:linear-gradient(135deg,#F2ADC0,#E57595);color:#fff;border-color:transparent}
+  .pet-away-card{position:relative;display:inline-flex;min-height:190px;width:min(260px,72vw);flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:28px 16px 20px;border:2px dashed #DFC8AA;background:#FFF9F0;border-radius:22px;color:var(--ink-soft);vertical-align:bottom}
+  .pet-away-card .note-ico{font-size:42px}.pet-away-card b{color:var(--ink);font-size:15px}
+  .pet-away-pickup{
+    position:absolute;top:10px;left:10px;z-index:3;
+    min-height:34px;padding:0 12px;border:1.5px solid #E2C299;border-radius:999px;
+    background:rgba(255,253,249,.96);color:#8D633F;font:inherit;font-size:11.5px;font-weight:700;
+    display:inline-flex;align-items:center;justify-content:center;gap:4px;cursor:pointer;
+    box-shadow:0 3px 8px rgba(120,82,47,.10);transition:transform .12s,border-color .15s,background .15s;
+  }
+  .pet-away-pickup:hover{border-color:#D79D57;background:#FFF6E9}.pet-away-pickup:active{transform:scale(.96)}
+  .pet-guest-card{display:inline-flex;vertical-align:bottom;flex-direction:column;align-items:center;justify-content:flex-end;margin-left:8px;padding:8px 8px 5px;border-radius:18px;background:rgba(255,248,236,.74);border:1.5px dashed #E1C7A5;cursor:pointer}
+  .pet-guest-card img{width:135px;max-width:36vw;display:block;filter:drop-shadow(0 8px 12px rgba(74,46,31,.15))}
+  .pet-guest-tag{font-size:11px;color:#A66B35;background:#FFF0D5;padding:3px 8px;border-radius:999px;margin-top:2px}
+  .mini-away{width:64px;height:64px;margin:0 auto;border-radius:50%;border:2px dashed #D8B98E;background:#FFF8EA;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#9A7045;font-size:10px;line-height:1.1}
+  .mini-away span:first-child{font-size:24px;margin-bottom:2px}
+  .pet-feed-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 16px}
+  .pet-feed-btn{border:1.5px solid var(--line);background:#FFFDF9;border-radius:13px;padding:10px 8px;cursor:pointer;color:var(--ink);font:inherit;font-size:13px}
+  .pet-feed-btn:hover{border-color:var(--amber);background:#FFF8EC}
+  .pet-play-grid{grid-template-columns:1fr 1fr}
+  .pet-play-grid .pet-rps{grid-column:1 / -1;background:#FFF8EC;border-color:#E7C99C}
+  .pet-rps-grid{grid-template-columns:repeat(3,1fr)}
+  @media (max-width:500px){
+    .pet-rps-grid{grid-template-columns:1fr}
+  }
+  .quest-card{padding:11px 12px;background:#FFF5E8;border:1px dashed #E6BD82;border-radius:13px;margin:8px 0 14px;line-height:1.65;color:var(--ink-soft)}
   .quest-card b{color:var(--ink)}
 
   /* ── 3D 展示台 ── */
@@ -567,7 +611,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v12.0 · 双人伴学互动</span>
+    <span style="opacity:.7">v12.1 · 原版伴学保留 + 双人互动</span>
   </footer>
 </div>
 
@@ -2042,209 +2086,327 @@ function seedRand(str){
                return ((h ^= h>>>16)>>>0) / 4294967296; };
 }
 
-/* ── 双人伴学互动 v1：馋茶 / 投喂 / 串门 / 召回 ── */
+/* ── 双人伴学互动 v1：只叠加，不替换原来的心愿/健康/亲密/GIF/戳戳 ── */
 const otherUid = uid => (USERS.find(u=>u.id!==uid)||USERS[0]).id;
 const clamp100 = n => Math.max(0, Math.min(100, Math.round(n)));
-const petLifeDefault = uid => ({
-  craving:28, fullness:76, lastTick:Date.now(), location:uid,
-  snackDay:null, snackCount:0, teaFeedDay:null,
-  visitSnackDay:null, visitTeaDay:null, questId:null, awaySince:null
-});
-function petLifeOf(uid){
-  const s = data[uid] && data[uid].petLife;
-  return Object.assign(petLifeDefault(uid), s||{});
+function petLifeDefault(uid){
+  return {craving:24, fullness:78, lastTick:Date.now(), location:uid,
+          snackDay:null, snackCount:0, teaFeedDay:null,
+          visitSnackDay:null, visitTeaDay:null, playDay:null, playCount:0, questId:null, awaySince:null,
+          awayReason:null, luredBy:null, lureDay:null, lureCount:0};
 }
+function petLifeOf(uid){ return Object.assign(petLifeDefault(uid), (data[uid]&&data[uid].petLife)||{}); }
+function updatePetLife(uid,fn,done){
+  DB.txn("users/"+uid+"/petLife",cur=>{
+    const s=Object.assign(petLifeDefault(uid),cur||{}), out=fn(s);
+    return out===undefined ? undefined : out;
+  },ok=>done&&done(ok));
+}
+function addPetIntimacy(uid,n){ DB.txn("users/"+uid+"/stats/intimacy",cur=>Math.min(100,(cur||0)+n)); }
 
-const BASE_GROUPS = {
+const PET_BASE_GROUPS={
   purple:["yuni","lanmei","putao","jiguang","yukaixin"],
   gold:["moli","boba","youzi","guihua","jinsitao","mangye"],
   pink:["caomei","xigua","yangmei","yinghua","xiyou","xiyoumei","yinglizhi","luoshenmei"],
   citrus:["hailian","qingningqp","dieudou","xiyou","xiyoumei","ningzhazha","youzi"],
   tea:["hong","wulong","lv","moli","mitao","guihua","luoshenmei","ningzhazha"]
 };
-const hasBaseGroup = (d,g)=> !!(d && BASE_GROUPS[g] && BASE_GROUPS[g].includes(d.base));
-const hasTop = (d,id)=> !!(d && (d.tops||[]).includes(id));
-const hasTopKind = (d,kind)=> !!(d && (d.tops||[]).some(id=>{ const t=TOPPINGS.find(x=>x.id===id); return t&&t.kind===kind; }));
-const baseObjOfDrink = d => d ? BASES.find(b=>b.id===d.base) : null;
+const drinkBaseObj=d=>d?BASES.find(b=>b.id===d.base):null;
+const drinkHasTop=(d,id)=>!!(d&&(d.tops||[]).includes(id));
+const drinkHasKind=(d,kind)=>!!(d&&(d.tops||[]).some(id=>{const t=TOPPINGS.find(x=>x.id===id);return t&&t.kind===kind;}));
+const drinkInGroup=(d,g)=>!!(d&&PET_BASE_GROUPS[g]&&PET_BASE_GROUPS[g].includes(d.base));
 
-const PET_TASTES = [
-  {id:"milk", em:"🥛", txt:"奶味重一点的", match:d=>{const b=baseObjOfDrink(d);return !!(b&&b.milk);}},
-  {id:"sparkle", em:"🫧", txt:"冰冰的气泡饮", match:d=>{const b=baseObjOfDrink(d);return !!(b&&b.cocktail);}},
-  {id:"fruit", em:"🍓", txt:"带一份水果切片的", match:d=>hasTopKind(d,"fruit")},
-  {id:"pearl", em:"⚫", txt:"有珍珠的", match:d=>hasTop(d,"zhenzhu")},
-  {id:"purple", em:"💜", txt:"紫色系的", match:d=>hasBaseGroup(d,"purple")},
-  {id:"gold", em:"🍯", txt:"金黄暖暖的", match:d=>hasBaseGroup(d,"gold")},
-  {id:"citrus", em:"🍋", txt:"酸酸的柑橘系", match:d=>hasBaseGroup(d,"citrus")},
-  {id:"cream", em:"☁️", txt:"有奶盖或奶油顶的", match:d=>hasTop(d,"naigai")||hasTop(d,"naiyou")}
+const PET_TASTES=[
+  {id:"milk",em:"🥛",txt:"奶味重一点的",match:d=>{const b=drinkBaseObj(d);return !!(b&&b.milk);}},
+  {id:"sparkle",em:"🫧",txt:"冰冰的气泡饮",match:d=>{const b=drinkBaseObj(d);return !!(b&&b.cocktail);}},
+  {id:"fruit",em:"🍓",txt:"带一份水果切片的",match:d=>drinkHasKind(d,"fruit")},
+  {id:"pearl",em:"⚫",txt:"有珍珠的",match:d=>drinkHasTop(d,"zhenzhu")},
+  {id:"purple",em:"💜",txt:"紫色系的",match:d=>drinkInGroup(d,"purple")},
+  {id:"gold",em:"🍯",txt:"金黄暖暖的",match:d=>drinkInGroup(d,"gold")},
+  {id:"citrus",em:"🍋",txt:"酸酸的柑橘系",match:d=>drinkInGroup(d,"citrus")},
+  {id:"cream",em:"☁️",txt:"有奶盖或奶油顶的",match:d=>drinkHasTop(d,"naigai")||drinkHasTop(d,"naiyou")}
 ];
-function tasteOf(uid){
-  const r=seedRand("taste|"+uid+"|"+todayKeyFor(uid));
-  return PET_TASTES[Math.floor(r()*PET_TASTES.length)];
-}
+function tasteOf(uid){const r=seedRand("taste|"+uid+"|"+todayKeyFor(uid));return PET_TASTES[Math.floor(r()*PET_TASTES.length)];}
 
-const PET_RETURN_QUESTS = [
-  {id:"purple_yuyuan", em:"💜", txt:"一杯紫色系饮料 + 芋圆", match:d=>hasBaseGroup(d,"purple")&&hasTop(d,"yuyuan")},
-  {id:"gold_guihua", em:"🌼", txt:"一杯金黄色饮料 + 桂花", match:d=>hasBaseGroup(d,"gold")&&hasTop(d,"guihua")},
-  {id:"pink_fruit", em:"🍓", txt:"一杯粉红/红色饮料 + 任意果切", match:d=>hasBaseGroup(d,"pink")&&hasTopKind(d,"fruit")},
-  {id:"tea_naigai", em:"🥛", txt:"一杯茶系饮料 + 奶盖", match:d=>hasBaseGroup(d,"tea")&&hasTop(d,"naigai")},
-  {id:"citrus_fruit", em:"🍋", txt:"一杯柑橘酸甜系 + 任意果切", match:d=>hasBaseGroup(d,"citrus")&&hasTopKind(d,"fruit")},
-  {id:"milk_buding", em:"🍮", txt:"一杯奶系饮料 + 布丁", match:d=>{const b=baseObjOfDrink(d);return !!(b&&b.milk&&hasTop(d,"buding"));}}
+const PET_RETURN_QUESTS=[
+  {id:"purple_yuyuan",em:"💜",txt:"紫色系饮料 + 芋圆",match:d=>drinkInGroup(d,"purple")&&drinkHasTop(d,"yuyuan")},
+  {id:"gold_guihua",em:"🌼",txt:"金黄色饮料 + 桂花",match:d=>drinkInGroup(d,"gold")&&drinkHasTop(d,"guihua")},
+  {id:"pink_fruit",em:"🍓",txt:"粉红/红色饮料 + 任意果切",match:d=>drinkInGroup(d,"pink")&&drinkHasKind(d,"fruit")},
+  {id:"tea_naigai",em:"🥛",txt:"茶系饮料 + 奶盖",match:d=>drinkInGroup(d,"tea")&&drinkHasTop(d,"naigai")},
+  {id:"citrus_fruit",em:"🍋",txt:"柑橘酸甜系 + 任意果切",match:d=>drinkInGroup(d,"citrus")&&drinkHasKind(d,"fruit")},
+  {id:"milk_buding",em:"🍮",txt:"奶系饮料 + 布丁",match:d=>{const b=drinkBaseObj(d);return !!(b&&b.milk&&drinkHasTop(d,"buding"));}}
 ];
-function returnQuestPick(uid, token){
-  const r=seedRand("return|"+uid+"|"+String(token||todayKeyFor(uid)));
-  return PET_RETURN_QUESTS[Math.floor(r()*PET_RETURN_QUESTS.length)];
-}
-function returnQuestOf(uid){
-  const s=petLifeOf(uid);
-  return PET_RETURN_QUESTS.find(q=>q.id===s.questId) || returnQuestPick(uid,s.awaySince||todayKeyFor(uid));
-}
+function returnQuestPick(uid,token){const r=seedRand("return|"+uid+"|"+String(token||todayKeyFor(uid)));return PET_RETURN_QUESTS[Math.floor(r()*PET_RETURN_QUESTS.length)];}
+function returnQuestOf(uid){const s=petLifeOf(uid);return PET_RETURN_QUESTS.find(q=>q.id===s.questId)||returnQuestPick(uid,s.awaySince||todayKeyFor(uid));}
 
-function drinkLabel(uid){
-  const d=drinkOf(uid); if(!d) return "今天还没有奶茶";
-  const b=BASES.find(x=>x.id===d.base);
-  const names=(d.tops||[]).map(id=>(TOPPINGS.find(t=>t.id===id)||{}).name).filter(Boolean);
-  return (b?b.name:"这杯") + (names.length? " + "+names.join("、") : "（纯饮）");
-}
-function addPetIntimacy(uid,n){
-  DB.txn("users/"+uid+"/stats/intimacy", cur=>Math.min(100,(cur||0)+n));
-}
-function updatePetLife(uid, fn, done){
-  DB.txn("users/"+uid+"/petLife", cur=>{
-    const s=Object.assign(petLifeDefault(uid),cur||{});
-    const out=fn(s);
-    return out===undefined ? undefined : out;
-  }, ok=>done&&done(ok));
-}
-
-// 每小时馋茶 +1、饱腹 -0.5。约三天不喝会进入离家阈值。
 function syncPetLife(uid){
   const now=Date.now();
-  DB.txn("users/"+uid+"/petLife", cur=>{
-    const s=Object.assign(petLifeDefault(uid),cur||{});
-    const last=Number(s.lastTick)||now;
-    const hours=Math.max(0,Math.min(168,Math.floor((now-last)/3600000)));
-    if(hours>0){
-      s.craving=clamp100((Number(s.craving)||0)+hours);
-      s.fullness=clamp100((Number(s.fullness)||0)-hours*.5);
-      s.lastTick=last+hours*3600000;
-    }else if(!s.lastTick) s.lastTick=now;
-    if(!s.location) s.location=uid;
-    if(s.location!==uid && !s.questId) s.questId=returnQuestPick(uid,s.awaySince||now).id;
-    if(s.craving>=100 && s.location===uid){
-      s.location=otherUid(uid);
-      s.awaySince=now;
-      s.questId=returnQuestPick(uid,now).id;
-      s.craving=100;
-    }
-    return s;
-  });
-}
-
-const PET_SNACKS = [
-  {id:"cookie", em:"🍪", name:"小饼干", food:15, crave:3},
-  {id:"strawberry", em:"🍓", name:"草莓", food:11, crave:4},
-  {id:"pudding", em:"🍮", name:"小布丁", food:14, crave:3},
-  {id:"bread", em:"🥐", name:"小面包", food:18, crave:2}
-];
-function feedSnack(uid,snackId,feederUid){
-  feederUid=feederUid||uid;
-  const snack=PET_SNACKS.find(x=>x.id===snackId); if(!snack) return;
-  const own=feederUid===uid, today=todayKeyFor(feederUid);
   updatePetLife(uid,s=>{
-    if(own){
-      if(s.snackDay!==today){ s.snackDay=today; s.snackCount=0; }
-      if((s.snackCount||0)>=2) return undefined;
-      s.snackCount=(s.snackCount||0)+1;
-    }else{
-      if(s.visitSnackDay===today) return undefined;
-      s.visitSnackDay=today;
+    const last=Number(s.lastTick)||now, hours=Math.floor(Math.max(0,now-last)/3600000);
+    if(hours>0){
+      s.craving=clamp100((s.craving||0)+hours);
+      s.fullness=clamp100((s.fullness||0)-Math.floor(hours/2));
+      s.lastTick=last+hours*3600000;
     }
-    s.fullness=clamp100((s.fullness||0)+snack.food);
-    s.craving=clamp100((s.craving||0)-snack.crave);
+    if(s.location===uid && s.craving>=100){
+      s.location=otherUid(uid); s.awaySince=now;
+      s.questId=returnQuestPick(uid,now).id; s.awayReason="craving"; s.luredBy=null;
+    }
     return s;
-  },ok=>{
-    if(!ok){
-      showModal(`<h3>已经吃饱一点啦</h3><p>${petName(uid)}今天的零食额度已经用过了，留点肚子给奶茶吧 🧋</p><div class="mbtns"><button class="btn start" id="mOk">好</button></div>`,b=>b.querySelector("#mOk").onclick=closeModal);
-      return;
-    }
-    if(own) addPetIntimacy(uid,1);
-    showModal(`<h3>${snack.em} 投喂成功</h3><p>${petName(uid)}抱住了${snack.name}。<br><b>饱腹 +${snack.food}</b>${own?" · 亲密 +1":" · 偷偷蹭到一口"}</p><div class="mbtns"><button class="btn start" id="mOk">看它吃</button></div>`,b=>b.querySelector("#mOk").onclick=closeModal);
   });
 }
-function showSnackModal(uid,feederUid){
-  const guest=feederUid&&feederUid!==uid;
-  showModal(`<h3>${guest?"偷偷投喂 "+petName(uid):"给 "+petName(uid)+" 投喂"}</h3>
-    <p>${guest?"它都跑来串门了，塞点小零食给它。":"每天最多吃两份小零食，奶茶另算。"}</p>
-    <div class="pet-feed-grid">${PET_SNACKS.map(s=>`<button class="pet-feed-btn" data-snack="${s.id}">${s.em} ${s.name}</button>`).join("")}</div>
-    <div class="mbtns"><button class="btn ghost" id="mNo">算了</button></div>`,box=>{
-      box.querySelector("#mNo").onclick=closeModal;
-      box.querySelectorAll("[data-snack]").forEach(btn=>btn.onclick=()=>{closeModal();feedSnack(uid,btn.dataset.snack,feederUid||uid);});
+function snackModal(uid,visitor=false){
+  const choices=[['cookie','🍪','小饼干',12,5],['berry','🍓','草莓',10,7],['pudding','🍮','小布丁',16,5],['bread','🥐','小面包',18,4]];
+  showModal(`<h3>${visitor?'🤫 偷偷投喂':'🍪 给 '+petName(uid)+' 投喂'}</h3><p>${visitor?'趁主人没注意，塞点吃的给串门的小家伙。':'每天最多投喂两次，别把正餐吃不下了。'}</p><div class="pet-feed-grid">${choices.map(c=>`<button class="pet-feed-btn" data-s="${c[0]}">${c[1]} ${c[2]}</button>`).join('')}</div><div class="mbtns"><button class="btn ghost" id="mNo">算啦</button></div>`,box=>{
+    box.querySelector('#mNo').onclick=closeModal;
+    box.querySelectorAll('[data-s]').forEach(btn=>btn.onclick=()=>{
+      const c=choices.find(x=>x[0]===btn.dataset.s), today=todayKeyFor(uid), s=petLifeOf(uid);
+      if(visitor && s.visitSnackDay===today){closeModal();say('petBubble',petName(uid)+'今天已经在这边蹭过零食啦 🤫',4000);return;}
+      if(!visitor && s.snackDay===today && (s.snackCount||0)>=2){closeModal();say('petBubble','今天已经吃两次啦，再喂真的要撑了',4000);return;}
+      updatePetLife(uid,x=>{
+        if(visitor)x.visitSnackDay=today; else{x.snackDay=today;x.snackCount=(x.snackDay===today?(x.snackCount||0):0)+1;}
+        x.fullness=clamp100((x.fullness||0)+c[3]);x.craving=clamp100((x.craving||0)-c[4]);return x;
+      });
+      if(!visitor)addPetIntimacy(uid,1);
+      closeModal();say('petBubble',c[1]+' '+petName(uid)+'吃得很认真'+(visitor?'，还回头确认主人没看到':' · 亲密 +1'),4300);
     });
+  });
 }
-function showTasteModal(uid){
-  const t=tasteOf(uid), d=drinkOf(uid), ok=d&&t.match(d);
-  showModal(`<h3>${t.em} ${petName(uid)}今天想喝</h3>
-    <div class="quest-card">“今天想喝<b>${t.txt}</b>。”</div>
-    <p>${d?`你今天做的是 <b>${drinkLabel(uid)}</b>。${ok?"<br>✅ 正好戳中它的口味。":"<br>👀 不完全符合，不过它也会喝。"}`:"还没封杯，可以照着这个口味偷偷规划一下。"}</p>
-    <div class="mbtns"><button class="btn start" id="mOk">记住了</button></div>`,b=>b.querySelector("#mOk").onclick=closeModal);
+function drinkLabel(uid){
+  const d=drinkOf(uid);if(!d)return '今天还没有奶茶';
+  const b=BASES.find(x=>x.id===d.base), ns=(d.tops||[]).map(id=>(TOPPINGS.find(t=>t.id===id)||{}).name).filter(Boolean);
+  return (b?b.name:'这杯')+(ns.length?' + '+ns.join('、'):'（纯饮）');
 }
 function showReturnQuest(uid){
-  const s=petLifeOf(uid), q=returnQuestOf(uid), d=drinkOf(uid), ok=d&&q.match(d), host=otherUid(uid);
-  showModal(`<h3>🏠 把 ${petName(uid)} 哄回家</h3>
-    <p>它现在跑去 <b>${uname(host)}</b> 家蹭喝了，还留了要求：</p>
-    <div class="quest-card">${q.em} “给我做 <b>${q.txt}</b>，我就考虑回去。”</div>
-    <p>${d?`今天这杯：<b>${drinkLabel(uid)}</b><br>${ok?"✅ 条件满足，可以去接它了。":"❌ 现在这杯还没满足条件，可以继续攒小料券加料。"}`:"你今天还没有封杯。先完成 3 小时，再按要求做一杯。"}</p>
-    <div class="mbtns"><button class="btn ghost" id="mNo">先等等</button>${ok?'<button class="btn start" id="mGo">带这杯去接它</button>':""}</div>`,box=>{
-      box.querySelector("#mNo").onclick=closeModal;
-      const go=box.querySelector("#mGo"); if(go) go.onclick=()=>{closeModal();feedTeaToPet(uid,uid);};
-    });
+  const q=returnQuestOf(uid), d=drinkOf(uid), ok=!!(d&&q.match(d));
+  showModal(`<h3>🏠 把 ${petName(uid)} 哄回家</h3><p>${petName(uid)}现在赖在 ${uname(petLifeOf(uid).location)} 家。</p><div class="quest-card">${q.em} 召回要求：<br><b>${q.txt}</b><br><span>${d?'你今天的是：'+drinkLabel(uid):'你今天还没有做奶茶'}</span></div><div class="mbtns"><button class="btn ghost" id="mNo">先等等</button>${ok?'<button class="btn start" id="mYes">拿这杯去接 TA</button>':''}</div>`,box=>{
+    box.querySelector('#mNo').onclick=closeModal;
+    const yes=box.querySelector('#mYes');if(yes)yes.onclick=()=>{
+      updatePetLife(uid,x=>{x.location=uid;x.awaySince=null;x.questId=null;x.awayReason=null;x.luredBy=null;x.craving=12;x.fullness=clamp100((x.fullness||0)+15);x.teaFeedDay=todayKeyFor(uid);return x;});
+      addPetIntimacy(uid,5);closeModal();celebrate();say('petBubble',petName(uid)+'抱着奶茶跟你回来了 · 亲密 +5 🥹',5200);
+    };
+  });
 }
-function feedTeaToPet(uid,drinkOwnerUid){
-  drinkOwnerUid=drinkOwnerUid||uid;
-  const d=drinkOf(drinkOwnerUid);
-  if(!d){
-    showModal(`<h3>杯子还是空的</h3><p>${uname(drinkOwnerUid)}今天还没有做奶茶，先完成 3 小时再来投喂吧。</p><div class="mbtns"><button class="btn start" id="mOk">好</button></div>`,b=>b.querySelector("#mOk").onclick=closeModal);
-    return;
-  }
-  const s=petLifeOf(uid), own=drinkOwnerUid===uid, today=todayKeyFor(drinkOwnerUid);
-  if(own && s.location!==uid){
-    const q=returnQuestOf(uid);
-    if(!q.match(d)){ showReturnQuest(uid); return; }
-    updatePetLife(uid,x=>{
-      x.location=uid; x.awaySince=null; x.questId=null; x.craving=12; x.fullness=clamp100((x.fullness||0)+14); x.teaFeedDay=today; x.lastTeaTs=Date.now(); return x;
-    });
-    addPetIntimacy(uid,5); celebrate();
-    showModal(`<h3>🎉 接回来了!</h3><p>${petName(uid)}抱着 <b>${drinkLabel(uid)}</b> 跟你回家了。<br><b>亲密 +5 · 馋茶大幅下降</b></p><div class="mbtns"><button class="btn start" id="mOk">回家</button></div>`,b=>b.querySelector("#mOk").onclick=closeModal);
-    return;
-  }
-  if(own){
-    if(s.teaFeedDay===today){
-      showModal(`<h3>今天已经喝过啦</h3><p>${petName(uid)}护着杯子：今天这份已经记账了，明天再来 🧋</p><div class="mbtns"><button class="btn start" id="mOk">好吧</button></div>`,b=>b.querySelector("#mOk").onclick=closeModal); return;
-    }
-    const t=tasteOf(uid), hit=t.match(d);
-    updatePetLife(uid,x=>{x.teaFeedDay=today;x.lastTeaTs=Date.now();x.craving=clamp100((x.craving||0)-(hit?58:34));x.fullness=clamp100((x.fullness||0)+12);return x;});
-    addPetIntimacy(uid,hit?3:1);
-    showModal(`<h3>${hit?"🥹 正中口味":"🧋 也喝得很开心"}</h3><p>${petName(uid)}喝了 <b>${drinkLabel(uid)}</b>。<br>${hit?`“就是我今天想喝的${t.txt}!”<br><b>亲密 +3 · 馋茶 -58</b>`:`虽然不是今天最想要的${t.txt}，但还是喝光了。<br><b>亲密 +1 · 馋茶 -34</b>`}</p><div class="mbtns"><button class="btn start" id="mOk">嘿嘿</button></div>`,b=>b.querySelector("#mOk").onclick=closeModal);
-  }else{
-    if(s.visitTeaDay===today){
-      showModal(`<h3>已经偷喝过了</h3><p>${petName(uid)}今天已经在 ${uname(drinkOwnerUid)} 家蹭过一口奶茶了。</p><div class="mbtns"><button class="btn start" id="mOk">行吧</button></div>`,b=>b.querySelector("#mOk").onclick=closeModal); return;
-    }
+function feedTea(uid,sourceUid,visitor=false){
+  const d=drinkOf(sourceUid);
+  if(!d){showModal(`<h3>🧋 现在没得喝</h3><p>${uname(sourceUid)}今天还没有做出奶茶。</p><div class="mbtns"><button class="btn start" id="mOk">知道啦</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);return;}
+  const s=petLifeOf(uid), today=todayKeyFor(sourceUid);
+  if(!visitor && s.location!==uid){showReturnQuest(uid);return;}
+  if(visitor){
+    if(s.visitTeaDay===today){say('petBubble',petName(uid)+'今天已经偷喝过一口了 😌',4000);return;}
     const hit=tasteOf(uid).match(d);
-    updatePetLife(uid,x=>{x.visitTeaDay=today;x.craving=clamp100((x.craving||0)-(hit?20:10));x.fullness=clamp100((x.fullness||0)+6);return x;});
-    showModal(`<h3>🤫 偷偷分了一口</h3><p>${petName(uid)}尝了 ${uname(drinkOwnerUid)} 的 <b>${drinkLabel(drinkOwnerUid)}</b>，${hit?"眼睛一下亮了。":"虽然不是最想喝的，也没客气。"}</p><div class="mbtns"><button class="btn start" id="mOk">别告诉主人</button></div>`,b=>b.querySelector("#mOk").onclick=closeModal);
+    updatePetLife(uid,x=>{x.visitTeaDay=today;x.craving=clamp100((x.craving||0)-(hit?22:12));x.fullness=clamp100((x.fullness||0)+7);return x;});
+    showModal(`<h3>🤫 偷偷请喝奶茶</h3><p>${petName(uid)}尝了 <b>${drinkLabel(sourceUid)}</b>。${hit?'<br>居然正好是 TA 今天最想喝的！':'<br>不是最想要的，但还是没客气。'}</p><div class="mbtns"><button class="btn start" id="mOk">嘘</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);return;
   }
-}
-function visitSceneLine(hostUid,guestUid){
-  const arr=[
-    `${petName(guestUid)}正在研究${petName(hostUid)}的收藏柜。`,
-    `两个人在争论最后一颗珍珠到底归谁。`,
-    `${petName(guestUid)}嘴上说只是路过，已经坐下不走了。`,
-    `两个人好像在偷偷交换今天的奶茶情报。`
-  ];
-  const r=seedRand("visitline|"+hostUid+"|"+guestUid+"|"+todayKeyFor(hostUid));
-  return arr[Math.floor(r()*arr.length)];
+  if(s.teaFeedDay===today){say('petBubble','今天已经分给我喝过啦 🧋',4000);return;}
+  const taste=tasteOf(uid), hit=taste.match(d);
+  updatePetLife(uid,x=>{x.teaFeedDay=today;x.craving=clamp100((x.craving||0)-(hit?58:34));x.fullness=clamp100((x.fullness||0)+12);return x;});
+  addPetIntimacy(uid,hit?3:1);
+  showModal(`<h3>${hit?'🥹 正中口味':'🧋 喝到了'}</h3><p>${petName(uid)}喝了 <b>${drinkLabel(uid)}</b>。<br>${hit?'“就是我今天想喝的'+taste.txt+'！”<br><b>亲密 +3 · 想喝值大降</b>':'不是今天最想要的'+taste.txt+'，但还是喝光了。<br><b>亲密 +1</b>'}</p><div class="mbtns"><button class="btn start" id="mOk">嘿嘿</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);
 }
 
+function rewardPetPlay(uid){
+  const today=todayKeyFor(uid), s=petLifeOf(uid);
+  const oldCount=(s.playDay===today?(s.playCount||0):0);
+  const rewarded=oldCount<3;
+  updatePetLife(uid,x=>{
+    if(x.playDay!==today){x.playDay=today;x.playCount=0;}
+    x.playCount=(x.playCount||0)+1;
+    return x;
+  });
+  if(rewarded)addPetIntimacy(uid,1);
+  return rewarded;
+}
+function petPlayLine(uid,type){
+  const sets={
+    pat:[
+      petName(uid)+'眯起眼睛，脑袋还主动往你手心里蹭了蹭。',
+      '摸到第三下，'+petName(uid)+'开始假装自己完全没有很享受。',
+      petName(uid)+'被摸得头发乱乱的，但看起来心情很好。'
+    ],
+    hug:[
+      petName(uid)+'愣了一秒，然后很自然地抱了回来。',
+      '抱住以后，'+petName(uid)+'小声说：“再五秒。”',
+      petName(uid)+'靠过来贴了一会儿，什么都没说。'
+    ],
+    blank:[
+      '你们一起发了会儿呆。三十秒后，谁也没想起来刚才在想什么。',
+      petName(uid)+'跟你一起盯着奶茶柜，最后两个人同时叹了口气。',
+      '你们安静坐了一会儿。奇怪的是，好像真的休息到了。'
+    ],
+    note:[
+      petName(uid)+'递来一张小纸条：“今天也有在认真陪你。”',
+      '纸条上写着：“下次做奶茶的时候，不许忘了我。”',
+      petName(uid)+'的小纸条只有一句：“忙完记得回来。”',
+      '纸条背面偷偷画了一杯歪歪扭扭的奶茶。'
+    ]
+  };
+  const arr=sets[type]||sets.pat, r=seedRand('play|'+uid+'|'+type+'|'+Date.now());
+  return arr[Math.floor(r()*arr.length)];
+}
+function quickPetPlay(uid,type){
+  const rewarded=rewardPetPlay(uid), line=petPlayLine(uid,type);
+  closeModal();
+  say('petBubble',line+(rewarded?' · 亲密 +1':''),4800);
+}
+function rockPaperScissors(uid,userChoice){
+  const opts=[['rock','✊','石头'],['scissors','✌️','剪刀'],['paper','🖐️','布']];
+  const pet=opts[Math.floor(Math.random()*opts.length)];
+  const beats={rock:'scissors',scissors:'paper',paper:'rock'};
+  const you=opts.find(x=>x[0]===userChoice)||opts[0];
+  let result,extra;
+  if(you[0]===pet[0]){result='平局';extra=petName(uid)+'：“再来一把？”';}
+  else if(beats[you[0]]===pet[0]){result='你赢了';extra=petName(uid)+'盯着你的手看了两秒：“你是不是偷练了。”';}
+  else{result=petName(uid)+'赢了';extra=petName(uid)+'得意得有点明显。';}
+  const rewarded=rewardPetPlay(uid);
+  showModal(`<h3>✊ 猜拳结果</h3><p>你：${you[1]} ${you[2]}<br>${petName(uid)}：${pet[1]} ${pet[2]}</p><div class="quest-card"><b>${result}</b><br>${extra}${rewarded?'<br><b>亲密 +1</b>':''}</div><div class="mbtns"><button class="btn start" id="mOk">好吧</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);
+}
+function petPlayModal(uid){
+  showModal(`<h3>🎈 和 ${petName(uid)} 玩一会</h3><p>每天前 3 次互动会增加亲密度，之后也可以继续玩。</p><div class="pet-feed-grid pet-play-grid">
+    <button class="pet-feed-btn" data-p="pat">🤲 摸摸脑袋</button>
+    <button class="pet-feed-btn" data-p="hug">🫂 抱一下</button>
+    <button class="pet-feed-btn" data-p="blank">☁️ 一起发呆</button>
+    <button class="pet-feed-btn" data-p="note">💌 看小纸条</button>
+    <button class="pet-feed-btn pet-rps" data-p="rps">✊ 猜拳</button>
+  </div><div class="mbtns"><button class="btn ghost" id="mNo">先不玩</button></div>`,box=>{
+    box.querySelector('#mNo').onclick=closeModal;
+    box.querySelectorAll('[data-p]').forEach(btn=>btn.onclick=()=>{
+      const type=btn.dataset.p;
+      if(type!=='rps'){quickPetPlay(uid,type);return;}
+      showModal(`<h3>✊ 和 ${petName(uid)} 猜拳</h3><p>选一个，不许偷看。</p><div class="pet-feed-grid pet-rps-grid">
+        <button class="pet-feed-btn" data-r="rock">✊ 石头</button>
+        <button class="pet-feed-btn" data-r="scissors">✌️ 剪刀</button>
+        <button class="pet-feed-btn" data-r="paper">🖐️ 布</button>
+      </div><div class="mbtns"><button class="btn ghost" id="mNo">不猜了</button></div>`,b2=>{
+        b2.querySelector('#mNo').onclick=closeModal;
+        b2.querySelectorAll('[data-r]').forEach(x=>x.onclick=()=>rockPaperScissors(uid,x.dataset.r));
+      });
+    });
+  });
+}
+
+function lurePetModal(hostUid){
+  const targetUid=otherUid(hostUid), target=petLifeOf(targetUid), today=todayKeyFor(hostUid);
+  if(target.location===hostUid){
+    showModal(`<h3>💘 已经勾过来了</h3><p>${petName(targetUid)}现在就在你家，已经不用再勾了。</p><div class="mbtns"><button class="btn start" id="mOk">嘿嘿</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);
+    return;
+  }
+  if(target.location!==targetUid){
+    showModal(`<h3>🏃 TA 不在家</h3><p>${petName(targetUid)}现在已经跑出去串门了，等 TA 回家以后再试。</p><div class="mbtns"><button class="btn start" id="mOk">知道啦</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);
+    return;
+  }
+  const used=target.lureDay===today?(target.lureCount||0):0;
+  if(used>=2){
+    showModal(`<h3>🙈 今天先到这里</h3><p>你今天已经认真勾引 ${petName(targetUid)} 两次了。再继续就太明显了。</p><div class="mbtns"><button class="btn start" id="mOk">好吧</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);
+    return;
+  }
+  const d=drinkOf(hostUid), taste=tasteOf(targetUid), hit=!!(d&&taste.match(d));
+  const teaBtn=d?`<button class="pet-feed-btn lure-choice" data-lure="tea">🧋 拿今天的奶茶晃一晃<br><small>${hit?'正中 TA 的心愿 · 很难拒绝':'不是心愿口味 · 也有机会'}</small></button>`:'';
+  showModal(`<h3>💘 勾引 ${petName(targetUid)} 来玩</h3><p>每天最多认真试 2 次。${petName(targetUid)}今天的奶茶心愿是：<b>${taste.em} ${taste.txt}</b></p>
+    <div class="pet-feed-grid lure-grid">
+      ${teaBtn}
+      <button class="pet-feed-btn lure-choice" data-lure="pudding">🍮 举着小布丁招手<br><small>成功率比较高</small></button>
+      <button class="pet-feed-btn lure-choice" data-lure="cookie">🍪 掏出小饼干<br><small>全靠 TA 给不给面子</small></button>
+    </div>
+    ${!d?'<div class="quest-card">你今天还没有做好奶茶，所以暂时不能用奶茶诱惑。</div>':''}
+    <div class="mbtns"><button class="btn ghost" id="mNo">算了算了</button></div>`,box=>{
+      box.querySelector('#mNo').onclick=closeModal;
+      box.querySelectorAll('[data-lure]').forEach(btn=>btn.onclick=()=>attemptLure(hostUid,targetUid,btn.dataset.lure));
+    });
+}
+function attemptLure(hostUid,targetUid,method){
+  const today=todayKeyFor(hostUid), d=drinkOf(hostUid), taste=tasteOf(targetUid);
+  let chance=.38, flavor='你拿小饼干在门口晃了晃。';
+  if(method==='pudding'){chance=.55;flavor='你举起一小块布丁，假装只是路过。';}
+  if(method==='tea'){
+    if(!d){lurePetModal(hostUid);return;}
+    const hit=taste.match(d); chance=hit?1:.64;
+    flavor=hit?`你端着 <b>${drinkLabel(hostUid)}</b> 出现了——刚好正中 TA 今天的奶茶心愿。`:`你端着 <b>${drinkLabel(hostUid)}</b> 在门口晃了一圈。`;
+  }
+  const success=Math.random()<chance, now=Date.now();
+  updatePetLife(targetUid,s=>{
+    const used=s.lureDay===today?(s.lureCount||0):0;
+    if(used>=2 || s.location!==targetUid)return undefined;
+    s.lureDay=today;s.lureCount=used+1;
+    if(success){
+      s.location=hostUid;s.awaySince=now;s.questId=returnQuestPick(targetUid,now).id;
+      s.awayReason='lured';s.luredBy=hostUid;
+      s.craving=clamp100((s.craving||0)-(method==='tea'?24:8));
+      s.fullness=clamp100((s.fullness||0)+(method==='pudding'?10:method==='cookie'?6:5));
+    }
+    return s;
+  },ok=>{
+    closeModal();
+    if(!ok){say('petBubble','慢了一步，TA 已经不在家啦 🏃',4300);return;}
+    if(success){
+      const lines=[
+        `${petName(targetUid)}嘴上说“我就去看一眼”，下一秒已经跟你走了。`,
+        `${petName(targetUid)}犹豫了三秒，决定去你家“只待五分钟”。`,
+        `${petName(targetUid)}回头看了一眼自己家，然后非常没有原则地跟来了。`
+      ];
+      say('petBubble','💘 '+lines[Math.floor(Math.random()*lines.length)],5200);
+    }else{
+      const lines=[
+        `${petName(targetUid)}看到了，但故意把头转开了。`,
+        `${petName(targetUid)}明显心动了一下，最后还是忍住了。`,
+        `${petName(targetUid)}隔着门看了你半天：“这点东西就想把我骗走？”`
+      ];
+      say('petBubble',lines[Math.floor(Math.random()*lines.length)],5000);
+    }
+  });
+}
+function visitSceneLine(hostUid,guestUid){
+  const a=[petName(guestUid)+'正在研究'+petName(hostUid)+'的收藏柜。','两个人在争最后一颗珍珠到底归谁。',petName(guestUid)+'嘴上说只是路过，已经坐下不走了。','两个人好像在偷偷交换今天的奶茶情报。'];
+  const r=seedRand('visitline|'+hostUid+'|'+guestUid+'|'+todayKeyFor(hostUid));return a[Math.floor(r()*a.length)];
+}
+function renderPetInteraction(uid){
+  const life=petLifeOf(uid), big=document.getElementById('petChar'), mini=document.getElementById('miniChar'), ps=document.getElementById('petStats');
+  if(!big||!ps)return;
+  // 原来的 pet 图、状态条都已经由 renderPet() 画完；下面只追加互动层
+  if(life.location!==uid){
+    big.querySelectorAll('.pet-img-wrap,.pet-shadow').forEach(el=>el.style.display='none');
+    const q=returnQuestOf(uid), card=document.createElement('div');card.className='pet-away-card';
+    const awayTitle=life.awayReason==='lured'?`${petName(uid)}被 ${uname(life.location)} 用好吃的勾走了`:`${petName(uid)}跑去 ${uname(life.location)} 家蹭喝了`;
+    const awayQuote=life.awayReason==='lured'?`“我只是去看看！${q.txt}就回。”`:`“${q.txt}，我就考虑回去。”`;
+    card.innerHTML=`<button class="pet-away-pickup" type="button">🏠 接回家</button><div class="note-ico">${life.awayReason==='lured'?'💘':'📝'}</div><b>${awayTitle}</b><span>${awayQuote}</span><button class="pet-act primary" data-away-quest type="button">看看 TA 要喝什么</button>`;
+    card.querySelector('.pet-away-pickup').addEventListener('click',e=>{e.stopPropagation();showReturnQuest(uid);});
+    card.querySelector('[data-away-quest]').addEventListener('click',e=>{e.stopPropagation();showReturnQuest(uid);});big.appendChild(card);
+    if(mini)mini.innerHTML='<div class="mini-away"><span>🏃</span><span>串门中</span></div>';
+  }
+  const guestUid=otherUid(uid), guestLife=petLifeOf(guestUid);
+  if(guestLife.location===uid){
+    const cfg=petCfg(guestUid), src=(cfg.imgs&&cfg.imgs.ok)||'';const g=document.createElement('div');g.className='pet-guest-card';
+    const guestTag=guestLife.awayReason==='lured'&&guestLife.luredBy===uid?`💘 被你勾来 · ${petName(guestUid)}`:`🏠 来串门 · ${petName(guestUid)}`;
+    g.innerHTML=`${src?`<img src="${src}" alt="${petName(guestUid)}">`:charSVG({mood:'ok',tea:null,uid:'guest_'+guestUid})}<div class="pet-guest-tag">${guestTag}</div>`;
+    g.addEventListener('click',e=>{e.stopPropagation();showModal(`<h3>🏠 ${petName(guestUid)}来串门了</h3><p>${visitSceneLine(uid,guestUid)}</p><div class="mbtns"><button class="btn start" id="mOk">知道啦</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);});big.appendChild(g);
+  }
+  const taste=tasteOf(uid), home=life.location===uid;
+  ps.insertAdjacentHTML('beforeend',`
+    <div class="ps-row"><span class="ps-label">饱腹</span><div class="ps-bar"><div class="ps-fill food" style="width:${life.fullness}%"></div></div><span class="ps-num">${life.fullness}/100</span></div>
+    <div class="ps-row"><span class="ps-label">想喝</span><div class="ps-bar"><div class="ps-fill crave" style="width:${life.craving}%"></div></div><span class="ps-num">${life.craving}/100</span></div>
+    <div class="pet-life-note main-life-note"><div class="pet-life-copy">${home?`<span class="pet-life-kicker">MILK TEA WISH</span>今天想喝：${taste.em} <b>${taste.txt}</b>`:`<span class="pet-life-kicker">AWAY FROM HOME</span>🏃 现在在 <b>${uname(life.location)}</b> 家串门`}</div><div class="pet-actions" id="petLifeActs"></div></div>`);
+  const acts=ps.querySelector('#petLifeActs');
+  if(home){
+    acts.innerHTML='<button class="pet-act" data-a="snack">🍪 投喂</button><button class="pet-act primary" data-a="tea">🧋 请喝奶茶</button><button class="pet-act" data-a="play">🎈 玩一会</button><button class="pet-act" data-a="taste">💭 奶茶心愿</button>';
+    acts.querySelector('[data-a=snack]').onclick=e=>{e.stopPropagation();snackModal(uid,false);};
+    acts.querySelector('[data-a=tea]').onclick=e=>{e.stopPropagation();feedTea(uid,uid,false);};
+    acts.querySelector('[data-a=play]').onclick=e=>{e.stopPropagation();petPlayModal(uid);};
+    acts.querySelector('[data-a=taste]').onclick=e=>{e.stopPropagation();showModal(`<h3>${taste.em} ${petName(uid)}今天的奶茶心愿</h3><p><b>${taste.txt}</b><br>做成符合这个心愿的奶茶再请 TA 喝，会额外加亲密度。</p><div class="mbtns"><button class="btn start" id="mOk">记住了</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);};
+  }else{
+    acts.innerHTML='<button class="pet-act primary" data-a="return">🏠 查看召回任务</button>';
+    acts.querySelector('[data-a=return]').onclick=e=>{e.stopPropagation();showReturnQuest(uid);};
+  }
+  if(home && guestLife.location===guestUid){
+    const used=guestLife.lureDay===todayKeyFor(uid)?(guestLife.lureCount||0):0;
+    ps.insertAdjacentHTML('beforeend',`<div class="pet-life-note neighbor-life-note"><div class="pet-life-copy"><span class="pet-life-kicker">NEXT DOOR</span>👀 <b>${petName(guestUid)}</b> 今天在自己家${used?` · 你今天试过 ${used}/2 次`:''}</div><div class="pet-actions"><button class="pet-act pink" data-lure-neighbor type="button">💘 勾引 TA 来玩</button></div></div>`);
+    ps.querySelector('[data-lure-neighbor]').onclick=e=>{e.stopPropagation();lurePetModal(uid);};
+  }
+  if(guestLife.location===uid){
+    const guestIntro=guestLife.awayReason==='lured'&&guestLife.luredBy===uid?`💘 <b>${petName(guestUid)}</b> 被你成功勾来玩了。`:`🤫 <b>${petName(guestUid)}</b> 正在你家赖着。`;
+    ps.insertAdjacentHTML('beforeend',`<div class="pet-life-note guest-life-note"><div class="pet-life-copy">${guestIntro}${visitSceneLine(uid,guestUid)}</div><div class="pet-actions" id="guestActs"><button class="pet-act" data-a="snack">🍪 偷偷投喂</button><button class="pet-act pink" data-a="tea">🧋 请 TA 喝一口</button></div></div>`);
+    const ga=ps.querySelector('#guestActs');ga.querySelector('[data-a=snack]').onclick=e=>{e.stopPropagation();snackModal(guestUid,true);};ga.querySelector('[data-a=tea]').onclick=e=>{e.stopPropagation();feedTea(guestUid,uid,true);};
+  }
+}
 // 每天想要3样: 1小料 + 1装饰 + 1贴纸(种子随机,两端一致,跨天自动换)
 function wishOf(uid){
   const r = seedRand(uid + "|" + todayKeyFor(uid));
@@ -2291,15 +2453,12 @@ function pokeIntimacy(uid){
   return 2;
 }
 function moodState(uid){
-  const life=petLifeOf(uid);
-  const sc = Math.round((healthOf(uid)+intimacyOf(uid)+life.fullness+(100-life.craving))/4);
-  if(life.location!==uid) return {sc, em:"🏃", txt:"离家串门中"};
-  if(life.craving>=85) return {sc, em:"🥺", txt:"馋奶茶馋得不行"};
-  if(sc>=80) return {sc, em:"☀️", txt:"元气满满"};
-  if(sc>=60) return {sc, em:"😊", txt:"心情不错"};
-  if(sc>=40) return {sc, em:"😐", txt:"平平淡淡"};
-  if(sc>=20) return {sc, em:"😔", txt:"有点蔫"};
-  return {sc, em:"🥺", txt:"蔫蔫的,需要奶茶和摸摸"};
+  const sc = Math.round((healthOf(uid)+intimacyOf(uid))/2);
+  if(sc>=80) return {sc, em:"\u2600\uFE0F", txt:"\u5143\u6C14\u6EE1\u6EE1"};
+  if(sc>=60) return {sc, em:"\uD83D\uDE0A", txt:"\u5FC3\u60C5\u4E0D\u9519"};
+  if(sc>=40) return {sc, em:"\uD83D\uDE10", txt:"\u5E73\u5E73\u6DE1\u6DE1"};
+  if(sc>=20) return {sc, em:"\uD83D\uDE14", txt:"\u6709\u70B9\u852B"};
+  return {sc, em:"\uD83E\uDD7A", txt:"\u852B\u852B\u7684,\u9700\u8981\u5976\u8336\u548C\u6478\u6478"};
 }
 function petMood(uid){
   if(drinkOf(uid)) return "tea";
@@ -2406,13 +2565,7 @@ const PET_LINES = {
 const lines = uid => PET_LINES[uid] || PET_LINES.u1;
 const pick = a => a[Math.floor(Math.random()*a.length)];
 function pickMsg(mood, uid){
-  const sm = studyMin(uid), L = lines(uid), life=petLifeOf(uid);
-  if(life.location!==uid) return `我现在在 ${uname(life.location)} 家呢…想接我就看看召回任务 🧋`;
-  if(life.craving>=88){
-    const hungry = uid==="u1" ? ["宝宝…我真的开始馋奶茶了","我刚刚是不是又看了三遍收藏柜","今天能不能分我一口嘛 🥺"]
-                              : ["我说真的,有点馋奶茶了","收藏柜我都快看出包浆了","什么时候有喝的,我先排个队"];
-    return pick(hungry);
-  }
+  const sm = studyMin(uid), L = lines(uid);
   // 还没做成的心愿小料,有一半概率念叨一句(做成一个就不再提那个)
   const wl = wishesLeft(uid);
   if(wl.length && Math.random() < 0.5){
@@ -2488,12 +2641,8 @@ function playGif(big){
 }
 let pokeLog = [];
 function petPoke(e, big){
+  if(petLifeOf(view).location!==view){ if(big) showReturnQuest(view); else say("miniBubble","它跑去串门了，下面有召回任务 🏃",4200); return; }
   const box = e.currentTarget;
-  if(petLifeOf(view).location!==view){
-    if(big) showReturnQuest(view);
-    else say("miniBubble", "它跑去串门了，去下面看看召回任务吧 🏃", 4200);
-    return;
-  }
   // 果冻抖动
   const wrap = box.querySelector(".pet-img-wrap") || box.firstElementChild;
   if(wrap){ wrap.classList.remove("squish"); void wrap.offsetWidth; wrap.classList.add("squish");
@@ -2541,94 +2690,65 @@ function petPoke(e, big){
   if(big) nextBigTalk = Date.now()+26000; else nextMiniTalk = Date.now()+30000;
 }
 function renderPet(){
-  const uid=view, life=petLifeOf(uid), ownHere=life.location===uid;
-  const mood=petMood(uid), tea=drinkOf(uid)?drinkOf(uid).base:null;
-  const guestUid=otherUid(uid), guestLife=petLifeOf(guestUid), guestHere=guestLife.location===uid;
-  const big=document.getElementById("petChar"), mini=document.getElementById("miniChar");
-  const svgFallback=uid2=>`<div class="pet-img-wrap">${charSVG({mood,tea,uid:uid2})}</div><div class="pet-shadow"></div>`;
-  const onImgErr=(isBig,el)=>()=>{
-    const slot=isBig?gifState.big:gifState.mini;
-    if(slot.src){slot.src=null;slot.until=0;renderPet();return;}
-    el.innerHTML=isBig?svgFallback("big"):`<div class="mini-wrap pet-img-wrap">${charSVG({mood,tea,uid:"mini"})}</div>`;
+  const uid = view, mood = petMood(uid);
+  const tea = drinkOf(uid) ? drinkOf(uid).base : null;
+  const big = document.getElementById("petChar"), mini = document.getElementById("miniChar");
+  const svgFallback = uid2 => `<div class="pet-img-wrap">${charSVG({mood, tea, uid:uid2})}</div><div class="pet-shadow"></div>`;
+  // 图片(静态或GIF)加载失败: 先作废当前GIF回退静态图重画;若静态图也失败才用手绘
+  const onImgErr = (isBig, el) => ()=>{
+    const slot = isBig ? gifState.big : gifState.mini;
+    if(slot.src){ slot.src = null; slot.until = 0; renderPet(); return; }   // GIF挂了→回退静态图
+    el.innerHTML = isBig ? svgFallback("big")
+                         : `<div class="mini-wrap pet-img-wrap">${charSVG({mood, tea, uid:"mini"})}</div>`;
   };
-
   if(big){
-    let mainHTML="";
-    if(ownHere){
-      const html=petImgHTML(mood,tea,true);
-      mainHTML=`<div class="pet-scene-main">${html?html+`<div class="pet-shadow"></div>`:svgFallback("big")}</div>`;
-    }else{
-      const q=returnQuestOf(uid);
-      mainHTML=`<div class="pet-away-card"><div class="note-ico">📝</div><b>${petName(uid)}跑去 ${uname(life.location)} 家了</b><span>“${q.txt}，我就考虑回去。”</span><span style="font-size:11px">点击这里查看召回任务</span></div>`;
-    }
-    let guestHTML="";
-    if(guestHere){
-      const cfg=petCfg(guestUid), src=(cfg.imgs&&cfg.imgs.ok)||"";
-      guestHTML=`<div class="pet-guest" data-guest="${guestUid}">
-        ${src?`<img class="pet-guest-img" src="${src}" alt="${petName(guestUid)}">`:`${charSVG({mood:"ok",tea:null,uid:"guest_"+guestUid})}`}
-        <div class="pet-guest-tag">🏠 来串门 · ${petName(guestUid)}</div>
-      </div>`;
-    }
-    big.innerHTML=`<div class="pet-scene">${mainHTML}${guestHTML}</div>`;
+    const html = petImgHTML(mood, tea, true);
+    big.innerHTML = html ? html + `<div class="pet-shadow"></div>` : svgFallback("big");
     big.classList.add("pet-hit");
-    const mainImg=big.querySelector(".pet-scene-main img"); if(mainImg) mainImg.onerror=onImgErr(true,big.querySelector(".pet-scene-main"));
-    const guestImg=big.querySelector(".pet-guest-img");
-    if(guestImg) guestImg.onerror=()=>{const holder=big.querySelector(".pet-guest"); if(holder) holder.innerHTML=`${charSVG({mood:"ok",tea:null,uid:"guestfb_"+guestUid})}<div class="pet-guest-tag">🏠 来串门 · ${petName(guestUid)}</div>`;};
+    const im = big.querySelector("img");
+    if(im) im.onerror = onImgErr(true, big);
   }
-
   if(mini){
-    if(ownHere){
-      const html=petImgHTML(mood,tea,false);
-      mini.innerHTML=html||`<div class="mini-wrap pet-img-wrap">${charSVG({mood,tea,uid:"mini"})}</div>`;
-      mini.classList.add("pet-hit");
-      const im=mini.querySelector("img"); if(im) im.onerror=onImgErr(false,mini);
-    }else{
-      mini.innerHTML=`<div class="mini-away"><span>🏃</span><span>串门中</span></div>`;
-    }
+    const html = petImgHTML(mood, tea, false);
+    mini.innerHTML = html || `<div class="mini-wrap pet-img-wrap">${charSVG({mood, tea, uid:"mini"})}</div>`;
+    mini.classList.add("pet-hit");
+    const im = mini.querySelector("img");
+    if(im) im.onerror = onImgErr(false, mini);
   }
-
-  const tag=document.getElementById("petOwnerTag");
-  if(tag) tag.textContent=uname(uid)+" 的搭子 · "+petName(uid)+"("+(uid==="u1"?"小煜":"小莲")+")";
-  const st={sleepy:"安静地等你来,偶尔打个小盹",ok:"陪在你身边,心情很好",happy:"看你这么努力,眼睛都在发光",cheer:"屏住呼吸,全程守着你",tea:"捧着你做的奶茶,嘴角压不下来"};
-  const stEl=document.getElementById("petStatus");
-  if(stEl){
-    if(!ownHere) stEl.textContent=`跑去 ${uname(life.location)} 家蹭喝了 · 做对召回奶茶才能回家`;
-    else if(guestHere) stEl.textContent=visitSceneLine(uid,guestUid);
-    else stEl.textContent=life.craving>=75?"最近总盯着奶茶柜看…好像越来越馋了":st[mood];
-  }
-
-  const ps=document.getElementById("petStats");
+  const tag = document.getElementById("petOwnerTag");
+  if(tag) tag.textContent = uname(uid)+" 的搭子 · "+petName(uid)+"("+(uid==="u1"?"小煜":"小莲")+")";
+  const st = {sleepy:"安静地等你来,偶尔打个小盹", ok:"陪在你身边,心情很好",
+              happy:"看你这么努力,眼睛都在发光", cheer:"屏住呼吸,全程守着你",
+              tea:"捧着你做的奶茶,嘴角压不下来"};
+  const stEl = document.getElementById("petStatus");
+  if(stEl) stEl.textContent = st[mood];
+  // 状态条
+  const ps = document.getElementById("petStats");
   if(ps){
-    const hp=healthOf(uid),iv=intimacyOf(uid),md=moodState(uid),tg=intimacyToday(uid),taste=tasteOf(uid);
-    const locTxt=ownHere?"自己家":"在 "+uname(life.location)+" 家";
-    let extra=ownHere
-      ? `<div class="pet-life-note">🧋 今日口味：<b>${taste.em} ${taste.txt}</b><br>📍 ${petName(uid)}现在在：<b>${locTxt}</b></div>
-         <div class="pet-actions"><button class="pet-act" data-pa="poke">摸摸</button><button class="pet-act" data-pa="snack">投喂</button><button class="pet-act primary" data-pa="tea">给奶茶</button><button class="pet-act" data-pa="taste">今天想喝?</button></div>`
-      : `<div class="pet-life-note">📍 ${petName(uid)}现在在：<b>${locTxt}</b><br>📝 召回要求：<b>${returnQuestOf(uid).em} ${returnQuestOf(uid).txt}</b></div>
-         <div class="pet-actions"><button class="pet-act" data-pa="quest">查看任务</button><button class="pet-act primary" data-pa="rescue">带今天这杯去接TA</button></div>`;
-    if(guestHere){
-      extra+=`<div class="pet-visit-box">🏠 <b>${petName(guestUid)}</b>跑来你家串门：${visitSceneLine(uid,guestUid)}
-        <div class="pet-actions"><button class="pet-act" data-pa="guestSnack" data-guest="${guestUid}">偷偷投喂</button><button class="pet-act pink" data-pa="guestTea" data-guest="${guestUid}">分一口今天的奶茶</button></div></div>`;
-    }
-    ps.innerHTML=`
-      <div class="ps-row"><span class="ps-label">心情</span><span class="ps-mood">${md.em} ${md.txt}</span></div>
-      <div class="ps-row"><span class="ps-label">健康</span><div class="ps-bar"><div class="ps-fill hp" style="width:${hp}%"></div></div><span class="ps-num">${hp}/100</span></div>
-      <div class="ps-row"><span class="ps-label">亲密</span><div class="ps-bar"><div class="ps-fill iv" style="width:${iv}%"></div></div><span class="ps-num">${iv}/100 ·今日${tg}/10</span></div>
-      <div class="ps-row"><span class="ps-label">饱腹</span><div class="ps-bar"><div class="ps-fill food" style="width:${life.fullness}%"></div></div><span class="ps-num">${clamp100(life.fullness)}/100</span></div>
-      <div class="ps-row"><span class="ps-label">馋茶</span><div class="ps-bar"><div class="ps-fill crave" style="width:${life.craving}%"></div></div><span class="ps-num">${clamp100(life.craving)}/100</span></div>${extra}`;
-
-    ps.querySelectorAll("[data-pa]").forEach(btn=>btn.onclick=()=>{
-      const act=btn.dataset.pa,g=btn.dataset.guest;
-      if(act==="poke") document.getElementById("petChar").click();
-      else if(act==="snack") showSnackModal(uid,uid);
-      else if(act==="tea") feedTeaToPet(uid,uid);
-      else if(act==="taste") showTasteModal(uid);
-      else if(act==="quest") showReturnQuest(uid);
-      else if(act==="rescue") feedTeaToPet(uid,uid);
-      else if(act==="guestSnack") showSnackModal(g,uid);
-      else if(act==="guestTea") feedTeaToPet(g,uid);
-    });
+    const hp = healthOf(uid), iv = intimacyOf(uid), md = moodState(uid), tg = intimacyToday(uid);
+    ps.innerHTML = `
+      <div class="ps-row"><span class="ps-label">\u5FC3\u60C5</span><span class="ps-mood">${md.em} ${md.txt}</span></div>
+      <div class="ps-row"><span class="ps-label">\u5065\u5EB7</span><div class="ps-bar"><div class="ps-fill hp" style="width:${hp}%"></div></div><span class="ps-num">${hp}/100</span></div>
+      <div class="ps-row"><span class="ps-label">\u4EB2\u5BC6</span><div class="ps-bar"><div class="ps-fill iv" style="width:${iv}%"></div></div><span class="ps-num">${iv}/100 \u00B7\u4ECA\u65E5${tg}/10</span></div>`;
   }
+  renderPetInteraction(uid);
+}
+
+/* ═══════════════ 渲染 ═══════════════ */
+function renderTabs(){
+  const el = document.getElementById("tabs");
+  el.innerHTML = USERS.map((u,i)=>{
+    const s = data[u.id].session;
+    const live = s ? (s.pauseTs?"⏸":"⏱ 专注中") : "";
+    return `<button class="tab u${i+1} ${view===u.id?"active":""}" data-u="${u.id}">
+      <span class="dot"></span>${uname(u.id)}<span class="live">${live}</span></button>`;
+  }).join("") + `<button class="tab editbtn" id="editNames" title="改名字">✏️</button>`;
+  el.querySelectorAll(".tab[data-u]").forEach(b=> b.onclick = ()=>{
+    view = b.dataset.u;
+    gifState = {big:{src:null, until:0}, mini:{src:null, until:0}};   // 换人清空动图,防串图
+    renderAll();
+  });
+  document.getElementById("editNames").onclick = askRename;
 }
 
 function renderTimer(){
@@ -2890,7 +3010,11 @@ function start(){
     DB.watch("users/"+u.id+"/session", v=>{ data[u.id].session = v||null; renderAll(); });
     DB.watch("users/"+u.id+"/name", v=>{ data[u.id].name = v||null; renderAll(); });
     DB.watch("users/"+u.id+"/stats", v=>{ data[u.id].stats = v||null; renderAll(); });
-    DB.watch("users/"+u.id+"/petLife", v=>{ data[u.id].petLife = v||null; renderAll(); });
+    DB.watch("users/"+u.id+"/petLife", v=>{
+      data[u.id].petLife = v||null;
+      if(!v) DB.set("users/"+u.id+"/petLife", petLifeDefault(u.id));
+      renderAll();
+    });
     DB.watch("users/"+u.id+"/tz", v=>{
       data[u.id].tz = v||null;
       // 我这一栏若数据库还没设过,写入默认时区(优先 USERS 配置,其次本机)
@@ -2901,9 +3025,6 @@ function start(){
       renderAll();
     });
   });
-  // 伴学小人状态初始化；打开页面时会补算离线期间的馋茶/饱腹变化。
-  setTimeout(()=>USERS.forEach(u=>syncPetLife(u.id)), 250);
-  setInterval(()=>USERS.forEach(u=>syncPetLife(u.id)), 120000);
   const mdBtn = document.getElementById("modeDown"), muBtn = document.getElementById("modeUp");
   const setMode = m=>{
     localMode = m;
@@ -2930,6 +3051,9 @@ function start(){
     const now = USERS.map(u=> todayKeyFor(u.id)).join("|");
     if(now !== _lastDays){ _lastDays = now; renderAll(); }   // 任一人跨过各自午夜,自动刷新
   }, 500);
+  // 互动状态单独低频同步，不影响原来的 500ms 番茄钟/小人 tick
+  setTimeout(()=> USERS.forEach(u=>syncPetLife(u.id)), 1200);
+  setInterval(()=> USERS.forEach(u=>syncPetLife(u.id)), 300000);
   const bigPetEl = document.getElementById("petChar"), miniPetEl = document.getElementById("miniChar");
   if(bigPetEl){ bigPetEl.style.position = "relative"; bigPetEl.addEventListener("click", e=> petPoke(e, true)); }
   if(miniPetEl){ miniPetEl.style.position = "relative"; miniPetEl.style.pointerEvents = "auto"; miniPetEl.addEventListener("click", e=> petPoke(e, false)); }
