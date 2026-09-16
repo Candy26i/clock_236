@@ -3552,6 +3552,361 @@
     .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{right:-8px !important;top:44px !important;}
   }
 
+
+  /* ── v39: click person itself to show wish bubble; never permanently cover the character ── */
+
+  /* Remove old always-on visitor/wish labels. */
+  .pet-visit-inline,
+  .pet-visit-chip{
+    display:none !important;
+  }
+
+  .pet-main-slot,
+  .pet-visitor-slot{
+    overflow:visible !important;
+  }
+
+  /* Tiny trigger is outside the upper-right edge of each character. */
+  .pet-thought-anchor,
+  .pet-main-slot .pet-thought-anchor,
+  .pet-visitor-slot .pet-thought-anchor,
+  .pet-scene.has-guest .pet-main-slot .pet-thought-anchor,
+  .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{
+    position:absolute !important;
+    left:auto !important;
+    right:-20px !important;
+    top:24px !important;
+    transform:none !important;
+    z-index:30 !important;
+    width:26px !important;
+    height:26px !important;
+    display:block !important;
+    pointer-events:auto !important;
+  }
+
+  .pet-thought-dot{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:26px !important;
+    height:26px !important;
+    padding:0 !important;
+    border-radius:50% !important;
+    border:1px solid rgba(222,197,172,.72) !important;
+    background:rgba(255,250,245,.88) !important;
+    color:#a77755 !important;
+    box-shadow:0 5px 12px rgba(86,56,34,.08), inset 0 1px 0 rgba(255,255,255,.78) !important;
+    font-size:13px !important;
+    line-height:1 !important;
+    cursor:pointer !important;
+    backdrop-filter:blur(7px);
+    -webkit-backdrop-filter:blur(7px);
+  }
+  .pet-thought-dot:hover{
+    transform:translateY(-1px) !important;
+  }
+
+  /* Wish bubble starts fully hidden. */
+  .pet-thought-bubble,
+  .pet-main-slot .pet-thought-bubble,
+  .pet-visitor-slot .pet-thought-bubble{
+    position:absolute !important;
+    left:30px !important;
+    right:auto !important;
+    top:-4px !important;
+    width:max-content !important;
+    max-width:145px !important;
+    padding:8px 11px !important;
+    border-radius:16px !important;
+    background:rgba(255,251,246,.97) !important;
+    border:1px solid rgba(230,210,191,.95) !important;
+    color:#977158 !important;
+    font-size:11px !important;
+    line-height:1.3 !important;
+    white-space:nowrap !important;
+    text-align:center !important;
+    box-shadow:0 8px 18px rgba(80,52,34,.08) !important;
+    opacity:0 !important;
+    visibility:hidden !important;
+    transform:translateX(-5px) scale(.98) !important;
+    transition:opacity .16s ease,transform .16s ease,visibility 0s linear .16s !important;
+    pointer-events:none !important;
+  }
+  .pet-thought-anchor.show .pet-thought-bubble{
+    opacity:1 !important;
+    visibility:visible !important;
+    transform:translateX(0) scale(1) !important;
+    transition:opacity .16s ease,transform .16s ease !important;
+  }
+
+  /* Tail points back to the tiny trigger / person. */
+  .pet-thought-bubble::after{
+    content:"" !important;
+    position:absolute !important;
+    left:-6px !important;
+    top:10px !important;
+    bottom:auto !important;
+    width:10px !important;
+    height:10px !important;
+    transform:rotate(45deg) !important;
+    background:rgba(255,251,246,.97) !important;
+    border-left:1px solid rgba(230,210,191,.95) !important;
+    border-bottom:1px solid rgba(230,210,191,.95) !important;
+    border-right:0 !important;
+  }
+  .pet-wish-inline{
+    font-weight:700 !important;
+    color:#7d5b42 !important;
+  }
+
+  /* Guest status is just a tiny unobtrusive chip above the visitor. */
+  .pet-visit-mini{
+    position:absolute;
+    z-index:29;
+    top:-8px;
+    right:2px;
+    padding:4px 8px;
+    border-radius:999px;
+    background:rgba(255,241,246,.90);
+    border:1px solid rgba(229,173,191,.52);
+    color:#b05f7d;
+    font-size:9px;
+    font-weight:700;
+    line-height:1;
+    white-space:nowrap;
+    box-shadow:0 4px 10px rgba(96,56,70,.06);
+    pointer-events:none;
+  }
+
+  /* Random speech is temporary already; place it outside the face. */
+  .pet-main-slot > .pet-bubble{
+    position:absolute !important;
+    left:-76px !important;
+    right:auto !important;
+    top:-32px !important;
+    max-width:150px !important;
+    padding:8px 11px !important;
+    border-radius:16px !important;
+    font-size:10.5px !important;
+    line-height:1.32 !important;
+    z-index:28 !important;
+    background:rgba(255,251,247,.97) !important;
+    border:1px solid rgba(231,211,192,.94) !important;
+    box-shadow:0 7px 16px rgba(79,52,34,.07) !important;
+  }
+  .pet-main-slot > .pet-bubble::after{
+    content:"" !important;
+    position:absolute !important;
+    right:18px !important;
+    left:auto !important;
+    bottom:-6px !important;
+    width:10px !important;
+    height:10px !important;
+    transform:rotate(45deg) !important;
+    background:rgba(255,251,247,.97) !important;
+    border-right:1px solid rgba(231,211,192,.94) !important;
+    border-bottom:1px solid rgba(231,211,192,.94) !important;
+  }
+
+  /* Two-person scene: keep triggers in the gap, still outside faces. */
+  .pet-scene.has-guest .pet-main-slot .pet-thought-anchor{
+    right:-14px !important;
+    top:22px !important;
+  }
+  .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{
+    right:-16px !important;
+    top:26px !important;
+  }
+  .pet-scene.has-guest .pet-visitor-slot .pet-visit-mini{
+    top:-9px !important;
+    right:-2px !important;
+  }
+
+  @media (max-width:980px){
+    .pet-thought-anchor,
+    .pet-main-slot .pet-thought-anchor,
+    .pet-visitor-slot .pet-thought-anchor,
+    .pet-scene.has-guest .pet-main-slot .pet-thought-anchor,
+    .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{
+      right:-12px !important;
+      top:20px !important;
+      width:24px !important;
+      height:24px !important;
+    }
+    .pet-thought-dot{width:24px !important;height:24px !important;font-size:12px !important}
+    .pet-thought-bubble{left:28px !important;max-width:128px !important;font-size:10px !important;padding:7px 9px !important}
+    .pet-main-slot > .pet-bubble{left:-48px !important;top:-26px !important;max-width:134px !important;font-size:10px !important}
+  }
+
+  @media (max-width:759px){
+    .pet-thought-anchor,
+    .pet-main-slot .pet-thought-anchor,
+    .pet-visitor-slot .pet-thought-anchor,
+    .pet-scene.has-guest .pet-main-slot .pet-thought-anchor,
+    .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{
+      right:-5px !important;
+      top:14px !important;
+      width:21px !important;
+      height:21px !important;
+    }
+    .pet-thought-dot{width:21px !important;height:21px !important;font-size:10px !important}
+    .pet-thought-bubble{left:24px !important;top:-3px !important;max-width:105px !important;font-size:9px !important;padding:6px 8px !important;border-radius:13px !important}
+    .pet-visit-mini{top:-6px !important;right:0 !important;font-size:8px !important;padding:3px 6px !important}
+    .pet-main-slot > .pet-bubble{left:-12px !important;top:-25px !important;max-width:118px !important;font-size:9px !important;padding:6px 8px !important}
+  }
+
+
+  /* ── v39: click the character itself to reveal the wish bubble ── */
+
+  .pet-thought-dot{
+    display:none !important;
+  }
+
+  .pet-main-slot .pet-img-wrap,
+  .pet-visitor-slot .pet-img-wrap{
+    cursor:pointer;
+  }
+
+  .pet-thought-anchor,
+  .pet-main-slot .pet-thought-anchor,
+  .pet-visitor-slot .pet-thought-anchor,
+  .pet-scene.has-guest .pet-main-slot .pet-thought-anchor,
+  .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{
+    position:absolute !important;
+    left:auto !important;
+    right:-62px !important;
+    top:34px !important;
+    width:auto !important;
+    height:auto !important;
+    transform:none !important;
+    z-index:32 !important;
+    pointer-events:none !important;
+    display:block !important;
+  }
+
+  .pet-thought-bubble,
+  .pet-main-slot .pet-thought-bubble,
+  .pet-visitor-slot .pet-thought-bubble{
+    position:relative !important;
+    left:auto !important;
+    right:auto !important;
+    top:auto !important;
+    width:max-content !important;
+    max-width:142px !important;
+    padding:8px 11px !important;
+    border-radius:16px !important;
+    background:rgba(255,251,246,.97) !important;
+    border:1px solid rgba(230,210,191,.95) !important;
+    color:#977158 !important;
+    font-size:11px !important;
+    line-height:1.3 !important;
+    text-align:center !important;
+    white-space:nowrap !important;
+    box-shadow:0 8px 18px rgba(80,52,34,.08) !important;
+
+    opacity:0 !important;
+    visibility:hidden !important;
+    transform:translateY(3px) scale(.98) !important;
+    transition:opacity .16s ease, transform .16s ease, visibility 0s linear .16s !important;
+    pointer-events:none !important;
+  }
+
+  .pet-thought-anchor.show .pet-thought-bubble{
+    opacity:1 !important;
+    visibility:visible !important;
+    transform:translateY(0) scale(1) !important;
+    transition:opacity .16s ease, transform .16s ease !important;
+  }
+
+  /* Tail points down-left toward the character, while the bubble stays outside the face. */
+  .pet-thought-bubble::after{
+    content:"" !important;
+    position:absolute !important;
+    left:17px !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:-6px !important;
+    width:10px !important;
+    height:10px !important;
+    transform:rotate(45deg) !important;
+    background:rgba(255,251,246,.97) !important;
+    border-right:1px solid rgba(230,210,191,.95) !important;
+    border-bottom:1px solid rgba(230,210,191,.95) !important;
+    border-left:0 !important;
+  }
+
+  .pet-wish-inline{
+    color:#7d5b42 !important;
+    font-weight:700 !important;
+  }
+
+  /* Tiny visit state stays directly above the visiting character. */
+  .pet-visit-mini{
+    top:-10px !important;
+    left:50% !important;
+    right:auto !important;
+    transform:translateX(-50%) !important;
+    z-index:31 !important;
+    padding:4px 8px !important;
+    border-radius:999px !important;
+    background:rgba(255,241,246,.91) !important;
+    border:1px solid rgba(229,173,191,.52) !important;
+    color:#b05f7d !important;
+    font-size:9px !important;
+    font-weight:700 !important;
+    line-height:1 !important;
+    box-shadow:0 4px 10px rgba(96,56,70,.06) !important;
+    white-space:nowrap !important;
+    pointer-events:none !important;
+  }
+
+  .pet-scene.has-guest .pet-main-slot .pet-thought-anchor{
+    right:-48px !important;
+    top:30px !important;
+  }
+  .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{
+    right:-50px !important;
+    top:34px !important;
+  }
+
+  @media (max-width:980px){
+    .pet-thought-anchor,
+    .pet-main-slot .pet-thought-anchor,
+    .pet-visitor-slot .pet-thought-anchor,
+    .pet-scene.has-guest .pet-main-slot .pet-thought-anchor,
+    .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{
+      right:-38px !important;
+      top:28px !important;
+    }
+    .pet-thought-bubble{
+      max-width:126px !important;
+      font-size:10px !important;
+      padding:7px 9px !important;
+    }
+  }
+
+  @media (max-width:759px){
+    .pet-thought-anchor,
+    .pet-main-slot .pet-thought-anchor,
+    .pet-visitor-slot .pet-thought-anchor,
+    .pet-scene.has-guest .pet-main-slot .pet-thought-anchor,
+    .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{
+      right:-18px !important;
+      top:18px !important;
+    }
+    .pet-thought-bubble{
+      max-width:104px !important;
+      font-size:9px !important;
+      padding:6px 8px !important;
+      border-radius:13px !important;
+    }
+    .pet-visit-mini{
+      top:-7px !important;
+      font-size:8px !important;
+      padding:3px 6px !important;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -5596,14 +5951,18 @@ function renderPetInteraction(uid){
       const guestTag=guestLife.awayReason==='lured'&&guestLife.luredBy===uid?'💘 被你勾来玩':'🏠 来串门';
       guestSlot.hidden=false;
       guestSlot.innerHTML=`
-        <div class="pet-thought-anchor guest-thought" aria-hidden="false">
-          <div class="pet-thought-bubble">
-            <span class="pet-visit-inline">${guestTag==='🏠 来串门'?'🏠 串门中':guestTag}</span>
-            <span class="pet-wish-inline">${guestTaste.em} ${guestTaste.txt}</span>
-          </div>
+        <div class="pet-visit-mini">${guestTag==='🏠 来串门'?'🏠 串门':'💘 来玩'}</div>
+        <div class="pet-thought-anchor guest-thought">
+          <div class="pet-thought-bubble"><span class="pet-wish-inline">${guestTaste.em} ${guestTaste.txt}</span></div>
         </div>
         ${petStaticVisualHTML(guestUid)}`;
       guestSlot.onclick=e=>{
+        const hitPet=e.target.closest && e.target.closest(".pet-img-wrap");
+        if(hitPet){
+          e.stopPropagation();
+          showPetWishBubble(guestSlot);
+          return;
+        }
         e.stopPropagation();
         showModal(`<h3>🏠 ${petName(guestUid)}来串门了</h3><p>${visitSceneLine(uid,guestUid)}</p><p style="margin-top:7px;color:var(--ink-soft)">今天 TA 想喝：${guestTaste.em} <b>${guestTaste.txt}</b></p><div class="mbtns"><button class="btn start" id="mOk">知道啦</button></div>`,
           b=>b.querySelector('#mOk').onclick=closeModal);
@@ -5828,6 +6187,28 @@ function say(id, txt, ms){
   el.textContent = txt; el.hidden = false;
   clearTimeout(el._t); el._t = setTimeout(()=>{ el.hidden = true; }, ms||6000);
 }
+function showPetWishBubble(target){
+  if(!target)return;
+  const anchor=target.matches && target.matches(".pet-thought-anchor")
+    ? target
+    : (target.querySelector ? target.querySelector(".pet-thought-anchor") : null);
+  if(!anchor)return;
+
+  document.querySelectorAll(".pet-thought-anchor.show").forEach(el=>{
+    if(el!==anchor){
+      el.classList.remove("show");
+      clearTimeout(el._wishTimer);
+    }
+  });
+
+  const speech=document.getElementById("petBubble");
+  if(speech)speech.hidden=true;
+
+  anchor.classList.add("show");
+  clearTimeout(anchor._wishTimer);
+  anchor._wishTimer=setTimeout(()=>anchor.classList.remove("show"),3000);
+}
+
 let nextBigTalk = Date.now()+7000, nextMiniTalk = Date.now()+14000;
 function petTick(){
   const now = Date.now(), uid = view, mood = petMood(uid);
@@ -5885,7 +6266,7 @@ function playGif(big){
   setTimeout(()=>{ if(Date.now() >= slot.until) renderPet(); }, GIF_PLAY_MS + 80);
 }
 let pokeLog = [];
-function petPoke(e, big){
+function petPoke(e, big, suppressSpeech=false){
   if(petLifeOf(view).location!==view){ if(big) showReturnQuest(view); else say("miniBubble","它跑去串门了，下面有召回任务 🏃",4200); return; }
   const box = e.currentTarget;
   // 果冻抖动
@@ -5920,6 +6301,13 @@ function petPoke(e, big){
     box.appendChild(p2);
     setTimeout(()=> p2.remove(), 1100);
   }
+  // 点击大人物显示“今天想喝什么”时，不再额外弹第二个随机说话气泡。
+  if(suppressSpeech){
+    if(big) nextBigTalk = Date.now()+26000;
+    else nextMiniTalk = Date.now()+30000;
+    return;
+  }
+
   // 说话回应(连戳有特殊台词)
   const now = Date.now();
   pokeLog = pokeLog.filter(t=> now-t < 3000); pokeLog.push(now);
@@ -5989,7 +6377,7 @@ function renderPet(){
         <div class="pet-cast${guestHere?' has-guest':''}">
           <div class="pet-main-slot" id="petMainSlot">
             <div class="pet-bubble" id="petBubble" hidden></div>
-            <div class="pet-thought-anchor" aria-hidden="false">
+            <div class="pet-thought-anchor">
               <div class="pet-thought-bubble"><span class="pet-wish-inline">${taste.em} ${taste.txt}</span></div>
             </div>
             ${mainVisual}
@@ -6371,7 +6759,20 @@ function start(){
   setTimeout(()=> USERS.forEach(u=>syncPetLife(u.id)), 1200);
   setInterval(()=> USERS.forEach(u=>syncPetLife(u.id)), 300000);
   const bigPetEl = document.getElementById("petChar"), miniPetEl = document.getElementById("miniChar");
-  if(bigPetEl){ bigPetEl.style.position = "relative"; bigPetEl.addEventListener("click", e=> petPoke(e, true)); }
+  if(bigPetEl){
+    bigPetEl.style.position = "relative";
+    bigPetEl.addEventListener("click", e=>{
+      // 场景按钮、桌面等都不触发气泡；必须直接点到主角人物。
+      const mainPet=e.target.closest && e.target.closest("#petMainSlot .pet-img-wrap");
+      if(mainPet){
+        e.stopPropagation();
+        const slot=mainPet.closest("#petMainSlot");
+        showPetWishBubble(slot);
+        petPoke(e, true, true);
+        return;
+      }
+    });
+  }
   if(miniPetEl){ miniPetEl.style.position = "relative"; miniPetEl.style.pointerEvents = "auto"; miniPetEl.addEventListener("click", e=> petPoke(e, false)); }
   // 鼠标/手指划过大杯 → 3D 倾斜
   const stage = document.getElementById("cupStage");
