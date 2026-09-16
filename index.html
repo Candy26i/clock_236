@@ -3553,7 +3553,7 @@
   }
 
 
-  /* ── v39: click person itself to show wish bubble; never permanently cover the character ── */
+  /* ── v40: click person for random requirement bubbles with collapsible scene list; never permanently cover the character ── */
 
   /* Remove old always-on visitor/wish labels. */
   .pet-visit-inline,
@@ -3905,6 +3905,85 @@
       font-size:8px !important;
       padding:3px 6px !important;
     }
+  }
+
+
+  /* ── v40: random click bubble + collapsible scene list + refined alignment ── */
+  .scene-picker{
+    left:18px !important;
+    top:82px !important;
+    width:68px !important;
+    padding:8px 7px 9px !important;
+    border-radius:22px !important;
+    background:rgba(255,252,248,.58) !important;
+    border:1px solid rgba(255,255,255,.82) !important;
+    box-shadow:0 10px 24px rgba(83,56,35,.05) !important;
+    backdrop-filter:blur(14px) !important;
+    -webkit-backdrop-filter:blur(14px) !important;
+  }
+  .scene-picker-title{padding-bottom:4px !important;color:#b19479 !important}
+  .scene-picker-list{display:flex;flex-direction:column;gap:6px}
+  .scene-picker-toggle{
+    width:100%;margin-top:4px;padding:5px 4px;border:none;border-radius:999px;
+    background:rgba(255,248,240,.72);color:#9a785f;font-size:8.8px;line-height:1.1;cursor:pointer;
+    border:1px solid rgba(233,211,189,.75);box-shadow:inset 0 1px 0 rgba(255,255,255,.72)
+  }
+  .scene-picker-toggle:hover{background:rgba(255,248,240,.88)}
+  .scene-picker.is-collapsed .scene-picker-list{display:none}
+  .scene-picker.is-collapsed{padding-bottom:8px !important}
+
+  .pet-scene-badge{left:94px !important}
+
+  .pet-thought-anchor,
+  .pet-main-slot .pet-thought-anchor,
+  .pet-visitor-slot .pet-thought-anchor{
+    right:-54px !important;
+    top:26px !important;
+  }
+  .pet-scene.has-guest .pet-main-slot .pet-thought-anchor{right:-42px !important; top:22px !important}
+  .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{right:-42px !important; top:28px !important}
+  .pet-thought-bubble,
+  .pet-main-slot .pet-thought-bubble,
+  .pet-visitor-slot .pet-thought-bubble{
+    max-width:168px !important;
+    white-space:normal !important;
+    text-align:left !important;
+    line-height:1.38 !important;
+    padding:9px 12px !important;
+    border-radius:16px 18px 18px 18px !important;
+    transform:translateX(-6px) translateY(4px) rotate(-3deg) scale(.98) !important;
+    transform-origin:18px 100% !important;
+  }
+  .pet-thought-anchor.show .pet-thought-bubble{
+    transform:translateX(0) translateY(0) rotate(-3deg) scale(1) !important;
+  }
+  .pet-thought-bubble::after{
+    left:20px !important;
+    top:auto !important;
+    bottom:-6px !important;
+    width:12px !important;
+    height:12px !important;
+    transform:rotate(58deg) skew(-8deg,-8deg) !important;
+    border-left:0 !important;
+    border-bottom:1px solid rgba(230,210,191,.95) !important;
+    border-right:1px solid rgba(230,210,191,.95) !important;
+  }
+  .pet-wish-inline{display:block !important;font-weight:700 !important}
+
+  @media (max-width:980px){
+    .pet-scene-badge{left:88px !important}
+    .pet-thought-anchor,
+    .pet-main-slot .pet-thought-anchor,
+    .pet-visitor-slot .pet-thought-anchor{right:-38px !important; top:24px !important}
+    .pet-thought-bubble{max-width:148px !important}
+  }
+  @media (max-width:759px){
+    .scene-picker{left:12px !important; width:62px !important; top:74px !important}
+    .pet-scene-badge{left:78px !important}
+    .pet-thought-anchor,
+    .pet-main-slot .pet-thought-anchor,
+    .pet-visitor-slot .pet-thought-anchor{right:-18px !important; top:16px !important}
+    .pet-thought-bubble{max-width:120px !important; font-size:9px !important}
   }
 
 </style>
@@ -5569,14 +5648,26 @@ function setPetSceneMode(uid,mode){
   if(!PET_SCENE_MODES[mode])return;
   updatePetLife(uid,s=>{s.sceneMode=mode;return s;});
 }
+const scenePickerUIState={};
+function scenePickerCollapsed(uid){
+  return !!scenePickerUIState[uid];
+}
+function toggleScenePicker(uid){
+  scenePickerUIState[uid]=!scenePickerCollapsed(uid);
+  renderPet();
+}
 function scenePickerHTML(uid){
   const current=petSceneModeOf(uid);
-  return `<div class="scene-picker" aria-label="学习场景">
+  const collapsed=scenePickerCollapsed(uid);
+  return `<div class="scene-picker ${collapsed?'is-collapsed':''}" aria-label="学习场景">
     <div class="scene-picker-title">SCENE</div>
-    ${Object.entries(PET_SCENE_MODES).map(([id,cfg])=>`
-      <button type="button" class="scene-pick ${id===current?'active':''}" data-scene-mode="${id}" title="${cfg.name}">
-        <span class="scene-pick-em">${cfg.em}</span><span>${cfg.name}</span>
-      </button>`).join("")}
+    <div class="scene-picker-list">
+      ${Object.entries(PET_SCENE_MODES).map(([id,cfg])=>`
+        <button type="button" class="scene-pick ${id===current?'active':''}" data-scene-mode="${id}" title="${cfg.name}">
+          <span class="scene-pick-em">${cfg.em}</span><span>${cfg.name}</span>
+        </button>`).join("")}
+    </div>
+    <button type="button" class="scene-picker-toggle" data-scene-toggle="${uid}" aria-expanded="${collapsed?'false':'true'}">${collapsed?'展开场景 ▾':'收起场景 ▴'}</button>
   </div>`;
 }
 
@@ -5950,6 +6041,7 @@ function renderPetInteraction(uid){
       const guestTaste=tasteOf(guestUid);
       const guestTag=guestLife.awayReason==='lured'&&guestLife.luredBy===uid?'💘 被你勾来玩':'🏠 来串门';
       guestSlot.hidden=false;
+      guestSlot.dataset.uid=guestUid;
       guestSlot.innerHTML=`
         <div class="pet-visit-mini">${guestTag==='🏠 来串门'?'🏠 串门':'💘 来玩'}</div>
         <div class="pet-thought-anchor guest-thought">
@@ -5960,7 +6052,7 @@ function renderPetInteraction(uid){
         const hitPet=e.target.closest && e.target.closest(".pet-img-wrap");
         if(hitPet){
           e.stopPropagation();
-          showPetWishBubble(guestSlot);
+          showPetWishBubble(guestSlot, guestUid);
           return;
         }
         e.stopPropagation();
@@ -6187,26 +6279,70 @@ function say(id, txt, ms){
   el.textContent = txt; el.hidden = false;
   clearTimeout(el._t); el._t = setTimeout(()=>{ el.hidden = true; }, ms||6000);
 }
-function showPetWishBubble(target){
+const wishBubbleMemory={};
+function pickNoRepeat(list,last){
+  const pool=(list||[]).filter(Boolean);
+  if(!pool.length)return '';
+  const trimmed=pool.filter(x=>x!==last);
+  return pick((trimmed.length?trimmed:pool));
+}
+function buildPetWishBubbleText(uid){
+  const L=lines(uid), base=tasteOf(uid), unmet=wishesLeft(uid), d=drinkOf(uid);
+  const baseMet=!!(d && base.match(d));
+  const messages=[];
+
+  messages.push(`${base.em} 基础要求：今天想要 ${base.txt}`);
+  messages.push(baseMet
+    ? `${base.em} 基础要求已经满足啦，今天这杯方向对了`
+    : `${base.em} 今天先把基础要求做成：${base.txt}`);
+
+  unmet.forEach(t=>{
+    const own=(L.wishT && L.wishT[t.id]) || `如果还能加个${t.name}，我会更开心`;
+    messages.push(own);
+    messages.push(`小要求：如果再带上 ${t.name}，今天这杯就更像专门做给我的了`);
+  });
+
+  if(!unmet.length){
+    messages.push('今天的小要求都差不多记住啦，把奶茶端来就很好');
+    messages.push('这杯只要端过来，我就默认你有认真惦记我');
+  }else{
+    messages.push(`除了基础要求，我今天还偷偷想要 ${unmet.slice(0,2).map(t=>t.name).join('、')}`);
+  }
+
+  messages.push(...(L.poke||[]));
+  if(petMood(uid)==='tea') messages.push(...(L.pokeTea||[]));
+
+  const key='wish|'+uid;
+  const msg=pickNoRepeat(messages,wishBubbleMemory[key]);
+  wishBubbleMemory[key]=msg;
+  return msg;
+}
+function showPetWishBubble(target, uid){
   if(!target)return;
-  const anchor=target.matches && target.matches(".pet-thought-anchor")
+  const anchor=target.matches && target.matches('.pet-thought-anchor')
     ? target
-    : (target.querySelector ? target.querySelector(".pet-thought-anchor") : null);
+    : (target.querySelector ? target.querySelector('.pet-thought-anchor') : null);
   if(!anchor)return;
 
-  document.querySelectorAll(".pet-thought-anchor.show").forEach(el=>{
+  document.querySelectorAll('.pet-thought-anchor.show').forEach(el=>{
     if(el!==anchor){
-      el.classList.remove("show");
+      el.classList.remove('show');
       clearTimeout(el._wishTimer);
     }
   });
 
-  const speech=document.getElementById("petBubble");
+  const speech=document.getElementById('petBubble');
   if(speech)speech.hidden=true;
 
-  anchor.classList.add("show");
+  const bubble=anchor.querySelector('.pet-thought-bubble');
+  const useUid=uid || target.dataset.uid || view;
+  if(bubble){
+    bubble.innerHTML=`<span class="pet-wish-inline">${buildPetWishBubbleText(useUid)}</span>`;
+  }
+
+  anchor.classList.add('show');
   clearTimeout(anchor._wishTimer);
-  anchor._wishTimer=setTimeout(()=>anchor.classList.remove("show"),3000);
+  anchor._wishTimer=setTimeout(()=>anchor.classList.remove('show'),3200);
 }
 
 let nextBigTalk = Date.now()+7000, nextMiniTalk = Date.now()+14000;
@@ -6398,6 +6534,8 @@ function renderPet(){
     big.classList.add("pet-hit");
     const im=big.querySelector("#petMainSlot img");
     if(im)im.onerror=()=>onImgErr(true,big);
+    const mainSlotEl=big.querySelector('#petMainSlot');
+    if(mainSlotEl) mainSlotEl.dataset.uid=uid;
 
     big.querySelectorAll("[data-scene-mode]").forEach(btn=>{
       btn.addEventListener("click",e=>{
@@ -6407,6 +6545,13 @@ function renderPet(){
         setPetSceneMode(uid,mode);
       });
     });
+    const pickerToggle=big.querySelector('[data-scene-toggle]');
+    if(pickerToggle){
+      pickerToggle.addEventListener('click',e=>{
+        e.stopPropagation();
+        toggleScenePicker(uid);
+      });
+    }
   }
 
   if(mini){
@@ -6767,7 +6912,7 @@ function start(){
       if(mainPet){
         e.stopPropagation();
         const slot=mainPet.closest("#petMainSlot");
-        showPetWishBubble(slot);
+        showPetWishBubble(slot, view);
         petPoke(e, true, true);
         return;
       }
