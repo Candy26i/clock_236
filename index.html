@@ -1482,7 +1482,7 @@
     .pet-img-wrap,.pet-img,.pet-shadow,.pet-particle{animation:none !important}
   }
 
-  /* ── v33: scene bubbles and visitor chip cleanup ── */
+  /* ── v36: clean upper-right pet bubbles + in-scene dialogue ── */
 
   /* Shared desktop objects */
   .scene-paper-stack{
@@ -3137,6 +3137,295 @@
     .pet-thought-bubble{max-width:126px;font-size:10px;padding:6px 9px;border-radius:14px}
     .pet-visit-chip{font-size:9px;padding:4px 8px}
     .pet-thought-dot{width:22px;height:22px;font-size:12px}
+  }
+
+
+  /* ── v34 refine thought bubble + visit chip placement ── */
+  /* default: single character, put the thought dot on the upper-right side instead of centered on the head */
+  .pet-main-slot .pet-thought-anchor{
+    left:auto !important;
+    right:8px !important;
+    top:18px !important;
+    transform:none !important;
+    align-items:flex-end !important;
+  }
+  .pet-main-slot .pet-thought-bubble{
+    transform-origin:top right !important;
+  }
+
+  /* guest mode: keep both overlays away from faces */
+  .pet-scene.has-guest .pet-main-slot .pet-thought-anchor{
+    right:4px !important;
+    top:34px !important;
+    align-items:flex-end !important;
+  }
+  .pet-scene.has-guest .pet-main-slot .pet-thought-bubble{
+    margin-right:-6px;
+  }
+
+  .pet-scene.has-guest .pet-visitor-slot .pet-visit-chip{
+    top:18px !important;
+    left:58% !important;
+    transform:translateX(-50%) !important;
+  }
+  .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{
+    left:16px !important;
+    top:74px !important;
+    transform:none !important;
+    align-items:flex-start !important;
+  }
+  .pet-scene.has-guest .pet-visitor-slot .pet-thought-bubble{
+    transform-origin:top left !important;
+    margin-left:-2px;
+  }
+
+  /* make the chip lighter/smaller so it feels like a scene tag instead of a banner */
+  .pet-visit-chip{
+    padding:5px 11px !important;
+    border-radius:999px !important;
+    background:rgba(255,243,247,.92) !important;
+    border:1px solid rgba(229,174,191,.54) !important;
+    box-shadow:0 5px 12px rgba(107,59,77,.06) !important;
+  }
+
+  @media (max-width:980px){
+    .pet-main-slot .pet-thought-anchor{right:4px !important; top:16px !important}
+    .pet-scene.has-guest .pet-main-slot .pet-thought-anchor{top:28px !important}
+    .pet-scene.has-guest .pet-visitor-slot .pet-visit-chip{top:12px !important; left:56% !important}
+    .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{left:8px !important; top:62px !important}
+  }
+  @media (max-width:759px){
+    .pet-main-slot .pet-thought-anchor{right:0 !important; top:10px !important}
+    .pet-scene.has-guest .pet-main-slot .pet-thought-anchor{top:18px !important}
+    .pet-scene.has-guest .pet-visitor-slot .pet-visit-chip{top:9px !important; left:54% !important}
+    .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{left:2px !important; top:44px !important}
+  }
+
+
+  /* ── v35: use fixed speech bubbles at upper-right of each pet; clean scene text ── */
+  .pet-scene-hint{display:none !important;}
+
+  /* no floating dot on the head */
+  .pet-thought-dot{display:none !important;}
+
+  .pet-main-slot,.pet-visitor-slot{
+    overflow:visible !important;
+  }
+
+  /* always-visible speech bubble */
+  .pet-thought-anchor{
+    position:absolute !important;
+    left:auto !important;
+    right:-6px !important;
+    top:52px !important;
+    transform:none !important;
+    display:block !important;
+    z-index:14 !important;
+    pointer-events:none !important;
+  }
+  .pet-thought-bubble{
+    opacity:1 !important;
+    transform:none !important;
+    position:relative !important;
+    max-width:168px !important;
+    padding:9px 13px !important;
+    border-radius:18px !important;
+    background:rgba(255,251,246,.96) !important;
+    border:1px solid rgba(232,214,197,.96) !important;
+    color:#9b7658 !important;
+    font-size:12px !important;
+    line-height:1.35 !important;
+    text-align:center !important;
+    white-space:nowrap !important;
+    box-shadow:0 10px 22px rgba(86,56,34,.08) !important;
+    transform-origin:center center !important;
+    pointer-events:none !important;
+  }
+  .pet-thought-bubble span{font-weight:700;color:#7f5d43 !important;}
+  /* tail points down-left toward the pet */
+  .pet-thought-bubble::after{
+    content:'' !important;
+    position:absolute !important;
+    left:24px !important;
+    bottom:-7px !important;
+    width:12px !important;
+    height:12px !important;
+    transform:rotate(45deg) !important;
+    background:rgba(255,251,246,.96) !important;
+    border-right:1px solid rgba(231,213,196,.95) !important;
+    border-bottom:1px solid rgba(231,213,196,.95) !important;
+  }
+
+  /* visitor chip sits above the visitor, not on the background */
+  .pet-visit-chip{
+    top:6px !important;
+    left:auto !important;
+    right:8px !important;
+    transform:none !important;
+    z-index:15 !important;
+    padding:5px 11px !important;
+    border-radius:999px !important;
+    background:rgba(255,243,247,.94) !important;
+    border:1px solid rgba(229,174,191,.56) !important;
+    color:#b06180 !important;
+    box-shadow:0 5px 12px rgba(107,59,77,.06) !important;
+  }
+
+  /* when two pets appear, keep both bubbles tidy and near each pet's upper-right side */
+  .pet-scene.has-guest .pet-main-slot .pet-thought-anchor{
+    right:-2px !important;
+    top:48px !important;
+  }
+  .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{
+    right:-8px !important;
+    top:56px !important;
+  }
+  .pet-scene.has-guest .pet-visitor-slot .pet-thought-bubble{
+    max-width:156px !important;
+  }
+
+  @media (max-width:980px){
+    .pet-thought-anchor{right:-4px !important; top:44px !important;}
+    .pet-thought-bubble{max-width:150px !important; font-size:11px !important; padding:8px 11px !important;}
+    .pet-visit-chip{right:4px !important; top:4px !important; font-size:10px !important;}
+    .pet-scene.has-guest .pet-main-slot .pet-thought-anchor{top:42px !important;}
+    .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{top:48px !important; right:-4px !important;}
+  }
+  @media (max-width:759px){
+    .pet-thought-anchor{right:-2px !important; top:28px !important;}
+    .pet-thought-bubble{max-width:118px !important; font-size:10px !important; padding:7px 9px !important; border-radius:14px !important;}
+    .pet-thought-bubble::after{left:18px !important; width:10px !important; height:10px !important; bottom:-6px !important;}
+    .pet-scene.has-guest .pet-main-slot .pet-thought-anchor{top:26px !important;}
+    .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{top:30px !important; right:-1px !important;}
+    .pet-visit-chip{top:0 !important; right:0 !important; font-size:9px !important; padding:4px 8px !important;}
+  }
+
+
+  /* ── v36 character bubbles: one clean bubble at each pet's upper-right ── */
+  .pet-scene-hint{display:none !important}
+  .pet-thought-dot,.pet-visit-chip{display:none !important}
+
+  .pet-main-slot,.pet-visitor-slot{
+    position:relative !important;
+    overflow:visible !important;
+  }
+
+  .pet-thought-anchor{
+    position:absolute !important;
+    left:auto !important;
+    right:-72px !important;
+    top:58px !important;
+    transform:none !important;
+    z-index:18 !important;
+    display:block !important;
+    pointer-events:none !important;
+  }
+  .pet-thought-bubble{
+    opacity:1 !important;
+    transform:none !important;
+    min-width:0 !important;
+    max-width:150px !important;
+    padding:9px 12px !important;
+    border-radius:17px !important;
+    background:rgba(255,251,246,.96) !important;
+    border:1px solid rgba(230,209,190,.92) !important;
+    color:#7F6049 !important;
+    font-size:11.5px !important;
+    line-height:1.3 !important;
+    text-align:center !important;
+    white-space:nowrap !important;
+    box-shadow:0 8px 18px rgba(88,57,35,.08) !important;
+    backdrop-filter:blur(7px);
+    -webkit-backdrop-filter:blur(7px);
+    position:relative !important;
+  }
+  .pet-thought-bubble::after{
+    content:"" !important;
+    position:absolute !important;
+    left:18px !important;
+    bottom:-7px !important;
+    width:12px !important;
+    height:12px !important;
+    transform:rotate(45deg) !important;
+    background:rgba(255,251,246,.96) !important;
+    border-right:1px solid rgba(230,209,190,.92) !important;
+    border-bottom:1px solid rgba(230,209,190,.92) !important;
+  }
+  .pet-wish-inline{font-weight:700;color:#76553E !important}
+
+  /* Guest bubble contains a tiny visit-status line instead of a separate banner. */
+  .guest-thought{
+    right:-66px !important;
+    top:56px !important;
+  }
+  .guest-thought .pet-thought-bubble{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    gap:4px !important;
+    padding:8px 11px 9px !important;
+    text-align:left !important;
+  }
+  .pet-visit-inline{
+    display:inline-flex !important;
+    align-items:center !important;
+    padding:2px 7px !important;
+    border-radius:999px !important;
+    background:#FFF0F4 !important;
+    color:#B4617E !important;
+    font-size:9px !important;
+    font-weight:700 !important;
+    letter-spacing:.02em !important;
+  }
+
+  /* When two pets are together, each bubble remains beside its own head. */
+  .pet-scene.has-guest .pet-main-slot .pet-thought-anchor{
+    right:-58px !important;
+    top:62px !important;
+  }
+  .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{
+    right:-58px !important;
+    top:58px !important;
+  }
+
+  /* The existing conversational bubble stays INSIDE the illustrated scene. */
+  .pet-zone .pet-bubble{
+    top:92px !important;
+    left:auto !important;
+    right:7% !important;
+    margin:0 !important;
+    width:max-content !important;
+    max-width:235px !important;
+    padding:8px 13px !important;
+    border-radius:15px !important;
+    font-size:12px !important;
+    line-height:1.4 !important;
+    z-index:40 !important;
+    box-shadow:0 8px 18px rgba(79,52,34,.09) !important;
+  }
+  .pet-zone .pet-bubble::after{
+    left:auto !important;
+    right:24px !important;
+    margin-left:0 !important;
+  }
+
+  @media (max-width:980px){
+    .pet-thought-anchor{right:-48px !important;top:50px !important}
+    .guest-thought{right:-46px !important;top:50px !important}
+    .pet-thought-bubble{max-width:134px !important;font-size:10.5px !important;padding:8px 10px !important}
+    .pet-scene.has-guest .pet-main-slot .pet-thought-anchor{right:-42px !important;top:54px !important}
+    .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{right:-42px !important;top:52px !important}
+    .pet-zone .pet-bubble{top:86px !important;right:5% !important;max-width:210px !important}
+  }
+  @media (max-width:759px){
+    .pet-thought-anchor{right:-20px !important;top:32px !important}
+    .guest-thought{right:-18px !important;top:32px !important}
+    .pet-thought-bubble{max-width:112px !important;font-size:9.5px !important;padding:6px 8px !important;border-radius:13px !important}
+    .pet-thought-bubble::after{left:14px !important;width:9px !important;height:9px !important;bottom:-5px !important}
+    .pet-visit-inline{font-size:8px !important;padding:2px 6px !important}
+    .pet-scene.has-guest .pet-main-slot .pet-thought-anchor{right:-16px !important;top:34px !important}
+    .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{right:-16px !important;top:34px !important}
+    .pet-zone .pet-bubble{top:80px !important;right:3% !important;max-width:175px !important;font-size:10.5px !important}
   }
 
 </style>
@@ -5184,10 +5473,11 @@ function renderPetInteraction(uid){
       const guestTag=guestLife.awayReason==='lured'&&guestLife.luredBy===uid?'💘 被你勾来玩':'🏠 来串门';
       guestSlot.hidden=false;
       guestSlot.innerHTML=`
-        <div class="pet-visit-chip">${guestTag}</div>
-        <div class="pet-thought-anchor" aria-hidden="false">
-          <button class="pet-thought-dot" type="button" aria-label="看看 TA 今天想喝什么">💭</button>
-          <div class="pet-thought-bubble">${guestTaste.em} <span>${guestTaste.txt}</span></div>
+        <div class="pet-thought-anchor guest-thought" aria-hidden="false">
+          <div class="pet-thought-bubble">
+            <span class="pet-visit-inline">${guestTag==='🏠 来串门'?'🏠 串门中':guestTag}</span>
+            <span class="pet-wish-inline">${guestTaste.em} ${guestTaste.txt}</span>
+          </div>
         </div>
         ${petStaticVisualHTML(guestUid)}`;
       guestSlot.onclick=e=>{
@@ -5576,8 +5866,7 @@ function renderPet(){
         <div class="pet-cast${guestHere?' has-guest':''}">
           <div class="pet-main-slot" id="petMainSlot">
             <div class="pet-thought-anchor" aria-hidden="false">
-              <button class="pet-thought-dot" type="button" aria-label="看看今天想喝什么">💭</button>
-              <div class="pet-thought-bubble">${taste.em} <span>${taste.txt}</span></div>
+              <div class="pet-thought-bubble"><span class="pet-wish-inline">${taste.em} ${taste.txt}</span></div>
             </div>
             ${mainVisual}
           </div>
