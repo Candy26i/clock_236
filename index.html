@@ -1482,7 +1482,7 @@
     .pet-img-wrap,.pet-img,.pet-shadow,.pet-particle{animation:none !important}
   }
 
-  /* ── v32: embedded illustrated furniture with dynamic tea/snacks ── */
+  /* ── v33: scene bubbles and visitor chip cleanup ── */
 
   /* Shared desktop objects */
   .scene-paper-stack{
@@ -3016,6 +3016,127 @@
       padding-right:10px !important;
       gap:5px !important;
     }
+  }
+
+
+  /* ── v33 scene text cleanup: remove name cards, use delicate thought bubbles ── */
+  .pet-main-slot,.pet-visitor-slot{
+    position:relative;
+    padding-top:20px !important;
+  }
+  .pet-main-slot .pet-actor-meta,
+  .pet-visitor-slot .pet-actor-meta,
+  .pet-actor-name,
+  .pet-actor-wish,
+  .pet-visit-label{
+    display:none !important;
+  }
+
+  .pet-thought-anchor{
+    position:absolute;
+    top:2px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:12;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    pointer-events:none;
+  }
+  .pet-thought-dot{
+    pointer-events:auto;
+    width:28px;
+    height:28px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,250,244,.86);
+    color:#aa7a57;
+    box-shadow:0 6px 14px rgba(95,62,38,.08), inset 0 1px 0 rgba(255,255,255,.78);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+    line-height:1;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(226,205,184,.78);
+  }
+  .pet-thought-dot:hover{transform:translateY(-1px)}
+  .pet-thought-bubble{
+    max-width:174px;
+    padding:8px 12px;
+    border-radius:16px;
+    background:rgba(255,251,246,.94);
+    border:1px solid rgba(231,213,196,.95);
+    color:#9b7658;
+    font-size:12px;
+    line-height:1.35;
+    text-align:center;
+    white-space:nowrap;
+    box-shadow:0 10px 22px rgba(86,56,34,.08);
+    opacity:0;
+    transform:translateY(6px) scale(.98);
+    transform-origin:top center;
+    transition:opacity .18s ease, transform .18s ease;
+    pointer-events:none;
+    position:relative;
+  }
+  .pet-thought-bubble span{font-weight:700;color:#7f5d43}
+  .pet-thought-bubble::after{
+    content:'';
+    position:absolute;
+    left:50%;
+    bottom:-7px;
+    width:12px;
+    height:12px;
+    transform:translateX(-50%) rotate(45deg);
+    background:rgba(255,251,246,.94);
+    border-right:1px solid rgba(231,213,196,.95);
+    border-bottom:1px solid rgba(231,213,196,.95);
+  }
+  .pet-main-slot:hover .pet-thought-bubble,
+  .pet-main-slot:focus-within .pet-thought-bubble,
+  .pet-visitor-slot:hover .pet-thought-bubble,
+  .pet-visitor-slot:focus-within .pet-thought-bubble{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+
+  .pet-visit-chip{
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:13;
+    padding:6px 12px;
+    border-radius:999px;
+    background:rgba(255,239,244,.92);
+    border:1px solid rgba(231,174,191,.62);
+    color:#b06180;
+    font-size:11px;
+    font-weight:700;
+    box-shadow:0 6px 14px rgba(107,59,77,.08);
+    white-space:nowrap;
+    pointer-events:none;
+  }
+  .pet-visitor-slot .pet-thought-anchor{top:34px}
+  .pet-scene.has-guest .pet-main-slot .pet-thought-anchor{top:10px}
+  .pet-scene.has-guest .pet-visitor-slot .pet-thought-anchor{top:34px}
+
+  @media (max-width:980px){
+    .pet-thought-bubble{max-width:152px;font-size:11px;padding:7px 10px}
+    .pet-visit-chip{font-size:10px;padding:5px 10px}
+    .pet-thought-dot{width:25px;height:25px;font-size:13px}
+  }
+  @media (max-width:759px){
+    .pet-main-slot,.pet-visitor-slot{padding-top:16px !important}
+    .pet-thought-anchor{top:0}
+    .pet-visitor-slot .pet-thought-anchor{top:26px}
+    .pet-thought-bubble{max-width:126px;font-size:10px;padding:6px 9px;border-radius:14px}
+    .pet-visit-chip{font-size:9px;padding:4px 8px}
+    .pet-thought-dot{width:22px;height:22px;font-size:12px}
   }
 
 </style>
@@ -5063,12 +5184,12 @@ function renderPetInteraction(uid){
       const guestTag=guestLife.awayReason==='lured'&&guestLife.luredBy===uid?'💘 被你勾来玩':'🏠 来串门';
       guestSlot.hidden=false;
       guestSlot.innerHTML=`
-        <div class="pet-actor-meta">
-          <span class="pet-actor-name">${petName(guestUid)}</span>
-          <span class="pet-actor-wish">${guestTaste.em} 想喝：${guestTaste.txt}</span>
+        <div class="pet-visit-chip">${guestTag}</div>
+        <div class="pet-thought-anchor" aria-hidden="false">
+          <button class="pet-thought-dot" type="button" aria-label="看看 TA 今天想喝什么">💭</button>
+          <div class="pet-thought-bubble">${guestTaste.em} <span>${guestTaste.txt}</span></div>
         </div>
-        ${petStaticVisualHTML(guestUid)}
-        <div class="pet-visit-label">${guestTag}</div>`;
+        ${petStaticVisualHTML(guestUid)}`;
       guestSlot.onclick=e=>{
         e.stopPropagation();
         showModal(`<h3>🏠 ${petName(guestUid)}来串门了</h3><p>${visitSceneLine(uid,guestUid)}</p><p style="margin-top:7px;color:var(--ink-soft)">今天 TA 想喝：${guestTaste.em} <b>${guestTaste.txt}</b></p><div class="mbtns"><button class="btn start" id="mOk">知道啦</button></div>`,
@@ -5454,9 +5575,9 @@ function renderPet(){
 
         <div class="pet-cast${guestHere?' has-guest':''}">
           <div class="pet-main-slot" id="petMainSlot">
-            <div class="pet-actor-meta">
-              <span class="pet-actor-name">${petName(uid)}</span>
-              <span class="pet-actor-wish">${taste.em} 想喝：${taste.txt}</span>
+            <div class="pet-thought-anchor" aria-hidden="false">
+              <button class="pet-thought-dot" type="button" aria-label="看看今天想喝什么">💭</button>
+              <div class="pet-thought-bubble">${taste.em} <span>${taste.txt}</span></div>
             </div>
             ${mainVisual}
           </div>
