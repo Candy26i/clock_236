@@ -655,6 +655,132 @@
   @keyframes squish{0%{transform:scale(1,1)}30%{transform:scale(1.12,.84)}60%{transform:scale(.92,1.1)}100%{transform:scale(1,1)}}
   @keyframes partUp{0%{opacity:1; transform:translate(0,0) scale(.7)}100%{opacity:0; transform:translate(var(--dx,0), -52px) scale(1.35)}}
 
+
+  /* ── 学习搭子 v13：每日房间场景 + 串门双人横排（保留原有功能） ── */
+  #petChar{width:min(930px,100%);margin:0 auto}
+  .pet-zone{padding-top:62px}
+  .pet-scene{
+    --scene-wall:#F7EEDD;--scene-wall2:#FFF8EE;--scene-sky1:#CFE6F2;--scene-sky2:#FCEBD9;
+    position:relative;isolation:isolate;width:100%;min-height:390px;box-sizing:border-box;overflow:hidden;
+    border:1px solid rgba(190,151,108,.28);border-radius:26px;
+    background:linear-gradient(180deg,var(--scene-wall2) 0%,var(--scene-wall) 72%,#EFD9BC 72%,#E8CCAA 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.88),inset 0 -24px 50px rgba(121,83,48,.045)
+  }
+  .pet-scene::before{
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(circle at 78% 18%,rgba(255,255,255,.58),transparent 25%),
+               linear-gradient(90deg,rgba(255,255,255,.14),transparent 28%,transparent 72%,rgba(255,255,255,.12))
+  }
+  .pet-scene-badge{
+    position:absolute;top:16px;left:18px;z-index:7;display:flex;align-items:center;gap:7px;padding:7px 11px;
+    border:1px solid rgba(255,255,255,.75);border-radius:999px;background:rgba(255,253,248,.76);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#967052;font-size:11px;letter-spacing:.04em;
+    box-shadow:0 4px 14px rgba(84,56,35,.06)
+  }
+  .pet-scene-badge b{color:var(--ink);font-weight:700}
+  .pet-scene-hint{position:absolute;top:18px;right:20px;z-index:7;color:rgba(105,75,52,.65);font-size:11px}
+
+  .scene-window{
+    position:absolute;z-index:1;left:6.5%;top:58px;width:175px;height:148px;border:8px solid rgba(255,250,241,.88);
+    border-radius:20px;background:linear-gradient(180deg,var(--scene-sky1),var(--scene-sky2));
+    box-shadow:0 9px 24px rgba(77,56,40,.08),inset 0 0 0 1px rgba(113,87,67,.10);overflow:hidden
+  }
+  .scene-window::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:rgba(255,255,255,.68)}
+  .scene-window::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:rgba(255,255,255,.68)}
+  .scene-sun{position:absolute;left:24px;top:20px;width:34px;height:34px;border-radius:50%;background:rgba(255,226,157,.88);box-shadow:0 0 24px rgba(255,221,140,.44)}
+  .scene-cloud{position:absolute;right:18px;top:34px;width:58px;height:17px;border-radius:999px;background:rgba(255,255,255,.68);box-shadow:-21px 6px 0 -3px rgba(255,255,255,.58),13px 8px 0 -5px rgba(255,255,255,.52)}
+  .scene-stars{position:absolute;inset:0;opacity:0;background-image:
+    radial-gradient(circle at 18% 23%,#fff 0 1px,transparent 1.6px),
+    radial-gradient(circle at 68% 18%,#fff 0 1px,transparent 1.6px),
+    radial-gradient(circle at 79% 58%,#fff 0 1px,transparent 1.6px),
+    radial-gradient(circle at 32% 70%,#fff 0 1px,transparent 1.6px),
+    radial-gradient(circle at 54% 42%,#fff 0 1px,transparent 1.6px)}
+  .scene-rain{position:absolute;inset:-10px;opacity:0;transform:skewX(-10deg);background:repeating-linear-gradient(105deg,transparent 0 16px,rgba(255,255,255,.44) 17px 18px,transparent 19px 29px)}
+
+  .scene-shelf{position:absolute;z-index:1;right:5.5%;top:72px;width:154px;height:120px;border-radius:13px;background:rgba(255,250,240,.42);border:1px solid rgba(140,99,66,.10);box-shadow:0 8px 20px rgba(83,55,34,.055)}
+  .scene-shelf::before,.scene-shelf::after{content:"";position:absolute;left:12px;right:12px;height:5px;border-radius:5px;background:rgba(145,99,61,.20)}
+  .scene-shelf::before{top:52px}.scene-shelf::after{bottom:12px}
+  .scene-books{position:absolute;left:19px;bottom:17px;width:14px;height:39px;border-radius:3px 3px 1px 1px;background:#D7A88C;box-shadow:18px 5px 0 #C8B27E,35px -3px 0 #9BB2A0,54px 8px 0 #C5A7C8,76px 1px 0 #D8C1A3;opacity:.72}
+  .scene-plant{position:absolute;z-index:2;right:10.5%;bottom:76px;width:42px;height:44px}
+  .scene-plant::after{content:"";position:absolute;left:8px;bottom:0;width:27px;height:22px;border-radius:5px 5px 11px 11px;background:rgba(177,134,91,.60)}
+  .scene-plant::before{content:"";position:absolute;left:3px;top:0;width:37px;height:28px;border-radius:50% 50% 44% 56%;
+    background:radial-gradient(ellipse at 24% 58%,#8FAE79 0 22%,transparent 24%),radial-gradient(ellipse at 54% 32%,#7FA16D 0 25%,transparent 27%),radial-gradient(ellipse at 76% 64%,#9DBA85 0 22%,transparent 24%);opacity:.78}
+  .scene-lamp{position:absolute;z-index:2;left:22.5%;bottom:75px;width:70px;height:90px;opacity:.72}
+  .scene-lamp::before{content:"";position:absolute;left:33px;top:20px;width:5px;height:58px;border-radius:3px;background:rgba(133,101,73,.45);transform:rotate(10deg);transform-origin:bottom}
+  .scene-lamp::after{content:"";position:absolute;left:15px;top:8px;width:42px;height:27px;border-radius:22px 22px 8px 8px;background:rgba(247,205,118,.72);box-shadow:0 12px 28px rgba(245,194,93,.16);transform:rotate(-6deg)}
+
+  .pet-cast{position:relative;z-index:3;min-height:315px;padding:56px 175px 70px;box-sizing:border-box;display:flex;justify-content:center;align-items:flex-end;gap:56px}
+  .pet-main-slot,.pet-visitor-slot{position:relative;width:220px;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+  .pet-visitor-slot[hidden]{display:none}
+  .pet-main-slot .pet-img,.pet-visitor-slot .pet-img{width:195px;max-width:100%}
+  .pet-main-slot svg,.pet-visitor-slot svg{width:190px;max-width:100%}
+  .pet-visitor-slot .pet-img-wrap{animation:peek 10.5s ease-in-out infinite .7s}
+  .pet-visitor-slot .pet-img{animation:breathe 4.5s ease-in-out infinite .5s}
+  .pet-actor-meta{position:relative;z-index:6;display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:5px;pointer-events:none}
+  .pet-actor-name{padding:4px 9px;border-radius:999px;background:rgba(255,253,249,.78);border:1px solid rgba(255,255,255,.72);color:#785A43;font-size:11px;font-weight:700;box-shadow:0 3px 9px rgba(81,53,35,.05);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+  .pet-actor-wish{max-width:185px;padding:3px 8px;border-radius:999px;color:#9A7659;background:rgba(255,247,238,.66);font-size:10.5px;line-height:1.25;text-align:center}
+  .pet-visit-label{margin-top:3px;padding:4px 9px;border-radius:999px;background:rgba(255,238,244,.88);border:1px solid rgba(226,145,172,.28);color:#B15B79;font-size:10.5px;font-weight:700}
+
+  .scene-desk{position:absolute;left:17%;right:17%;bottom:20px;z-index:4;height:58px;border-radius:13px 13px 19px 19px;background:linear-gradient(180deg,rgba(231,193,148,.94),rgba(196,143,91,.92));box-shadow:0 13px 22px rgba(83,52,28,.12),inset 0 2px 0 rgba(255,255,255,.38);pointer-events:none}
+  .scene-desk::before,.scene-desk::after{content:"";position:absolute;bottom:-40px;width:15px;height:45px;border-radius:4px 4px 7px 7px;background:rgba(160,108,66,.72)}
+  .scene-desk::before{left:9%}.scene-desk::after{right:9%}
+  .scene-laptop{position:absolute;left:50%;top:-25px;width:77px;height:43px;margin-left:-38px;border-radius:6px 6px 3px 3px;background:linear-gradient(160deg,#EEEAE3,#CFCBC6);border:1px solid rgba(102,93,86,.16);transform:perspective(120px) rotateX(-3deg);box-shadow:0 6px 10px rgba(74,46,31,.09)}
+  .scene-laptop::after{content:"";position:absolute;left:32px;top:14px;width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.46)}
+  .scene-notes{position:absolute;left:14%;top:10px;width:64px;height:35px;transform:rotate(-5deg);border-radius:3px;background:#FFF8E9;box-shadow:8px 3px 0 rgba(247,229,197,.92)}
+  .scene-notes::before{content:"";position:absolute;left:9px;right:9px;top:10px;height:2px;background:#DFCDB3;box-shadow:0 7px 0 #E8D8C2,0 14px 0 #E8D8C2}
+  .scene-drinks{position:absolute;right:9%;top:-30px;display:flex;align-items:flex-end;gap:8px}
+  .scene-cup{width:48px;height:64px;display:flex;align-items:flex-end;justify-content:center;filter:drop-shadow(0 5px 5px rgba(71,47,31,.10))}
+  .scene-cup svg{width:48px!important;height:auto!important;animation:none!important}
+  .scene-cup-label{position:absolute;top:-15px;right:0;font-size:9px;color:#A27B58;white-space:nowrap}
+  .scene-empty-mug{width:32px;height:27px;border:2px solid rgba(163,123,87,.45);border-radius:6px 6px 9px 9px;background:rgba(255,252,245,.60);position:relative;margin-bottom:6px}
+  .scene-empty-mug::after{content:"";position:absolute;right:-10px;top:6px;width:10px;height:11px;border:2px solid rgba(163,123,87,.38);border-left:0;border-radius:0 8px 8px 0}
+
+  .scene-morning{--scene-wall:#F5E9D9;--scene-wall2:#FFF8ED;--scene-sky1:#CFE9F1;--scene-sky2:#F8E8C8}
+  .scene-rainy{--scene-wall:#E9E8E6;--scene-wall2:#F7F6F2;--scene-sky1:#AEBFCA;--scene-sky2:#D8E0E3}
+  .scene-rainy .scene-rain{opacity:.78}.scene-rainy .scene-sun{opacity:.20}
+  .scene-library{--scene-wall:#E9DDC9;--scene-wall2:#F6EBDD;--scene-sky1:#D7C6A8;--scene-sky2:#F0DFC1}
+  .scene-library .scene-shelf{background:rgba(174,128,86,.15);border-color:rgba(119,81,51,.14)}.scene-library .scene-books{opacity:.95}
+  .scene-sunset{--scene-wall:#F3E0D5;--scene-wall2:#FFF3E8;--scene-sky1:#E9A990;--scene-sky2:#F8D5A5}
+  .scene-sunset .scene-sun{background:#FFD28A;left:99px;top:62px;box-shadow:0 0 30px rgba(255,177,108,.35)}
+  .scene-night{--scene-wall:#E8E1DF;--scene-wall2:#F5EFEB;--scene-sky1:#536078;--scene-sky2:#8990A0}
+  .scene-night .scene-stars{opacity:.75}.scene-night .scene-sun{width:28px;height:28px;left:30px;top:24px;background:#F5EACB;box-shadow:0 0 22px rgba(255,244,207,.23)}.scene-night .scene-lamp{opacity:1}
+  .scene-autumn{--scene-wall:#F2E4D0;--scene-wall2:#FFF6E9;--scene-sky1:#C7D8C0;--scene-sky2:#EACB96}
+  .scene-cafe{--scene-wall:#EEE0D7;--scene-wall2:#FBF1E8;--scene-sky1:#D8C4BC;--scene-sky2:#E8D0B5}.scene-cafe .scene-desk{background:linear-gradient(180deg,#D9AC84,#B47F59)}
+  .scene-cloudy{--scene-wall:#E6EEE8;--scene-wall2:#F5F8F2;--scene-sky1:#BFD6D4;--scene-sky2:#E2E6D7}.scene-cloudy .scene-cloud{width:76px;opacity:.88}
+
+  .pet-main-slot .pet-away-card{width:220px;min-height:220px;box-sizing:border-box;margin-bottom:8px}
+
+  @media (max-width:900px){
+    .pet-cast{padding-left:125px;padding-right:125px;gap:34px}
+    .scene-window{left:4%;width:145px}.scene-shelf{right:4%;width:125px}
+  }
+  @media (max-width:759px){
+    #petChar{width:min(560px,100%)}.pet-scene{min-height:440px}
+    .pet-cast{min-height:350px;padding:58px 22px 76px;gap:12px}
+    .pet-main-slot,.pet-visitor-slot{width:min(46%,205px)}
+    .pet-main-slot .pet-img,.pet-visitor-slot .pet-img{width:172px}
+    .pet-main-slot svg,.pet-visitor-slot svg{width:168px}
+    .scene-window{left:4%;top:62px;width:120px;height:110px}
+    .scene-shelf{right:4%;top:72px;width:105px;height:96px}
+    .scene-plant{right:8%;bottom:75px}.scene-lamp{left:10%;bottom:77px;transform:scale(.85)}
+    .scene-desk{left:8%;right:8%}
+  }
+  @media (max-width:500px){
+    .pet-scene{min-height:490px;border-radius:20px}
+    .pet-scene-badge{top:12px;left:12px;font-size:10px}.pet-scene-hint{display:none}
+    .pet-cast{min-height:400px;padding:63px 8px 78px;gap:2px;align-items:flex-end}
+    .pet-main-slot,.pet-visitor-slot{width:49%}
+    .pet-main-slot .pet-img,.pet-visitor-slot .pet-img{width:145px}
+    .pet-main-slot svg,.pet-visitor-slot svg{width:140px}
+    .pet-actor-wish{max-width:145px;font-size:9.5px}
+    .scene-window{left:10px;top:65px;width:95px;height:92px}
+    .scene-shelf{right:10px;top:70px;width:88px;height:85px}
+    .scene-lamp,.scene-plant{display:none}
+    .scene-desk{left:4%;right:4%;height:54px}.scene-notes{left:7%}.scene-drinks{right:7%}
+    .scene-laptop{transform:scale(.86);transform-origin:bottom center}
+  }
+
+
   /* ── 动画 ── */
   @keyframes bob{from{transform:translateY(0)}to{transform:translateY(-7px)}}
   @keyframes bobx{from{transform:translate(0,0)}to{transform:translate(3px,-6px)}}
@@ -762,7 +888,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v12.1 · 原版伴学保留 + 双人互动</span>
+    <span style="opacity:.7">v13 · 原版功能完整保留 + 每日学习房间 + 串门双人场景</span>
   </footer>
 </div>
 
@@ -2277,7 +2403,50 @@ const PET_TASTES=[
   {id:"citrus",em:"🍋",txt:"酸酸的柑橘系",match:d=>drinkInGroup(d,"citrus")},
   {id:"cream",em:"☁️",txt:"有奶盖或奶油顶的",match:d=>drinkHasTop(d,"naigai")||drinkHasTop(d,"naiyou")}
 ];
-function tasteOf(uid){const r=seedRand("taste|"+uid+"|"+todayKeyFor(uid));return PET_TASTES[Math.floor(r()*PET_TASTES.length)];}
+function rawTasteIndex(uid){
+  const r=seedRand("taste|"+uid+"|"+todayKeyFor(uid));
+  return Math.floor(r()*PET_TASTES.length);
+}
+function tasteOf(uid){
+  let idx=rawTasteIndex(uid);
+  // 两位搭子的心愿分别随机；如果同一天刚好撞到同一项，第二位稳定换到另一项。
+  if(USERS.length>=2 && uid===USERS[1].id){
+    const firstUid=USERS[0].id, firstIdx=rawTasteIndex(firstUid);
+    if(idx===firstIdx){
+      const rr=seedRand("taste-diff|"+todayKeyFor(firstUid)+"|"+todayKeyFor(uid));
+      idx=(idx+1+Math.floor(rr()*(PET_TASTES.length-1)))%PET_TASTES.length;
+    }
+  }
+  return PET_TASTES[idx];
+}
+
+const PET_SCENES=[
+  {id:"morning", em:"☀️", name:"晴日书桌"},
+  {id:"rainy", em:"🌧️", name:"雨天窗边"},
+  {id:"library", em:"📚", name:"安静书房"},
+  {id:"sunset", em:"🌇", name:"傍晚暖光"},
+  {id:"night", em:"🌙", name:"夜灯自习"},
+  {id:"autumn", em:"🍂", name:"秋日窗景"},
+  {id:"cafe", em:"☕", name:"奶咖小桌"},
+  {id:"cloudy", em:"☁️", name:"阴天小屋"}
+];
+function petSceneOf(homeUid){
+  const r=seedRand("pet-scene|"+homeUid+"|"+todayKeyFor(homeUid));
+  return PET_SCENES[Math.floor(r()*PET_SCENES.length)];
+}
+function sceneCupHTML(uid,key){
+  const d=drinkOf(uid);
+  if(!d) return `<div class="scene-empty-mug" title="${uname(uid)}今天还没有做奶茶"></div>`;
+  return `<div class="scene-cup" title="${uname(uid)}：${drinkLabel(uid)}">${cupSVG({
+    base:d.base,tops:d.tops||[],fill:1,uid:"scene_"+key+"_"+uid,shadow:false,mini:true,cup:d.cup||"plastic"
+  })}</div>`;
+}
+function petStaticVisualHTML(uid){
+  const mood=petMood(uid), tea=drinkOf(uid)?drinkOf(uid).base:null, cfg=petCfg(uid);
+  const src=(cfg.imgs&&cfg.imgs[mood])||(cfg.imgs&&cfg.imgs.ok)||"";
+  if(src) return `<div class="pet-img-wrap"><img class="pet-img" src="${src}" alt="${petName(uid)}"></div><div class="pet-shadow"></div>`;
+  return `<div class="pet-img-wrap">${charSVG({mood,tea,uid:"scene_"+uid})}</div><div class="pet-shadow"></div>`;
+}
 
 const PET_RETURN_QUESTS=[
   {id:"purple_yuyuan",em:"💜",txt:"紫色系饮料 + 芋圆",match:d=>drinkInGroup(d,"purple")&&drinkHasTop(d,"yuyuan")},
@@ -2513,30 +2682,62 @@ function visitSceneLine(hostUid,guestUid){
 function renderPetInteraction(uid){
   const life=petLifeOf(uid), big=document.getElementById('petChar'), mini=document.getElementById('miniChar'), ps=document.getElementById('petStats');
   if(!big||!ps)return;
-  // 原来的 pet 图、状态条都已经由 renderPet() 画完；下面只追加互动层
+
+  const scene=big.querySelector('.pet-scene');
+  const mainSlot=big.querySelector('#petMainSlot');
+  const guestSlot=big.querySelector('#petGuestSlot');
+
+  // 原来的立绘、状态、GIF、戳戳都保留；离家时仅把主角位替换成召回卡。
   if(life.location!==uid){
-    big.querySelectorAll('.pet-img-wrap,.pet-shadow').forEach(el=>el.style.display='none');
-    const q=returnQuestOf(uid), card=document.createElement('div');card.className='pet-away-card';
-    const awayTitle=life.awayReason==='lured'?`${petName(uid)}被 ${uname(life.location)} 用好吃的勾走了`:`${petName(uid)}跑去 ${uname(life.location)} 家蹭喝了`;
-    const awayQuote=life.awayReason==='lured'?`“我只是去看看！${q.txt}就回。”`:`“${q.txt}，我就考虑回去。”`;
-    card.innerHTML=`<button class="pet-away-pickup" type="button">🏠 接回家</button><div class="note-ico">${life.awayReason==='lured'?'💘':'📝'}</div><b>${awayTitle}</b><span>${awayQuote}</span><button class="pet-act primary" data-away-quest type="button">看看 TA 要喝什么</button>`;
-    card.querySelector('.pet-away-pickup').addEventListener('click',e=>{e.stopPropagation();showReturnQuest(uid);});
-    card.querySelector('[data-away-quest]').addEventListener('click',e=>{e.stopPropagation();showReturnQuest(uid);});big.appendChild(card);
+    if(mainSlot){
+      mainSlot.querySelectorAll('.pet-img-wrap,.pet-shadow,.pet-actor-meta').forEach(el=>el.style.display='none');
+      const q=returnQuestOf(uid), card=document.createElement('div');card.className='pet-away-card';
+      const awayTitle=life.awayReason==='lured'?`${petName(uid)}被 ${uname(life.location)} 用好吃的勾走了`:`${petName(uid)}跑去 ${uname(life.location)} 家蹭喝了`;
+      const awayQuote=life.awayReason==='lured'?`“我只是去看看！${q.txt}就回。”`:`“${q.txt}，我就考虑回去。”`;
+      card.innerHTML=`<button class="pet-away-pickup" type="button">🏠 接回家</button><div class="note-ico">${life.awayReason==='lured'?'💘':'📝'}</div><b>${awayTitle}</b><span>${awayQuote}</span><button class="pet-act primary" data-away-quest type="button">看看 TA 要喝什么</button>`;
+      card.querySelector('.pet-away-pickup').addEventListener('click',e=>{e.stopPropagation();showReturnQuest(uid);});
+      card.querySelector('[data-away-quest]').addEventListener('click',e=>{e.stopPropagation();showReturnQuest(uid);});
+      mainSlot.appendChild(card);
+    }
     if(mini)mini.innerHTML='<div class="mini-away"><span>🏃</span><span>串门中</span></div>';
   }
-  const guestUid=otherUid(uid), guestLife=petLifeOf(guestUid);
-  if(guestLife.location===uid){
-    const cfg=petCfg(guestUid), src=(cfg.imgs&&cfg.imgs.ok)||'';const g=document.createElement('div');g.className='pet-guest-card';
-    const guestTag=guestLife.awayReason==='lured'&&guestLife.luredBy===uid?`💘 被你勾来 · ${petName(guestUid)}`:`🏠 来串门 · ${petName(guestUid)}`;
-    g.innerHTML=`${src?`<img src="${src}" alt="${petName(guestUid)}">`:charSVG({mood:'ok',tea:null,uid:'guest_'+guestUid})}<div class="pet-guest-tag">${guestTag}</div>`;
-    g.addEventListener('click',e=>{e.stopPropagation();showModal(`<h3>🏠 ${petName(guestUid)}来串门了</h3><p>${visitSceneLine(uid,guestUid)}</p><div class="mbtns"><button class="btn start" id="mOk">知道啦</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);});big.appendChild(g);
+
+  const guestUid=otherUid(uid), guestLife=petLifeOf(guestUid), guestHere=guestLife.location===uid;
+
+  // 串门时，两位搭子横向并列在同一个每日房间场景里。
+  if(guestSlot){
+    if(guestHere){
+      const guestTaste=tasteOf(guestUid);
+      const guestTag=guestLife.awayReason==='lured'&&guestLife.luredBy===uid?'💘 被你勾来玩':'🏠 来串门';
+      guestSlot.hidden=false;
+      guestSlot.innerHTML=`
+        <div class="pet-actor-meta">
+          <span class="pet-actor-name">${petName(guestUid)}</span>
+          <span class="pet-actor-wish">${guestTaste.em} 想喝：${guestTaste.txt}</span>
+        </div>
+        ${petStaticVisualHTML(guestUid)}
+        <div class="pet-visit-label">${guestTag}</div>`;
+      guestSlot.onclick=e=>{
+        e.stopPropagation();
+        showModal(`<h3>🏠 ${petName(guestUid)}来串门了</h3><p>${visitSceneLine(uid,guestUid)}</p><p style="margin-top:7px;color:var(--ink-soft)">今天 TA 想喝：${guestTaste.em} <b>${guestTaste.txt}</b></p><div class="mbtns"><button class="btn start" id="mOk">知道啦</button></div>`,
+          b=>b.querySelector('#mOk').onclick=closeModal);
+      };
+      if(scene)scene.classList.add('has-guest');
+    }else{
+      guestSlot.hidden=true;
+      guestSlot.innerHTML='';
+      guestSlot.onclick=null;
+      if(scene)scene.classList.remove('has-guest');
+    }
   }
+
   const taste=tasteOf(uid), home=life.location===uid;
   ps.insertAdjacentHTML('beforeend',`
     <div class="ps-row"><span class="ps-label">饱腹</span><div class="ps-bar"><div class="ps-fill food" style="width:${life.fullness}%"></div></div><span class="ps-num">${life.fullness}/100</span></div>
     <div class="ps-row"><span class="ps-label">想喝</span><div class="ps-bar"><div class="ps-fill crave" style="width:${life.craving}%"></div></div><span class="ps-num">${life.craving}/100</span></div>
     <div class="pet-life-note main-life-note"><div class="pet-life-copy">${home?`<span class="pet-life-kicker">MILK TEA WISH</span><div class="pet-wish-line"><span>今天想喝：${taste.em}</span><b>${taste.txt}</b></div>`:`<span class="pet-life-kicker">AWAY FROM HOME</span><div class="pet-wish-line">🏃 现在在 <b>${uname(life.location)}</b> 家串门</div>`}</div><div class="pet-actions" id="petLifeActs"></div></div>`);
   const acts=ps.querySelector('#petLifeActs');
+
   if(home){
     acts.innerHTML='<button class="pet-act" data-a="snack">🍪 投喂</button><button class="pet-act primary" data-a="tea">🧋 请喝奶茶</button><button class="pet-act" data-a="play">🎈 玩一会</button><button class="pet-act" data-a="taste">💭 奶茶心愿</button>';
     acts.querySelector('[data-a=snack]').onclick=e=>{e.stopPropagation();snackModal(uid,false);};
@@ -2547,15 +2748,22 @@ function renderPetInteraction(uid){
     acts.innerHTML='<button class="pet-act primary" data-a="return">🏠 查看召回任务</button>';
     acts.querySelector('[data-a=return]').onclick=e=>{e.stopPropagation();showReturnQuest(uid);};
   }
+
+  // NEXT DOOR / 勾引功能原样保留，同时显示对方自己的独立奶茶心愿。
   if(home && guestLife.location===guestUid){
     const used=guestLife.lureDay===todayKeyFor(uid)?(guestLife.lureCount||0):0;
-    ps.insertAdjacentHTML('beforeend',`<div class="pet-life-note neighbor-life-note"><div class="pet-life-copy"><span class="pet-life-kicker">NEXT DOOR</span>👀 <b>${petName(guestUid)}</b> 今天在自己家${used?` · 你今天试过 ${used}/2 次`:''}</div><div class="pet-actions"><button class="pet-act pink" data-lure-neighbor type="button">💘 勾引 TA 来玩</button></div></div>`);
+    const guestTaste=tasteOf(guestUid);
+    ps.insertAdjacentHTML('beforeend',`<div class="pet-life-note neighbor-life-note"><div class="pet-life-copy"><span class="pet-life-kicker">NEXT DOOR</span>👀 <b>${petName(guestUid)}</b> 今天在自己家 · ${guestTaste.em} 想喝 <b>${guestTaste.txt}</b>${used?` · 你今天试过 ${used}/2 次`:''}</div><div class="pet-actions"><button class="pet-act pink" data-lure-neighbor type="button">💘 勾引 TA 来玩</button></div></div>`);
     ps.querySelector('[data-lure-neighbor]').onclick=e=>{e.stopPropagation();lurePetModal(uid);};
   }
-  if(guestLife.location===uid){
+
+  // 来串门后的偷偷投喂 / 请 TA 喝一口功能完整保留。
+  if(guestHere){
     const guestIntro=guestLife.awayReason==='lured'&&guestLife.luredBy===uid?`💘 <b>${petName(guestUid)}</b> 被你成功勾来玩了。`:`🤫 <b>${petName(guestUid)}</b> 正在你家赖着。`;
     ps.insertAdjacentHTML('beforeend',`<div class="pet-life-note guest-life-note"><div class="pet-life-copy">${guestIntro}${visitSceneLine(uid,guestUid)}</div><div class="pet-actions" id="guestActs"><button class="pet-act" data-a="snack">🍪 偷偷投喂</button><button class="pet-act pink" data-a="tea">🧋 请 TA 喝一口</button></div></div>`);
-    const ga=ps.querySelector('#guestActs');ga.querySelector('[data-a=snack]').onclick=e=>{e.stopPropagation();snackModal(guestUid,true);};ga.querySelector('[data-a=tea]').onclick=e=>{e.stopPropagation();feedTea(guestUid,uid,true);};
+    const ga=ps.querySelector('#guestActs');
+    ga.querySelector('[data-a=snack]').onclick=e=>{e.stopPropagation();snackModal(guestUid,true);};
+    ga.querySelector('[data-a=tea]').onclick=e=>{e.stopPropagation();feedTea(guestUid,uid,true);};
   }
 }
 // 每天想要3样: 1小料 + 1装饰 + 1贴纸(种子随机,两端一致,跨天自动换)
@@ -2841,43 +3049,94 @@ function petPoke(e, big){
   if(big) nextBigTalk = Date.now()+26000; else nextMiniTalk = Date.now()+30000;
 }
 function renderPet(){
-  const uid = view, mood = petMood(uid);
-  const tea = drinkOf(uid) ? drinkOf(uid).base : null;
-  const big = document.getElementById("petChar"), mini = document.getElementById("miniChar");
-  const svgFallback = uid2 => `<div class="pet-img-wrap">${charSVG({mood, tea, uid:uid2})}</div><div class="pet-shadow"></div>`;
-  // 图片(静态或GIF)加载失败: 先作废当前GIF回退静态图重画;若静态图也失败才用手绘
-  const onImgErr = (isBig, el) => ()=>{
-    const slot = isBig ? gifState.big : gifState.mini;
-    if(slot.src){ slot.src = null; slot.until = 0; renderPet(); return; }   // GIF挂了→回退静态图
-    el.innerHTML = isBig ? svgFallback("big")
-                         : `<div class="mini-wrap pet-img-wrap">${charSVG({mood, tea, uid:"mini"})}</div>`;
+  const uid=view, mood=petMood(uid);
+  const tea=drinkOf(uid)?drinkOf(uid).base:null;
+  const big=document.getElementById("petChar"), mini=document.getElementById("miniChar");
+  const scene=petSceneOf(uid);
+  const taste=tasteOf(uid);
+  const guestUid=otherUid(uid), guestLife=petLifeOf(guestUid), guestHere=guestLife.location===uid;
+
+  const svgFallback=uid2=>`<div class="pet-img-wrap">${charSVG({mood,tea,uid:uid2})}</div><div class="pet-shadow"></div>`;
+
+  const onImgErr=(isBig,el)=>{
+    const slot=isBig?gifState.big:gifState.mini;
+    if(slot.src){slot.src=null;slot.until=0;renderPet();return;}
+    if(isBig){
+      const main=el.querySelector('#petMainSlot');
+      if(main){
+        const meta=main.querySelector('.pet-actor-meta');
+        main.innerHTML=(meta?meta.outerHTML:"")+svgFallback("big");
+      }else el.innerHTML=svgFallback("big");
+    }else{
+      el.innerHTML=`<div class="mini-wrap pet-img-wrap">${charSVG({mood,tea,uid:"mini"})}</div>`;
+    }
   };
+
   if(big){
-    const html = petImgHTML(mood, tea, true);
-    big.innerHTML = html ? html + `<div class="pet-shadow"></div>` : svgFallback("big");
+    const html=petImgHTML(mood,tea,true);
+    const mainVisual=html?html+`<div class="pet-shadow"></div>`:svgFallback("big");
+    const hostCup=sceneCupHTML(uid,"host");
+    const guestCup=guestHere?sceneCupHTML(guestUid,"guest"):"";
+
+    big.innerHTML=`
+      <div class="pet-scene scene-${scene.id}${guestHere?' has-guest':''}" id="petScene">
+        <div class="pet-scene-badge">${scene.em}<span>TODAY · <b>${scene.name}</b></span></div>
+        <div class="pet-scene-hint">${guestHere?'两个人今天一起待在这里':'今天的学习角落'}</div>
+
+        <div class="scene-window" aria-hidden="true">
+          <span class="scene-sun"></span><span class="scene-cloud"></span><span class="scene-stars"></span><span class="scene-rain"></span>
+        </div>
+        <div class="scene-shelf" aria-hidden="true"><span class="scene-books"></span></div>
+        <div class="scene-lamp" aria-hidden="true"></div>
+        <div class="scene-plant" aria-hidden="true"></div>
+
+        <div class="pet-cast">
+          <div class="pet-main-slot" id="petMainSlot">
+            <div class="pet-actor-meta">
+              <span class="pet-actor-name">${petName(uid)}</span>
+              <span class="pet-actor-wish">${taste.em} 想喝：${taste.txt}</span>
+            </div>
+            ${mainVisual}
+          </div>
+          <div class="pet-visitor-slot" id="petGuestSlot"${guestHere?'':' hidden'}></div>
+        </div>
+
+        <div class="scene-desk" aria-hidden="true">
+          <div class="scene-notes"></div>
+          <div class="scene-laptop"></div>
+          <div class="scene-drinks">
+            <span class="scene-cup-label">${guestHere?'今天的饮料':'今日奶茶'}</span>
+            ${hostCup}${guestCup}
+          </div>
+        </div>
+      </div>`;
     big.classList.add("pet-hit");
-    const im = big.querySelector("img");
-    if(im) im.onerror = onImgErr(true, big);
+    const im=big.querySelector("#petMainSlot img");
+    if(im)im.onerror=()=>onImgErr(true,big);
   }
+
   if(mini){
-    const html = petImgHTML(mood, tea, false);
-    mini.innerHTML = html || `<div class="mini-wrap pet-img-wrap">${charSVG({mood, tea, uid:"mini"})}</div>`;
+    const html=petImgHTML(mood,tea,false);
+    mini.innerHTML=html||`<div class="mini-wrap pet-img-wrap">${charSVG({mood,tea,uid:"mini"})}</div>`;
     mini.classList.add("pet-hit");
-    const im = mini.querySelector("img");
-    if(im) im.onerror = onImgErr(false, mini);
+    const im=mini.querySelector("img");
+    if(im)im.onerror=()=>onImgErr(false,mini);
   }
-  const tag = document.getElementById("petOwnerTag");
-  if(tag) tag.textContent = uname(uid)+" 的搭子 · "+petName(uid)+"("+(uid==="u1"?"小煜":"小莲")+")";
-  const st = {sleepy:"安静地等你来,偶尔打个小盹", ok:"陪在你身边,心情很好",
-              happy:"看你这么努力,眼睛都在发光", cheer:"屏住呼吸,全程守着你",
-              tea:"捧着你做的奶茶,嘴角压不下来"};
-  const stEl = document.getElementById("petStatus");
-  if(stEl) stEl.textContent = st[mood];
-  // 状态条
-  const ps = document.getElementById("petStats");
+
+  const tag=document.getElementById("petOwnerTag");
+  if(tag)tag.textContent=uname(uid)+" 的搭子 · "+petName(uid)+"("+(uid==="u1"?"小煜":"小莲")+")";
+
+  const st={sleepy:"安静地等你来,偶尔打个小盹",ok:"陪在你身边,心情很好",
+            happy:"看你这么努力,眼睛都在发光",cheer:"屏住呼吸,全程守着你",
+            tea:"捧着你做的奶茶,嘴角压不下来"};
+  const stEl=document.getElementById("petStatus");
+  if(stEl)stEl.textContent=guestHere?`${petName(guestUid)}来串门了 · ${visitSceneLine(uid,guestUid)}`:st[mood];
+
+  // 原有心情 / 健康 / 亲密状态完整保留。
+  const ps=document.getElementById("petStats");
   if(ps){
-    const hp = healthOf(uid), iv = intimacyOf(uid), md = moodState(uid), tg = intimacyToday(uid);
-    ps.innerHTML = `
+    const hp=healthOf(uid),iv=intimacyOf(uid),md=moodState(uid),tg=intimacyToday(uid);
+    ps.innerHTML=`
       <div class="ps-row"><span class="ps-label">\u5FC3\u60C5</span><span class="ps-mood">${md.em} ${md.txt}</span></div>
       <div class="ps-row"><span class="ps-label">\u5065\u5EB7</span><div class="ps-bar"><div class="ps-fill hp" style="width:${hp}%"></div></div><span class="ps-num">${hp}/100</span></div>
       <div class="ps-row"><span class="ps-label">\u4EB2\u5BC6</span><div class="ps-bar"><div class="ps-fill iv" style="width:${iv}%"></div></div><span class="ps-num">${iv}/100 \u00B7\u4ECA\u65E5${tg}/10</span></div>`;
