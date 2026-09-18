@@ -6872,6 +6872,164 @@
   /* v38: 双人串门时零食按所在地点分别显示；不在家的那边盘子保持为空 */
 </style>
 
+
+<style id="dialog-bubble-fix-v42">
+  /* v42: cleaner speech bubbles + guest bubble placement fix */
+
+  /* Base speech bubbles: keep them as a single rounded bubble with a tiny tail below, never a diamond inside the text box. */
+  .pet-main-slot > .pet-bubble,
+  .pet-visitor-slot > .pet-bubble,
+  .guest-pet-bubble{
+    background:rgba(255,251,247,.98) !important;
+    border:1px solid rgba(231,211,192,.96) !important;
+    border-radius:18px !important;
+    box-shadow:0 8px 18px rgba(79,52,34,.08) !important;
+    color:#8f6a4d !important;
+    line-height:1.42 !important;
+    white-space:normal !important;
+    word-break:break-word !important;
+    text-align:left !important;
+    z-index:40 !important;
+    overflow:visible !important;
+  }
+
+  /* Replace the rotated diamond with a small simple tail placed outside the bubble. */
+  .pet-main-slot > .pet-bubble::after,
+  .pet-visitor-slot > .pet-bubble::after,
+  .guest-pet-bubble::after,
+  .pet-thought-bubble::after{
+    content:'' !important;
+    position:absolute !important;
+    width:16px !important;
+    height:10px !important;
+    bottom:-9px !important;
+    left:24px !important;
+    right:auto !important;
+    top:auto !important;
+    transform:none !important;
+    clip-path:polygon(0 0, 100% 0, 50% 100%) !important;
+    background:rgba(255,251,247,.98) !important;
+    border:none !important;
+    box-shadow:0 1px 0 rgba(231,211,192,.9) inset !important;
+    margin:0 !important;
+  }
+
+  /* Host speech bubble: float above and slightly to the outer-left of the host, instead of sitting on the face/body. */
+  .pet-main-slot > .pet-bubble{
+    left:50% !important;
+    right:auto !important;
+    top:-46px !important;
+    transform:translateX(-72%) !important;
+    max-width:170px !important;
+    padding:10px 13px !important;
+    font-size:11px !important;
+  }
+  .pet-main-slot > .pet-bubble::after{
+    left:calc(50% + 6px) !important;
+    transform:translateX(-50%) !important;
+  }
+
+  /* Guest speech bubble: place clearly above the guest character so it does not cover the person. */
+  .pet-visitor-slot > .pet-bubble,
+  .guest-pet-bubble{
+    left:50% !important;
+    right:auto !important;
+    top:-48px !important;
+    transform:translateX(-24%) !important;
+    max-width:168px !important;
+    padding:10px 13px !important;
+    font-size:11px !important;
+  }
+  .pet-visitor-slot > .pet-bubble::after,
+  .guest-pet-bubble::after{
+    left:calc(50% - 8px) !important;
+    transform:translateX(-50%) !important;
+  }
+
+  /* Wish/requirement bubble: keep it clean and move its tail below-left, outside the text area. */
+  .pet-thought-bubble,
+  .pet-main-slot .pet-thought-bubble,
+  .pet-visitor-slot .pet-thought-bubble{
+    white-space:normal !important;
+    line-height:1.4 !important;
+    text-align:left !important;
+    padding:9px 12px !important;
+    overflow:visible !important;
+  }
+  .pet-thought-bubble::after{
+    left:18px !important;
+    bottom:-8px !important;
+    background:rgba(255,251,246,.98) !important;
+    box-shadow:0 1px 0 rgba(230,210,191,.9) inset !important;
+  }
+
+  /* In guest mode, keep the interactive bubble farther from faces. */
+  .pet-scene.has-guest .pet-main-slot > .pet-bubble{
+    top:-44px !important;
+    transform:translateX(-76%) !important;
+  }
+  .pet-scene.has-guest .pet-visitor-slot > .pet-bubble,
+  .pet-scene.has-guest .guest-pet-bubble{
+    top:-44px !important;
+    transform:translateX(-22%) !important;
+  }
+
+  @media (max-width:980px){
+    .pet-main-slot > .pet-bubble{
+      top:-40px !important;
+      max-width:154px !important;
+      font-size:10px !important;
+      transform:translateX(-70%) !important;
+    }
+    .pet-visitor-slot > .pet-bubble,
+    .guest-pet-bubble{
+      top:-40px !important;
+      max-width:154px !important;
+      font-size:10px !important;
+      transform:translateX(-22%) !important;
+    }
+    .pet-thought-bubble,
+    .pet-main-slot .pet-thought-bubble,
+    .pet-visitor-slot .pet-thought-bubble{
+      max-width:132px !important;
+      font-size:10px !important;
+    }
+  }
+
+  @media (max-width:759px){
+    .pet-main-slot > .pet-bubble{
+      top:-34px !important;
+      max-width:124px !important;
+      font-size:9px !important;
+      padding:7px 9px !important;
+      transform:translateX(-64%) !important;
+    }
+    .pet-visitor-slot > .pet-bubble,
+    .guest-pet-bubble{
+      top:-34px !important;
+      max-width:124px !important;
+      font-size:9px !important;
+      padding:7px 9px !important;
+      transform:translateX(-18%) !important;
+    }
+    .pet-main-slot > .pet-bubble::after,
+    .pet-visitor-slot > .pet-bubble::after,
+    .guest-pet-bubble::after,
+    .pet-thought-bubble::after{
+      width:13px !important;
+      height:8px !important;
+      bottom:-7px !important;
+    }
+    .pet-thought-bubble,
+    .pet-main-slot .pet-thought-bubble,
+    .pet-visitor-slot .pet-thought-bubble{
+      max-width:112px !important;
+      font-size:9px !important;
+      padding:7px 9px !important;
+    }
+  }
+</style>
+
 </head>
 <body>
 
