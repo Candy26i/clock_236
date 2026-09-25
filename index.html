@@ -6375,7 +6375,8 @@
 /* ===== v47 personality-enhanced 3D scene patch ===== */
 .pet-3d-wrap[data-scene3d="u1"]{animation:qiyuIdle 3.8s ease-in-out infinite}
 .pet-3d-wrap[data-scene3d="u2"]{animation:shenIdle 4.8s ease-in-out infinite}
-.pet-role-chip{position:absolute;left:50%;top:12px;transform:translateX(-50%);z-index:6;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.02em;white-space:nowrap;box-shadow:0 8px 18px rgba(85,57,80,.15);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);pointer-events:none}
+.pet-role-chip{display:none !important;
+position:absolute;left:50%;top:12px;transform:translateX(-50%);z-index:6;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.02em;white-space:nowrap;box-shadow:0 8px 18px rgba(85,57,80,.15);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);pointer-events:none}
 .pet-role-chip.qiyu{background:rgba(120,85,160,.16);border:1px solid rgba(140,104,184,.26);color:#6f4d9f}
 .pet-role-chip.shen{background:rgba(120,148,196,.14);border:1px solid rgba(120,148,196,.24);color:#5c77a8}
 .pet-role-chip strong{font-weight:900}
@@ -6395,6 +6396,112 @@
   .pet-3d-wrap[data-scene3d="u1"] .pet-3d-cup{right:12px !important;bottom:22px !important;width:44px !important}
   .pet-3d-wrap[data-scene3d="u2"] .pet-3d-cup{right:14px !important;bottom:18px !important;width:42px !important}
 }
+
+/* ===== v51 scene polish patch ===== */
+.pet-role-chip{display:none !important;
+display:none !important}
+.pet-scene:not(.has-guest) .pet-main-slot{width:260px !important;transform:translateY(28px) !important}
+.pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:228px !important}
+.pet-scene.has-guest .pet-main-slot,
+.pet-scene.has-guest .pet-visitor-slot{width:220px !important;transform:translateY(18px) !important}
+.pet-scene.has-guest .pet-main-slot .pet-3d-character,
+.pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:182px !important}
+.pet-scene.has-guest .pet-main-slot{margin-right:24px !important}
+.pet-scene.has-guest .pet-visitor-slot{margin-left:24px !important}
+.pet-main-slot[hidden],.pet-visitor-slot[hidden]{display:none !important}
+@media (max-width: 820px){
+  .pet-scene:not(.has-guest) .pet-main-slot{width:220px !important;transform:translateY(18px) !important}
+  .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:188px !important}
+  .pet-scene.has-guest .pet-main-slot,.pet-scene.has-guest .pet-visitor-slot{width:172px !important;transform:translateY(12px) !important}
+  .pet-scene.has-guest .pet-main-slot .pet-3d-character,.pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:145px !important}
+}
+
+
+/* ===== v50.1 calmer chibi scene adjustments ===== */
+.pet-role-chip,
+.pet-visit-mini,
+.pet-visit-chip,
+.pet-thought-anchor,
+.guest-thought{display:none !important;}
+
+.pet-3d-character,
+.pet-3d-wrap,
+.pet-3d-depth,
+.pet-visitor-slot .pet-img,
+.pet-visitor-slot .pet-img-wrap,
+.pet-main-slot .pet-img,
+.pet-main-slot .pet-img-wrap,
+.pet-react,
+.pet-react-qiyu,
+.pet-react-shen{
+  animation:none !important;
+}
+
+.pet-3d-character{
+  transform:none !important;
+  transition:opacity .15s ease !important;
+  filter:drop-shadow(0 16px 18px rgba(55,43,50,.20)) saturate(1.01) !important;
+}
+.pet-3d-wrap:hover .pet-3d-character{transform:none !important;}
+.pet-main-slot .pet-3d-wrap,
+.pet-visitor-slot .pet-3d-wrap{margin-bottom:-18px !important;}
+.pet-main-slot,.pet-visitor-slot{overflow:visible !important;}
+.pet-cast{padding-top:72px !important; padding-bottom:42px !important; gap:40px !important; align-items:flex-end !important;}
+.pet-scene:not(.has-guest) .pet-main-slot{width:260px !important;}
+.pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:228px !important;}
+.pet-scene.has-guest .pet-main-slot,
+.pet-scene.has-guest .pet-visitor-slot{width:228px !important;}
+.pet-scene.has-guest .pet-main-slot .pet-3d-character,
+.pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:202px !important;}
+
+.pet-away-card{z-index:15 !important;}
+
+@media (max-width:980px){
+  .pet-cast{padding-top:82px !important; gap:22px !important;}
+  .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:194px !important;}
+  .pet-scene.has-guest .pet-main-slot .pet-3d-character,
+  .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:170px !important;}
+  .pet-scene.has-guest .pet-main-slot,
+  .pet-scene.has-guest .pet-visitor-slot{width:188px !important;}
+}
+@media (max-width:759px){
+  .pet-cast{padding-top:92px !important; padding-bottom:32px !important; gap:6px !important;}
+  .pet-scene:not(.has-guest) .pet-main-slot{width:190px !important;}
+  .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:166px !important;}
+  .pet-scene.has-guest .pet-main-slot,
+  .pet-scene.has-guest .pet-visitor-slot{width:48% !important;}
+  .pet-scene.has-guest .pet-main-slot .pet-3d-character,
+  .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:142px !important;}
+}
+
+
+  /* ===== v50 refresh: cleaner scene characters ===== */
+  .pet-role-chip,
+  .pet-visit-mini,
+  .pet-visit-chip{display:none !important;}
+  .pet-3d-character{animation:none !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-18px !important;}
+  .pet-scene:not(.has-guest) .pet-main-slot{width:260px !important;}
+  .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:234px !important;}
+  .pet-scene.has-guest .pet-main-slot,
+  .pet-scene.has-guest .pet-visitor-slot{width:210px !important;}
+  .pet-scene.has-guest .pet-main-slot .pet-3d-character,
+  .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:186px !important;}
+  .pet-scene.has-guest .pet-cast{gap:10px !important; align-items:flex-end !important; justify-content:center !important;}
+  @media (max-width:980px){
+    .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:210px !important;}
+    .pet-scene.has-guest .pet-main-slot .pet-3d-character,
+    .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:168px !important;}
+    .pet-scene.has-guest .pet-main-slot,.pet-scene.has-guest .pet-visitor-slot{width:190px !important;}
+  }
+  @media (max-width:759px){
+    .pet-scene:not(.has-guest) .pet-main-slot{width:190px !important;}
+    .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:168px !important;}
+    .pet-scene.has-guest .pet-main-slot,.pet-scene.has-guest .pet-visitor-slot{width:49% !important;}
+    .pet-scene.has-guest .pet-main-slot .pet-3d-character,
+    .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:138px !important;}
+  }
 
 </style>
 
@@ -7092,7 +7199,7 @@
     transform:translateX(var(--pet-shift)) rotateX(var(--pet-rx)) rotateY(var(--pet-ry)) translateZ(14px) !important;
     filter:drop-shadow(0 14px 12px rgba(55,43,50,.20)) saturate(1.03) contrast(1.02) !important;
     transition:transform .16s ease,filter .18s ease !important;
-    animation:pet3dIdle 4.8s ease-in-out infinite !important;
+    animation:none !important;
     will-change:transform;
   }
   .pet-3d-wrap:hover .pet-3d-character{
@@ -7276,7 +7383,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v50 · 3D Q版网页互动场景角色包 + 人设强化 + 多状态立绘切换 + 单/双盘智能布局 + 每日 Todo + 独立金币 + 场景商店</span>
+    <span style="opacity:.7">v51 · 3D Q版网页互动场景角色包 + 场景修正 + 简洁现代小煜 + 单/双盘智能布局 + 每日 Todo + 独立金币 + 场景商店</span>
   </footer>
 </div>
 
@@ -9739,14 +9846,7 @@ function sceneSnackHTML(uid,key,homeUid){
   return `<div class="scene-snack-item" title="${petName(uid)} · ${names[id]||'小吃'}">${sceneSnackSVG(id)}</div>`;
 }
 
-function sceneRoleTag(uid,mood){
-  const map={
-    u1:{sleepy:'🎨 <strong>灵感待机</strong> · 神秘画家',idle:'😎 <strong>耍帅营业</strong> · 傲娇话痨',cheer:'✨ <strong>浪漫打气</strong> · 主动深情',tea:'🧋 <strong>被你哄好</strong> · 想继续黏人',ok:'💜 <strong>盯你学习</strong> · 还想多聊两句'},
-    u2:{sleepy:'🌌 <strong>深空待命</strong> · 冷静守着你',idle:'🛰️ <strong>猎手巡航</strong> · 强大疏离',cheer:'⭐ <strong>温柔护航</strong> · 默默陪着你',tea:'☕ <strong>安静放松</strong> · 愿意陪你歇会儿',ok:'❄️ <strong>稳定守场</strong> · 偶尔天然呆'}
-  };
-  const key=(mood==='sleepy'||mood==='cheer'||mood==='tea')?mood:'ok';
-  return (map[uid]&&map[uid][key])||'';
-}
+function sceneRoleTag(uid,mood){ return ""; }
 function sceneRoleChipClass(uid){ return uid==='u1'?'qiyu':'shen'; }
 
 function petSceneVisualHTML(uid,mood,tea){
@@ -9779,24 +9879,7 @@ function petStaticVisualHTML(uid){
 }
 
 function bindScene3DTilt(root){
-  if(!root || (window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches))return;
-  root.querySelectorAll('.pet-3d-wrap').forEach(wrap=>{
-    if(wrap.dataset.tiltBound==='1')return;
-    wrap.dataset.tiltBound='1';
-    wrap.addEventListener('pointermove',e=>{
-      const r=wrap.getBoundingClientRect();
-      if(!r.width||!r.height)return;
-      const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
-      wrap.style.setProperty('--pet-ry',(x*8).toFixed(2)+'deg');
-      wrap.style.setProperty('--pet-rx',(-y*5).toFixed(2)+'deg');
-      wrap.style.setProperty('--pet-shift',(x*4).toFixed(2)+'px');
-    });
-    wrap.addEventListener('pointerleave',()=>{
-      wrap.style.removeProperty('--pet-ry');
-      wrap.style.removeProperty('--pet-rx');
-      wrap.style.removeProperty('--pet-shift');
-    });
-  });
+  return;
 }
 
 const scene3dBlinkState=new WeakMap();
@@ -10150,7 +10233,7 @@ function renderPetInteraction(uid){
   // 原来的立绘、状态、GIF、戳戳都保留；离家时仅把主角位替换成召回卡。
   if(life.location!==uid){
     if(mainSlot){
-      mainSlot.querySelectorAll('.pet-img-wrap,.pet-shadow,.pet-actor-meta').forEach(el=>el.style.display='none');
+      mainSlot.querySelectorAll('.pet-img-wrap,.pet-shadow,.pet-actor-meta,.pet-3d-wrap,.pet-3d-shadow,.pet-role-chip').forEach(el=>el.style.display='none');
       const q=returnQuestOf(uid), card=document.createElement('div');card.className='pet-away-card';
       const awayTitle=life.awayReason==='lured'?`${petName(uid)}被 ${uname(life.location)} 用好吃的勾走了`:`${petName(uid)}跑去 ${uname(life.location)} 家蹭喝了`;
       const awayQuote=life.awayReason==='lured'?`“我只是去看看！${q.txt}就回。”`:`“${q.txt}，我就考虑回去。”`;
@@ -10172,11 +10255,7 @@ function renderPetInteraction(uid){
       guestSlot.hidden=false;
       guestSlot.dataset.uid=guestUid;
       guestSlot.innerHTML=`
-        <div class="pet-visit-mini">${guestTag==='🏠 来串门'?'🏠 串门':'💘 来玩'}</div>
         <div class="pet-bubble guest-pet-bubble" id="petGuestBubble" hidden></div>
-        <div class="pet-thought-anchor guest-thought">
-          <div class="pet-thought-bubble"><span class="pet-wish-inline">${guestTaste.em} ${guestTaste.txt}</span></div>
-        </div>
         ${petStaticVisualHTML(guestUid)}`;
       guestSlot.onclick=e=>{
         const hitPet=e.target.closest && e.target.closest(".pet-img-wrap");
@@ -10640,6 +10719,7 @@ function renderPet(){
   const big=document.getElementById("petChar"), mini=document.getElementById("miniChar");
   const scene=petSceneOf(uid);
   const taste=tasteOf(uid);
+  const hostLife=petLifeOf(uid), hostHere=hostLife.location===uid;
   const guestUid=otherUid(uid), guestLife=petLifeOf(guestUid), guestHere=guestLife.location===uid;
 
   const svgFallback=uid2=>`<div class="pet-img-wrap">${charSVG({mood,tea,uid:uid2})}</div><div class="pet-shadow"></div>`;
@@ -10660,7 +10740,7 @@ function renderPet(){
 
   if(big){
     const html=petSceneVisualHTML(uid,mood,tea);
-    const mainVisual=html||svgFallback("big");
+    const mainVisual=hostHere ? (html||svgFallback("big")) : "";
     const hostCup=sceneCupHTML(uid,"host");
     // v34: keep only one milk tea cup even in two-person scenes; guest interaction remains via text/logic
     const guestCup="";
@@ -10685,10 +10765,10 @@ function renderPet(){
         <div class="scene-shelf" aria-hidden="true"><span class="scene-books"></span></div>
         <div class="scene-lamp" aria-hidden="true"></div>
 
-        <div class="pet-cast${guestHere?' has-guest':''}">
+        <div class="pet-cast${guestHere?' has-guest':''}${hostHere?'':' host-away'}">
           <div class="pet-main-slot" id="petMainSlot">
-            <div class="pet-bubble" id="petBubble"${mainSpeech?'':' hidden'}>${mainSpeech?escHTML(mainSpeech):''}</div>
-            <div class="pet-thought-anchor">
+            <div class="pet-bubble" id="petBubble"${mainSpeech && hostHere?'':' hidden'}>${mainSpeech&&hostHere?escHTML(mainSpeech):''}</div>
+            <div class="pet-thought-anchor"${hostHere?'':' hidden'}>
               <div class="pet-thought-bubble"><span class="pet-wish-inline">${taste.em} ${taste.txt}</span></div>
             </div>
             ${mainVisual}
@@ -10710,7 +10790,7 @@ function renderPet(){
     const im=big.querySelector("#petMainSlot img");
     if(im)im.onerror=()=>onImgErr(true,big);
     const mainSlotEl=big.querySelector('#petMainSlot');
-    if(mainSlotEl) mainSlotEl.dataset.uid=uid;
+    if(mainSlotEl && hostHere) mainSlotEl.dataset.uid=uid;
 
     big.querySelectorAll("[data-scene-mode]").forEach(btn=>{
       btn.addEventListener("click",e=>{
