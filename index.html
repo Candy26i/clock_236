@@ -6361,6 +6361,41 @@
   .scene-train-autumn .scene-furniture-layer.is-photo .scene-snack-tray{transform:translate(-44px,2px) !important;}
   .scene-train-autumn .scene-furniture-layer.is-photo .scene-treat-zone.has-two{right:7.8% !important;width:222px !important;}
 
+/* ===== v45 scene-3D animation patch ===== */
+.pet-3d-wrap.pet-react{animation:petSceneReact .56s cubic-bezier(.22,.8,.22,1)}
+.pet-3d-character{transform-origin:50% 92%; will-change:transform, filter}
+.pet-3d-wrap:hover .pet-3d-character{filter:drop-shadow(0 10px 18px rgba(130,102,170,.14))}
+@keyframes petSceneReact{
+  0%{transform:translateY(0) scale(1)}
+  24%{transform:translateY(-6px) scale(1.018)}
+  56%{transform:translateY(1px) scale(.996)}
+  100%{transform:translateY(0) scale(1)}
+}
+
+/* ===== v47 personality-enhanced 3D scene patch ===== */
+.pet-3d-wrap[data-scene3d="u1"]{animation:qiyuIdle 3.8s ease-in-out infinite}
+.pet-3d-wrap[data-scene3d="u2"]{animation:shenIdle 4.8s ease-in-out infinite}
+.pet-role-chip{position:absolute;left:50%;top:12px;transform:translateX(-50%);z-index:6;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.02em;white-space:nowrap;box-shadow:0 8px 18px rgba(85,57,80,.15);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);pointer-events:none}
+.pet-role-chip.qiyu{background:rgba(120,85,160,.16);border:1px solid rgba(140,104,184,.26);color:#6f4d9f}
+.pet-role-chip.shen{background:rgba(120,148,196,.14);border:1px solid rgba(120,148,196,.24);color:#5c77a8}
+.pet-role-chip strong{font-weight:900}
+.pet-3d-wrap.pet-react-qiyu{animation:qiyuReact .72s cubic-bezier(.22,.8,.22,1)}
+.pet-3d-wrap.pet-react-shen{animation:shenReact .82s cubic-bezier(.22,.8,.22,1)}
+.pet-3d-wrap.pet-react-qiyu .pet-3d-character{filter:drop-shadow(0 14px 20px rgba(130,90,180,.20))}
+.pet-3d-wrap.pet-react-shen .pet-3d-character{filter:drop-shadow(0 14px 20px rgba(110,145,190,.18))}
+@keyframes qiyuIdle{0%,100%{transform:translateY(0) rotate(0deg)}20%{transform:translateY(-4px) rotate(-.6deg)}50%{transform:translateY(0) rotate(.8deg)}78%{transform:translateY(-2px) rotate(-.5deg)}}
+@keyframes shenIdle{0%,100%{transform:translateY(0) rotate(0deg)}28%{transform:translateY(-3px) rotate(.25deg)}56%{transform:translateY(0) rotate(-.35deg)}82%{transform:translateY(-1px) rotate(.15deg)}}
+@keyframes qiyuReact{0%{transform:translateY(0) scale(1)}18%{transform:translateY(-8px) rotate(-1.1deg) scale(1.03)}44%{transform:translateY(-1px) rotate(.8deg) scale(.995)}78%{transform:translateY(-3px) rotate(-.4deg) scale(1.01)}100%{transform:translateY(0) scale(1)}}
+@keyframes shenReact{0%{transform:translateY(0) scale(1)}22%{transform:translateY(-6px) scale(1.018)}48%{transform:translateY(-2px) translateX(2px) scale(1.008)}72%{transform:translateY(0) translateX(-1px)}100%{transform:translateY(0) scale(1)}}
+
+/* ===== v50 Q版场景杯子叠加修正 ===== */
+.pet-3d-wrap[data-scene3d="u1"] .pet-3d-cup{right:18px !important;bottom:34px !important;width:54px !important;transform:rotate(-6deg) scale(.98) !important;z-index:10 !important}
+.pet-3d-wrap[data-scene3d="u2"] .pet-3d-cup{right:22px !important;bottom:28px !important;width:52px !important;transform:rotate(6deg) scale(.96) !important;z-index:10 !important}
+@media (max-width: 820px){
+  .pet-3d-wrap[data-scene3d="u1"] .pet-3d-cup{right:12px !important;bottom:22px !important;width:44px !important}
+  .pet-3d-wrap[data-scene3d="u2"] .pet-3d-cup{right:14px !important;bottom:18px !important;width:42px !important}
+}
+
 </style>
 
 <style id="v23-scene-tweak">
@@ -6967,6 +7002,172 @@
   }
 </style>
 
+
+<style id="v44-3d-character-and-plate-final">
+  /* ── v44 plate logic ──
+     单人：只允许 1 个点心盘；串门：允许 2 个，并强制同一基线。 */
+  .scene-treat-zone:not(.has-guest-snack) .scene-snack-tray .scene-snack-item:nth-child(n+2){
+    display:none !important;
+  }
+  .scene-treat-zone.has-guest-snack .scene-snack-tray{
+    position:relative !important;
+    overflow:visible !important;
+    width:52px !important;
+    min-width:52px !important;
+    justify-content:flex-start !important;
+  }
+  .scene-treat-zone.has-guest-snack .scene-snack-tray .scene-snack-item:nth-child(2){
+    position:absolute !important;
+    left:58px !important;
+    right:auto !important;
+    bottom:0 !important;
+    top:auto !important;
+    margin:0 !important;
+  }
+  /* 点心 SVG 旧版本自带“盘子”，外层又画了一只瓷盘。隐藏内层椭圆，确保每人只有 1 个盘子。 */
+  .scene-snack-item:not(.empty) > svg > ellipse:first-child{
+    display:none !important;
+  }
+  /* 屋内曾把第二只盘子额外下移 7px；v44 统一拉回同一水平线。 */
+  .scene-room-sun .scene-treat-zone.has-guest-snack .scene-snack-tray .scene-snack-item:nth-child(2),
+  .scene-room-rain .scene-treat-zone.has-guest-snack .scene-snack-tray .scene-snack-item:nth-child(2),
+  .scene-room-night .scene-treat-zone.has-guest-snack .scene-snack-tray .scene-snack-item:nth-child(2){
+    bottom:0 !important;
+  }
+
+  /* ── v44 scene-only 3D character treatment ── */
+  .pet-3d-wrap{
+    --pet-rx:0deg;
+    --pet-ry:0deg;
+    --pet-shift:0px;
+    position:relative !important;
+    width:100%;
+    display:flex !important;
+    align-items:flex-end;
+    justify-content:center;
+    transform-style:preserve-3d;
+    perspective:900px;
+    animation:none !important;
+    overflow:visible !important;
+    isolation:isolate;
+  }
+  .pet-3d-wrap::before{
+    content:"";
+    position:absolute;
+    z-index:-2;
+    left:50%;
+    bottom:16%;
+    width:72%;
+    height:58%;
+    transform:translateX(-50%) translateZ(-24px);
+    border-radius:50%;
+    background:radial-gradient(ellipse at center,rgba(255,255,255,.42),rgba(255,255,255,0) 67%);
+    filter:blur(8px);
+    opacity:.65;
+    pointer-events:none;
+  }
+  .pet-3d-wrap::after{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    left:50%;
+    bottom:3px;
+    width:66%;
+    height:14px;
+    transform:translateX(-50%) translateZ(-16px);
+    border-radius:50%;
+    background:radial-gradient(ellipse at center,rgba(64,48,43,.24),rgba(64,48,43,0) 72%);
+    filter:blur(3px);
+    opacity:.66;
+    pointer-events:none;
+  }
+  .pet-3d-character{
+    width:184px !important;
+    max-width:none !important;
+    height:auto !important;
+    display:block !important;
+    object-fit:contain;
+    object-position:center bottom;
+    transform-origin:50% 86%;
+    transform:translateX(var(--pet-shift)) rotateX(var(--pet-rx)) rotateY(var(--pet-ry)) translateZ(14px) !important;
+    filter:drop-shadow(0 14px 12px rgba(55,43,50,.20)) saturate(1.03) contrast(1.02) !important;
+    transition:transform .16s ease,filter .18s ease !important;
+    animation:pet3dIdle 4.8s ease-in-out infinite !important;
+    will-change:transform;
+  }
+  .pet-3d-wrap:hover .pet-3d-character{
+    filter:drop-shadow(0 16px 14px rgba(55,43,50,.24)) saturate(1.07) contrast(1.03) !important;
+  }
+  .pet-3d-depth{
+    position:absolute;
+    inset:10% 16% 8%;
+    z-index:-1;
+    border-radius:44% 44% 34% 34%;
+    background:linear-gradient(120deg,rgba(255,255,255,.13),rgba(135,115,155,.07));
+    transform:translateZ(-10px) translateX(calc(var(--pet-shift) * -.25));
+    filter:blur(5px);
+    pointer-events:none;
+  }
+  .pet-3d-shadow{opacity:.55 !important;transform:scaleX(.9) !important;margin-top:-8px !important}
+  .pet-3d-fx{z-index:8 !important;filter:drop-shadow(0 2px 2px rgba(255,255,255,.9))}
+  .pet-3d-cup{right:-4px !important;bottom:20px !important;width:58px !important;z-index:9 !important}
+  .pet-3d-cup svg{width:58px !important}
+  @keyframes pet3dIdle{
+    0%,100%{translate:0 0}
+    50%{translate:0 -6px}
+  }
+
+  /* 单人时稍大、居中；串门时缩一点并排，桌面视觉更自然。 */
+  .pet-scene:not(.has-guest) .pet-main-slot{
+    width:228px !important;
+  }
+  .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{
+    width:204px !important;
+  }
+  .pet-scene.has-guest .pet-main-slot,
+  .pet-scene.has-guest .pet-visitor-slot{
+    width:188px !important;
+  }
+  .pet-scene.has-guest .pet-main-slot .pet-3d-character,
+  .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{
+    width:168px !important;
+  }
+  .pet-scene.has-guest .pet-cast{
+    gap:24px !important;
+    align-items:flex-end !important;
+  }
+
+  /* 角色脚底稍稍下沉到桌后，避免像“飘”在背景上。 */
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{
+    margin-bottom:-4px;
+  }
+
+  @media (max-width:980px){
+    .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:184px !important}
+    .pet-scene.has-guest .pet-main-slot .pet-3d-character,
+    .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:150px !important}
+    .pet-scene.has-guest .pet-main-slot,
+    .pet-scene.has-guest .pet-visitor-slot{width:168px !important}
+  }
+  @media (max-width:759px){
+    .pet-scene:not(.has-guest) .pet-main-slot{width:172px !important}
+    .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:154px !important}
+    .pet-scene.has-guest .pet-main-slot,
+    .pet-scene.has-guest .pet-visitor-slot{width:48% !important}
+    .pet-scene.has-guest .pet-main-slot .pet-3d-character,
+    .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:126px !important}
+    .pet-scene.has-guest .pet-cast{gap:4px !important}
+    .pet-3d-cup{width:46px !important;right:-2px !important;bottom:14px !important}
+    .pet-3d-cup svg{width:46px !important}
+  }
+  @media (max-width:430px){
+    .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:142px !important}
+    .pet-scene.has-guest .pet-main-slot .pet-3d-character,
+    .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:112px !important}
+  }
+</style>
+
 </head>
 <body>
 
@@ -7075,7 +7276,7 @@
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v42 · 每日 Todo + 独立金币 + 关系升级 + 专注锁场景 + 场景商店</span>
+    <span style="opacity:.7">v50 · 3D Q版网页互动场景角色包 + 人设强化 + 多状态立绘切换 + 单/双盘智能布局 + 每日 Todo + 独立金币 + 场景商店</span>
   </footer>
 </div>
 
@@ -7102,6 +7303,12 @@ const USERS = [
 const PETS = {
   u1: {
     name: "小煜",
+    scene3d: "assets/characters/qiyu-3d-default.png",
+    scene3dBlink: "",
+    scene3dCheer: "assets/characters/qiyu-3d-cheer.png",
+    scene3dInteract: "assets/characters/qiyu-3d-interact.png",
+    scene3dArt: "assets/characters/qiyu-3d-art.png",
+    scene3dRole: "祁煜",
     imgs: {
       sleepy: "pet/sleepy.png", ok: "pet/ok.png", happy: "pet/happy.png",
       cheer:  "pet/cheer.png",  tea: "pet/cheer.png"
@@ -7116,6 +7323,12 @@ const PETS = {
   },
   u2: {
     name: "小莲",   // Zhai 的搭子,想改名改这里
+    scene3d: "assets/characters/shenxinghui-3d-default.png",
+    scene3dBlink: "",
+    scene3dGentle: "assets/characters/shenxinghui-3d-gentle.png",
+    scene3dThink: "assets/characters/shenxinghui-3d-think.png",
+    scene3dFocus: "assets/characters/shenxinghui-3d-focus.png",
+    scene3dRole: "沈星回",
     imgs: {
       sleepy: "pet2/sleepy.png", ok: "pet2/ok.png", happy: "pet2/happy.png",
       cheer:  "pet2/cheer.png",  tea: "pet2/cheer.png"
@@ -9526,11 +9739,118 @@ function sceneSnackHTML(uid,key,homeUid){
   return `<div class="scene-snack-item" title="${petName(uid)} · ${names[id]||'小吃'}">${sceneSnackSVG(id)}</div>`;
 }
 
+function sceneRoleTag(uid,mood){
+  const map={
+    u1:{sleepy:'🎨 <strong>灵感待机</strong> · 神秘画家',idle:'😎 <strong>耍帅营业</strong> · 傲娇话痨',cheer:'✨ <strong>浪漫打气</strong> · 主动深情',tea:'🧋 <strong>被你哄好</strong> · 想继续黏人',ok:'💜 <strong>盯你学习</strong> · 还想多聊两句'},
+    u2:{sleepy:'🌌 <strong>深空待命</strong> · 冷静守着你',idle:'🛰️ <strong>猎手巡航</strong> · 强大疏离',cheer:'⭐ <strong>温柔护航</strong> · 默默陪着你',tea:'☕ <strong>安静放松</strong> · 愿意陪你歇会儿',ok:'❄️ <strong>稳定守场</strong> · 偶尔天然呆'}
+  };
+  const key=(mood==='sleepy'||mood==='cheer'||mood==='tea')?mood:'ok';
+  return (map[uid]&&map[uid][key])||'';
+}
+function sceneRoleChipClass(uid){ return uid==='u1'?'qiyu':'shen'; }
+
+function petSceneVisualHTML(uid,mood,tea){
+  const cfg=petCfg(uid), src=cfg.scene3d||"", blink=cfg.scene3dBlink||"";
+  if(!src) return petStaticVisualHTML(uid);
+  let stateSrc = src;
+  if(uid==="u1" && mood==="cheer" && cfg.scene3dCheer) stateSrc = cfg.scene3dCheer;
+  else if(uid==="u1" && mood==="sleepy" && cfg.scene3dArt) stateSrc = cfg.scene3dArt;
+  else if(uid==="u2" && mood==="cheer" && cfg.scene3dGentle) stateSrc = cfg.scene3dGentle;
+  else if(uid==="u2" && mood==="sleepy" && cfg.scene3dFocus) stateSrc = cfg.scene3dFocus;
+  const clickSrc = uid==="u1" ? (cfg.scene3dInteract||cfg.scene3dCheer||"") : (cfg.scene3dThink||cfg.scene3dGentle||"");
+  let fx="";
+  if(mood==="sleepy") fx=`<span class="pet-fx pet-3d-fx" style="right:2px;top:22px">💤</span>`;
+  if(mood==="cheer") fx=`<span class="pet-fx pet-3d-fx" style="left:4px;top:28px">✨</span><span class="pet-fx pet-3d-fx" style="right:4px;top:76px;animation-delay:.6s">✨</span>`;
+  let cup="";
+  if(mood==="tea"&&tea){
+    const dk=drinkOf(uid);
+    cup=`<div class="pet-cup pet-3d-cup" data-cup-owner="${uid}">${cupSVG({base:tea,tops:(dk&&dk.tops)||[],fill:1,uid:"scene3d_"+uid,shadow:false,mini:true,cup:(dk&&dk.cup)||"plastic"})}</div>`;
+    fx+=`<span class="pet-fx pet-3d-fx" style="left:2px;top:20px">✨</span>`;
+  }
+  const chip=sceneRoleTag(uid,mood), chipCls=sceneRoleChipClass(uid);
+  return `<div class="pet-img-wrap pet-3d-wrap" data-scene3d="${uid}" data-role="${cfg.scene3dRole||petName(uid)}">${chip?`<div class="pet-role-chip ${chipCls}">${chip}</div>`:""}<img class="pet-img pet-3d-character" src="${stateSrc}" data-idle-src="${src}" data-base-src="${stateSrc}" data-click-src="${clickSrc}" ${blink?`data-blink-src="${blink}"`:""} alt="${cfg.scene3dRole||petName(uid)} 3D Q版立绘">${fx}${cup}<span class="pet-3d-depth" aria-hidden="true"></span></div><div class="pet-shadow pet-3d-shadow"></div>`;
+}
 function petStaticVisualHTML(uid){
   const mood=petMood(uid), tea=drinkOf(uid)?drinkOf(uid).base:null, cfg=petCfg(uid);
+  if(cfg.scene3d) return petSceneVisualHTML(uid,mood,tea);
   const src=(cfg.imgs&&cfg.imgs[mood])||(cfg.imgs&&cfg.imgs.ok)||"";
   if(src) return `<div class="pet-img-wrap"><img class="pet-img" src="${src}" alt="${petName(uid)}"></div><div class="pet-shadow"></div>`;
   return `<div class="pet-img-wrap">${charSVG({mood,tea,uid:"scene_"+uid})}</div><div class="pet-shadow"></div>`;
+}
+
+function bindScene3DTilt(root){
+  if(!root || (window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches))return;
+  root.querySelectorAll('.pet-3d-wrap').forEach(wrap=>{
+    if(wrap.dataset.tiltBound==='1')return;
+    wrap.dataset.tiltBound='1';
+    wrap.addEventListener('pointermove',e=>{
+      const r=wrap.getBoundingClientRect();
+      if(!r.width||!r.height)return;
+      const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+      wrap.style.setProperty('--pet-ry',(x*8).toFixed(2)+'deg');
+      wrap.style.setProperty('--pet-rx',(-y*5).toFixed(2)+'deg');
+      wrap.style.setProperty('--pet-shift',(x*4).toFixed(2)+'px');
+    });
+    wrap.addEventListener('pointerleave',()=>{
+      wrap.style.removeProperty('--pet-ry');
+      wrap.style.removeProperty('--pet-rx');
+      wrap.style.removeProperty('--pet-shift');
+    });
+  });
+}
+
+const scene3dBlinkState=new WeakMap();
+function triggerScene3DBlink(img, forceMs){
+  if(!img) return;
+  const blink=img.dataset.blinkSrc, base=img.dataset.baseSrc||img.getAttribute("src");
+  if(!blink || !base) return;
+  const keep = forceMs || (140 + Math.random()*90);
+  clearTimeout(img._sceneBlinkBack);
+  img.src = blink;
+  img.dataset.animLock = "1";
+  img._sceneBlinkBack = setTimeout(()=>{ img.src = base; img.dataset.animLock = "0"; }, keep);
+}
+function bindScene3DFrames(root){
+  if(!root) return;
+  root.querySelectorAll(".pet-3d-character").forEach(img=>{
+    if(img.dataset.sceneAnimBound==="1") return;
+    img.dataset.sceneAnimBound="1";
+    const blink = img.dataset.blinkSrc||"";
+    if(blink){
+      const schedule=()=>{
+        clearTimeout(img._sceneBlinkTimer);
+        img._sceneBlinkTimer=setTimeout(()=>{
+          if(img.dataset.animLock==="1") return schedule();
+          triggerScene3DBlink(img);
+          schedule();
+        }, 2600 + Math.random()*2600);
+      };
+      schedule();
+    }
+    const wrap = img.closest(".pet-3d-wrap");
+    if(wrap){
+      wrap.addEventListener("pointerdown", ()=>{
+        wrap.classList.remove("pet-react","pet-react-qiyu","pet-react-shen");
+        void wrap.offsetWidth;
+        const uid = wrap.dataset.scene3d||'';
+        wrap.classList.add(uid==='u1' ? 'pet-react-qiyu' : 'pet-react-shen');
+        const base = img.dataset.baseSrc || img.getAttribute("src");
+        const click = img.dataset.clickSrc || "";
+        clearTimeout(img._sceneClickBack);
+        if(click){
+          img.dataset.animLock = "1";
+          img.src = click;
+          img._sceneClickBack = setTimeout(()=>{
+            img.src = base;
+            img.dataset.animLock = "0";
+          }, 920);
+        }else if(blink){
+          triggerScene3DBlink(img, uid==='u1' ? 260 : 210);
+        }
+        setTimeout(()=>wrap.classList.remove("pet-react","pet-react-qiyu","pet-react-shen"), 820);
+      });
+    }
+  });
 }
 
 const PET_RETURN_QUESTS=[
@@ -10075,6 +10395,31 @@ const PET_LINES = {
     wishDone:"诶,正好是我想要的 \uD83D\uDE33"
   }
 };
+Object.assign(PET_LINES.u1,{
+  sleep:["怎么还没来? 我都快把今天的灵感讲完了。","先过来坐, 你开始学, 我负责在旁边碎碎念。","别磨蹭啦, 我还等着看你认真起来的样子。","今天也给我一个面子, 先做一点, 行不行?","你负责开始, 我负责陪你, 这分工不是很完美吗?"],
+  idle:["累了? 那就歇一会儿, 但别丢下我太久。","刚才那段做得不错, 我看得出来。","别皱眉, 慢慢来, 我可以一边陪你一边夸你。","你再坚持一点, 我就勉为其难多夸你几句。","进度不大也没关系, 先别急着否定自己。"],
+  run:["专心专心, 我先不吵你……最多只说这一句。","你认真起来, 还真有点让人移不开眼。","继续做, 卡住了就叫我, 我有的是话陪你。","别总回头看我, 不然我会以为你舍不得。","做完这段, 奖励你听我多说几句。","你往前推, 我在旁边当你的气氛组。"],
+  tea:["这杯不错, 一看就是专门哄我的。","哎呀, 你怎么这么会拿捏我。","先喝一口, 然后听我夸你。","我就知道, 你做出来的东西不会差。","这杯我认领了, 你也归我夸。"],
+  poke:["嗯? 想我了?","又来找我, 果然离不开我吧。","别戳别戳, 我可是很忙着陪你。","怎么, 学累了要我哄?","你再多看我两眼, 我可要开始得意了。","先做事, 做完再来听我说。","我在呢, 你一叫我就有回应。","哎, 你这样我会忍不住多说几句。","是不是想听我夸你?","你先专心, 我保证不跑。","好吧, 给你摸一下, 但算你欠我一句夸奖。","别闹, 不然我就开始撒娇了。"],
+  pokeTea:["小心点, 这杯可是你做给我的。","想抢一口? 那得先哄我。","别晃, 晃洒了我可是会心疼的。"],
+  pokeSpam:"再戳我就默认你是在明目张胆地想我。",
+  evStart:"去吧, 我就在这儿等你凯旋。",
+  evTea:"哼哼, 这杯确实很有眼光。",
+  wishDone:"不错嘛, 连我想要什么都记住了。"
+});
+Object.assign(PET_LINES.u2,{
+  sleep:["还没开始? 那就现在开始。","别急, 先坐下, 把最前面这一步做完。","今天状态一般也无妨, 我在。","不用一下子想很多, 先处理眼前的。","……我会陪着你, 不会让你一个人卡着。"],
+  idle:["先休息一下, 你的肩膀有点紧。","刚才那段做得不差, 记下来。","如果卡住了, 换个角度试试。","别逼自己太狠, 稳稳推进就好。","嗯, 这样就很好。"],
+  run:["继续, 我看着。","别分心, 先把这一段做完。","时间我记着, 你只管往前走。","做得不错……比你想的还稳。","如果累了就说, 不用硬扛。","我在, 放心。"],
+  tea:["这杯很合适。辛苦了。","先喝一口, 缓一缓。","今天到这里, 已经很好。","别急着给自己加任务, 先休息。","嗯……你做得比想象中更好。"],
+  poke:["嗯?","怎么了。","别一直戳我。","卡住了? 我听你说。","你先慢慢讲, 不用急。","饭吃了吗?","要不要先出去走两分钟。","你不是不会, 只是有点累了。","……我没走。","如果只是想确认我在, 那我在。","别看我, 先看题。","我刚才不是在发呆……只是想事情。"],
+  pokeTea:["小心, 还烫。","别洒了。","你喝吧, 我看着就好。"],
+  pokeSpam:"再戳下去, 我也许会把你按回去学习。",
+  evStart:"去吧, 我守着时间。",
+  evTea:"做得不错。这杯我收下了。",
+  wishDone:"正好……是我想要的。"
+});
+
 const lines = uid => PET_LINES[uid] || PET_LINES.u1;
 const pick = a => a[Math.floor(Math.random()*a.length)];
 function pickMsg(mood, uid){
@@ -10237,8 +10582,8 @@ function petPoke(e, big, suppressSpeech=false){
   // 点击处爆出粒子
   const r = box.getBoundingClientRect();
   const x = (e.clientX||r.left+r.width/2) - r.left, y = (e.clientY||r.top+r.height/2) - r.top;
-  const emo = ["💗","✨","🫧","💜","⭐"];
-  const nP = big ? 6 : 3;
+  const emo = view==="u1" ? ["💜","✨","🎨","💗","🫧"] : ["⭐","❄️","✨","🛰️","💙"];
+  const nP = big ? 8 : 4;
   for(let i=0;i<nP;i++){
     const p = document.createElement("span");
     p.className = "pet-particle";
@@ -10314,8 +10659,8 @@ function renderPet(){
   };
 
   if(big){
-    const html=petImgHTML(mood,tea,true);
-    const mainVisual=html?html+`<div class="pet-shadow"></div>`:svgFallback("big");
+    const html=petSceneVisualHTML(uid,mood,tea);
+    const mainVisual=html||svgFallback("big");
     const hostCup=sceneCupHTML(uid,"host");
     // v34: keep only one milk tea cup even in two-person scenes; guest interaction remains via text/logic
     const guestCup="";
@@ -10415,6 +10760,8 @@ function renderPet(){
       <div class="ps-row"><span class="ps-label">\u4EB2\u5BC6</span><div class="ps-bar"><div class="ps-fill iv" style="width:${iv}%"></div></div><span class="ps-num">${iv}/100 \u00B7\u4ECA\u65E5${tg}/10</span></div>`;
   }
   renderPetInteraction(uid);
+  bindScene3DTilt(big);
+  bindScene3DFrames(big);
 }
 
 /* ═══════════════ 渲染 ═══════════════ */
