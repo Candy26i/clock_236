@@ -7275,6 +7275,67 @@ display:none !important}
   }
 </style>
 
+
+<style id="v50-2-scene-position-fix">
+  /* 角色位置：回到桌后，不再像站在桌面上；仅轻微放大。 */
+  .pet-cast{
+    padding-bottom:96px !important;
+  }
+  .pet-main-slot,
+  .pet-visitor-slot,
+  .pet-scene:not(.has-guest) .pet-main-slot,
+  .pet-scene.has-guest .pet-main-slot,
+  .pet-scene.has-guest .pet-visitor-slot{
+    transform:none !important;
+  }
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{
+    margin-bottom:0 !important;
+  }
+  .pet-scene:not(.has-guest) .pet-main-slot{
+    width:266px !important;
+  }
+  .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{
+    width:242px !important;
+  }
+  .pet-scene.has-guest .pet-main-slot,
+  .pet-scene.has-guest .pet-visitor-slot{
+    width:218px !important;
+  }
+  .pet-scene.has-guest .pet-main-slot .pet-3d-character,
+  .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{
+    width:196px !important;
+  }
+
+  /* 盘子往桌子内侧收，避免贴着桌沿。 */
+  .scene-furniture-layer.is-desk .scene-treat-zone{
+    right:10.2% !important;
+  }
+  .scene-cafe-morning .scene-furniture-layer.is-desk .scene-treat-zone,
+  .scene-cafe-window .scene-furniture-layer.is-desk .scene-treat-zone,
+  .scene-cafe-evening .scene-furniture-layer.is-desk .scene-treat-zone,
+  .scene-library-warm .scene-furniture-layer.is-desk .scene-treat-zone,
+  .scene-library-window .scene-furniture-layer.is-desk .scene-treat-zone,
+  .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{
+    right:12.5% !important;
+  }
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:84px !important;}
+    .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:216px !important;}
+    .pet-scene.has-guest .pet-main-slot .pet-3d-character,
+    .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:176px !important;}
+    .scene-furniture-layer.is-desk .scene-treat-zone{right:9.5% !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:70px !important;}
+    .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:174px !important;}
+    .pet-scene.has-guest .pet-main-slot .pet-3d-character,
+    .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:144px !important;}
+    .scene-furniture-layer.is-desk .scene-treat-zone{right:7.5% !important;}
+  }
+</style>
+
 </head>
 <body>
 
