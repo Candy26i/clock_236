@@ -6513,11 +6513,12 @@ display:none !important}
   }
 
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -6543,7 +6544,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -6554,7 +6557,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -6562,6 +6565,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -6584,11 +6612,12 @@ display:none !important}
     right:7.8% !important;
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -6614,7 +6643,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -6625,7 +6656,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -6633,6 +6664,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -6660,11 +6716,12 @@ display:none !important}
     top:74.9% !important;
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -6690,7 +6747,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -6701,7 +6760,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -6709,6 +6768,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -6731,11 +6815,12 @@ display:none !important}
     top:74.2% !important;
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -6761,7 +6846,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -6772,7 +6859,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -6780,6 +6867,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -6808,11 +6920,12 @@ display:none !important}
     right:10.0% !important;
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -6838,7 +6951,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -6849,7 +6964,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -6857,6 +6972,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -6878,11 +7018,12 @@ display:none !important}
     right:15.5% !important;
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -6908,7 +7049,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -6919,7 +7062,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -6927,6 +7070,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -7082,11 +7250,12 @@ display:none !important}
     }
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -7112,7 +7281,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -7123,7 +7294,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -7131,6 +7302,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -7162,11 +7358,12 @@ display:none !important}
         rgba(186,124,78,.70) 72% 100%) !important;
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -7192,7 +7389,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -7203,7 +7402,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -7211,6 +7410,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -7248,11 +7472,12 @@ display:none !important}
     color:#B78352 !important;
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -7278,7 +7503,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -7289,7 +7516,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -7297,6 +7524,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -7334,11 +7586,12 @@ display:none !important}
     gap:10px !important;
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -7364,7 +7617,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -7375,7 +7630,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -7383,6 +7638,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -7462,11 +7742,12 @@ display:none !important}
     transform:translate(-34px,-8px) !important;
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -7492,7 +7773,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -7503,7 +7786,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -7511,6 +7794,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -7528,11 +7836,12 @@ display:none !important}
     margin:0 !important;
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -7558,7 +7867,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -7569,7 +7880,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -7577,6 +7888,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -7624,11 +7960,12 @@ display:none !important}
     transform:translate(-18px,8px) !important;
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -7654,7 +7991,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -7665,7 +8004,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -7673,6 +8012,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -7693,11 +8057,12 @@ display:none !important}
     bottom:-7px !important;
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -7723,7 +8088,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -7734,7 +8101,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -7742,6 +8109,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -7750,11 +8142,12 @@ display:none !important}
 <style id="v38-separate-guest-snacks-note">
   /* v38: 双人串门时零食按所在地点分别显示；不在家的那边盘子保持为空 */
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -7780,7 +8173,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -7791,7 +8186,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -7799,6 +8194,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -7897,11 +8317,12 @@ display:none !important}
     }
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -7927,7 +8348,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -7938,7 +8361,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -7946,6 +8369,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -8115,11 +8563,12 @@ display:none !important}
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:112px !important}
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -8145,7 +8594,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -8156,7 +8607,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -8164,6 +8615,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
@@ -8228,11 +8704,12 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:7.5% !important;}
   }
 
+
   /* ===== v52 final layout tuning ===== */
-  /* 人物往后退一点，不要像站到桌子上 */
-  .pet-cast{padding-bottom:112px !important;}
+  /* 人物位置调到两版之间：比上一版更靠前一点，但仍不站到桌上 */
+  .pet-cast{padding-bottom:102px !important;}
   .pet-main-slot .pet-3d-wrap,
-  .pet-visitor-slot .pet-3d-wrap{margin-bottom:8px !important;}
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:2px !important;}
 
   /* 单人略大，双人也略大，但不要过分靠前 */
   .pet-scene:not(.has-guest) .pet-main-slot{width:236px !important;}
@@ -8258,7 +8735,9 @@ display:none !important}
   .scene-library-night .scene-furniture-layer.is-desk .scene-treat-zone{right:16.2% !important;}
 
   @media (max-width:980px){
-    .pet-cast{padding-bottom:94px !important;}
+    .pet-cast{padding-bottom:86px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:0 !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:190px !important;}
     .pet-scene.has-guest .pet-main-slot,
     .pet-scene.has-guest .pet-visitor-slot{width:178px !important;}
@@ -8269,7 +8748,7 @@ display:none !important}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:11.8% !important;}
   }
   @media (max-width:759px){
-    .pet-cast{padding-bottom:74px !important;}
+    .pet-cast{padding-bottom:68px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot{width:176px !important;}
     .pet-scene:not(.has-guest) .pet-main-slot .pet-3d-character{width:158px !important;}
     .pet-scene.has-guest .pet-main-slot,
@@ -8277,6 +8756,31 @@ display:none !important}
     .pet-scene.has-guest .pet-main-slot .pet-3d-character,
     .pet-scene.has-guest .pet-visitor-slot .pet-3d-character{width:136px !important;}
     .scene-furniture-layer.is-desk .scene-treat-zone{right:9.8% !important;}
+  }
+
+
+  /* ===== v52.2 micro position tuning ===== */
+  /* 两个人整体略往前一点，但不踩桌子 */
+  .pet-cast{padding-bottom:96px !important;}
+  .pet-main-slot .pet-3d-wrap,
+  .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+
+  /* 双人模式距离再近一点，右边人物稍微往左 */
+  .pet-scene.has-guest .pet-cast{gap:0 !important;justify-content:center !important;align-items:flex-end !important;}
+  .pet-scene.has-guest .pet-main-slot{margin-right:-10px !important;}
+  .pet-scene.has-guest .pet-visitor-slot{margin-left:-18px !important;}
+
+  @media (max-width:980px){
+    .pet-cast{padding-bottom:82px !important;}
+    .pet-main-slot .pet-3d-wrap,
+    .pet-visitor-slot .pet-3d-wrap{margin-bottom:-1px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-6px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-12px !important;}
+  }
+  @media (max-width:759px){
+    .pet-cast{padding-bottom:66px !important;}
+    .pet-scene.has-guest .pet-main-slot{margin-right:-4px !important;}
+    .pet-scene.has-guest .pet-visitor-slot{margin-left:-8px !important;}
   }
 
 </style>
