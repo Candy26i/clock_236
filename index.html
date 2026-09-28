@@ -8875,6 +8875,87 @@ header h1{color:#6A5141;text-shadow:0 2px 0 #FFFCF6}
 @media(prefers-reduced-motion:reduce){.artisan-cup *{animation:none!important}.opt,.cup-opt,.tab,.cat{transition:none!important}}
 </style>
 
+<style id="warm-clear-companions">
+/* Warm daylight, with clear whites instead of the previous grey undertone. */
+:root{--milk:#FFF9F0;--milk2:#FFF0DC;--ink:#60442F;--ink-soft:#957154;--taro:#A184C4;--taro-soft:#F5ECFA;--amber:#DDA158;--amber-soft:#FFF0D7;--matcha:#91AC76;--line:#F0DCC1}
+body{background:radial-gradient(ellipse at 8% 0%,#FFF2CF 0,transparent 44%),radial-gradient(ellipse at 94% 30%,#FFEBDC 0,transparent 40%),linear-gradient(180deg,#FFFCF5,#FFF8EE 65%,#FFF4E4);color:#60442F}
+.card{background:linear-gradient(145deg,#FFFFFF,#FFFCF6);border-color:#F0DDC3;box-shadow:0 10px 30px #D49D5710,inset 0 1px 0 #FFFFFF}
+.card h2,header h1{color:#805A37}.card h2 .tag{background:#FFF2DF;color:#AD875D}
+.cat,.mode-btn,.opt,.cup-opt{background:linear-gradient(145deg,#FFFFFF,#FFFCF3);border-color:#F1E2CD}
+.todo-shell{background:linear-gradient(145deg,#FFFCF5,#FFF4E3);border-color:#F0DDC1}
+.progress-pill{background:#FFF0D7}.mbox{background:linear-gradient(145deg,#FFFFFF,#FFF8EC);border-color:#EED9BC}
+#petStats{background:linear-gradient(145deg,#FFF9E9,#FFF2DE)!important;border-color:#EED9B9!important}
+#petStats .main-life-note{grid-template-columns:minmax(0,1fr) auto;gap:12px;background:linear-gradient(120deg,#FFF9EA,#FFFDF7)!important;min-width:0;max-width:100%}
+#petStats .main-life-note .pet-actions{flex-wrap:wrap;min-width:0;gap:7px;max-width:100%}
+#petStats .main-life-note .pet-act{padding:0 12px;min-width:0}
+#petStats .main-life-note .pet-act.primary{padding:0 16px;min-width:0}
+.pet-wish-card{display:block;text-align:left;border:0;background:transparent;width:100%;padding:0;cursor:pointer;color:inherit;font-family:inherit}
+.pet-wish-card .pet-life-kicker{color:#BA925E;font-size:10px;letter-spacing:1px}.pet-wish-card .pet-life-kicker>span{color:#C3A581;letter-spacing:0}
+.pet-wish-card .pet-wish-line{display:flex;gap:7px;align-items:center;overflow-wrap:anywhere}
+.pet-wish-card .pet-wish-line b{font-size:13px;color:#765537;line-height:1.5}
+.pet-wish-help{display:block;margin-top:4px;font-size:10px;color:#B49775}
+.pet-wish-card:hover .pet-wish-line b{color:#BC8646}
+/* Both scene controls can tuck out of the illustration, without moving its layout. */
+.scene-pose-controls{position:absolute;right:14px;top:60px;z-index:26;display:flex;align-items:center;background:#FFFCF2EF;border:1px solid #FFFFFFDD;border-radius:999px;box-shadow:0 3px 10px #A280521A;backdrop-filter:blur(8px)}
+.scene-pose-controls .scene-pose-trigger{position:static;box-shadow:none;background:transparent;border:0;padding:7px 5px 7px 11px;backdrop-filter:none}
+.scene-pose-controls .scene-pose-trigger[hidden]{display:none!important}
+.pose-collapse{border:0;background:transparent;color:#B69466;cursor:pointer;font-size:17px;line-height:28px;width:25px;border-radius:999px}
+.scene-pose-controls.is-collapsed{right:0;border-radius:12px 0 0 12px;background:#FFF9E2BA;opacity:.75}
+.scene-pose-controls.is-collapsed:hover{opacity:1}.scene-pose-controls.is-collapsed .pose-collapse{width:20px}
+#petScene [data-posture="listen"] .pet-3d-character,#petScene [data-posture="laptop"] .pet-3d-character{height:calc(var(--actor-width)*1.12)!important;position:absolute;bottom:0;max-width:none!important}
+#petScene [data-interaction] .pet-fx{display:none}
+#petScene .pet-3d-wrap.interaction-hug{animation:companion-hug 6.2s ease-in-out both!important}
+#petScene .pet-3d-wrap.interaction-pat{animation:companion-pat 6.2s ease-in-out both!important}
+#petScene .headpat-hand{position:absolute;width:72px!important;height:50px!important;top:6%;left:44%;z-index:12;pointer-events:none;animation:gentle-pat 2s ease-in-out 3!important;filter:drop-shadow(0 3px 3px #9E78502A)}
+.hug-heart{position:absolute;z-index:12;color:#DB93A5;font-size:26px;pointer-events:none;animation:heart-linger 3s ease-in-out 2}
+.hug-heart.one{left:7%;top:38%}.hug-heart.two{right:5%;top:28%;animation-delay:.6s;font-size:19px}
+#petScene .pet-3d-wrap[data-interaction]{animation-delay:var(--interaction-delay,0ms)!important}
+@keyframes companion-hug{0%{opacity:1;transform:scale(.97)}12%,82%{opacity:1;transform:scale(1.035)}94%,100%{opacity:1;transform:scale(1)}}
+@keyframes companion-pat{0%{opacity:1;transform:rotate(0)}12%{opacity:1;transform:rotate(-2deg)}38%{transform:rotate(1deg)}68%{transform:rotate(-1deg)}100%{opacity:1;transform:rotate(0)}}
+@keyframes gentle-pat{0%,100%{transform:translateY(-9px) rotate(-4deg)}45%,65%{transform:translateY(1px) rotate(2deg)}}
+@keyframes heart-linger{0%,100%{opacity:.25;transform:translateY(5px) scale(.85)}50%{opacity:.95;transform:translateY(-5px) scale(1.05)}}
+@media(max-width:759px){.scene-pose-controls{right:12px;top:62px}#petStats .main-life-note{grid-template-columns:minmax(0,1fr);gap:12px}#petStats .main-life-note .pet-actions{justify-content:flex-start}#petStats .main-life-note .pet-act{flex:1 1 70px;padding:0 8px}#petScene .headpat-hand{width:54px!important;height:38px!important}}
+@media(prefers-reduced-motion:reduce){#petScene .pet-3d-wrap.interaction-hug,#petScene .pet-3d-wrap.interaction-pat,#petScene .headpat-hand,.hug-heart{animation:none!important}}
+</style>
+
+
+<style id="scene-placement-v56">
+/* Pose offsets belong to the actor frame, leaving scene height and interaction transforms stable. */
+#petScene{container-type:inline-size}
+#petScene .pet-3d-wrap{translate:var(--pose-x,0px) var(--pose-y,0px)}
+#petScene[data-scene-mode="outdoor"]{--pose-y:26px}
+#petScene[data-scene-mode="seaside"]{--pose-y:42px}
+#petScene[data-scene-mode="outdoor"] .pet-cast{gap:0!important}
+#petScene[data-scene-mode="outdoor"].has-guest #petMainSlot{left:12px}
+#petScene[data-scene-mode="outdoor"].has-guest #petGuestSlot{left:-12px}
+#petScene[data-scene-mode="outdoor"] .pet-shadow{translate:0 26px}
+#petScene[data-furniture="desk"]:not([data-scene-mode="outdoor"]):not([data-scene-mode="seaside"]) :is([data-posture="read"],[data-posture="listen"],[data-posture="laptop"]){--pose-y:-12px}
+#petScene:not([data-scene-mode="outdoor"]):not([data-scene-mode="seaside"]) :is([data-posture="listen"],[data-posture="laptop"]) .pet-3d-character{height:calc(var(--actor-width)*1.05)!important}
+#petScene :is([data-posture="sit"],[data-posture="listen"],[data-posture="laptop"])::before{content:"";position:absolute;bottom:2px;left:22%;width:56%;height:9px;border-radius:50%;background:#5B412C24;filter:blur(3px);pointer-events:none}
+#petScene.scene-meeting-view :is([data-posture="listen"],[data-posture="laptop"],[data-posture="read"]){--pose-y:-60px}
+#petScene.scene-meeting-view:not(.has-guest) :is([data-posture="listen"],[data-posture="laptop"],[data-posture="read"]){--pose-x:-55px}
+.scene-pose-controls{background:linear-gradient(135deg,#FFFEF8F5,#F8EDDCF2);border:1px solid #FFFDF8;border-radius:18px;box-shadow:0 5px 16px #775B3520,inset 0 0 0 1px #D9BE932E;overflow:hidden}
+.scene-pose-controls .scene-pose-trigger{display:flex;align-items:center;gap:7px;padding:8px 10px;color:#8A6848;font-size:11px;letter-spacing:.6px;text-align:left;line-height:1.3}
+.scene-pose-trigger small{display:block;font-size:8px;font-weight:400;letter-spacing:.7px;color:#B09572;margin-top:3px}
+.scene-pose-trigger .pose-button-icon{width:25px!important;height:25px!important;fill:#F4E5CC;stroke:#B69362;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round}
+.scene-pose-controls .pose-collapse{width:23px;align-self:stretch;border-left:1px solid #E6D4B95C;border-radius:0;color:#AE8A5A;font-size:16px}
+.scene-pose-controls:hover{box-shadow:0 6px 18px #775B3530}.scene-pose-controls .scene-pose-trigger:hover{background:#FFFFFF70}
+.scene-pose-controls.is-collapsed{border-radius:13px 0 0 13px;box-shadow:0 2px 8px #775B3517}.scene-pose-controls.is-collapsed .pose-collapse{height:34px;width:22px;border:0}
+@media(max-width:759px){
+ #petScene[data-scene-mode="outdoor"]{--pose-y:110px}
+ #petScene[data-scene-mode="outdoor"] .pet-shadow{translate:0 110px}
+ #petScene[data-scene-mode="outdoor"].has-guest #petMainSlot{left:5px}
+ #petScene[data-scene-mode="outdoor"].has-guest #petGuestSlot{left:-5px}
+ #petScene[data-furniture="desk"]:not([data-scene-mode="outdoor"]):not([data-scene-mode="seaside"]) :is([data-posture="read"],[data-posture="listen"],[data-posture="laptop"]){--pose-y:44px}
+ #petScene.scene-meeting-view :is([data-posture="listen"],[data-posture="laptop"],[data-posture="read"]){--pose-y:-72px}
+ #petScene.scene-meeting-view:not(.has-guest) :is([data-posture="listen"],[data-posture="laptop"],[data-posture="read"]){--pose-x:-48px}
+ #petScene[data-furniture="photo"]:not(.scene-meeting-view){--pose-y:70px}
+ #petScene[data-furniture="photo"][data-scene-mode="seaside"]{--pose-y:140px}
+ #petScene:is([data-scene-mode="train"],[data-scene-mode="studio"],[data-scene-mode="jiangnan"]){--pose-y:60px}
+ .scene-pose-controls .scene-pose-trigger{padding:6px 8px;gap:5px;font-size:10px}
+ .scene-pose-trigger .pose-button-icon{width:21px!important;height:21px!important}
+}
+</style>
 </head>
 <body>
 
@@ -9431,7 +9512,6 @@ function directInviteGuest(hostUid,targetUid){
     s.questId=returnQuestPick(targetUid,now).id;
     s.awayReason='invited';
     s.luredBy=hostUid;
-    s.craving=clamp100((s.craving||0)-8);
     return s;
   },ok=>{
     if(!ok){ say('petBubble','慢了一步，TA 刚好出门啦 🏃',4300); return; }
@@ -9784,7 +9864,7 @@ function buyReward(uid,type,cost){
       updatePetLife(uid,s=>{s.fullness=clamp100((s.fullness||0)+14);s.lastSnack="shop-pudding";s.lastSnackDay=todayKeyFor(uid);return s;});
       addPetIntimacy(uid,1);say("petBubble","布丁是给我的？那我就不客气啦 🍮",4600);
     }else if(type==="strawberry"){
-      updatePetLife(uid,s=>{s.fullness=clamp100((s.fullness||0)+10);s.craving=clamp100((s.craving||0)-6);s.lastSnack="shop-strawberry";s.lastSnackDay=todayKeyFor(uid);return s;});
+      updatePetLife(uid,s=>{s.fullness=clamp100((s.fullness||0)+10);s.lastSnack="shop-strawberry";s.lastSnackDay=todayKeyFor(uid);return s;});
       addPetIntimacy(uid,1);say("petBubble","草莓很甜。嗯……你也挺会挑的 🍓",4800);
     }else if(type==="note"){
       addPetIntimacy(uid,1);addBondXP(uid,8);
@@ -9796,7 +9876,7 @@ function buyReward(uid,type,cost){
       DB.txn("users/"+uid+"/economy/bonusToppingCredits",cur=>(cur||0)+1);
       say("petBubble","多了一张小料券，下一杯可以更豪华啦 ✨",4600);
     }else if(type==="recall"){
-      updatePetLife(uid,x=>{x.location=uid;x.awaySince=null;x.questId=null;x.awayReason=null;x.luredBy=null;x.craving=18;x.fullness=clamp100((x.fullness||0)+8);return x;});
+      updatePetLife(uid,x=>{x.location=uid;x.awaySince=null;x.questId=null;x.awayReason=null;x.luredBy=null;x.fullness=clamp100((x.fullness||0)+8);return x;});
       addPetIntimacy(uid,2);celebrate();
       say("petBubble",petName(uid)+"听到召回信号，立刻一路小跑回来了 · 亲密 +2 📣",5200);
     }
@@ -9820,7 +9900,7 @@ function openRewardShop(uid){
   const supplyItems=`
     <div class="shop-item"><div class="shop-item-head"><span class="shop-item-em">🍪</span>学习小饼干</div><p>给搭子补充饱腹，也会增加一点亲密。</p><button class="shop-buy ${coin>=10?'can':''}" data-shop-item="snack" data-cost="10" ${coin<10?'disabled':''}>🪙 10 · 投喂</button></div>
     <div class="shop-item"><div class="shop-item-head"><span class="shop-item-em">🍮</span>焦糖布丁</div><p>补充一些饱腹感，适合学习间隙的小奖励。</p><button class="shop-buy ${coin>=14?'can':''}" data-shop-item="pudding" data-cost="14" ${coin<14?'disabled':''}>🪙 14 · 投喂</button></div>
-    <div class="shop-item"><div class="shop-item-head"><span class="shop-item-em">🍓</span>草莓小盒</div><p>稍微补充饱腹，也会降低一点“想喝奶茶”的馋值。</p><button class="shop-buy ${coin>=16?'can':''}" data-shop-item="strawberry" data-cost="16" ${coin<16?'disabled':''}>🪙 16 · 投喂</button></div>
+    <div class="shop-item"><div class="shop-item-head"><span class="shop-item-em">🍓</span>草莓小盒</div><p>一盒清甜草莓，给搭子补充一点饱腹感。</p><button class="shop-buy ${coin>=16?'can':''}" data-shop-item="strawberry" data-cost="16" ${coin<16?'disabled':''}>🪙 16 · 投喂</button></div>
     <div class="shop-item"><div class="shop-item-head"><span class="shop-item-em">🎟️</span>额外小料券</div><p>不等下一轮专注，直接多获得 1 张小料券。</p><button class="shop-buy ${coin>=24?'can':''}" data-shop-item="topping" data-cost="24" ${coin<24?'disabled':''}>🪙 24 · 兑换</button></div>`;
 
   const bondItems=`
@@ -10136,10 +10216,10 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
     },
     // 玻璃杯: 矮胖直壁,厚玻璃,无盖,短粗吸管
     glass: {
-      topY:82, botY:268, lidY:80,
-      halfW: y => 46 - 5*(y-82)/186,
-      outline: "M50,82 L54,249 Q54,270 76,270 L124,270 Q146,270 146,249 L150,82 Z",
-      clip:    "M54,84 L58,249 Q59,264 77,264 L123,264 Q141,264 142,249 L146,84 Z",
+      topY:82, botY:244, lidY:80,
+      halfW: y => 46 - 13*Math.pow(Math.max(0,(y-82)/162),4),
+      outline: "M50,82 C51,122 49,185 57,226 Q62,248 100,250 Q138,248 143,226 C151,185 149,122 150,82 Z",
+      clip:    "M54,84 C55,130 53,186 61,224 Q66,243 100,244 Q134,243 139,224 C147,186 145,130 146,84 Z",
       hasLid:false, hasStraw:true
     }
   }[cupType];
@@ -10672,14 +10752,24 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
              <path d="M133,100 L124,238" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".22"/>`;
   }else{
     // 玻璃杯: 厚壁反光(跟随锥形斜度,上宽下窄)
-    body += `<path d="M59,96 L63,248" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity=".44"/>
-             <path d="M68,96 L71,246" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".22"/>
-             <path d="M141,96 L137,248" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".17"/>`;
+    body += `<path d="M59,99 Q57,178 66,228" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity=".44"/>
+             <path d="M68,99 Q66,176 73,233" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".22"/>
+             <path d="M141,99 Q143,178 134,228" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".17"/>`;
   }
   if(cupType==='glass'){
+    defs+=`<linearGradient id="${U}gold" x1="0" y1="0" x2="1" y2=".3"><stop stop-color="#AA834E"/><stop offset=".22" stop-color="#F2DCAC"/><stop offset=".43" stop-color="#C39B5E"/><stop offset=".67" stop-color="#FFF0C8"/><stop offset="1" stop-color="#B38A51"/></linearGradient>`;
     body+=`<g clip-path="url(#${U}cp)"><path d="${CUP.outline}" fill="url(#${U}prism)"/>`;
-    for(let x=70;x<=132;x+=12)body+=`<path d="M${x} 99 L${x+(100-x)*.10} 250" stroke="#FFFFFF" stroke-width="1.2" opacity=".17"/><path d="M${x+2} 100 L${x+2+(100-x)*.10} 248" stroke="#849CA6" stroke-width=".6" opacity=".12"/>`;
-    body+=`<path d="M57 251 Q100 269 143 251 L141 261 Q100 278 59 261Z" fill="url(#${U}prism)"/><path d="M64 262 Q100 271 137 261" stroke="#F4FFFF" stroke-width="2" fill="none" opacity=".85"/></g>`;
+    for(let x=64;x<=138;x+=12){
+      const end=100+(x-100)*.65;
+      body+=`<path d="M${x} 99 Q${x-3} 175 ${end} 241" stroke="#FFFFFF" stroke-width="1.5" fill="none" opacity=".3"/><path d="M${x+2} 99 Q${x} 175 ${end+1.5} 241" stroke="#A4BDC2" stroke-width=".65" fill="none" opacity=".18"/>`;
+    }
+    body+='</g>';
+    // A short faceted crystal stem and scalloped gilded foot.
+    body+=`<path d="M91 249 Q95 257 92 265 L81 269 Q100 275 119 269 L108 265 Q105 257 109 249Z" fill="url(#${U}prism)" stroke="#B7C9C8" stroke-width=".85"/><path d="M97 251 V265M103 251V265" stroke="#FFFFFF" stroke-width="2" opacity=".85"/>
+    <ellipse cx="100" cy="273" rx="34" ry="5" fill="#ECF4EF" fill-opacity=".4" stroke="url(#${U}gold)" stroke-width="1.2"/><ellipse cx="100" cy="271.5" rx="28" ry="3.2" fill="#FFFFFF" fill-opacity=".38" stroke="#FFFFFF" stroke-width=".8"/>
+    <path d="M66 234 Q100 253 134 234" fill="none" stroke="url(#${U}gold)" stroke-width="1.1"/><path d="M69 238 Q100 255 131 238" fill="none" stroke="#FFFFFF" stroke-width=".8" opacity=".8"/>`;
+    // Delicate etched botanical sprigs follow the glass edge, leaving ingredients visible.
+    body+=`<g fill="none" stroke="url(#${U}gold)" stroke-width=".8" opacity=".75"><path d="M135 136Q130 155 133 177M131 151Q123 144 126 141Q133 145 131 151M132 160Q140 152 141 155Q139 162 132 160M133 171Q125 164 127 161Q133 164 133 171"/></g>`;
   }else{
     body+=`<path d="M75 263 Q100 270 126 263" stroke="#FFFDF8" stroke-width="1.5" fill="none" opacity=".8"/><path d="M59 91 Q100 100 142 91" stroke="#FFFDF8" stroke-width="1" fill="none" opacity=".65"/>`;
   }
@@ -10834,7 +10924,7 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
     // 杯口后半圈：先画，在吸管后面
     body += `
       <path d="M50.8,82.6 Q100,66.6 149.2,82.6"
-        fill="none" stroke="#9EB5BC" stroke-width="3.55"
+        fill="none" stroke="url(#${U}gold)" stroke-width="1.4"
         stroke-linecap="round" opacity=".74"/>
       <path d="M55.7,81.9 Q100,70.0 144.3,81.9"
         fill="none" stroke="#FFFFFF" stroke-width="2.25"
@@ -10868,10 +10958,10 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
     // 杯口前半圈：最后画，形成真实穿插关系
     body += `
       <path d="M149.2,82.6 Q100,97.2 50.8,82.6"
-        fill="none" stroke="#A2B8BF" stroke-width="4.05"
+        fill="none" stroke="url(#${U}gold)" stroke-width="1.6"
         stroke-linecap="round" opacity=".78"/>
       <path d="M144.3,83.0 Q100,92.8 55.7,83.0"
-        fill="none" stroke="#FFFFFF" stroke-width="2.65"
+        fill="none" stroke="#FFFFFF" stroke-width="1.3"
         stroke-linecap="round" opacity=".74"/>
       <path d="M139.6,82.95 Q100,89.9 60.4,82.95"
         fill="none" stroke="#EEF9FA" stroke-width="1.55"
@@ -11009,7 +11099,7 @@ function cupSVG(o){ // {base, tops[], fill 0..1, uid, cup:'plastic'|'glass'}
   }
 
   // mini(收藏柜)模式: 裁掉杯底多余空白,让杯底≈SVG底部,便于搁板对齐;非mini保留完整画布
-  const vb = o.mini ? "0 0 200 268" : "0 0 200 300";
+  const vb = o.mini ? "0 0 200 280" : "0 0 200 300";
   return `<svg class="artisan-cup artisan-${cupType}" viewBox="${vb}" xmlns="http://www.w3.org/2000/svg"><defs>${defs}</defs>${body}${overlay}</svg>`;
 }
 
@@ -11126,17 +11216,21 @@ function seedRand(str){
 const otherUid = uid => (USERS.find(u=>u.id!==uid)||USERS[0]).id;
 const clamp100 = n => Math.max(0, Math.min(100, Math.round(n)));
 function petLifeDefault(uid){
-  return {craving:24, fullness:78, lastTick:Date.now(), location:uid,
+  return {fullness:78, lastTick:Date.now(), location:uid,
           snackDay:null, snackCount:0, teaFeedDay:null,
           visitSnackDay:null, visitTeaDay:null, playDay:null, playCount:0, questId:null, awaySince:null,
           awayReason:null, luredBy:null, lureDay:null, lureCount:0,
-          sceneMode:"room", lastSnack:null, lastSnackDay:null};
+          sceneMode:"room", lastSnack:null, lastSnackDay:null,
+          lastAffectionAt:null, homeSince:null, lastWanderCheck:null, lastWanderDay:null};
 }
 function petLifeOf(uid){ return Object.assign(petLifeDefault(uid), (data[uid]&&data[uid].petLife)||{}); }
 function updatePetLife(uid,fn,done){
   DB.txn("users/"+uid+"/petLife",cur=>{
     const s=Object.assign(petLifeDefault(uid),cur||{}), out=fn(s);
-    return out===undefined ? undefined : out;
+    if(out===undefined)return undefined;
+    if(cur && cur.location!==uid && out.location===uid)out.homeSince=Date.now();
+    if(cur && (out.playCount!==cur.playCount || out.teaFeedDay!==cur.teaFeedDay || out.snackCount!==cur.snackCount || out.visitSnackDay!==cur.visitSnackDay || out.visitTeaDay!==cur.visitTeaDay))out.lastAffectionAt=Date.now();
+    return out;
   },ok=>done&&done(ok));
 }
 function addPetIntimacy(uid,n){ DB.txn("users/"+uid+"/stats/intimacy",cur=>Math.min(100,(cur||0)+n)); addBondXP(uid,n); }
@@ -11515,11 +11609,20 @@ function sceneRoleChipClass(uid){ return uid==='u1'?'qiyu':'shen'; }
 
 
 // Pose selection uses active session time; paused time never advances a phase.
+let poseControlsCollapsed=(()=>{try{return localStorage.getItem('milktea-pose-controls-hidden')==='true'}catch{return false}})();
+function scenePoseControlsHTML(){
+  return `<div class="scene-pose-controls ${poseControlsCollapsed?'is-collapsed':''}" aria-label="姿势选择"><button class="scene-pose-trigger" type="button" data-open-poses ${poseControlsCollapsed?'hidden':''}><svg class="pose-button-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5h8a3 3 0 0 1 3 3v9H5v-9a3 3 0 0 1 3-3Z"/><path d="M5 12h14M7 17.5v3M17 17.5v3M9 9h6"/></svg><span>换个姿势<small>陪你 · 慢慢来</small></span></button><button type="button" class="pose-collapse" data-toggle-poses aria-expanded="${!poseControlsCollapsed}" aria-label="${poseControlsCollapsed?'展开姿势选择':'隐藏姿势选择'}" title="${poseControlsCollapsed?'展开姿势选择':'隐藏姿势选择'}">${poseControlsCollapsed?'‹':'›'}</button></div>`;
+}
+function bindPoseControlButtons(root){
+  root.querySelector('[data-open-poses]').onclick=e=>{e.stopPropagation();openScenePosePicker()};
+  root.querySelector('[data-toggle-poses]').onclick=e=>{e.stopPropagation();poseControlsCollapsed=!poseControlsCollapsed;try{localStorage.setItem('milktea-pose-controls-hidden',String(poseControlsCollapsed))}catch{};root.querySelector('.scene-pose-controls').outerHTML=scenePoseControlsHTML();bindPoseControlButtons(root)};
+}
+
 const scenePosePreferences=(()=>{try{return JSON.parse(localStorage.getItem('milktea-scene-poses-v1'))||{}}catch{return {}}})();
 function scenePoseChoices(mode){
-  if(['outdoor','seaside'].includes(mode))return [['auto','随场景'],['stand','站着陪你'],['sit','坐下来'],['lie','躺着放松']];
-  if(['room','cafe','library','train','jiangnan'].includes(mode))return [['auto','随场景'],['stand','静静陪伴'],['read','一起阅读'],['think','想点事情']];
-  return [['auto','随场景'],['stand','静静陪伴'],['read','记录灵感'],['think','看风景']];
+  if(['outdoor','seaside'].includes(mode))return [['auto','随场景'],['stand','站着陪你'],['sit','坐下来'],['lie','躺着放松'],['listen','戴耳机听课'],['laptop','盘腿用电脑']];
+  if(['room','cafe','library','train','jiangnan'].includes(mode))return [['auto','随场景'],['stand','静静陪伴'],['read','一起阅读'],['think','想点事情'],['listen','戴耳机听课'],['laptop','盘腿用电脑']];
+  return [['auto','随场景'],['stand','静静陪伴'],['read','记录灵感'],['think','看风景'],['listen','听课记笔记'],['laptop','整理学习资料']];
 }
 function chosenScenePose(uid,mode){
   const choice=scenePosePreferences[uid+'|'+mode]||'auto';
@@ -11530,12 +11633,12 @@ function contextualPose(uid){
   let pose=choice;
   if(pose==='auto'){
     // Active focus keeps its existing phase animation; a manual posture remains selected.
-    if(data[uid].session&&!data[uid].session.pauseTs)return null;
+    if(data[uid].session)return null;
     if(mode==='room')return null;
-    pose=({outdoor:'sit',seaside:'lie',library:'read',cafe:'read',studio:'read',train:'read',meeting:'think',greenhouse:'think',terrace:'think',jiangnan:'read',cloudrealm:'think'})[mode]||'stand';
+    pose=({outdoor:'sit',seaside:'lie',library:'laptop',cafe:'read',studio:'read',train:'listen',meeting:'laptop',greenhouse:'think',terrace:'think',jiangnan:'read',cloudrealm:'think'})[mode]||'stand';
   }
-  const src=pose==='sit'||pose==='lie'?`assets/characters/${q?'qiyu':'shenxinghui'}-3d-${pose}.png`:pose==='read'?(q?'assets/characters/qiyu-3d-sketch-v2.png':'assets/characters/shenxinghui-3d-read.png'):pose==='think'?(q?c.scene3dArt:c.scene3dThink):c.scene3d;
-  return {key:`scene-${mode}-${pose}`,src,label:({sit:'坐下来，慢慢陪你',lie:'躺着听风，放松一下',read:q?'把灵感画下来':'安静读一会儿',think:'陪你想点事情',stand:'静静陪着你'})[pose],posture:pose};
+  const src=['sit','lie','listen','laptop'].includes(pose)?`assets/characters/${q?'qiyu':'shenxinghui'}-3d-${pose}.png`:pose==='read'?(q?'assets/characters/qiyu-3d-sketch-v2.png':'assets/characters/shenxinghui-3d-read.png'):pose==='think'?(q?c.scene3dArt:c.scene3dThink):c.scene3d;
+  return {key:`scene-${mode}-${pose}`,src,label:({sit:'坐下来，慢慢陪你',lie:'躺着听风，放松一下',listen:'戴上耳机，认真听课',laptop:'把今天的学习资料整理好',read:q?'把灵感画下来':'安静读一会儿',think:'陪你想点事情',stand:'静静陪着你'})[pose],posture:pose};
 }
 function openScenePosePicker(){
   const mode=petSceneModeOf(view), who=[view];
@@ -11555,17 +11658,19 @@ function openScenePosePicker(){
 const companionTouchCounts = {u1:0,u2:0};
 function companionTouchPose(uid){
   const context=contextualPose(uid);
-  if(context&&['sit','lie'].includes(context.posture))return context.src;
+  if(context&&['sit','lie','listen','laptop'].includes(context.posture))return context.src;
   const c=petCfg(uid);
   const pool=uid==='u1'?[c.scene3dInteract,c.scene3dCheer,c.scene3dArt,'assets/characters/qiyu-3d-sketch-v2.png']:[c.scene3dGentle,c.scene3dThink,'assets/characters/shenxinghui-3d-read.png',c.scene3dFocus];
   return pool[(companionTouchCounts[uid]++)%pool.length]||c.scene3d;
 }
 function companionPose(uid,mood=petMood(uid)){
+  const interaction=companionInteractionPose(uid);
+  if(interaction)return interaction;
   const context=contextualPose(uid);
   if(context)return context;
   const c=petCfg(uid), s=data[uid].session, q=uid==='u1';
   const sketch='assets/characters/qiyu-3d-sketch-v2.png', read='assets/characters/shenxinghui-3d-read.png';
-  let key='idle', label='静静陪着你', src=c.scene3d;
+  let key='idle', label='静静陪着你', src=c.scene3d, posture='stand';
   if(s){
     const min=Math.max(0,sessionElapsedMin(s));
     const phase=min<10?0:min<25?1:min<50?2:3;
@@ -11574,10 +11679,17 @@ function companionPose(uid,mood=petMood(uid)){
     else {
       const pools=q?{ky:[c.scene3dArt,sketch,c.scene3dInteract,c.scene3dCheer],xx:[sketch,c.scene3dArt,sketch,c.scene3dCheer],dl:[c.scene3dCheer,c.scene3dInteract,c.scene3dCheer,c.scene3dArt]}:{ky:[c.scene3dThink,read,c.scene3dFocus,c.scene3dGentle],xx:[read,c.scene3dFocus,c.scene3dThink,c.scene3dGentle],dl:[c.scene3dGentle,c.scene3dThink,c.scene3dFocus,c.scene3dGentle]};
       src=(pools[s.cat]||pools.xx)[phase];
+      if(s.cat!=='dl'&&phase<3){
+        const mode=petSceneModeOf(view);
+        const studyPlan=({library:['read','laptop','listen'],meeting:['laptop','listen','laptop'],studio:['read','laptop','read'],train:['listen','read','laptop'],outdoor:['read','listen','laptop'],seaside:['listen','read','laptop']})[mode]||['read','listen','laptop'];
+        posture=studyPlan[phase];
+        src=posture==='read'?(q?sketch:read):`assets/characters/${q?'qiyu':'shenxinghui'}-3d-${posture}.png`;
+        key=mode+':'+key;
+      }
       label=(q?'祁煜':'沈星回')+' · '+['进入状态','专心陪伴','沉浸专注','辛苦啦，记得舒展一下'][phase];
     }
   }else if(mood==='sleepy'){key='rest';src=q?c.scene3dArt:c.scene3dFocus;label='安静休息，等你回来';}
-  return {src:src||c.scene3d,key,label,posture:"stand"};
+  return {src:src||c.scene3d,key,label,posture};
 }
 function updateCompanionPoses(){
   document.querySelectorAll('[data-scene3d]').forEach(w=>{
@@ -11585,7 +11697,11 @@ function updateCompanionPoses(){
     if(!img||img.dataset.animLock==='1'||w.closest('.pet-interacting'))return;
     const pose=companionPose(w.dataset.scene3d);
     if(w.dataset.pose===pose.key)return;
-    w.dataset.pose=pose.key;w.dataset.posture=pose.posture||'stand';w.title=pose.label;img.src=pose.src;img.dataset.baseSrc=pose.src;img.alt=pose.label;
+    w.dataset.pose=pose.key;w.dataset.posture=pose.posture||'stand';
+    w.classList.remove('interaction-hug','interaction-pat');
+    if(!pose.interaction){delete w.dataset.interaction;w.querySelectorAll('.headpat-hand,.hug-heart').forEach(el=>el.remove())}
+    if(pose.interaction){w.dataset.interaction=pose.interaction;w.classList.add('interaction-'+pose.interaction)}
+    w.title=pose.label;img.src=pose.src;img.dataset.baseSrc=pose.src;img.alt=pose.label;
   });
 }
 
@@ -11596,11 +11712,11 @@ function petSceneVisualHTML(uid,mood,tea){
   const stateSrc = pose.src;
   const clickSrc = uid==='u1'?cfg.scene3dInteract:cfg.scene3dGentle;
   let fx="";
-  if(mood==="sleepy") fx=`<span class="pet-fx pet-3d-fx" style="right:2px;top:22px">💤</span>`;
+  if(mood==="sleepy" && !["read","listen","laptop"].includes(pose.posture)) fx=`<span class="pet-fx pet-3d-fx" style="right:2px;top:22px">💤</span>`;
   if(mood==="cheer") fx=`<span class="pet-fx pet-3d-fx" style="left:4px;top:28px">✨</span><span class="pet-fx pet-3d-fx" style="right:4px;top:76px;animation-delay:.6s">✨</span>`;
   const cup=""; // Milk tea has one home: the scene's tabletop.
   const chip=sceneRoleTag(uid,mood), chipCls=sceneRoleChipClass(uid);
-  return `<div class="pet-img-wrap pet-3d-wrap" data-scene3d="${uid}" data-pose="${pose.key}" data-posture="${pose.posture||'stand'}" title="${pose.label}" data-role="${cfg.scene3dRole||petName(uid)}">${chip?`<div class="pet-role-chip ${chipCls}">${chip}</div>`:""}<img class="pet-img pet-3d-character" src="${stateSrc}" data-idle-src="${src}" data-base-src="${stateSrc}" data-click-src="${clickSrc}" ${blink?`data-blink-src="${blink}"`:""} alt="${cfg.scene3dRole||petName(uid)} · ${pose.label}">${fx}${cup}<span class="pet-3d-depth" aria-hidden="true"></span></div><div class="pet-shadow pet-3d-shadow"></div>`;
+  return `<div class="pet-img-wrap pet-3d-wrap ${pose.interaction?'interaction-'+pose.interaction:''}" ${pose.interaction?'data-interaction="'+pose.interaction+'" style="--interaction-delay:-'+pose.elapsed+'ms"':''} data-scene3d="${uid}" data-pose="${pose.key}" data-posture="${pose.posture||'stand'}" title="${pose.label}" data-role="${cfg.scene3dRole||petName(uid)}">${chip?`<div class="pet-role-chip ${chipCls}">${chip}</div>`:""}<img class="pet-img pet-3d-character" src="${stateSrc}" data-idle-src="${src}" data-base-src="${stateSrc}" data-click-src="${clickSrc}" ${blink?`data-blink-src="${blink}"`:""} alt="${cfg.scene3dRole||petName(uid)} · ${pose.label}">${fx}${cup}${interactionDecoration(pose.interaction)}<span class="pet-3d-depth" aria-hidden="true"></span></div><div class="pet-shadow pet-3d-shadow"></div>`;
 }
 function petStaticVisualHTML(uid){
   const mood=petMood(uid), tea=drinkOf(uid)?drinkOf(uid).base:null, cfg=petCfg(uid);
@@ -11645,6 +11761,7 @@ function bindScene3DFrames(root){
     const wrap = img.closest(".pet-3d-wrap");
     if(wrap){
       wrap.addEventListener("pointerdown", ()=>{
+        if(activeCompanionInteraction(wrap.dataset.scene3d))return;
         wrap.classList.remove("pet-react","pet-react-qiyu","pet-react-shen");
         void wrap.offsetWidth;
         const uid = wrap.dataset.scene3d||'';
@@ -11679,18 +11796,33 @@ const PET_RETURN_QUESTS=[
 function returnQuestPick(uid,token){const r=seedRand("return|"+uid+"|"+String(token||todayKeyFor(uid)));return PET_RETURN_QUESTS[Math.floor(r()*PET_RETURN_QUESTS.length)];}
 function returnQuestOf(uid){const s=petLifeOf(uid);return PET_RETURN_QUESTS.find(q=>q.id===s.questId)||returnQuestPick(uid,s.awaySince||todayKeyFor(uid));}
 
+// One shared hourly roll: reconnects and concurrent tabs cannot multiply departures.
+function spontaneousVisitReason(uid,s,now,hour=hourInTZ(uid)){
+  if(s.location!==uid || data[uid].session || data[otherUid(uid)].session)return null;
+  if(petLifeOf(otherUid(uid)).location!==otherUid(uid))return null;
+  if(activeCompanionInteraction(uid) || hour<9 || hour>=22)return null;
+  if(now-(s.homeSince||now)<6*3600000 || now-(s.lastAffectionAt||s.homeSince||now)<90*60000)return null;
+  if(s.lastWanderDay===todayKeyFor(uid))return null;
+  const idle=now-(s.lastAffectionAt||s.homeSince||now);
+  const r=seedRand('wander-v2|'+uid+'|'+Math.floor(now/3600000));
+  if(idle>=4*3600000 && r()<.22)return 'sulking';
+  if(r()<.16)return 'playful';
+  return null;
+}
 function syncPetLife(uid){
   const now=Date.now();
   updatePetLife(uid,s=>{
     const last=Number(s.lastTick)||now, hours=Math.floor(Math.max(0,now-last)/3600000);
     if(hours>0){
-      s.craving=clamp100((s.craving||0)+hours);
       s.fullness=clamp100((s.fullness||0)-Math.floor(hours/2));
       s.lastTick=last+hours*3600000;
     }
-    if(s.location===uid && s.craving>=100){
-      s.location=otherUid(uid); s.awaySince=now;
-      s.questId=returnQuestPick(uid,now).id; s.awayReason="craving"; s.luredBy=null;
+    if(!s.homeSince)s.homeSince=now;
+    if(!s.lastWanderCheck){s.lastWanderCheck=now;return s;}
+    if(now-s.lastWanderCheck>=3600000){
+      s.lastWanderCheck=now;
+      const reason=spontaneousVisitReason(uid,s,now);
+      if(reason){s.location=otherUid(uid);s.awaySince=now;s.questId=returnQuestPick(uid,now).id;s.awayReason=reason;s.luredBy=null;s.lastWanderDay=todayKeyFor(uid);}
     }
     return s;
   });
@@ -11706,7 +11838,7 @@ function snackModal(uid,visitor=false){
     return;
   }
   const choices=[['cookie','🍪','小饼干',12,5],['berry','🍓','草莓',10,7],['pudding','🍮','小布丁',16,5],['bread','🥐','小面包',18,4]];
-  showModal(`<h3>${visitor?'🤫 偷偷投喂':'🍪 给 '+petName(uid)+' 投喂'}</h3><p>${visitor?'趁主人没注意，塞点吃的给串门的小家伙。':'每天最多投喂两次，别把正餐吃不下了。'}</p><div class="pet-feed-grid">${choices.map(c=>`<button class="pet-feed-btn" data-s="${c[0]}"><span class="feed-art">${sceneSnackSVG(c[0])}</span><b>${c[2]}</b><small>饱腹 +${c[3]} · 心情 +${c[4]}</small></button>`).join('')}</div><div class="mbtns"><button class="btn ghost" id="mNo">算啦</button></div>`,box=>{
+  showModal(`<h3>${visitor?'🤫 偷偷投喂':'🍪 给 '+petName(uid)+' 投喂'}</h3><p>${visitor?'趁主人没注意，塞点吃的给串门的小家伙。':'每天最多投喂两次，别把正餐吃不下了。'}</p><div class="pet-feed-grid">${choices.map(c=>`<button class="pet-feed-btn" data-s="${c[0]}"><span class="feed-art">${sceneSnackSVG(c[0])}</span><b>${c[2]}</b><small>饱腹 +${c[3]}</small></button>`).join('')}</div><div class="mbtns"><button class="btn ghost" id="mNo">算啦</button></div>`,box=>{
     box.querySelector('#mNo').onclick=closeModal;
     box.querySelectorAll('[data-s]').forEach(btn=>btn.onclick=()=>{
       const c=choices.find(x=>x[0]===btn.dataset.s), today=todayKeyFor(uid), s=petLifeOf(uid);
@@ -11715,7 +11847,7 @@ function snackModal(uid,visitor=false){
       updatePetLife(uid,x=>{
         if(visitor)x.visitSnackDay=today; else{x.snackDay=today;x.snackCount=(x.snackDay===today?(x.snackCount||0):0)+1;}
         x.lastSnack=c[0];x.lastSnackDay=today;
-        x.fullness=clamp100((x.fullness||0)+c[3]);x.craving=clamp100((x.craving||0)-c[4]);return x;
+        x.fullness=clamp100((x.fullness||0)+c[3]);return x;
       });
       if(!visitor)addPetIntimacy(uid,1);
       const actorUid=view, coinBonus=rewardInteractionCoins(actorUid,visitor?'snack_guest':'snack',{silent:true});
@@ -11735,7 +11867,7 @@ function showReturnQuest(uid){
   showModal(`<h3>🏠 把 ${petName(uid)} 哄回家</h3><p>${petName(uid)}现在赖在 ${uname(petLifeOf(uid).location)} 家。</p><div class="quest-card">${q.em} 召回要求：<br><b>${q.txt}</b><br><span>${d?'你今天的是：'+drinkLabel(uid):'你今天还没有做奶茶'}</span></div><div class="mbtns"><button class="btn ghost" id="mNo">先等等</button>${ok?'<button class="btn start" id="mYes">拿这杯去接 TA</button>':''}</div>`,box=>{
     box.querySelector('#mNo').onclick=closeModal;
     const yes=box.querySelector('#mYes');if(yes)yes.onclick=()=>{
-      updatePetLife(uid,x=>{x.location=uid;x.awaySince=null;x.questId=null;x.awayReason=null;x.luredBy=null;x.craving=12;x.fullness=clamp100((x.fullness||0)+15);x.teaFeedDay=todayKeyFor(uid);return x;});
+      updatePetLife(uid,x=>{x.location=uid;x.awaySince=null;x.questId=null;x.awayReason=null;x.luredBy=null;x.fullness=clamp100((x.fullness||0)+15);x.teaFeedDay=todayKeyFor(uid);return x;});
       addPetIntimacy(uid,5);closeModal();celebrate();say('petBubble',petName(uid)+'抱着奶茶跟你回来了 · 亲密 +5 🥹',5200);
     };
   });
@@ -11748,7 +11880,7 @@ function feedTea(uid,sourceUid,visitor=false){
   if(visitor){
     if(s.visitTeaDay===today){say('petBubble',petName(uid)+'今天已经偷喝过一口了 😌',4000);return;}
     const hit=tasteOf(uid).match(d);
-    updatePetLife(uid,x=>{x.visitTeaDay=today;x.craving=clamp100((x.craving||0)-(hit?22:12));x.fullness=clamp100((x.fullness||0)+7);return x;});
+    updatePetLife(uid,x=>{x.visitTeaDay=today;x.fullness=clamp100((x.fullness||0)+7);return x;});
     const actorUid=view, coinBonus=rewardInteractionCoins(actorUid,'tea_guest',{silent:true});
     addGuestFriendship(actorUid,uid,hit?3:2);
     maybeTriggerRewardStory(actorUid,'tea_guest');
@@ -11756,11 +11888,11 @@ function feedTea(uid,sourceUid,visitor=false){
   }
   if(s.teaFeedDay===today){say('petBubble','今天已经分给我喝过啦 🧋',4000);return;}
   const taste=tasteOf(uid), hit=taste.match(d);
-  updatePetLife(uid,x=>{x.teaFeedDay=today;x.craving=clamp100((x.craving||0)-(hit?58:34));x.fullness=clamp100((x.fullness||0)+12);return x;});
+  updatePetLife(uid,x=>{x.teaFeedDay=today;x.fullness=clamp100((x.fullness||0)+12);return x;});
   addPetIntimacy(uid,hit?3:1);
   const actorUid=view, coinBonus=rewardInteractionCoins(actorUid,'tea',{silent:true});
   maybeTriggerRewardStory(actorUid,'tea');
-  showModal(`<h3>${hit?'🥹 正中口味':'🧋 喝到了'}</h3><p>${petName(uid)}喝了 <b>${drinkLabel(uid)}</b>。<br>${hit?'“就是我今天想喝的'+taste.txt+'！”<br><b>亲密 +3 · 想喝值大降</b>':'不是今天最想要的'+taste.txt+'，但还是喝光了。<br><b>亲密 +1</b>'}${coinBonus?`<br>${takeInteractionCoinFlavor(actorUid)}<br><b>+1 金币</b>`:''}</p><div class="mbtns"><button class="btn start" id="mOk">嘿嘿</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);
+  showModal(`<h3>${hit?'🥹 正中口味':'🧋 喝到了'}</h3><p>${petName(uid)}喝了 <b>${drinkLabel(uid)}</b>。<br>${hit?'“就是我今天想喝的'+taste.txt+'！”<br><b>亲密 +3 · 正中心愿</b>':'不是今天最想要的'+taste.txt+'，但还是喝光了。<br><b>亲密 +1</b>'}${coinBonus?`<br>${takeInteractionCoinFlavor(actorUid)}<br><b>+1 金币</b>`:''}</p><div class="mbtns"><button class="btn start" id="mOk">嘿嘿</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);
 }
 
 function rewardPetPlay(uid){
@@ -11802,57 +11934,57 @@ function petPlayLine(uid,type){
   const arr=sets[type]||sets.pat, r=seedRand('play|'+uid+'|'+type+'|'+Date.now());
   return arr[Math.floor(r()*arr.length)];
 }
+// Transient scene interactions survive renderPet() and database refreshes.
+const companionInteractionState={};
+const companionInteractionRequest={};
+function activeCompanionInteraction(uid){
+  const state=companionInteractionState[uid];
+  return state&&state.until>Date.now()?state:null;
+}
+function companionInteractionPose(uid){
+  const state=activeCompanionInteraction(uid);
+  if(!state)return null;
+  return {key:'interaction-'+state.token,src:state.src,posture:'stand',interaction:state.type,elapsed:Date.now()-state.started,label:state.type==='hug'?'给你一个慢慢的拥抱':state.type==='pat'?'轻轻摸摸头，再陪你一会儿':'陪你放松一会儿'};
+}
+function interactionDecoration(type){
+  if(type==='pat')return `<svg class="headpat-hand" viewBox="0 0 90 62" aria-hidden="true"><path d="M81 7 59 11 44 15 23 16Q17 17 19 22L35 23 14 25Q9 28 14 31L35 30 16 34Q12 38 18 40L40 37 27 42Q24 46 30 48L49 41Q59 39 67 29L84 25Z" fill="#FFEAD9" stroke="#DFBCA7" stroke-width="1.2" stroke-linejoin="round"/><path d="m73 7 11-3 5 23-12 4Z" fill="#FFFDF5" stroke="#DBC7B1"/><path d="M45 23q10-3 14 0" stroke="#E2BBA6" fill="none"/></svg>`;
+  if(type==='hug')return '<span class="hug-heart one" aria-hidden="true">♡</span><span class="hug-heart two" aria-hidden="true">♡</span>';
+  return '';
+}
 function petInteractionPoseSrc(uid,type){
   const cfg=petCfg(uid)||{};
-  if(uid==='u1'){
-    if(type==='hug') return cfg.scene3dInteract || cfg.scene3dCheer || cfg.scene3dArt || cfg.scene3d || '';
-    if(type==='pat') return cfg.scene3dArt || cfg.scene3dCheer || cfg.scene3d || '';
-    if(type==='note') return cfg.scene3dArt || cfg.scene3d || '';
-    return cfg.scene3dCheer || cfg.scene3d || '';
-  }
-  if(type==='hug') return cfg.scene3dGentle || cfg.scene3dThink || cfg.scene3d || '';
-  if(type==='pat') return cfg.scene3dGentle || cfg.scene3dFocus || cfg.scene3d || '';
-  if(type==='note') return cfg.scene3dThink || cfg.scene3d || '';
-  return cfg.scene3dThink || cfg.scene3d || '';
+  if(type==='hug'||type==='pat')return `assets/characters/${uid==='u1'?'qiyu':'shenxinghui'}-3d-${type}.png`;
+  return uid==='u1'?(type==='note'?cfg.scene3dArt:cfg.scene3dCheer):(type==='note'?cfg.scene3dThink:cfg.scene3dGentle);
 }
-function playPetInteractionMotion(uid,type){
-  const slot=document.getElementById('petMainSlot'); if(!slot)return;
-  const wrap=slot.querySelector('.pet-img-wrap'); if(!wrap)return;
-  const img=slot.querySelector('.pet-3d-character, .pet-img');
-  const cls=type==='hug'?'pet-action-hug':(type==='pat'?'pet-action-pat':'pet-action-soft');
-  wrap.classList.remove('pet-action-hug','pet-action-pat','pet-action-soft');
-  void wrap.offsetWidth; wrap.classList.add(cls);
-  let restoreSrc='', restoreBase='';
-  if(img){
-    restoreSrc = img.getAttribute('src') || '';
-    restoreBase = img.dataset.baseSrc || '';
-    const poseSrc = petInteractionPoseSrc(uid,type);
-    if(poseSrc){
-      img.setAttribute('src', poseSrc);
-      if(img.dataset) img.dataset.baseSrc = poseSrc;
-    }
-  }
-  if(type==='pat'||type==='hug'){
-    const fx=document.createElement('span'); fx.className='pet-touch-fx '+(type==='hug'?'hug':'pat'); fx.textContent=type==='hug'?'💗  抱抱':'🤲  ♡';
-    slot.appendChild(fx); setTimeout(()=>fx.remove(),1350);
-  }
-  setTimeout(()=>{
-    wrap.classList.remove(cls);
-    if(img && restoreSrc){
-      img.setAttribute('src', restoreSrc);
-      if(img.dataset) img.dataset.baseSrc = restoreBase || restoreSrc;
-    }
-  },1350);
+async function playPetInteractionMotion(uid,type,line=''){
+  const home=view, token=Date.now()+'-'+Math.random().toString(36).slice(2);
+  companionInteractionRequest[uid]=token;
+  const src=petInteractionPoseSrc(uid,type), preload=new Image();preload.src=src;
+  try{await preload.decode()}catch{return false}
+  if(companionInteractionRequest[uid]!==token||view!==home||petLifeOf(uid).location!==home)return false;
+  const scene=document.getElementById('petScene');
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(scene){const r=scene.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight){scene.scrollIntoView({behavior:reduced?'instant':'smooth',block:'center'});await new Promise(resolve=>setTimeout(resolve,reduced?0:450))}}
+  if(view!==home||companionInteractionRequest[uid]!==token)return false;
+  const duration=['hug','pat'].includes(type)?6200:3600;
+  companionInteractionState[uid]={token,type,src,started:Date.now(),until:Date.now()+duration};
+  nextBigTalk=Date.now()+duration+5000;
+  renderPet();
+  say(uid===view?'petBubble':'petGuestBubble',line||companionInteractionPose(uid).label,duration);
+  await new Promise(resolve=>setTimeout(resolve,duration));
+  if(companionInteractionState[uid]?.token===token){delete companionInteractionState[uid];updateCompanionPoses();return true}
+  return false;
 }
 function quickPetPlay(uid,type){
   const rewarded=rewardPetPlay(uid), line=petPlayLine(uid,type), actorUid=view;
   const coinBonus=rewardInteractionCoins(actorUid,'play',{silent:true});
   const coinLine=coinBonus?(' · '+takeInteractionCoinFlavor(actorUid)+' +1金币'):'';
   closeModal();
-  setTimeout(()=>playPetInteractionMotion(uid,type),140);
-  setTimeout(()=>say('petBubble',line+(rewarded?' · 亲密 +1':'')+coinLine,5200),160);
-  if(rewarded)maybeTriggerRewardStory(actorUid,'play');
+  playPetInteractionMotion(uid,type,line+(rewarded?' · 亲密 +1':'')+coinLine).then(completed=>{
+    if(completed&&rewarded&&view===actorUid)maybeTriggerRewardStory(actorUid,'play');
+  });
 }
+
 function rockPaperScissors(uid,userChoice){
   const actorUid=view;
   if(rpsCoinLimitReached(actorUid)){
@@ -11953,7 +12085,6 @@ function attemptLure(hostUid,targetUid,method){
     if(success){
       s.location=hostUid;s.awaySince=now;s.questId=returnQuestPick(targetUid,now).id;
       s.awayReason='lured';s.luredBy=hostUid;
-      s.craving=clamp100((s.craving||0)-(method==='tea'?24:8));
       s.fullness=clamp100((s.fullness||0)+(method==='pudding'?10:method==='cookie'?6:5));
     }
     return s;
@@ -12064,8 +12195,8 @@ function renderPetInteraction(uid){
     if(mainSlot){
       mainSlot.querySelectorAll('.pet-img-wrap,.pet-shadow,.pet-actor-meta,.pet-3d-wrap,.pet-3d-shadow,.pet-role-chip').forEach(el=>el.style.display='none');
       const q=returnQuestOf(uid), card=document.createElement('div');card.className='pet-away-card';
-      const awayTitle=life.awayReason==='lured'?`${petName(uid)}被 ${uname(life.location)} 用好吃的勾走了`:`${petName(uid)}跑去 ${uname(life.location)} 家蹭喝了`;
-      const awayQuote=life.awayReason==='lured'?`“我只是去看看！${q.txt}就回。”`:`“${q.txt}，我就考虑回去。”`;
+      const awayTitle=life.awayReason==='sulking'?`${petName(uid)}闹了点小脾气，去 ${uname(life.location)} 家坐坐`:life.awayReason==='playful'?`${petName(uid)}贪玩，跑去 ${uname(life.location)} 家串门`:life.awayReason==='invited'?`${petName(uid)}应邀去 ${uname(life.location)} 家玩了`:life.awayReason==='lured'?`${petName(uid)}被 ${uname(life.location)} 用好吃的勾走了`:`${petName(uid)}跑去 ${uname(life.location)} 家蹭喝了`;
+      const awayQuote=life.awayReason==='sulking'?`“才没有生气……你拿${q.txt}来接我，好不好？”`:life.awayReason==='playful'?`“本来只想玩五分钟。带${q.txt}来，我们一起回家！”`:life.awayReason==='lured'?`“我只是去看看！${q.txt}就回。”`:`“${q.txt}，我就考虑回去。”`;
       card.innerHTML=`<button class="pet-away-pickup" type="button">🏠 接回家</button><div class="note-ico">${life.awayReason==='lured'?'💘':'📝'}</div><b>${awayTitle}</b><span>${awayQuote}</span><button class="pet-act primary" data-away-quest type="button">看看 TA 要喝什么</button>`;
       card.querySelector('.pet-away-pickup').addEventListener('click',e=>{e.stopPropagation();showReturnQuest(uid);});
       card.querySelector('[data-away-quest]').addEventListener('click',e=>{e.stopPropagation();showReturnQuest(uid);});
@@ -12114,16 +12245,15 @@ function renderPetInteraction(uid){
   const taste=tasteOf(uid), home=life.location===uid;
   ps.insertAdjacentHTML('beforeend',`
     <div class="ps-row"><span class="ps-label">饱腹</span><div class="ps-bar"><div class="ps-fill food" style="width:${life.fullness}%"></div></div><span class="ps-num">${life.fullness}/100</span></div>
-    <div class="ps-row"><span class="ps-label">想喝</span><div class="ps-bar"><div class="ps-fill crave" style="width:${life.craving}%"></div></div><span class="ps-num">${life.craving}/100</span></div>
-    <div class="pet-life-note main-life-note"><div class="pet-life-copy">${home?`<span class="pet-life-kicker">MILK TEA WISH</span><div class="pet-wish-line"><span>今天想喝：${taste.em}</span><b>${taste.txt}</b></div>`:`<span class="pet-life-kicker">AWAY FROM HOME</span><div class="pet-wish-line">🏃 现在在 <b>${uname(life.location)}</b> 家串门</div>`}</div><div class="pet-actions" id="petLifeActs"></div></div>`);
+    <div class="pet-life-note main-life-note"><div class="pet-life-copy">${home?`<button type="button" class="pet-wish-card" data-show-wish><span class="pet-life-kicker">今日奶茶心愿 <span aria-hidden="true">↗</span></span><span class="pet-wish-line"><span>${taste.em}</span><b>${taste.txt}</b></span><span class="pet-wish-help">做成这个口味，会更开心</span></button>`:`<span class="pet-life-kicker">AWAY FROM HOME</span><div class="pet-wish-line">🏃 现在在 <b>${uname(life.location)}</b> 家串门</div>`}</div><div class="pet-actions" id="petLifeActs"></div></div>`);
   const acts=ps.querySelector('#petLifeActs');
 
   if(home){
-    acts.innerHTML='<button class="pet-act" data-a="snack">🍪 投喂</button><button class="pet-act primary" data-a="tea">🧋 喝奶茶</button><button class="pet-act" data-a="play">🎈 玩一会</button><button class="pet-act" data-a="taste">💭 奶茶心愿</button>';
+    acts.innerHTML='<button class="pet-act" data-a="snack">🍪 投喂</button><button class="pet-act primary" data-a="tea">🧋 喝奶茶</button><button class="pet-act" data-a="play">🎈 玩一会</button>';
     acts.querySelector('[data-a=snack]').onclick=e=>{e.stopPropagation();snackModal(uid,false);};
     acts.querySelector('[data-a=tea]').onclick=e=>{e.stopPropagation();feedTea(uid,uid,false);};
     acts.querySelector('[data-a=play]').onclick=e=>{e.stopPropagation();petPlayModal(uid);};
-    acts.querySelector('[data-a=taste]').onclick=e=>{e.stopPropagation();showModal(`<h3>${taste.em} ${petName(uid)}今天的奶茶心愿</h3><p><b>${taste.txt}</b><br>做成符合这个心愿的奶茶再请 TA 喝，会额外加亲密度。</p><div class="mbtns"><button class="btn start" id="mOk">记住了</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);};
+    ps.querySelector('[data-show-wish]').onclick=e=>{e.stopPropagation();showModal(`<h3>${taste.em} ${petName(uid)}今天的奶茶心愿</h3><p><b>${taste.txt}</b><br>做成符合这个心愿的奶茶再请 TA 喝，会额外加亲密度。</p><div class="mbtns"><button class="btn start" id="mOk">记住了</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);};
   }else{
     acts.innerHTML='<button class="pet-act primary" data-a="return">🏠 查看召回任务</button>';
     acts.querySelector('[data-a=return]').onclick=e=>{e.stopPropagation();showReturnQuest(uid);};
@@ -12432,7 +12562,7 @@ function petTick(){
     nextGifAt = now + 30000 + Math.random()*45000;
     playGif(false);   // 随机小动作只在时钟旁的小窗口播
   }
-  if(now > nextBigTalk){
+  if(now > nextBigTalk && !activeCompanionInteraction(uid)){
     nextBigTalk = now + 32000 + Math.random()*26000;
     say("petBubble", pickMsg(mood, uid), 6500);
   }
@@ -12581,9 +12711,9 @@ function renderPet(){
     const mainSpeech=activePetSpeech('petBubble');
 
     big.innerHTML=`
-      <div class="pet-scene scene-${scene.id} daypart-${scene.daypart||'day'}${guestHere?' has-guest':''}${story?` story-${story.type}`:''}" id="petScene">
+      <div class="pet-scene scene-${scene.id} daypart-${scene.daypart||'day'}${guestHere?' has-guest':''}${story?` story-${story.type}`:''}" id="petScene" data-scene-mode="${scene.mode}" data-furniture="${scene.furniture||'desk'}">
         ${scenePickerHTML(uid)}
-        <button class="scene-pose-trigger" type="button" data-open-poses aria-label="选择搭子姿势">姿势 · 换一换</button>
+        ${scenePoseControlsHTML()}
         <div class="pet-scene-badge" title="按 ${tzShort(uid)} 的真实时间自动切换 · ${scene.daypartLabel||'白天'}">${scene.em}<span>TODAY · <b>${scene.name}</b></span></div>
         <div class="pet-scene-hint">${data[uid].session?'🔒 正在专注中':(guestHere?'一起自习中':'今天的学习角落')}</div>
         ${story?`<div class="pet-story-banner"><span class="pet-story-star">✨</span><div class="pet-story-copy"><div class="pet-story-title">${story.title}</div><div class="pet-story-sub">${story.reasonLabel||'奖励剧情'} · +${story.reward} 金币</div></div></div>`:''}
@@ -12619,7 +12749,7 @@ function renderPet(){
         </div>
       </div>`;
     big.classList.add("pet-hit");
-    big.querySelector('[data-open-poses]').onclick=e=>{e.stopPropagation();openScenePosePicker()};
+    bindPoseControlButtons(big);
     const im=big.querySelector("#petMainSlot img");
     if(im)im.onerror=()=>onImgErr(true,big);
     const mainSlotEl=big.querySelector('#petMainSlot');
@@ -13050,7 +13180,7 @@ function start(){
     bigPetEl.addEventListener("click", e=>{
       const closest = sel => e.target && e.target.closest ? e.target.closest(sel) : null;
       // 场景切换 / 解锁 / 其他控件保持原样，不触发搭子说话。
-      if(closest('[data-open-poses]') || closest('[data-scene-toggle]') || closest('[data-scene-mode]') || closest('.scene-picker-panel') || closest('.scene-picker-collapse') || closest('.pet-story-banner')) return;
+      if(closest('.scene-pose-controls') || closest('[data-open-poses]') || closest('[data-scene-toggle]') || closest('[data-scene-mode]') || closest('.scene-picker-panel') || closest('.scene-picker-collapse') || closest('.pet-story-banner')) return;
 
       const mainSlot = closest('#petMainSlot');
       if(!mainSlot) return;
