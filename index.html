@@ -11786,6 +11786,73 @@ function attemptLure(hostUid,targetUid,method){
     }
   });
 }
+
+const GUEST_SENDOFF_CHOICES=[
+  {id:"miss",tone:"soft",txt:"你女朋友想你了，你回家吧。"},
+  {id:"next",tone:"warm",txt:"今天先到这里啦，欢迎下次再来！"},
+  {id:"catch",tone:"tease",txt:"再不回去，她该来抓人了。"},
+  {id:"check",tone:"soft",txt:"回去报个到吧，不然有人要惦记了。"},
+  {id:"time",tone:"gentle",txt:"串门时间差不多啦，今天先回家？"},
+  {id:"door",tone:"warm",txt:"我送你到门口，下次想来随时来。"},
+  {id:"home",tone:"direct",txt:"你是不是也该回自己家看看啦？"},
+  {id:"stay",tone:"tease",txt:"你今天已经赖很久了，先回去吧～"}
+];
+function guestSendoffChoices(){
+  const a=GUEST_SENDOFF_CHOICES.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a.slice(0,3);
+}
+function guestSendoffReply(guestUid,tone){
+  const qiyu={
+    soft:["‘她想我了？’小煜顿了一下，嘴角偷偷翘起来，‘……那我回去看看。你别说是你提醒我的。’","小煜轻轻哼了一声：‘我本来就准备回去。既然她想我，那就不让她等太久。’"],
+    warm:["‘这么快就要送客呀？’小煜抱着手臂看了你两秒，‘行吧，下次我还来。’","小煜把东西收好：‘那说好了，下次不许嫌我来得勤。’"],
+    tease:["小煜挑了下眉：‘她来抓我？那我还是自己回去比较有面子。’","‘你是不是嫌我话多了？’小煜哼哼两声，‘算了，我回去就是了。’"],
+    gentle:["小煜慢吞吞站起来：‘好嘛，今天先回去。下次我要待久一点。’"],
+    direct:["小煜看了眼门口：‘知道啦。别催，我自己会走。’说完又回头补了一句，‘下次见。’"]
+  };
+  const shen={
+    soft:["沈星回安静了两秒：‘她在等我？……好，我回去。谢谢你告诉我。’","沈星回点了点头：‘嗯。那我先回去，别让她等太久。’"],
+    warm:["沈星回把书合上：‘好。今天打扰了。’走到门口又回头，‘下次再来。’","‘嗯。’沈星回站起身，神情很淡，却认真地说，‘谢谢招待。’"],
+    tease:["沈星回似乎认真想了一下：‘她会来抓我？……应该不会。’停了停，‘不过我还是回去吧。’","沈星回看了你一眼：‘我待得很久了吗？’沉默两秒，‘好，我回去。’"],
+    gentle:["沈星回轻轻点头：‘好。今天就到这里。’"],
+    direct:["沈星回没有多问，只是把东西收好：‘好，那我先回去了。’"]
+  };
+  const bank=guestUid==='u1'?qiyu:shen;
+  const arr=bank[tone]||bank.gentle||bank.direct;
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+function guestSendoffModal(hostUid,guestUid){
+  const life=petLifeOf(guestUid);
+  if(life.location!==hostUid){
+    showModal(`<h3>👋 已经回去啦</h3><p>${petName(guestUid)}现在已经不在你家了。</p><div class="mbtns"><button class="btn start" id="mOk">知道啦</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);
+    return;
+  }
+  const choices=guestSendoffChoices();
+  showModal(`<h3>👋 劝 ${petName(guestUid)} 回家</h3><p>挑一句和 TA 说。每次出现的话会有点不一样。</p><div class="pet-feed-grid guest-sendoff-grid">${choices.map((c,i)=>`<button class="pet-feed-btn" data-sendoff="${i}">💬 ${c.txt}</button>`).join('')}</div><div class="mbtns"><button class="btn ghost" id="mNo">再待一会</button></div>`,box=>{
+    box.querySelector('#mNo').onclick=closeModal;
+    box.querySelectorAll('[data-sendoff]').forEach(btn=>btn.onclick=()=>{
+      const choice=choices[Number(btn.dataset.sendoff)]||choices[0];
+      const reply=guestSendoffReply(guestUid,choice.tone);
+      updatePetLife(guestUid,s=>{
+        if(s.location!==hostUid)return undefined;
+        s.location=guestUid;
+        s.awaySince=null;
+        s.questId=null;
+        s.awayReason=null;
+        s.luredBy=null;
+        return s;
+      },ok=>{
+        closeModal();
+        if(!ok){say('petBubble',petName(guestUid)+'刚刚已经自己回去啦 👋',4200);return;}
+        showModal(`<h3>🚪 ${petName(guestUid)}回家啦</h3><div class="quest-card"><b>你：</b>“${choice.txt}”<br><br><b>${petName(guestUid)}：</b>${reply}</div><p style="margin-top:9px;color:var(--ink-soft)">TA 已经自己回家了，不需要奶茶召回。</p><div class="mbtns"><button class="btn start" id="mOk">下次再来</button></div>`,b=>b.querySelector('#mOk').onclick=closeModal);
+      });
+    });
+  });
+}
+
 function visitSceneLine(hostUid,guestUid){
   const a=[petName(guestUid)+'正在研究'+petName(hostUid)+'的收藏柜。','两个人在争最后一颗珍珠到底归谁。',petName(guestUid)+'嘴上说只是路过，已经坐下不走了。','两个人好像在偷偷交换今天的奶茶情报。'];
   const r=seedRand('visitline|'+hostUid+'|'+guestUid+'|'+todayKeyFor(hostUid));return a[Math.floor(r()*a.length)];
@@ -11880,10 +11947,11 @@ function renderPetInteraction(uid){
   // 来串门后的偷偷投喂 / 请 TA 喝一口功能完整保留。
   if(guestHere){
     const guestIntro=guestLife.awayReason==='lured'&&guestLife.luredBy===uid?`💘 <b>${petName(guestUid)}</b> 被你成功勾来玩了。`:`🤫 <b>${petName(guestUid)}</b> 正在你家赖着。`;
-    ps.insertAdjacentHTML('beforeend',`<div class="pet-life-note guest-life-note"><div class="pet-life-copy">${guestIntro}${visitSceneLine(uid,guestUid)}</div><div class="pet-actions" id="guestActs"><button class="pet-act" data-a="snack">🍪 偷偷投喂</button><button class="pet-act pink" data-a="tea">🧋 请 TA 喝一口</button></div></div>`);
+    ps.insertAdjacentHTML('beforeend',`<div class="pet-life-note guest-life-note"><div class="pet-life-copy">${guestIntro}${visitSceneLine(uid,guestUid)}</div><div class="pet-actions" id="guestActs"><button class="pet-act" data-a="snack">🍪 偷偷投喂</button><button class="pet-act pink" data-a="tea">🧋 请 TA 喝一口</button><button class="pet-act" data-a="sendhome">👋 劝 TA 回家</button></div></div>`);
     const ga=ps.querySelector('#guestActs');
     ga.querySelector('[data-a=snack]').onclick=e=>{e.stopPropagation();snackModal(guestUid,true);};
     ga.querySelector('[data-a=tea]').onclick=e=>{e.stopPropagation();feedTea(guestUid,uid,true);};
+    ga.querySelector('[data-a=sendhome]').onclick=e=>{e.stopPropagation();guestSendoffModal(uid,guestUid);};
   }
 }
 // 每天想要3样: 1小料 + 1装饰 + 1贴纸(种子随机,两端一致,跨天自动换)
