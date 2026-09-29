@@ -8956,6 +8956,54 @@ body{background:radial-gradient(ellipse at 8% 0%,#FFF2CF 0,transparent 44%),radi
  .scene-pose-trigger .pose-button-icon{width:21px!important;height:21px!important}
 }
 </style>
+
+<style id="grounded-study-v57">
+/* Chair sprites include the seat, back and planted feet, rather than a floor-sitting silhouette. */
+#petScene [data-posture^="chair-"]{--pose-y:0px;--pose-x:0px}
+#petScene [data-posture^="chair-"] .pet-3d-character{height:calc(var(--actor-width)*1.38)!important;position:absolute;bottom:0;max-width:none!important}
+#petScene [data-posture^="chair-"] .pet-fx{display:none}
+#petScene.scene-meeting-view [data-posture^="chair-"]{--pose-y:0px}
+#petScene.scene-meeting-view:not(.has-guest) [data-posture^="chair-"]{--pose-x:-40px}
+/* A surface anchor for each plate: plate feet stay on the desk/blanket, food rises above it. */
+#petScene{--plate-y:86%;--plate-main-x:35%;--plate-guest-x:66%;--plate-size:52px;--cup-x:79%;--cup-y:90%}
+#petScene .scene-snack-surface{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;transform:none!important;z-index:9!important;pointer-events:none!important;background:none!important}
+#petScene .scene-snack-surface .scene-snack-tray{position:absolute!important;inset:0!important;width:100%!important;min-width:0!important;height:100%!important;transform:none!important;display:block!important}
+#petScene .scene-snack-surface .scene-snack-item{position:absolute!important;left:var(--plate-main-x)!important;top:var(--plate-y)!important;right:auto!important;bottom:auto!important;margin:0!important;transform:translate(-50%,-100%)!important;width:var(--plate-size)!important;height:48px!important;min-width:0!important}
+#petScene .scene-snack-surface .scene-snack-item:nth-child(2){left:var(--plate-guest-x)!important}
+#petScene .scene-snack-surface .scene-snack-item::before{width:calc(var(--plate-size) - 4px);height:12px;box-shadow:0 2px 3px #74522D24}
+#petScene .scene-snack-surface .scene-snack-item svg{width:calc(var(--plate-size) - 6px)!important}
+#petScene[data-scene-mode="meeting"]{--plate-y:84%;--plate-main-x:28%;--plate-guest-x:76%;--cup-x:85%;--cup-y:89%}
+#petScene[data-scene-mode="outdoor"]{--plate-y:88%;--plate-main-x:48%;--plate-guest-x:62%;--cup-x:73%;--cup-y:89%}
+#petScene[data-scene-mode="seaside"]{--plate-y:89%;--plate-main-x:45%;--plate-guest-x:59%;--cup-x:71%;--cup-y:90%}
+#petScene[data-scene-mode="studio"]{--plate-y:86%;--plate-main-x:69%;--plate-guest-x:81%;--cup-x:89%;--cup-y:92%}
+#petScene[data-scene-mode="train"]{--plate-y:87%;--plate-main-x:64%;--plate-guest-x:75%;--cup-x:54%;--cup-y:92%}
+#petScene[data-scene-mode="greenhouse"]{--plate-y:86%;--plate-main-x:23%;--plate-guest-x:79%;--cup-x:68%;--cup-y:93%}
+#petScene[data-scene-mode="terrace"]{--plate-y:93%;--plate-main-x:65%;--plate-guest-x:76%;--cup-x:88%;--cup-y:94%}
+#petScene[data-scene-mode="jiangnan"]{--plate-y:86%;--plate-main-x:73%;--plate-guest-x:84%;--cup-x:93%;--cup-y:91%}
+#petScene[data-scene-mode="cloudrealm"]{--plate-y:89%;--plate-main-x:75%;--plate-guest-x:85%;--cup-x:67%;--cup-y:93%}
+#petScene .scene-snack-surface .scene-drink-tray{position:absolute!important;left:var(--cup-x)!important;top:var(--cup-y)!important;right:auto!important;bottom:auto!important;transform:translate(-50%,-100%)!important;width:72px!important;min-width:0!important;height:101px!important;margin:0!important;padding:0!important;display:flex!important;align-items:flex-end!important;justify-content:center!important}
+#petScene .scene-snack-surface .scene-cup{width:72px!important;height:101px!important;margin:0!important;transform:none!important;filter:drop-shadow(0 3px 2px #6C472D24)!important}
+#petScene .scene-snack-surface .scene-cup svg{display:block;width:72px!important;height:101px!important}
+#petScene .scene-snack-surface .scene-cup::after{display:none!important}
+#petScene .scene-snack-surface .scene-drink-empty-slot{display:none!important}
+@media(max-width:759px){
+ #petScene .scene-snack-surface .scene-drink-tray,#petScene .scene-snack-surface .scene-cup,#petScene .scene-snack-surface .scene-cup svg{width:48px!important;height:67px!important}
+ #petScene [data-posture^="chair-"]{--pose-y:44px}
+ #petScene[data-furniture="photo"] [data-posture^="chair-"]{--pose-y:70px}
+ #petScene.scene-meeting-view [data-posture^="chair-"]{--pose-y:0px}
+ #petScene.scene-meeting-view:not(.has-guest) [data-posture^="chair-"]{--pose-x:-40px}
+ #petScene{--plate-size:34px;--plate-y:94%;--plate-main-x:80%;--plate-guest-x:92%;--cup-x:67%;--cup-y:96%}
+ #petScene[data-scene-mode="meeting"]{--plate-y:82%;--plate-main-x:14%;--plate-guest-x:83%;--cup-x:94%;--cup-y:87%}
+ #petScene[data-scene-mode="outdoor"]{--plate-y:94%;--plate-main-x:46%;--plate-guest-x:64%;--cup-x:81%;--cup-y:95%}
+ #petScene[data-scene-mode="seaside"]{--plate-y:92%;--plate-main-x:44%;--plate-guest-x:64%;--cup-x:82%;--cup-y:94%}
+ #petScene[data-scene-mode="studio"]{--plate-y:84%;--plate-main-x:85%;--plate-guest-x:16%;--cup-x:94%;--cup-y:93%}
+ #petScene[data-scene-mode="train"]{--plate-y:79%;--plate-main-x:66%;--plate-guest-x:85%;--cup-x:53%;--cup-y:90%}
+ #petScene[data-scene-mode="greenhouse"]{--plate-y:88%;--plate-main-x:7%;--plate-guest-x:94%;--cup-x:62%;--cup-y:97%}
+ #petScene[data-scene-mode="terrace"]{--plate-y:88%;--plate-main-x:64%;--plate-guest-x:84%;--cup-x:94%;--cup-y:97%}
+ #petScene[data-scene-mode="jiangnan"]{--plate-y:93%;--plate-main-x:27%;--plate-guest-x:87%;--cup-x:54%;--cup-y:95%}
+ #petScene[data-scene-mode="cloudrealm"]{--plate-y:95%;--plate-main-x:72%;--plate-guest-x:94%;--cup-x:56%;--cup-y:96%}
+}
+</style>
 </head>
 <body>
 
@@ -11621,12 +11669,19 @@ function bindPoseControlButtons(root){
 const scenePosePreferences=(()=>{try{return JSON.parse(localStorage.getItem('milktea-scene-poses-v1'))||{}}catch{return {}}})();
 function scenePoseChoices(mode){
   if(['outdoor','seaside'].includes(mode))return [['auto','随场景'],['stand','站着陪你'],['sit','坐下来'],['lie','躺着放松'],['listen','戴耳机听课'],['laptop','盘腿用电脑']];
-  if(['room','cafe','library','train','jiangnan'].includes(mode))return [['auto','随场景'],['stand','静静陪伴'],['read','一起阅读'],['think','想点事情'],['listen','戴耳机听课'],['laptop','盘腿用电脑']];
+  if(['room','cafe','library','train','jiangnan'].includes(mode))return [['auto','随场景'],['stand','静静陪伴'],['read','一起阅读'],['think','想点事情'],['listen','戴耳机听课'],['laptop','坐着用电脑']];
   return [['auto','随场景'],['stand','静静陪伴'],['read','记录灵感'],['think','看风景'],['listen','听课记笔记'],['laptop','整理学习资料']];
 }
 function chosenScenePose(uid,mode){
   const choice=scenePosePreferences[uid+'|'+mode]||'auto';
   return scenePoseChoices(mode).some(([id])=>id===choice)?choice:'auto';
+}
+function studyPoseAsset(uid,mode,pose,src){
+  const name=uid==='u1'?'qiyu':'shenxinghui';
+  if(!['outdoor','seaside'].includes(mode) && ['read','listen','laptop'].includes(pose))return {src:`assets/characters/${name}-3d-chair-${pose}.png`,posture:'chair-'+pose};
+  if(pose==='listen'&&uid==='u1')src='assets/characters/qiyu-3d-listen-v2.png';
+  if(pose==='laptop'&&uid==='u2')src='assets/characters/shenxinghui-3d-laptop-v2.png';
+  return {src,posture:pose};
 }
 function contextualPose(uid){
   const mode=petSceneModeOf(view), choice=chosenScenePose(uid,mode), c=petCfg(uid), q=uid==='u1';
@@ -11635,10 +11690,11 @@ function contextualPose(uid){
     // Active focus keeps its existing phase animation; a manual posture remains selected.
     if(data[uid].session)return null;
     if(mode==='room')return null;
-    pose=({outdoor:'sit',seaside:'lie',library:'laptop',cafe:'read',studio:'read',train:'listen',meeting:'laptop',greenhouse:'think',terrace:'think',jiangnan:'read',cloudrealm:'think'})[mode]||'stand';
+    pose=({outdoor:'sit',seaside:'lie',library:'laptop',cafe:'read',studio:'read',train:'listen',meeting:'read',greenhouse:'think',terrace:'think',jiangnan:'read',cloudrealm:'think'})[mode]||'stand';
   }
   const src=['sit','lie','listen','laptop'].includes(pose)?`assets/characters/${q?'qiyu':'shenxinghui'}-3d-${pose}.png`:pose==='read'?(q?'assets/characters/qiyu-3d-sketch-v2.png':'assets/characters/shenxinghui-3d-read.png'):pose==='think'?(q?c.scene3dArt:c.scene3dThink):c.scene3d;
-  return {key:`scene-${mode}-${pose}`,src,label:({sit:'坐下来，慢慢陪你',lie:'躺着听风，放松一下',listen:'戴上耳机，认真听课',laptop:'把今天的学习资料整理好',read:q?'把灵感画下来':'安静读一会儿',think:'陪你想点事情',stand:'静静陪着你'})[pose],posture:pose};
+  const fitted=studyPoseAsset(uid,mode,pose,src);
+  return {key:`scene-${mode}-${pose}`,src:fitted.src,label:({sit:'坐下来，慢慢陪你',lie:'躺着听风，放松一下',listen:'戴上耳机，认真听课',laptop:'把今天的学习资料整理好',read:q?'把灵感画下来':'安静读一会儿',think:'陪你想点事情',stand:'静静陪着你'})[pose],posture:fitted.posture};
 }
 function openScenePosePicker(){
   const mode=petSceneModeOf(view), who=[view];
@@ -11658,7 +11714,8 @@ function openScenePosePicker(){
 const companionTouchCounts = {u1:0,u2:0};
 function companionTouchPose(uid){
   const context=contextualPose(uid);
-  if(context&&['sit','lie','listen','laptop'].includes(context.posture))return context.src;
+  if(context&&(['sit','lie','listen','laptop'].includes(context.posture)||context.posture.startsWith('chair-')))return context.src;
+  if(data[uid].session){const active=companionPose(uid);if(active.posture!=='stand')return active.src;}
   const c=petCfg(uid);
   const pool=uid==='u1'?[c.scene3dInteract,c.scene3dCheer,c.scene3dArt,'assets/characters/qiyu-3d-sketch-v2.png']:[c.scene3dGentle,c.scene3dThink,'assets/characters/shenxinghui-3d-read.png',c.scene3dFocus];
   return pool[(companionTouchCounts[uid]++)%pool.length]||c.scene3d;
@@ -11681,9 +11738,10 @@ function companionPose(uid,mood=petMood(uid)){
       src=(pools[s.cat]||pools.xx)[phase];
       if(s.cat!=='dl'&&phase<3){
         const mode=petSceneModeOf(view);
-        const studyPlan=({library:['read','laptop','listen'],meeting:['laptop','listen','laptop'],studio:['read','laptop','read'],train:['listen','read','laptop'],outdoor:['read','listen','laptop'],seaside:['listen','read','laptop']})[mode]||['read','listen','laptop'];
+        const studyPlan=({library:['read','laptop','listen'],meeting:['read','listen','laptop'],studio:['read','laptop','read'],train:['listen','read','laptop'],outdoor:['read','listen','laptop'],seaside:['listen','read','laptop']})[mode]||['read','listen','laptop'];
         posture=studyPlan[phase];
         src=posture==='read'?(q?sketch:read):`assets/characters/${q?'qiyu':'shenxinghui'}-3d-${posture}.png`;
+        ({src,posture}=studyPoseAsset(uid,mode,posture,src));
         key=mode+':'+key;
       }
       label=(q?'祁煜':'沈星回')+' · '+['进入状态','专心陪伴','沉浸专注','辛苦啦，记得舒展一下'][phase];
@@ -11712,7 +11770,7 @@ function petSceneVisualHTML(uid,mood,tea){
   const stateSrc = pose.src;
   const clickSrc = uid==='u1'?cfg.scene3dInteract:cfg.scene3dGentle;
   let fx="";
-  if(mood==="sleepy" && !["read","listen","laptop"].includes(pose.posture)) fx=`<span class="pet-fx pet-3d-fx" style="right:2px;top:22px">💤</span>`;
+  if(mood==="sleepy" && !["read","listen","laptop"].includes(pose.posture) && !pose.posture.startsWith("chair-")) fx=`<span class="pet-fx pet-3d-fx" style="right:2px;top:22px">💤</span>`;
   if(mood==="cheer") fx=`<span class="pet-fx pet-3d-fx" style="left:4px;top:28px">✨</span><span class="pet-fx pet-3d-fx" style="right:4px;top:76px;animation-delay:.6s">✨</span>`;
   const cup=""; // Milk tea has one home: the scene's tabletop.
   const chip=sceneRoleTag(uid,mood), chipCls=sceneRoleChipClass(uid);
@@ -12742,11 +12800,9 @@ function renderPet(){
           <img class="scene-furniture-art"
                src="${scene.mode==='outdoor'?SCENE_FURNITURE_ART.picnic:SCENE_FURNITURE_ART.desk}"
                alt="">
-          <div class="scene-treat-zone ${guestHere?'has-guest-snack':''}">
-            <div class="scene-drink-tray">${hostCup}${guestCup}</div>
-            <div class="scene-snack-tray">${hostSnack}${guestSnack}</div>
-          </div>
+
         </div>
+        <div class="scene-furniture-layer scene-snack-surface" aria-hidden="true"><div class="scene-drink-tray">${hostCup}${guestCup}</div><div class="scene-snack-tray">${hostSnack}${guestSnack}</div></div>
       </div>`;
     big.classList.add("pet-hit");
     bindPoseControlButtons(big);
