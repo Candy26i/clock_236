@@ -1,0 +1,10 @@
+.DS_Store
+node_modules/
+artifacts/
+backups/
+*.log
+# Local-only prototype models and exports are never part of this integration.
+**/models/
+*.pmx
+*.pmd
+*.7z

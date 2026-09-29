@@ -1,0 +1,35 @@
+/* The portal only styles its own links; the milk tea shop keeps its original UI. */
+.deepspace-portal {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 20px;
+  padding: 5px;
+  border: 1px solid #e6d9ca;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, .75);
+  font: 500 13px/1.5 system-ui, sans-serif;
+}
+.deepspace-portal a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 42px;
+  padding: 8px 16px;
+  border-radius: 17px;
+  color: #705478;
+  text-decoration: none;
+}
+.deepspace-portal a[aria-current="page"] {
+  color: #6d4c35;
+  background: #f6e8d9;
+}
+.deepspace-portal a:hover { background: #eee5f3; }
+.deepspace-portal a:focus-visible { outline: 2px solid #8b68a2; outline-offset: 2px; }
+@media (max-width: 360px) {
+  .deepspace-portal { gap: 0; font-size: 12px; }
+  .deepspace-portal a { padding-inline: 12px; }
+}
