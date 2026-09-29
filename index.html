@@ -9042,6 +9042,60 @@ body{background:radial-gradient(ellipse at 8% 0%,#FFF2CF 0,transparent 44%),radi
  #petScene[data-scene-mode="cafe"] .scene-snack-surface .scene-snack-item{--plate-size:30px}
 }
 </style>
+
+<style id="shen-adult-proportions-v65">
+/* The taller model grows upward from existing floor/seat anchors; scene layout stays fixed. */
+#petScene [data-scene3d="u2"] .pet-3d-character{height:calc(var(--actor-width)*1.52)!important;width:calc(var(--actor-width)*1.26)!important;max-width:none!important;object-fit:contain;object-position:center bottom;position:absolute;bottom:0}
+#petScene [data-scene3d="u2"][data-posture^="chair-"] .pet-3d-character{height:calc(var(--actor-width)*1.62)!important;width:calc(var(--actor-width)*1.3)!important}
+#petScene[data-scene-mode="cafe"] [data-scene3d="u2"][data-posture^="chair-"] .pet-3d-character{height:calc(var(--actor-width)*1.69)!important;width:calc(var(--actor-width)*1.36)!important}
+#petScene [data-scene3d="u2"]:is([data-posture="sit"],[data-posture="listen"],[data-posture="laptop"]) .pet-3d-character{height:calc(var(--actor-width)*1.22)!important}
+#petScene [data-scene3d="u2"][data-posture="lie"] .pet-3d-character{height:calc(var(--actor-width)*1.02)!important;width:calc(var(--actor-width)*1.5)!important}
+#petScene.has-guest [data-scene3d="u2"][data-posture="lie"] .pet-3d-character{height:calc(var(--actor-width)*.9)!important;width:calc(var(--actor-width)*1.3)!important}
+#petScene [data-scene3d="u2"] .headpat-hand{top:-18%;left:44%}
+#petScene :is(.pet-main-slot,.pet-visitor-slot):has([data-scene3d="u2"][data-interaction])>.pet-bubble{top:calc(var(--actor-width)*-.3)!important}
+</style>
+
+<style id="reachable-refreshments-v65">
+/* Anchors are the serving's contact with the actual tabletop, not the actor's feet. */
+.feed-art .snack-illustration{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 3px 2px #80573516)}
+#petScene .scene-snack-surface .scene-snack-item:has(.snack-illustration)::before{display:none}
+#petScene .scene-snack-surface .snack-illustration{display:block;width:100%;height:auto;max-height:55px;object-fit:contain;filter:drop-shadow(0 2px 1px #69442926)}
+#petScene .scene-snack-surface .scene-snack-item{top:var(--plate-main-y,var(--plate-y))!important;display:flex;align-items:flex-end;justify-content:center}
+#petScene .scene-snack-surface .scene-snack-item:nth-child(2){top:var(--plate-guest-y,var(--plate-y))!important}
+#petScene .scene-snack-surface :is(.scene-drink-tray,.scene-cup,.scene-cup svg){width:60px!important;height:84px!important}
+#petScene{--plate-size:54px;--plate-y:87%;--plate-main-x:36%;--plate-guest-x:66%;--cup-x:73%;--cup-y:90%}
+#petScene:not(.has-guest){--plate-main-x:38%;--cup-x:66%}
+#petScene[data-scene-mode="outdoor"]{--plate-y:91%;--plate-main-x:41%;--plate-guest-x:65%;--cup-x:53%;--cup-y:92%}
+#petScene[data-scene-mode="outdoor"]:not(.has-guest){--plate-main-x:43%;--cup-x:61%}
+#petScene[data-scene-mode="seaside"]{--plate-y:89%;--plate-main-x:40%;--plate-guest-x:59%;--cup-x:69%;--cup-y:90%}
+#petScene[data-scene-mode="meeting"]{--plate-size:46px;--plate-main-x:40%;--plate-main-y:96%;--plate-guest-x:71%;--plate-guest-y:86%;--cup-x:80%;--cup-y:90%}
+#petScene[data-scene-mode="studio"]{--plate-main-x:36%;--plate-main-y:81%;--plate-guest-x:65%;--plate-guest-y:87%;--cup-x:76%;--cup-y:90%}
+#petScene[data-scene-mode="train"]{--plate-y:96%;--plate-main-x:40%;--plate-guest-x:63%;--cup-x:54%;--cup-y:92%}
+#petScene[data-scene-mode="greenhouse"]{--plate-y:86%;--plate-main-x:30%;--plate-guest-x:72%;--cup-x:82%;--cup-y:90%}
+#petScene[data-scene-mode="terrace"]{--plate-y:94%;--plate-main-x:34%;--plate-guest-x:66%;--cup-x:77%;--cup-y:95%}
+#petScene[data-scene-mode="jiangnan"]{--plate-y:88%;--plate-main-x:70%;--plate-guest-x:80%;--cup-x:90%;--cup-y:91%}
+#petScene[data-scene-mode="cloudrealm"]{--plate-y:91%;--plate-main-x:64%;--plate-guest-x:84%;--cup-x:74%;--cup-y:94%}
+#petScene[data-scene-mode="cafe"]{--plate-main-x:48%;--plate-main-y:85%;--plate-guest-x:64%;--plate-guest-y:89%;--cup-x:73%;--cup-y:91%}
+#petScene:is([data-scene-mode="studio"],[data-scene-mode="train"],[data-scene-mode="jiangnan"]) [data-scene3d="u2"][data-posture^="chair-"] .pet-3d-character{height:calc(var(--actor-width)*1.47)!important}
+@media(max-width:759px){
+ #petScene .scene-snack-surface :is(.scene-drink-tray,.scene-cup,.scene-cup svg){width:42px!important;height:59px!important}
+ #petScene .scene-snack-surface .scene-snack-item{--plate-size:36px}
+ #petScene{--plate-size:36px;--plate-main-x:30%;--plate-guest-x:83%;--plate-y:94%;--plate-main-y:93%;--plate-guest-y:95%;--cup-x:68%;--cup-y:97%}
+ #petScene:not(.has-guest){--plate-main-x:30%;--cup-x:70%}
+ #petScene[data-scene-mode="outdoor"]{--plate-main-x:43%;--plate-guest-x:65%;--plate-main-y:95%;--plate-guest-y:95%;--cup-x:80%;--cup-y:95%}
+ #petScene[data-scene-mode="outdoor"]:not(.has-guest){--plate-main-x:43%;--cup-x:65%}
+ #petScene[data-scene-mode="seaside"]{--plate-main-x:42%;--plate-guest-x:63%;--plate-main-y:93%;--plate-guest-y:94%;--cup-x:80%;--cup-y:94%}
+ #petScene[data-scene-mode="meeting"]{--plate-main-x:14%;--plate-guest-x:82%;--plate-main-y:82%;--plate-guest-y:83%;--cup-x:93%;--cup-y:89%}
+ #petScene[data-scene-mode="studio"]{--plate-main-x:18%;--plate-guest-x:80%;--plate-main-y:85%;--plate-guest-y:85%;--cup-x:92%;--cup-y:94%}
+ #petScene[data-scene-mode="train"]{--plate-main-x:52%;--plate-guest-x:80%;--plate-main-y:83%;--plate-guest-y:83%;--cup-x:65%;--cup-y:90%}
+ #petScene[data-scene-mode="greenhouse"]{--plate-main-x:12%;--plate-guest-x:89%;--plate-main-y:89%;--plate-guest-y:89%;--cup-x:68%;--cup-y:97%}
+ #petScene[data-scene-mode="terrace"]{--plate-main-x:62%;--plate-guest-x:84%;--plate-main-y:91%;--plate-guest-y:91%;--cup-x:75%;--cup-y:98%}
+ #petScene[data-scene-mode="jiangnan"]{--plate-main-x:27%;--plate-guest-x:85%;--plate-main-y:95%;--plate-guest-y:95%;--cup-x:54%;--cup-y:98%}
+ #petScene[data-scene-mode="cloudrealm"]{--plate-main-x:69%;--plate-guest-x:90%;--plate-main-y:96%;--plate-guest-y:96%;--cup-x:55%;--cup-y:97%}
+ #petScene[data-scene-mode="cafe"]{--plate-main-x:52%;--plate-guest-x:68%;--plate-main-y:95%;--plate-guest-y:95%;--cup-x:81%;--cup-y:95%}
+ #petScene[data-scene-mode="cafe"] .scene-snack-surface .scene-snack-item{--plate-size:34px}
+}
+</style>
 </head>
 <body>
 
@@ -9197,11 +9251,11 @@ const PETS = {
   },
   u2: {
     name: "小莲",   // Zhai 的搭子,想改名改这里
-    scene3d: "assets/characters/shenxinghui-3d-default.png",
+    scene3d: "assets/characters/shenxinghui-v65-default.png",
     scene3dBlink: "",
-    scene3dGentle: "assets/characters/shenxinghui-3d-gentle.png",
-    scene3dThink: "assets/characters/shenxinghui-3d-think.png",
-    scene3dFocus: "assets/characters/shenxinghui-3d-focus.png",
+    scene3dGentle: "assets/characters/shenxinghui-v65-gentle.png",
+    scene3dThink: "assets/characters/shenxinghui-v65-think.png",
+    scene3dFocus: "assets/characters/shenxinghui-v65-focus.png",
     scene3dRole: "沈星回",
     imgs: {
       sleepy: "pet2/sleepy.png", ok: "pet2/ok.png", happy: "pet2/happy.png",
@@ -9986,7 +10040,7 @@ function openRewardShop(uid){
   const supplyItems=`
     <div class="shop-item"><div class="shop-item-head"><span class="shop-item-em">🍪</span>学习小饼干</div><p>给搭子补充饱腹，也会增加一点亲密。</p><button class="shop-buy ${coin>=10?'can':''}" data-shop-item="snack" data-cost="10" ${coin<10?'disabled':''}>🪙 10 · 投喂</button></div>
     <div class="shop-item"><div class="shop-item-head"><span class="shop-item-em">🍮</span>焦糖布丁</div><p>补充一些饱腹感，适合学习间隙的小奖励。</p><button class="shop-buy ${coin>=14?'can':''}" data-shop-item="pudding" data-cost="14" ${coin<14?'disabled':''}>🪙 14 · 投喂</button></div>
-    <div class="shop-item"><div class="shop-item-head"><span class="shop-item-em">🍓</span>草莓小盒</div><p>一盒清甜草莓，给搭子补充一点饱腹感。</p><button class="shop-buy ${coin>=16?'can':''}" data-shop-item="strawberry" data-cost="16" ${coin<16?'disabled':''}>🪙 16 · 投喂</button></div>
+    <div class="shop-item"><div class="shop-item-head"><span class="shop-item-em">🍓</span>草莓小挞</div><p>清甜草莓配酥香挞底，给搭子补充一点饱腹感。</p><button class="shop-buy ${coin>=16?'can':''}" data-shop-item="strawberry" data-cost="16" ${coin<16?'disabled':''}>🪙 16 · 投喂</button></div>
     <div class="shop-item"><div class="shop-item-head"><span class="shop-item-em">🎟️</span>额外小料券</div><p>不等下一轮专注，直接多获得 1 张小料券。</p><button class="shop-buy ${coin>=24?'can':''}" data-shop-item="topping" data-cost="24" ${coin<24?'disabled':''}>🪙 24 · 兑换</button></div>`;
 
   const bondItems=`
@@ -11604,79 +11658,21 @@ function sceneCupHTML(uid,key){
   })}</div>`;
 }
 
-function sceneSnackBaseSVG(id){
-  if(id==="cookie") return `<svg viewBox="0 0 72 58" aria-hidden="true">
-    <defs>
-      <radialGradient id="ck1" cx="40%" cy="35%" r="65%"><stop offset="0" stop-color="#F4C986"/><stop offset="1" stop-color="#C98A49"/></radialGradient>
-      <radialGradient id="ck2" cx="45%" cy="35%" r="65%"><stop offset="0" stop-color="#F1C17A"/><stop offset="1" stop-color="#B9783E"/></radialGradient>
-    </defs>
-    <ellipse cx="36" cy="46" rx="27" ry="7" fill="#F8F0E5" stroke="#D8C6B4" stroke-width="1.4"/>
-    <ellipse cx="36" cy="43" rx="20" ry="4.2" fill="#FFFDF8" opacity=".7"/>
-    <circle cx="28" cy="30" r="12" fill="url(#ck1)" stroke="#B97C41" stroke-width="1.4"/>
-    <circle cx="44" cy="31" r="11.6" fill="url(#ck2)" stroke="#B97C41" stroke-width="1.4"/>
-    <circle cx="23" cy="26" r="1.6" fill="#6E4632"/><circle cx="28" cy="34" r="1.7" fill="#6E4632"/><circle cx="32" cy="28" r="1.4" fill="#7A5037"/>
-    <circle cx="39.5" cy="27" r="1.5" fill="#6E4632"/><circle cx="46.5" cy="35" r="1.6" fill="#6E4632"/><circle cx="48.5" cy="28.5" r="1.4" fill="#7A5037"/>
-    <ellipse cx="24.5" cy="25.5" rx="3.6" ry="2" fill="#FFF3D4" opacity=".32" transform="rotate(-25 24.5 25.5)"/>
-    <ellipse cx="40.5" cy="27.5" rx="3.4" ry="1.8" fill="#FFF0CF" opacity=".28" transform="rotate(-20 40.5 27.5)"/>
-  </svg>`;
-  if(id==="berry") return `<svg viewBox="0 0 72 58" aria-hidden="true">
-    <defs>
-      <linearGradient id="st1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF8EA1"/><stop offset="1" stop-color="#D85667"/></linearGradient>
-      <linearGradient id="st2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFA1AE"/><stop offset="1" stop-color="#E26672"/></linearGradient>
-    </defs>
-    <ellipse cx="36" cy="46" rx="27" ry="7" fill="#F8F0E5" stroke="#D8C6B4" stroke-width="1.4"/>
-    <g transform="translate(20 20)">
-      <path d="M2 8 C3 0 13 -2 18 4 C22 10 18 20 10 25 C3 20 0 13 2 8Z" fill="url(#st1)" stroke="#C8515D" stroke-width="1.3"/>
-      <path d="M8 1 L11 -3 L14 1 L18 0 L16 5 L7 5 L4 1Z" fill="#79A85A"/>
-      <g fill="#FCECB0" opacity=".92"><circle cx="7" cy="8" r=".9"/><circle cx="11" cy="9.5" r=".9"/><circle cx="15" cy="8.5" r=".9"/><circle cx="8.2" cy="13" r=".9"/><circle cx="13" cy="14" r=".9"/><circle cx="10" cy="17.2" r=".9"/></g>
-      <ellipse cx="8" cy="8" rx="3.2" ry="1.7" fill="#FFF1F3" opacity=".28" transform="rotate(-28 8 8)"/>
-    </g>
-    <g transform="translate(38 23) scale(.86)">
-      <path d="M2 8 C3 0 13 -2 18 4 C22 10 18 20 10 25 C3 20 0 13 2 8Z" fill="url(#st2)" stroke="#C8515D" stroke-width="1.3"/>
-      <path d="M8 1 L11 -3 L14 1 L18 0 L16 5 L7 5 L4 1Z" fill="#83B062"/>
-      <g fill="#FCECB0" opacity=".92"><circle cx="7" cy="8" r=".9"/><circle cx="11" cy="9.5" r=".9"/><circle cx="15" cy="8.5" r=".9"/><circle cx="8.2" cy="13" r=".9"/><circle cx="13" cy="14" r=".9"/><circle cx="10" cy="17.2" r=".9"/></g>
-      <ellipse cx="8" cy="8" rx="3.2" ry="1.7" fill="#FFF1F3" opacity=".28" transform="rotate(-28 8 8)"/>
-    </g>
-  </svg>`;
-  if(id==="pudding") return `<svg viewBox="0 0 72 58" aria-hidden="true">
-    <defs>
-      <linearGradient id="pd1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F9D772"/><stop offset="1" stop-color="#E3B34C"/></linearGradient>
-    </defs>
-    <ellipse cx="36" cy="46.5" rx="28" ry="7" fill="#F8F0E5" stroke="#D8C6B4" stroke-width="1.4"/>
-    <path d="M22 22 Q36 15 50 22 L47.5 39.5 Q36 45 24.5 39.5Z" fill="url(#pd1)" stroke="#D5A43F" stroke-width="1.4"/>
-    <ellipse cx="36" cy="22" rx="14" ry="5.2" fill="#B86E34"/>
-    <path d="M24 21.8 Q36 18.2 48 21.8" fill="none" stroke="#E59B54" stroke-width="2" opacity=".8"/>
-    <path d="M26 27 Q31 24.5 35.5 26.8" fill="none" stroke="#FFF4BE" stroke-width="2.1" stroke-linecap="round" opacity=".9"/>
-    <path d="M29.5 32 Q36 29.8 42 32.2" fill="none" stroke="#FFEFAB" stroke-width="1.8" stroke-linecap="round" opacity=".6"/>
-  </svg>`;
-  if(id==="bread") return `<svg viewBox="0 0 72 58" aria-hidden="true">
-    <defs><linearGradient id="bd1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9B56A"/><stop offset="1" stop-color="#C88944"/></linearGradient></defs>
-    <ellipse cx="36" cy="46.5" rx="27" ry="7" fill="#F8F0E5" stroke="#D8C6B4" stroke-width="1.4"/>
-    <path d="M16 37 C18 20 28 14 36 18 C44 14 55 20 57 37 C49 42 23 42 16 37Z" fill="url(#bd1)" stroke="#B97B3E" stroke-width="1.5"/>
-    <path d="M26 23 C28 31 28 35 25 39 M36 20 C37 29 37 34 35 40 M46 23 C45 31 45 35 48 39" fill="none" stroke="#F9DE97" stroke-width="2.3" stroke-linecap="round"/>
-    <ellipse cx="28" cy="24" rx="4" ry="1.8" fill="#FFF1C6" opacity=".28" transform="rotate(-20 28 24)"/>
-  </svg>`;
-  return "";
+const SNACK_ART_NAMES={cookie:'巧克力曲奇',berry:'草莓小挞',pudding:'焦糖布丁',bread:'黄油可颂'};
+function sceneSnackId(id){
+  const normalized=String(id||'').replace(/^shop-/, '').replace(/^strawberry$/, 'berry');
+  return Object.prototype.hasOwnProperty.call(SNACK_ART_NAMES,normalized)?normalized:null;
 }
-let snackArtSerial=0;
 function sceneSnackSVG(id){
-  let svg=sceneSnackBaseSVG(id);
-  const prefix='pastry-'+(++snackArtSerial)+'-';
-  svg=svg.replace(/id="([^"]+)"/g,(_,v)=>`id="${prefix}${v}"`).replace(/url\(#([^)]+)\)/g,(_,v)=>`url(#${prefix}${v})`);
-  const details={
-    cookie:'<path d="M19 20q7-7 13-2M37 21q7-5 13 0" fill="none" stroke="#ffe8bd" stroke-width="1.2"/><g fill="#f8e5b8"><circle cx="23" cy="32" r=".7"/><circle cx="33" cy="24" r=".8"/><circle cx="42" cy="36" r=".8"/><circle cx="51" cy="31" r=".6"/></g>',
-    berry:'<path d="M16 42q-9-9-4-12q9 0 10 10M17 41q-2-11 4-13q6 5-1 14" fill="#83a87a"/><path d="m13 33 5 10m2-12-2 12" stroke="#d9e6ba" stroke-width=".6"/>',
-    pudding:'<path d="M29 20q-3-4 2-5q-2-4 3-5q5-1 5 3q6 1 4 5q0 4-14 2" fill="#fff8e8" stroke="#eddfc4" stroke-width=".7"/><circle cx="37" cy="10" r="3" fill="#c55662"/><path d="M37 8q-1-5 3-6" stroke="#6d895c" fill="none"/><path d="M48 43q8-4 11 0q-3 3-11 0" fill="#d8bd8c"/>',
-    bread:'<path d="M20 34q12 5 32 0M24 28q12 4 24 0" fill="none" stroke="#edc784" stroke-width="1"/><g fill="#fff0cd"><ellipse cx="30" cy="22" rx="1.2" ry=".5"/><ellipse cx="40" cy="25" rx="1.2" ry=".5"/><ellipse cx="49" cy="31" rx="1.2" ry=".5"/></g>'
-  };
-  return svg.replace('</svg>',(details[id]||'')+'<path d="M12 47q24 10 48 0" fill="none" stroke="#c9ab72" stroke-width=".7"/><path d="M17 49q18 5 37 0" fill="none" stroke="#fff" stroke-width=".8"/></svg>');
+  const snack=sceneSnackId(id);
+  return snack?`<img class="snack-illustration" src="assets/snacks/${snack}-v65.png" alt="${SNACK_ART_NAMES[snack]}" draggable="false">`:'';
 }
 
 function sceneSnackHTML(uid,key,homeUid){
   const life=petLifeOf(uid), today=todayKeyFor(uid);
   const currentHome=homeUid||uid;
   const isHere=(life.location===currentHome);
-  const id=(isHere && life.lastSnackDay===today)?life.lastSnack:null;
+  const id=(isHere && life.lastSnackDay===today)?sceneSnackId(life.lastSnack):null;
   if(!id){
     const emptyTitle=isHere?`${petName(uid)}今天还没有投喂`:`${petName(uid)}现在不在这里，盘子先空着`;
     return `<div class="scene-snack-item empty" title="${emptyTitle}">
@@ -11686,7 +11682,7 @@ function sceneSnackHTML(uid,key,homeUid){
       </svg>
     </div>`;
   }
-  const names={cookie:"小饼干",berry:"草莓",pudding:"小布丁",bread:"小面包"};
+  const names=SNACK_ART_NAMES;
   return `<div class="scene-snack-item" title="${petName(uid)} · ${names[id]||'小吃'}">${sceneSnackSVG(id)}</div>`;
 }
 
@@ -11716,11 +11712,11 @@ function chosenScenePose(uid,mode){
   return scenePoseChoices(mode).some(([id])=>id===choice)?choice:'auto';
 }
 function studyPoseAsset(uid,mode,pose,src){
-  const name=uid==='u1'?'qiyu':'shenxinghui';
-  if(mode==='room' && pose==='read')return {src:`assets/characters/${name}-3d-sit.png`,posture:'sit'};
-  if(!['room','outdoor','seaside'].includes(mode) && ['read','listen','laptop'].includes(pose))return {src:`assets/characters/${name}-3d-chair-${pose}.png`,posture:'chair-'+pose};
+  const name=uid==='u1'?'qiyu-3d':'shenxinghui-v65';
+  if(mode==='room' && pose==='read')return {src:`assets/characters/${name}-sit.png`,posture:'sit'};
+  if(!['room','outdoor','seaside'].includes(mode) && ['read','listen','laptop'].includes(pose))return {src:`assets/characters/${name}-chair-${pose}.png`,posture:'chair-'+pose};
   if(pose==='listen'&&uid==='u1')src='assets/characters/qiyu-3d-listen-v2.png';
-  if(pose==='laptop'&&uid==='u2')src='assets/characters/shenxinghui-3d-laptop-v2.png';
+  if(pose==='laptop'&&uid==='u2')src='assets/characters/shenxinghui-v65-laptop.png';
   return {src,posture:pose};
 }
 function contextualPose(uid){
@@ -11732,7 +11728,7 @@ function contextualPose(uid){
     
     pose=({room:'sit',outdoor:'sit',seaside:'lie',library:'laptop',cafe:'read',studio:'read',train:'listen',meeting:'read',greenhouse:'think',terrace:'think',jiangnan:'read',cloudrealm:'think'})[mode]||'stand';
   }
-  const src=['sit','lie','listen','laptop'].includes(pose)?`assets/characters/${q?'qiyu':'shenxinghui'}-3d-${pose}.png`:pose==='read'?(q?'assets/characters/qiyu-3d-sketch-v2.png':'assets/characters/shenxinghui-3d-read.png'):pose==='think'?(q?c.scene3dArt:c.scene3dThink):c.scene3d;
+  const src=['sit','lie','listen','laptop'].includes(pose)?`assets/characters/${q?'qiyu-3d':'shenxinghui-v65'}-${pose}.png`:pose==='read'?(q?'assets/characters/qiyu-3d-sketch-v2.png':'assets/characters/shenxinghui-v65-read.png'):pose==='think'?(q?c.scene3dArt:c.scene3dThink):c.scene3d;
   const fitted=studyPoseAsset(uid,mode,pose,src);
   return {key:`scene-${mode}-${pose}`,src:fitted.src,label:({sit:mode==='room'?'坐在软垫上，慢慢陪你':'坐下来，慢慢陪你',lie:'躺着听风，放松一下',listen:'戴上耳机，认真听课',laptop:'把今天的学习资料整理好',read:q?'把灵感画下来':'安静读一会儿',think:'陪你想点事情',stand:'静静陪着你'})[pose],posture:fitted.posture};
 }
@@ -11757,7 +11753,7 @@ function companionTouchPose(uid){
   if(context&&(['sit','lie','listen','laptop'].includes(context.posture)||context.posture.startsWith('chair-')))return context.src;
   if(data[uid].session){const active=companionPose(uid);if(active.posture!=='stand')return active.src;}
   const c=petCfg(uid);
-  const pool=uid==='u1'?[c.scene3dInteract,c.scene3dCheer,c.scene3dArt,'assets/characters/qiyu-3d-sketch-v2.png']:[c.scene3dGentle,c.scene3dThink,'assets/characters/shenxinghui-3d-read.png',c.scene3dFocus];
+  const pool=uid==='u1'?[c.scene3dInteract,c.scene3dCheer,c.scene3dArt,'assets/characters/qiyu-3d-sketch-v2.png']:[c.scene3dGentle,c.scene3dThink,'assets/characters/shenxinghui-v65-read.png',c.scene3dFocus];
   return pool[(companionTouchCounts[uid]++)%pool.length]||c.scene3d;
 }
 function companionPose(uid,mood=petMood(uid)){
@@ -11766,7 +11762,7 @@ function companionPose(uid,mood=petMood(uid)){
   const context=contextualPose(uid);
   if(context)return context;
   const c=petCfg(uid), s=data[uid].session, q=uid==='u1';
-  const sketch='assets/characters/qiyu-3d-sketch-v2.png', read='assets/characters/shenxinghui-3d-read.png';
+  const sketch='assets/characters/qiyu-3d-sketch-v2.png', read='assets/characters/shenxinghui-v65-read.png';
   let key='idle', label='静静陪着你', src=c.scene3d, posture='stand';
   if(s){
     const min=Math.max(0,sessionElapsedMin(s));
@@ -11780,7 +11776,7 @@ function companionPose(uid,mood=petMood(uid)){
         const mode=petSceneModeOf(view);
         const studyPlan=({library:['read','laptop','listen'],meeting:['read','listen','laptop'],studio:['read','laptop','read'],train:['listen','read','laptop'],outdoor:['read','listen','laptop'],seaside:['listen','read','laptop']})[mode]||['read','listen','laptop'];
         posture=studyPlan[phase];
-        src=posture==='read'?(q?sketch:read):`assets/characters/${q?'qiyu':'shenxinghui'}-3d-${posture}.png`;
+        src=posture==='read'?(q?sketch:read):`assets/characters/${q?'qiyu-3d':'shenxinghui-v65'}-${posture}.png`;
         ({src,posture}=studyPoseAsset(uid,mode,posture,src));
         key=mode+':'+key;
       }
@@ -11935,7 +11931,7 @@ function snackModal(uid,visitor=false){
     say('petBubble',petName(uid)+'已经不在这里啦，这份小零食先留着下次吧',4200);
     return;
   }
-  const choices=[['cookie','🍪','小饼干',12,5],['berry','🍓','草莓',10,7],['pudding','🍮','小布丁',16,5],['bread','🥐','小面包',18,4]];
+  const choices=[['cookie','🍪','巧克力曲奇',12,5],['berry','🍓','草莓小挞',10,7],['pudding','🍮','焦糖布丁',16,5],['bread','🥐','黄油可颂',18,4]];
   showModal(`<h3>${visitor?'🤫 偷偷投喂':'🍪 给 '+petName(uid)+' 投喂'}</h3><p>${visitor?'趁主人没注意，塞点吃的给串门的小家伙。':'每天最多投喂两次，别把正餐吃不下了。'}</p><div class="pet-feed-grid">${choices.map(c=>`<button class="pet-feed-btn" data-s="${c[0]}"><span class="feed-art">${sceneSnackSVG(c[0])}</span><b>${c[2]}</b><small>饱腹 +${c[3]}</small></button>`).join('')}</div><div class="mbtns"><button class="btn ghost" id="mNo">算啦</button></div>`,box=>{
     box.querySelector('#mNo').onclick=closeModal;
     box.querySelectorAll('[data-s]').forEach(btn=>btn.onclick=()=>{
@@ -12051,7 +12047,7 @@ function interactionDecoration(type){
 }
 function petInteractionPoseSrc(uid,type){
   const cfg=petCfg(uid)||{};
-  if(type==='hug'||type==='pat')return `assets/characters/${uid==='u1'?'qiyu':'shenxinghui'}-3d-${type}.png`;
+  if(type==='hug'||type==='pat')return `assets/characters/${uid==='u1'?'qiyu-3d':'shenxinghui-v65'}-${type}.png`;
   return uid==='u1'?(type==='note'?cfg.scene3dArt:cfg.scene3dCheer):(type==='note'?cfg.scene3dThink:cfg.scene3dGentle);
 }
 async function playPetInteractionMotion(uid,type,line=''){
