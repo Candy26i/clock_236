@@ -9004,6 +9004,24 @@ body{background:radial-gradient(ellipse at 8% 0%,#FFF2CF 0,transparent 44%),radi
  #petScene[data-scene-mode="cloudrealm"]{--plate-y:95%;--plate-main-x:72%;--plate-guest-x:94%;--cup-x:56%;--cup-y:96%}
 }
 </style>
+
+<style id="home-floor-seat-v58">
+/* The home floor seat has its own contact plane; standing/chair baselines are untouched. */
+#petScene[data-scene-mode="room"] [data-posture="sit"]{--pose-y:-20px;--pose-x:0px;isolation:isolate;transform-style:flat}
+#petScene[data-scene-mode="room"].has-guest [data-posture="sit"]{--pose-y:0px}
+#petScene[data-scene-mode="room"].has-guest #petMainSlot [data-posture="sit"]{--pose-x:-3cqw}
+#petScene[data-scene-mode="room"].has-guest #petGuestSlot [data-posture="sit"]{--pose-x:4cqw}
+#petScene[data-scene-mode="room"] [data-posture="sit"] .pet-3d-character{z-index:2;height:calc(var(--actor-width)*1.02)!important}
+#petScene[data-scene-mode="room"] [data-posture="sit"]::before{content:"";position:absolute;z-index:0;left:50%;bottom:-10px;width:76%;height:14px;transform:translateX(-50%);border-radius:50%;opacity:1;background:radial-gradient(ellipse,#654A3047 0,#654A3024 43%,transparent 73%);filter:blur(2px);pointer-events:none}
+#petScene[data-scene-mode="room"] [data-posture="sit"]::after{content:"";position:absolute;z-index:1;left:50%;bottom:-5px;width:73%;height:23px;transform:translateX(-50%);border-radius:50%;box-sizing:border-box;border:1px solid #D0B590;opacity:1;filter:none;background:repeating-linear-gradient(6deg,#FFF8E517 0 1px,#C8AC8210 1px 3px),radial-gradient(ellipse at 48% 20%,#F7EBD3 0,#ECDBB9 63%,#D7BF96 85%);box-shadow:inset 0 -4px 2px #BEA27944,inset 0 2px 1px #FFF8E8;pointer-events:none}
+#petScene[data-scene-mode="room"] :is(.pet-main-slot,.pet-visitor-slot):has([data-posture="sit"])>.pet-shadow{visibility:hidden!important}
+@media(max-width:980px) and (min-width:760px){#petScene[data-scene-mode="room"] [data-posture="sit"]{--pose-y:-12px}}
+@media(max-width:759px){
+ #petScene[data-scene-mode="room"] [data-posture="sit"],#petScene[data-scene-mode="room"].has-guest [data-posture="sit"]{--pose-y:60px}
+ #petScene[data-scene-mode="room"].has-guest #petMainSlot [data-posture="sit"],#petScene[data-scene-mode="room"].has-guest #petGuestSlot [data-posture="sit"]{--pose-x:0px}
+ #petScene[data-scene-mode="room"] [data-posture="sit"]::after{height:18px;bottom:-4px}
+}
+</style>
 </head>
 <body>
 
@@ -11668,6 +11686,7 @@ function bindPoseControlButtons(root){
 
 const scenePosePreferences=(()=>{try{return JSON.parse(localStorage.getItem('milktea-scene-poses-v1'))||{}}catch{return {}}})();
 function scenePoseChoices(mode){
+  if(mode==='room')return [['auto','随场景'],['stand','静静陪伴'],['sit','坐垫上盘腿'],['read','坐椅阅读'],['think','想点事情'],['listen','戴耳机听课'],['laptop','坐着用电脑']];
   if(['outdoor','seaside'].includes(mode))return [['auto','随场景'],['stand','站着陪你'],['sit','坐下来'],['lie','躺着放松'],['listen','戴耳机听课'],['laptop','盘腿用电脑']];
   if(['room','cafe','library','train','jiangnan'].includes(mode))return [['auto','随场景'],['stand','静静陪伴'],['read','一起阅读'],['think','想点事情'],['listen','戴耳机听课'],['laptop','坐着用电脑']];
   return [['auto','随场景'],['stand','静静陪伴'],['read','记录灵感'],['think','看风景'],['listen','听课记笔记'],['laptop','整理学习资料']];
@@ -11694,7 +11713,7 @@ function contextualPose(uid){
   }
   const src=['sit','lie','listen','laptop'].includes(pose)?`assets/characters/${q?'qiyu':'shenxinghui'}-3d-${pose}.png`:pose==='read'?(q?'assets/characters/qiyu-3d-sketch-v2.png':'assets/characters/shenxinghui-3d-read.png'):pose==='think'?(q?c.scene3dArt:c.scene3dThink):c.scene3d;
   const fitted=studyPoseAsset(uid,mode,pose,src);
-  return {key:`scene-${mode}-${pose}`,src:fitted.src,label:({sit:'坐下来，慢慢陪你',lie:'躺着听风，放松一下',listen:'戴上耳机，认真听课',laptop:'把今天的学习资料整理好',read:q?'把灵感画下来':'安静读一会儿',think:'陪你想点事情',stand:'静静陪着你'})[pose],posture:fitted.posture};
+  return {key:`scene-${mode}-${pose}`,src:fitted.src,label:({sit:mode==='room'?'坐在软垫上，慢慢陪你':'坐下来，慢慢陪你',lie:'躺着听风，放松一下',listen:'戴上耳机，认真听课',laptop:'把今天的学习资料整理好',read:q?'把灵感画下来':'安静读一会儿',think:'陪你想点事情',stand:'静静陪着你'})[pose],posture:fitted.posture};
 }
 function openScenePosePicker(){
   const mode=petSceneModeOf(view), who=[view];
