@@ -9023,19 +9023,23 @@ body{background:radial-gradient(ellipse at 8% 0%,#FFF2CF 0,transparent 44%),radi
 }
 </style>
 
-<style id="scene-furniture-fit-v59">
-/* The cafe table shares the background's perspective; chairs sit behind its edge. */
+<style id="scene-furniture-fit-v62">
+/* Cafe-only foreground: a compact round table with a visible perimeter, separate from the room. */
 #petScene[data-scene-mode="cafe"] .scene-ambient{background-image:url('assets/scenes/cafe-interior-v60.webp')!important;background-size:cover!important;background-position:center!important}
 #petScene[data-scene-mode="cafe"] .scene-ambient::after{opacity:0!important}
 #petScene[data-scene-mode="cafe"] .scene-furniture-art{display:none!important}
 #petScene[data-scene-mode="cafe"] .pet-cast{z-index:3!important}
-.cafe-table-foreground{position:absolute;inset:0;z-index:4;pointer-events:none;background:url('assets/scenes/cafe-study-v59.png') center/cover no-repeat;clip-path:polygon(0 63%,100% 63%,100% 100%,0 100%);transform:translateY(10%)}
-#petScene[data-scene-mode="cafe"] [data-posture^="chair-"]{--pose-y:35px;--pose-x:0px}
-#petScene[data-scene-mode="cafe"]{--plate-y:82%;--plate-main-x:36%;--plate-guest-x:65%;--cup-x:78%;--cup-y:85%}
+#petScene[data-scene-mode="cafe"] .cafe-table-foreground{position:absolute;inset:auto auto -28px 52%;width:62%;height:auto;aspect-ratio:2098/749;z-index:4;pointer-events:none;transform:translateX(-50%);background:none;clip-path:none;filter:drop-shadow(0 9px 5px #54392326)}
+#petScene[data-scene-mode="cafe"].has-guest .cafe-table-foreground{width:70%}
+#petScene[data-scene-mode="cafe"] .cafe-study-table{display:block;width:100%;height:100%;object-fit:contain}
+#petScene[data-scene-mode="cafe"] [data-posture^="chair-"]{--pose-y:75px;--pose-x:0px}
+#petScene[data-scene-mode="cafe"] [data-posture^="chair-"] .pet-3d-character{height:calc(var(--actor-width)*1.46)!important;width:calc(var(--actor-width)*1.06)!important}
+#petScene[data-scene-mode="cafe"]{--plate-y:calc(83% + 40px);--plate-main-x:55%;--plate-guest-x:64%;--cup-x:73%;--cup-y:calc(85% + 40px)}
 @media(max-width:759px){
- .cafe-table-foreground{clip-path:polygon(0 62.4%,100% 62.4%,100% 100%,0 100%);transform:translateY(12%)}
- #petScene[data-scene-mode="cafe"] [data-posture^="chair-"]{--pose-y:100px}
- #petScene[data-scene-mode="cafe"]{--plate-y:84%;--plate-main-x:32%;--plate-guest-x:65%;--cup-x:84%;--cup-y:87%}
+ #petScene[data-scene-mode="cafe"] .cafe-table-foreground,#petScene[data-scene-mode="cafe"].has-guest .cafe-table-foreground{width:96%;left:50%;bottom:-16px}
+ #petScene[data-scene-mode="cafe"] [data-posture^="chair-"]{--pose-y:125px}
+ #petScene[data-scene-mode="cafe"]{--plate-y:calc(88% + 28px);--plate-main-x:52%;--plate-guest-x:65%;--cup-x:78%;--cup-y:calc(89% + 28px)}
+ #petScene[data-scene-mode="cafe"] .scene-snack-surface .scene-snack-item{--plate-size:30px}
 }
 </style>
 </head>
@@ -12814,7 +12818,7 @@ function renderPet(){
         ${storyFxHTML(story)}
 
         <div class="scene-ambient" aria-hidden="true"></div>
-        ${sceneDecorHTML(scene)}${scene.id==='meeting-view'?'<div class="meeting-foreground" aria-hidden="true"></div>':''}${scene.mode==='cafe'?'<div class="cafe-table-foreground" aria-hidden="true"></div>':''}
+        ${sceneDecorHTML(scene)}${scene.id==='meeting-view'?'<div class="meeting-foreground" aria-hidden="true"></div>':''}${scene.mode==='cafe'?'<div class="cafe-table-foreground" aria-hidden="true"><img class="cafe-study-table" src="assets/scenes/cafe-round-table-v61.png" alt=""></div>':''}
         <div class="scene-window" aria-hidden="true">
           <span class="scene-sun"></span><span class="scene-cloud"></span><span class="scene-stars"></span><span class="scene-rain"></span>
         </div>
