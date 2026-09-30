@@ -1,0 +1,90 @@
+{
+  "default": {
+    "file": "assets/characters/shenxinghui-v65-default.png",
+    "width": 1122,
+    "height": 1402,
+    "frame": [
+      366,
+      26,
+      422,
+      1366
+    ]
+  },
+  "sit": {
+    "file": "assets/characters/shenxinghui-v65-sit.png",
+    "width": 1254,
+    "height": 1254,
+    "frame": [
+      291,
+      11,
+      877,
+      1213
+    ]
+  },
+  "listen": {
+    "file": "assets/characters/shenxinghui-v65-listen.png",
+    "width": 1254,
+    "height": 1254,
+    "frame": [
+      234,
+      22,
+      896,
+      1205
+    ]
+  },
+  "laptop": {
+    "file": "assets/characters/shenxinghui-v65-laptop.png",
+    "width": 1254,
+    "height": 1254,
+    "frame": [
+      273,
+      26,
+      899,
+      1222
+    ]
+  },
+  "chair-read": {
+    "file": "assets/characters/shenxinghui-v65-chair-read.png",
+    "width": 1122,
+    "height": 1402,
+    "frame": [
+      258,
+      16,
+      692,
+      1365
+    ]
+  },
+  "chair-listen": {
+    "file": "assets/characters/shenxinghui-v65-chair-listen.png",
+    "width": 1122,
+    "height": 1402,
+    "frame": [
+      275,
+      19,
+      612,
+      1369
+    ]
+  },
+  "chair-laptop": {
+    "file": "assets/characters/shenxinghui-v65-chair-laptop.png",
+    "width": 1122,
+    "height": 1402,
+    "frame": [
+      264,
+      20,
+      644,
+      1367
+    ]
+  },
+  "lie": {
+    "file": "assets/characters/shenxinghui-v65-lie.png",
+    "width": 1672,
+    "height": 941,
+    "frame": [
+      23,
+      110,
+      1640,
+      801
+    ]
+  }
+}
