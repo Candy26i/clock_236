@@ -8,14 +8,14 @@ const http = require('node:http');
 const path = require('node:path');
 const { chromium } = require('playwright');
 
-const root = path.resolve(__dirname, '../deepspace');
-const prefix = '/clock_236/deepspace/';
+const root = path.resolve(__dirname, '..');
+const prefix = '/clock_236/';
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.jpg': 'image/jpeg', '.png': 'image/png', '.mp4': 'video/mp4' };
 const server = http.createServer((request, response) => {
   try {
     const pathname = decodeURIComponent(new URL(request.url, 'http://127.0.0.1').pathname);
     if (!pathname.startsWith(prefix)) { response.writeHead(404).end(); return; }
-    const file = path.resolve(root, pathname.slice(prefix.length) || 'index.html');
+    const file = path.resolve(root, pathname.slice(prefix.length) + (pathname.endsWith('/') ? 'index.html' : ''));
     if (!file.startsWith(root + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) {
       response.writeHead(404).end(); return;
     }
@@ -48,7 +48,7 @@ let browser;
   const a = await context.newPage(), b = await context.newPage();
   for (const page of [a, b]) {
     page.on('pageerror', error => errors.push(error.message));
-    await page.goto(origin + prefix);
+    await page.goto(origin + prefix + 'deepspace/');
     await page.waitForFunction(() => document.querySelector('video[data-player-active="true"]')?.dataset.clipId === 'qiyu-original-gaze');
     assert.equal(await page.evaluate(() => typeof window.firebase), 'undefined');
   }
@@ -131,7 +131,7 @@ let browser;
   assert.equal(state.profiles.xinghui.timer.id, xinghuiTimer.id);
   assert.equal(state.profiles.xinghui.timer.paused, true);
   assert.deepEqual(errors, []);
-  assert.deepEqual(blocked, [], 'Deep-space should need no external resources');
+  assert.ok(blocked.every(url => /^https:\/\/(www\.gstatic\.com\/firebasejs|cdnjs\.cloudflare\.com\/ajax\/libs\/firebase)\/10\.12\.2\/firebase-/.test(url)), 'Only the optional Firebase SDK may be requested; all such requests remain blocked');
   console.log('PASS: both directions retain independent character progress; no page errors or external HTTP/WebSocket access.');
 })().catch(error => {
   console.error(error);

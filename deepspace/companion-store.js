@@ -229,7 +229,7 @@
   function dateKey(id = current.selected, timestamp = Date.now()) {
     if (!validId(id)) return null;
     const parts = new Intl.DateTimeFormat('en-US', {
-      timeZone: TIMEZONES[id], year: 'numeric', month: '2-digit', day: '2-digit'
+      timeZone: global.CompanionStudy?.timeZone(id) || TIMEZONES[id], year: 'numeric', month: '2-digit', day: '2-digit'
     }).formatToParts(new Date(timestamp));
     const part = type => parts.find(item => item.type === type).value;
     return part('year') + '-' + part('month') + '-' + part('day');

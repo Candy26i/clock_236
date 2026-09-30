@@ -29,6 +29,7 @@
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="shared/firebase-config.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-app-compat.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-database-compat.min.js"></script>
 <style>
@@ -9101,7 +9102,7 @@ body{background:radial-gradient(ellipse at 8% 0%,#FFF2CF 0,transparent 44%),radi
 <body>
 
 <header class="wrap">
-  <nav class="deepspace-portal" aria-label="陪伴空间">
+  <nav class="deepspace-portal" aria-label="陪伴空间" title="两边已完成的学习与科研时长互通">
     <a href="./" aria-current="page">🧋 夏日奶茶铺</a>
     <a href="deepspace/">✦ 深空来信 <span aria-hidden="true">↗</span></a>
   </nav>
@@ -9217,19 +9218,11 @@ body{background:radial-gradient(ellipse at 8% 0%,#FFF2CF 0,transparent 44%),radi
 
 <script>
 /* ═══════════════ 配置区 ═══════════════ */
-const firebaseConfig = {
-  apiKey: "AIzaSyAM5yopIxe9Fa2dBrTpO4yHkLZ_CqWN844",
-  authDomain: "milktea236-2c693.firebaseapp.com",
-  databaseURL: "https://milktea236-2c693-default-rtdb.firebaseio.com",
-  projectId: "milktea236-2c693",
-  storageBucket: "milktea236-2c693.firebasestorage.app",
-  messagingSenderId: "102881595449",
-  appId: "1:102881595449:web:9f8085b8a746f17b2bbde8"
-};
+const firebaseConfig = window.StudyFirebaseConfig;
 const ROOM = "milktea-v1";                 // 数据库根节点
 const USERS = [
-  {id:"u1", name:"Bedi", tz:"America/Chicago"},   // 美中时间
-  {id:"u2", name:"Zhai", tz:"Asia/Shanghai"}      // 北京时间
+  {id:"u1", name:"ljx", tz:"America/Chicago"},   // 美中时间
+  {id:"u2", name:"zhai", tz:"Asia/Shanghai"}      // 北京时间
 ];
 // 每个用户一套独立的陪学小人。想给某人换立绘,改 TA 这一份即可。
 // name: 名字 · dir: 图片文件夹 · imgs: 五种心情静态图 · gifs: 动作GIF池
