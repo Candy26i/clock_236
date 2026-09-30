@@ -87,7 +87,7 @@ let lastNudge=Date.now(), typeVersion=0, tickBusy=false;
 let scenePlayer=null;
 const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
 const motionReduced=()=>!S.state().settings.motion||motionPreference.matches;
-let sceneClips=Object.fromEntries(['qiyu','xinghui'].map(id=>[id,[{id:`${id}-original-gaze`,label:id==='qiyu'?'抬眼 · 在你身边':'暖光 · 安静相伴',src:`assets/clips/${id}-original-gaze.mp4?v=continuous-1`,poster:`assets/${id}-scene.jpg`}]]));
+let sceneClips=Object.fromEntries(['qiyu','xinghui'].map(id=>[id,[{id:`${id}-official-companion`,label:id==='qiyu'?'你的轮廓 · 陪你作画':'午后浮光 · 陪你读书',src:`assets/clips/${id}-official-companion.mp4?v=official-companion-1`,poster:`assets/clips/${id}-official-companion.jpg?v=official-companion-1`,seamless:true}]]));
 const pendingResults=[];
 const relationshipNames=['初见的微光','渐近的心跳','默契的日常','偏爱的轨道','只属于我们的星海'];
 const templates=[
@@ -109,7 +109,7 @@ function mount(){
  <div id="homeView"><div class="home-grid"><section class="scene" id="scene" aria-label="角色陪伴场景">
  <div class="scene-bg"></div><div class="character-film"><video class="character-video" id="characterVideo" muted playsinline preload="auto"></video></div><div class="scene-wash"></div>
  <div class="scene-top"><span class="place-tag" id="placeTag"></span><div class="scene-tools"><button class="icon-btn" id="soundToggle" title="播放海浪环境音" aria-label="播放海浪环境音">${icon('mute')}</button><button class="icon-btn" id="sceneSettings" aria-label="更换氛围">${icon('sun')}</button><button class="icon-btn" id="immersiveToggle" aria-label="进入沉浸模式">${icon('expand')}</button></div></div>
- <div class="scene-playback" aria-label="陪伴镜头"><div class="scene-clip-caption"><span id="sceneClipName">此刻，在你身边</span><small id="scenePlaybackStatus" role="status" aria-live="polite">自然轮播</small></div><div class="scene-playback-actions"><button id="sceneLoop" type="button" aria-pressed="false" title="让喜欢的这一幕轻轻循环">${icon('pin')}<span>留在此刻</span></button><button id="sceneNext" type="button" title="看完这一刻，再进入下一镜"><span>下一镜</span>${icon('arrow')}</button></div></div>
+ <div class="scene-playback" aria-label="陪伴镜头"><div class="scene-clip-caption"><span id="sceneClipName">此刻，在你身边</span><small id="scenePlaybackStatus" role="status" aria-live="polite">同一画面 · 安静相伴</small></div><div class="scene-playback-actions"><button id="sceneLoop" type="button" aria-pressed="false" title="让喜欢的这一幕轻轻循环">${icon('pin')}<span>留在此刻</span></button><button id="sceneNext" type="button" title="看完这一刻，再进入下一镜"><span>下一镜</span>${icon('arrow')}</button></div></div>
  <div class="immersive-clock"><span id="immersiveDigits">25:00</span><button id="immersiveFocusButton">开始专注</button></div><div class="scene-name"><div class="eyebrow" id="characterEnglish"></div><h2 id="characterName"></h2><div class="little-line"></div><p id="characterMotto"></p></div>
  <button class="character-touch" id="characterTouch" aria-label="轻轻碰一下他"></button><button class="touch-cue" data-action="hand">${icon('hand')}<span>把手借给我</span></button>
  <div class="particles" aria-hidden="true">${Array.from({length:13},(_,i)=>`<i style="--x:${(i*31+7)%94}%;--y:${(i*23+10)%75}%;--d:${i*.6}s"></i>`).join('')}</div>
@@ -135,7 +135,7 @@ function bindApp(){
  $('#focusStart').onclick=handleTimer;$('#immersiveFocusButton').onclick=handleTimer;$('#finishEarly').onclick=confirmFinish;$('#characterTouch').onclick=()=>respond('touch');$('#soundToggle').onclick=toggleSound;$('#sceneSettings').onclick=openSceneSettings;$('#immersiveToggle').onclick=toggleImmersive;
  $('#closeDialog').onclick=closeDialog;$('#dialog').addEventListener('click',e=>{if(e.target===$('#dialog')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeDialog();}});$('#dialog').addEventListener('close',()=>{if(!$('#dialog').open)dialogKind='';setTimeout(()=>{if(!$('#dialog').open&&pendingResults.length){const [result,id]=pendingResults.shift();sessionComplete(result,id);}},0);});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&immersive&&!$('#dialog').open)toggleImmersive();});
- $('#sceneLoop').onclick=()=>{if(!scenePlayer)return;scenePlayer.setMode(scenePlayer.getCurrent().mode==='auto'?'loop':'auto');};
+ $('#sceneLoop').onclick=()=>{if(!scenePlayer)return;if(sceneClips[uid()]?.[0]?.seamless){scenePlayer.setCharacter(uid(),sceneClips[uid()]);playVideo();}else scenePlayer.setMode(scenePlayer.getCurrent().mode==='auto'?'loop':'auto');};
  $('#sceneNext').onclick=()=>{if(!scenePlayer)return;const info=scenePlayer.next();if(info.nextQueued)toast('看完这一刻，再一起走进下一镜。');};
  document.addEventListener('visibilitychange',()=>{if(document.hidden){scenePlayer?.pause();if(soundCtx)soundCtx.suspend();}else{playVideo();if(soundCtx&&soundOn)soundCtx.resume();checkTimers();}});
  if(motionPreference.addEventListener)motionPreference.addEventListener('change',playVideo);
@@ -147,17 +147,22 @@ function applyCharacter(animate=true){const c=char(),id=uid();$('#scene').datase
 function setPlace(){const p=sceneMode==='night'?'夜色渐深 · 安静陪伴':sceneMode==='sea'?'听见海风 · 放松片刻':(uid()==='qiyu'?'白沙湾 · Mo Art Studio':'临空市 · 暖光书房');$('#placeTag').innerHTML=icon('pin')+esc(p);}
 function updateSceneControls(info){
  if(!info)return;
- const clips=sceneClips[info.character]||[],name=$('#sceneClipName'),status=$('#scenePlaybackStatus'),stay=$('#sceneLoop'),next=$('#sceneNext');
+ const clips=sceneClips[info.character]||[],official=info.clip?.seamless===true,hasOfficial=clips[0]?.seamless===true,name=$('#sceneClipName'),status=$('#scenePlaybackStatus'),stay=$('#sceneLoop'),next=$('#sceneNext');
  if(!name||!status||!stay||!next)return;
+ $('#scene').dataset.officialCompanion=String(official);
+ if(info.clip?.poster)$('#scene').style.setProperty('--scene-poster',`url("${info.clip.poster}")`);
  name.textContent=info.clip?.label||clips[0]?.label||'此刻，在你身边';
- status.textContent=info.state==='unavailable'?'静态陪伴':info.reducedMotion?'静静陪伴':info.nextQueued?'轻轻走向下一镜':info.state==='loading'?'正在准备这一刻':info.state==='paused'?'这一刻，等你回来':info.mode==='loop'?'留在喜欢的这一幕':'慢慢相伴 · 自然换镜';
+ status.textContent=info.state==='unavailable'?'静态陪伴':info.reducedMotion?'静静陪伴':info.nextQueued?'轻轻走向下一镜':info.state==='loading'?'正在准备这一刻':info.state==='paused'?'这一刻，等你回来':official?'同一画面 · 安静相伴':info.mode==='loop'?'留在喜欢的这一幕':'慢慢相伴 · 自然换镜';
  status.title=info.error||'';
- stay.innerHTML=icon(info.mode==='loop'?'play':'pin')+`<span>${info.mode==='loop'?'自然轮播':'留在此刻'}</span>`;
- stay.setAttribute('aria-pressed',String(info.mode==='loop'));
- stay.setAttribute('aria-label',info.mode==='loop'?'恢复自然轮播':'留在此刻，循环当前镜头');
- stay.disabled=info.reducedMotion||info.state==='unavailable';
+ stay.innerHTML=icon(hasOfficial?'pin':info.mode==='loop'?'play':'pin')+`<span>${hasOfficial?(official?'持续陪学':'回到陪学'):info.mode==='loop'?'自然轮播':'留在此刻'}</span>`;
+ stay.setAttribute('aria-pressed',String(official||(!hasOfficial&&info.mode==='loop')));
+ stay.setAttribute('aria-label',hasOfficial?(official?'官方完整陪伴镜头正在循环':'回到完整陪学镜头'):info.mode==='loop'?'恢复自然轮播':'留在此刻，循环当前镜头');
+ stay.title=hasOfficial?(official?'一直留在这个场景，直到你主动更换':'回到官方完整陪伴镜头'):'让喜欢的这一幕轻轻循环';
+ stay.disabled=official||(!hasOfficial&&info.reducedMotion)||info.state==='unavailable';
  next.disabled=clips.length<2||info.nextQueued||info.state==='unavailable';
- next.setAttribute('aria-label',info.nextQueued?'下一镜已排队，当前片段结束后切换':'下一镜');
+ next.querySelector('span').textContent=official?'其他镜头':'下一镜';
+ next.title=official?'看看其他官方人物片段':'看完这一刻，再进入下一镜';
+ next.setAttribute('aria-label',info.nextQueued?'正在准备下一镜':official?'查看其他人物镜头':'下一镜');
 }
 function syncScenePlayer(){
  const id=uid();
@@ -171,7 +176,7 @@ function syncScenePlayer(){
 }
 async function loadSceneClips(){
  try{
-  const response=await fetch('assets/clips/manifest.json?v=continuous-1',{cache:'force-cache'});
+  const response=await fetch('assets/clips/manifest.json?v=official-companion-1',{cache:'force-cache'});
   if(!response.ok)throw new Error('Scene manifest unavailable');
   const manifest=await response.json();
   for(const id of ['qiyu','xinghui']){
@@ -222,7 +227,7 @@ async function toggleSound(){try{if(soundOn){soundNodes.forEach(n=>{try{n.stop()
 function playChime(){if(!soundCtx)return;[523.25,659.25,783.99].forEach((f,i)=>{const o=soundCtx.createOscillator(),g=soundCtx.createGain();o.frequency.value=f;g.gain.setValueAtTime(0,soundCtx.currentTime+i*.14);g.gain.linearRampToValueAtTime(.07,soundCtx.currentTime+i*.14+.03);g.gain.exponentialRampToValueAtTime(.001,soundCtx.currentTime+i*.14+1.2);o.connect(g);g.connect(soundCtx.destination);o.start(soundCtx.currentTime+i*.14);o.stop(soundCtx.currentTime+i*.14+1.3);});}
 function openSettings(){const st=S.state();showDialog(`<h2 class="modal-title" id="dialogTitle">按你喜欢的方式相伴</h2><p class="modal-sub">ljx 与祁煜、zhai 与沈星回拥有各自的进度。学习时长与奶茶铺共用原来的 Firebase；剧情、任务、羁绊和星屑仍保存在当前浏览器，可导出后在另一台设备导入。</p><label class="settings-row"><span>亲近一点的日常<small>开启牵手等亲密日常回应；关闭后改为温柔陪学。剧情仍可自主选择。</small></span><input type="checkbox" id="romanceSetting" ${st.settings.romance?'checked':''}></label><label class="settings-row"><span>人物动态与轻动画<small>关闭后停留在人物画面，适合安静学习。</small></span><input type="checkbox" id="motionSetting" ${st.settings.motion?'checked':''}></label><div class="settings-row"><span>本机存档状态<small>${S.persistence?'已在此设备保存。刷新页面可恢复暂停或进行中的计时。':'浏览器存储不可用或存档不兼容。请先导出原存档备份，避免丢失。'}</small></span>${icon(S.persistence?'check':'download')}</div><div class="settings-actions"><button class="secondary" id="exportSave">${icon('download')} 导出本机存档</button><button class="secondary" id="importSave">导入存档</button><input id="importFile" type="file" accept="application/json,.json" hidden></div><p class="small muted" style="font-size:10px;line-height:1.9">已完成的深空专注明细会自动补同步，同一条记录不会重复计时。科研与写作计入奶茶铺的科研，学习计入学习；同步不额外发放金币、羁绊或星屑。云端共同累计不包含在本机存档导出中。</p><div class="settings-row"><span>共同学习时长<small data-study-detail></small></span></div><p class="study-sync-notice" data-study-unindexed hidden></p>`,'settings');updateStudyStatus();$('#romanceSetting').onchange=e=>{S.update(s=>s.settings.romance=e.target.checked);toast(e.target.checked?'亲近日常已开启':'已切换成温柔陪学');};$('#motionSetting').onchange=e=>{S.update(s=>s.settings.motion=e.target.checked);playVideo();};$('#exportSave').onclick=()=>download(`深空来信-存档-${new Date().toISOString().slice(0,10)}.json`,S.exportData(),'application/json');$('#importSave').onclick=()=>$('#importFile').click();$('#importFile').onchange=async e=>{const file=e.target.files[0];if(!file)return;if(file.size>3*1024*1024){toast('存档文件过大，请选择本平台导出的 JSON。');return;}const text=await file.text();let parsed;try{parsed=JSON.parse(text);}catch(_){toast('这不是可读取的 JSON 存档，原进度未改变。');return;}showDialog(`<h2 class="modal-title" id="dialogTitle">用这份存档继续旅程？</h2><p class="modal-sub">导入会替换此设备的深空剧情与本机进度，不会覆盖云端共同累计；其中尚未同步的已完成专注明细会自动补同步。请先保存当前存档。格式与数据检查失败不会覆盖。</p><div class="form-actions"><button class="secondary" id="backupBeforeImport">先导出当前存档</button><button class="primary" id="confirmImport">确认导入</button></div>`,'import');$('#backupBeforeImport').onclick=()=>download('深空来信-导入前备份.json',S.exportData(),'application/json');$('#confirmImport').onclick=()=>{const r=S.importData(JSON.stringify(parsed));if(!r.ok){toast(`导入未完成：${r.error}`);return;}closeDialog();taskDraft='';taskId=null;applyCharacter();updateStats();updateTimer();renderSubview();toast('存档已恢复，欢迎回到这里。');};};}
 function download(filename,content,type){const blob=new Blob([content],{type:`${type};charset=utf-8`}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-function openAbout(){showDialog(`<h2 class="modal-title" id="dialogTitle">让普通日常，也值得期待</h2><p class="modal-sub">深空来信是一份《恋与深空》同人陪伴体验。祁煜与沈星回的人物动态、形象素材来自游戏官方网站，相关权利属于原权利人。</p><div class="settings-row"><span>人物形象<small>官方人物片段自然轮播，也可以留在喜欢的一幕。采用预制动态与本地交互效果，非可操控的实时 3D 模型。</small></span></div><div class="settings-row"><span>故事与对话<small>12 章原创同人支线与情境脚本，不代表官方剧情；聊天不接入生成式 AI 或角色原声。</small></span></div><div class="settings-row"><span>你的进度<small>学习时长与奶茶小铺共用原来的 Firebase，已完成的深空专注明细会自动补同步。剧情、任务、羁绊和星屑留在本机；同步不会额外发放奖励。科研与写作计入科研，学习计入学习。</small></span></div><p class="study-sync-notice" data-study-unindexed hidden></p><div class="settings-actions"><a class="secondary" href="https://deepspace.papegames.com/news/4" target="_blank" rel="noopener">祁煜 · 官方介绍 ↗</a><a class="secondary" href="https://deepspace.papegames.com/news/2" target="_blank" rel="noopener">沈星回 · 官方介绍 ↗</a><a class="text-btn" href="assets/SOURCES.md" target="_blank">素材来源清单 ↗</a><a class="text-btn" href="assets/clips/SOURCES.md" target="_blank">动态镜头来源 ↗</a></div>`,'about');updateStudyStatus();}
+function openAbout(){showDialog(`<h2 class="modal-title" id="dialogTitle">让普通日常，也值得期待</h2><p class="modal-sub">深空来信是一份《恋与深空》同人陪伴体验。祁煜与沈星回的人物动态、形象素材来自游戏官方网站，相关权利属于原权利人。</p><div class="settings-row"><span>人物形象<small>默认播放叠桌面官方完整陪伴：祁煜《你的轮廓》约 36 秒，沈星回《午后浮光》约 26 秒，原生循环、不自动换镜。其他 PV 片段可手动查看。采用预制动态与本地交互效果，非可操控的实时 3D 模型。</small></span></div><div class="settings-row"><span>故事与对话<small>12 章原创同人支线与情境脚本，不代表官方剧情；聊天不接入生成式 AI 或角色原声。</small></span></div><div class="settings-row"><span>你的进度<small>学习时长与奶茶小铺共用原来的 Firebase，已完成的深空专注明细会自动补同步。剧情、任务、羁绊和星屑留在本机；同步不会额外发放奖励。科研与写作计入科研，学习计入学习。</small></span></div><p class="study-sync-notice" data-study-unindexed hidden></p><div class="settings-actions"><a class="secondary" href="https://deepspace.papegames.com/news/4" target="_blank" rel="noopener">祁煜 · 官方介绍 ↗</a><a class="secondary" href="https://deepspace.papegames.com/news/2" target="_blank" rel="noopener">沈星回 · 官方介绍 ↗</a><a class="text-btn" href="assets/SOURCES.md" target="_blank">素材来源清单 ↗</a><a class="text-btn" href="assets/clips/SOURCES.md" target="_blank">动态镜头来源 ↗</a></div>`,'about');updateStudyStatus();}
 window.addEventListener('companion-storage-error',()=>{toast('暂时无法写入本机存档，请在设置中导出备份。');const status=$('#saveStatus');if(status)status.textContent='暂未能保存 · 请导出备份';});
 window.addEventListener('companion-change',event=>{
  // Local actions already update their own controls; only another tab replaces

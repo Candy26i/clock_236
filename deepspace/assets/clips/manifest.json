@@ -1,6 +1,20 @@
 {
   "qiyu": [
     {
+      "id": "qiyu-official-companion",
+      "label": "你的轮廓 · 陪你作画",
+      "src": "assets/clips/qiyu-official-companion.mp4?v=official-companion-1",
+      "poster": "assets/clips/qiyu-official-companion.jpg?v=official-companion-1",
+      "duration": 36.333333,
+      "seamless": true,
+      "sourceUrl": "https://cmscdn.papegames.com/wallpaper/3b8b7200af9a261977154e0dd28f59b9.mp4",
+      "sourceFrames": [
+        0,
+        1090
+      ],
+      "sourceFps": 30
+    },
+    {
       "id": "qiyu-original-gaze",
       "label": "抬眼·轻轻眨眼",
       "src": "assets/clips/qiyu-original-gaze.mp4?v=continuous-1",
@@ -74,6 +88,20 @@
     }
   ],
   "xinghui": [
+    {
+      "id": "xinghui-official-companion",
+      "label": "午后浮光 · 陪你读书",
+      "src": "assets/clips/xinghui-official-companion.mp4?v=official-companion-1",
+      "poster": "assets/clips/xinghui-official-companion.jpg?v=official-companion-1",
+      "duration": 26.333333,
+      "seamless": true,
+      "sourceUrl": "https://cmscdn.papegames.com/wallpaper/8771cb2f5d6e6c06f9287ff924119515.mp4",
+      "sourceFrames": [
+        0,
+        790
+      ],
+      "sourceFps": 30
+    },
     {
       "id": "xinghui-original-gaze",
       "label": "暖光·看向你",

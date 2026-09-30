@@ -31,20 +31,21 @@
         label: String(clip.label || clip.title || '陪伴片段 ' + (index + 1)),
         title: String(clip.title || clip.label || '陪伴片段 ' + (index + 1)),
         poster: localMediaPath(clip.poster, /\.(?:jpe?g|png|webp|avif)$/i) ? clip.poster : '',
+        seamless: clip.seamless === true,
         dwellSeconds: bounded(clip.dwellSeconds, DWELL_SECONDS, 1, 3600),
         playbackRate: bounded(clip.playbackRate, 1, 0.25, 2),
-        loopStart: bounded(clip.loopStart, 0, 0, 36000),
-        loopEnd: Number.isFinite(Number(clip.loopEnd)) && Number(clip.loopEnd) > 0 ? Number(clip.loopEnd) : null,
+        loopStart: clip.seamless === true ? 0 : bounded(clip.loopStart, 0, 0, 36000),
+        loopEnd: clip.seamless !== true && Number.isFinite(Number(clip.loopEnd)) && Number(clip.loopEnd) > 0 ? Number(clip.loopEnd) : null,
         transitionSeconds: bounded(clip.transitionSeconds, TRANSITION_SECONDS, 0.05, 1.5)
       });
     }).filter(Boolean);
   }
 
   /**
-   * Two reusable, muted local-video slots. Every loop uses the hidden slot;
-   * the visible video is never rewound. A decoded incoming frame fades over
-   * the still-moving, fully opaque outgoing frame. Actual foreground playback
-   * counts toward automatic dwell; next() selects the next loop boundary.
+   * Seamless source files stay in one element and use native whole-file looping.
+   * They only change on explicit next(), without waiting for a long loop to end.
+   * Other clips retain the two-slot, decoded-frame handoff at loop boundaries.
+   * Actual foreground playback counts toward the optional automatic PV dwell.
    */
   class CompanionScenePlayer {
     constructor({ container, character, clips, onClipChange, reduceMotion = false } = {}) {
@@ -58,7 +59,7 @@
       this._fadeTimer = null;
       this._transitioning = null;
       this._warming = null;
-      this._mode = 'auto';
+      this._mode = 'loop';
       this._reduced = Boolean(reduceMotion);
       this._wantsPlay = !this._reduced;
       this._active = null;
@@ -150,6 +151,7 @@
       slot.ready = false;
       slot.playPromise = null;
       slot.video.pause();
+      slot.video.loop = false;
     }
     _nextIndex(from) {
       for (let offset = 1; offset <= this.clips.length; offset += 1) {
@@ -162,15 +164,20 @@
       if (slot !== this._active) return;
       const time = Number(slot.video.currentTime);
       if (!Number.isFinite(time)) return;
-      const delta = time - slot.lastTime;
+      let delta = time - slot.lastTime;
+      const duration = Number(slot.video.duration);
+      const wrapped = this._clip(slot).seamless && slot.video.loop && delta < 0 &&
+        Number.isFinite(duration) && slot.lastTime > duration - 0.5 && time < 0.5;
+      if (wrapped) delta += duration;
       // Convert media time into time actually spent watching, including slowed
       // clips, while never counting seeks or wall time spent paused/backgrounded.
-      if (delta > 0 && !slot.video.seeking) this._watched += delta / (slot.video.playbackRate || 1);
+      if (delta > 0 && (!slot.video.seeking || wrapped)) this._watched += delta / (slot.video.playbackRate || 1);
       slot.lastTime = time;
     }
     _targetIndex() {
       if (!this._active) return -1;
       if (this._failed.has(this._index)) return this._nextIndex(this._index);
+      if (this._clip(this._active).seamless) return this._queuedNext ? this._nextIndex(this._index) : this._index;
       const remaining = Math.max(0, this._bounds(this._active).end - this._active.video.currentTime) / this._clip(this._active).playbackRate;
       const rotate = this._queuedNext || (this._mode === 'auto' && this._watched + remaining >= this._clip(this._active).dwellSeconds);
       return rotate ? this._nextIndex(this._index) : this._index;
@@ -195,6 +202,7 @@
       video.style.opacity = '0';
       video.style.zIndex = '-1';
       video.playbackRate = clip.playbackRate;
+      video.loop = clip.seamless;
       const poster = clip.poster || (slot === this._slots[0] && this.character === slot.inheritedCharacter ? slot.inheritedPoster : '');
       if (poster) video.setAttribute('poster', poster); else video.removeAttribute('poster');
       const expected = new URL(clip.src, this.document.baseURI || global.location.href).href;
@@ -220,7 +228,12 @@
       ['loadedmetadata', 'loadeddata', 'canplay', 'seeked'].forEach(event => this._listen(slot, event, ready));
       this._listen(slot, 'error', () => { if (valid()) this._fail(slot, '这一段暂时无法播放'); });
       this._listen(slot, 'timeupdate', () => { if (valid()) this._recordProgress(slot); });
-      this._listen(slot, 'seeking', () => { slot.lastTime = Number(video.currentTime) || 0; });
+      this._listen(slot, 'seeking', () => {
+        // Native loop rewinds are browser-owned; retain the small tail between
+        // the last displayed frame and duration without counting arbitrary seeks.
+        if (valid() && slot === this._active && this._clip(slot).seamless && video.loop) this._recordProgress(slot);
+        else slot.lastTime = Number(video.currentTime) || 0;
+      });
       this._listen(slot, 'ended', () => { if (valid() && slot === this._active) { this._recordProgress(slot); this._schedule(); } });
       slot.timer = global.setTimeout(() => { if (valid() && !slot.ready) this._fail(slot, '片段载入超时，已尝试下一段'); }, LOAD_TIMEOUT_MS);
       // Once a same-source slot is hidden, seek its existing decoder instead of
@@ -264,6 +277,7 @@
       if (!this._active || this._pending || this._transitioning || this._warming || this._destroyed) return;
       const index = this._targetIndex();
       if (index < 0) return;
+      if (index === this._index && this._clip(this._active).seamless) return;
       const spare = this._slots.find(slot => slot !== this._active);
       // Preparing the same source in the other slot is intentional. The visible
       // slot is never seeked, including when only one usable clip exists.
@@ -297,6 +311,7 @@
     _handoff() {
       if (!this._canPlay() || !this._active || this._warming || this._transitioning || this._pending) return;
       this._prepareStandby();
+      if (this._clip(this._active).seamless && this._targetIndex() === this._index) return;
       const slot = this._slots.find(item => item !== this._active);
       if (!slot.ready || slot.index !== this._targetIndex()) return;
       const warm = { slot, old: this._active, epoch: this._epoch, token: slot.token, decoded: false, playing: false, startTime: slot.video.currentTime };
@@ -362,8 +377,12 @@
         }
         if (!this._warming && !this._transitioning && !this._pending) {
           this._prepareStandby();
-          const remaining = (this._bounds(this._active).end - this._active.video.currentTime) / this._clip(this._active).playbackRate;
-          if (remaining <= this._fadeSeconds(this._active) + WARMUP_SECONDS) this._handoff();
+          if (this._clip(this._active).seamless) {
+            if (this._queuedNext || this._failed.has(this._index)) this._handoff();
+          } else {
+            const remaining = (this._bounds(this._active).end - this._active.video.currentTime) / this._clip(this._active).playbackRate;
+            if (remaining <= this._fadeSeconds(this._active) + WARMUP_SECONDS) this._handoff();
+          }
         }
         this._schedule();
       });
@@ -373,7 +392,7 @@
       this._prepareStandby();
       this._schedule();
       const bounds = this._bounds(this._active);
-      if (this._active.video.ended || this._active.video.currentTime >= bounds.end) { this._handoff(); return Promise.resolve(true); }
+      if (!this._clip(this._active).seamless && (this._active.video.ended || this._active.video.currentTime >= bounds.end)) { this._handoff(); return Promise.resolve(true); }
       return this._playSlot(this._active);
     }
     _halt() {
@@ -427,7 +446,12 @@
         this._pending = slot;
         this._load(slot, next);
       } else {
-        this._load(slot, this._failed.has(this._index) ? next : this._targetIndex());
+        const target = this._failed.has(this._index) ? next : this._targetIndex();
+        if (target === this._index) {
+          this._queuedNext = false;
+          if (this._clip(this._active).seamless) { this._emit(); return; }
+        }
+        this._load(slot, target);
       }
     }
 
@@ -481,6 +505,7 @@
       this._active.index = keep;
       this._active.video.dataset.clipId = normalized[keep].id;
       this._active.video.playbackRate = normalized[keep].playbackRate;
+      this._active.video.loop = normalized[keep].seamless;
       if (normalized[keep].poster) this._active.video.setAttribute('poster', normalized[keep].poster);
       this._prepareStandby();
       this._emit();
@@ -493,6 +518,7 @@
       if (this._canPlay() && !this._active.video.paused) {
         this._queuedNext = true;
         this._prepareStandby();
+        if (this._clip(this._active).seamless) this._handoff();
         this._emit();
       } else {
         this._halt();

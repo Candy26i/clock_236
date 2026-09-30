@@ -190,7 +190,7 @@ async function isolatedContext(browser, options = {}) {
     await fallback.evaluate(() => {
       __player.pause();
       document.querySelectorAll('.character-video').forEach(video => { video.requestVideoFrameCallback = undefined; });
-      const clip = { ...__player.clips[0], loopStart: 0.3, loopEnd: 2.5, playbackRate: 0.8, transitionSeconds: 0.3 };
+      const clip = { ...__player.clips[0], seamless: false, loopStart: 0.3, loopEnd: 2.5, playbackRate: 0.8, transitionSeconds: 0.3 };
       __player.setCharacter('qiyu', [clip]);
       __player.play();
       __seams.commits = [];

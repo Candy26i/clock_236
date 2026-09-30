@@ -80,3 +80,7 @@ body.reduced-motion *,body.reduced-motion *:before,body.reduced-motion *:after{a
  .scene-playback-actions .icon{width:10px;height:10px}
  .immersive .scene-playback{top:calc(max(20px,env(safe-area-inset-top)) + 40px);left:18px;right:18px}
 }
+
+/* The official study scenes already contain the room and character together. */
+.scene[data-official-companion=true] .scene-name{display:none}
+.scene[data-official-companion=true][data-character=xinghui] .character-video{object-position:74% center}
