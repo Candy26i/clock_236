@@ -9098,6 +9098,10 @@ body{background:radial-gradient(ellipse at 8% 0%,#FFF2CF 0,transparent 44%),radi
 }
 </style>
 <link rel="stylesheet" href="deepspace/portal.css">
+<link rel="stylesheet" href="assets/milk-characters-v66.css?v=2d-scenes-1">
+<link rel="stylesheet" href="assets/milk-scene-layout-v66.css?v=2d-scenes-1">
+<script defer src="assets/milk-characters-v66.js?v=2d-scenes-1"></script>
+<script defer src="assets/milk-scene-layout-v66.js?v=2d-scenes-1"></script>
 </head>
 <body>
 
@@ -9210,7 +9214,7 @@ body{background:radial-gradient(ellipse at 8% 0%,#FFF2CF 0,transparent 44%),radi
   <footer>
     做不满 3 小时,当天的奶茶就作废咯 · 每多专注 25 分钟,得 1 张小料/装饰/贴纸券<br>
     提前结束计时会保留已专注的整分钟 · 计时中刷新页面也不会丢进度<br>
-    <span style="opacity:.7">v51 · 3D Q版网页互动场景角色包 + 场景修正 + 简洁现代小煜 + 单/双盘智能布局 + 每日 Todo + 独立金币 + 场景商店</span>
+    <span style="opacity:.7">v66 · 2D 手绘陪伴 + 场景承托与桌面遮挡 + 单/双人点心布局 + 每日 Todo + 独立金币 + 场景商店</span>
   </footer>
 </div>
 
@@ -9226,14 +9230,15 @@ const USERS = [
 ];
 // 每个用户一套独立的陪学小人。想给某人换立绘,改 TA 这一份即可。
 // name: 名字 · dir: 图片文件夹 · imgs: 五种心情静态图 · gifs: 动作GIF池
+const scene2DAtlas = uid => `assets/characters/2d-v66/${uid==='u1'?'qiyu':'xinghui'}-study-sheet.png`;
 const PETS = {
   u1: {
     name: "小煜",
-    scene3d: "assets/characters/qiyu-3d-default-v2.png",
+    scene3d: scene2DAtlas("u1"),
     scene3dBlink: "",
-    scene3dCheer: "assets/characters/qiyu-3d-cheer-v2.png",
-    scene3dInteract: "assets/characters/qiyu-3d-interact-v2.png",
-    scene3dArt: "assets/characters/qiyu-3d-art-v2.png",
+    scene3dCheer: scene2DAtlas("u1"),
+    scene3dInteract: scene2DAtlas("u1"),
+    scene3dArt: scene2DAtlas("u1"),
     scene3dRole: "祁煜",
     imgs: {
       sleepy: "pet/sleepy.png", ok: "pet/ok.png", happy: "pet/happy.png",
@@ -9249,11 +9254,11 @@ const PETS = {
   },
   u2: {
     name: "小莲",   // Zhai 的搭子,想改名改这里
-    scene3d: "assets/characters/shenxinghui-v65-default.png",
+    scene3d: scene2DAtlas("u2"),
     scene3dBlink: "",
-    scene3dGentle: "assets/characters/shenxinghui-v65-gentle.png",
-    scene3dThink: "assets/characters/shenxinghui-v65-think.png",
-    scene3dFocus: "assets/characters/shenxinghui-v65-focus.png",
+    scene3dGentle: scene2DAtlas("u2"),
+    scene3dThink: scene2DAtlas("u2"),
+    scene3dFocus: scene2DAtlas("u2"),
     scene3dRole: "沈星回",
     imgs: {
       sleepy: "pet2/sleepy.png", ok: "pet2/ok.png", happy: "pet2/happy.png",
@@ -11700,7 +11705,7 @@ function bindPoseControlButtons(root){
 
 const scenePosePreferences=(()=>{try{return JSON.parse(localStorage.getItem('milktea-scene-poses-v1'))||{}}catch{return {}}})();
 function scenePoseChoices(mode){
-  if(mode==='room')return [['auto','随场景'],['stand','静静陪伴'],['sit','坐垫上盘腿'],['read','盘腿阅读'],['think','想点事情'],['listen','戴耳机听课'],['laptop','盘腿用电脑']];
+  if(mode==='room')return [['auto','随场景'],['stand','静静陪伴'],['sit','地毯上盘腿'],['read','盘腿阅读'],['think','想点事情'],['listen','戴耳机听课'],['laptop','盘腿用电脑']];
   if(['outdoor','seaside'].includes(mode))return [['auto','随场景'],['stand','站着陪你'],['sit','坐下来'],['lie','躺着放松'],['listen','戴耳机听课'],['laptop','盘腿用电脑']];
   if(['room','cafe','library','train','jiangnan'].includes(mode))return [['auto','随场景'],['stand','静静陪伴'],['read','一起阅读'],['think','想点事情'],['listen','戴耳机听课'],['laptop','坐着用电脑']];
   return [['auto','随场景'],['stand','静静陪伴'],['read','记录灵感'],['think','看风景'],['listen','听课记笔记'],['laptop','整理学习资料']];
@@ -11709,13 +11714,10 @@ function chosenScenePose(uid,mode){
   const choice=scenePosePreferences[uid+'|'+mode]||'auto';
   return scenePoseChoices(mode).some(([id])=>id===choice)?choice:'auto';
 }
-function studyPoseAsset(uid,mode,pose,src){
-  const name=uid==='u1'?'qiyu-3d':'shenxinghui-v65';
-  if(mode==='room' && pose==='read')return {src:`assets/characters/${name}-sit.png`,posture:'sit'};
-  if(!['room','outdoor','seaside'].includes(mode) && ['read','listen','laptop'].includes(pose))return {src:`assets/characters/${name}-chair-${pose}.png`,posture:'chair-'+pose};
-  if(pose==='listen'&&uid==='u1')src='assets/characters/qiyu-3d-listen-v2.png';
-  if(pose==='laptop'&&uid==='u2')src='assets/characters/shenxinghui-v65-laptop.png';
-  return {src,posture:pose};
+function studyPoseAsset(uid,mode,pose){
+  const floor=['room','outdoor','seaside'].includes(mode);
+  const posture=floor&&pose==='read'?'sit':!floor&&['read','listen','laptop'].includes(pose)?'chair-'+pose:pose;
+  return {src:scene2DAtlas(uid),posture};
 }
 function contextualPose(uid){
   const mode=petSceneModeOf(view), choice=chosenScenePose(uid,mode), c=petCfg(uid), q=uid==='u1';
@@ -11726,9 +11728,8 @@ function contextualPose(uid){
     
     pose=({room:'sit',outdoor:'sit',seaside:'lie',library:'laptop',cafe:'read',studio:'read',train:'listen',meeting:'read',greenhouse:'think',terrace:'think',jiangnan:'read',cloudrealm:'think'})[mode]||'stand';
   }
-  const src=['sit','lie','listen','laptop'].includes(pose)?`assets/characters/${q?'qiyu-3d':'shenxinghui-v65'}-${pose}.png`:pose==='read'?(q?'assets/characters/qiyu-3d-sketch-v2.png':'assets/characters/shenxinghui-v65-read.png'):pose==='think'?(q?c.scene3dArt:c.scene3dThink):c.scene3d;
-  const fitted=studyPoseAsset(uid,mode,pose,src);
-  return {key:`scene-${mode}-${pose}`,src:fitted.src,label:({sit:mode==='room'?'坐在软垫上，慢慢陪你':'坐下来，慢慢陪你',lie:'躺着听风，放松一下',listen:'戴上耳机，认真听课',laptop:'把今天的学习资料整理好',read:q?'把灵感画下来':'安静读一会儿',think:'陪你想点事情',stand:'静静陪着你'})[pose],posture:fitted.posture};
+  const fitted=studyPoseAsset(uid,mode,pose);
+  return {key:`scene-${mode}-${pose}`,src:fitted.src,label:({sit:mode==='room'?'坐在地毯上，慢慢陪你':'坐下来，慢慢陪你',lie:'躺着听风，放松一下',listen:'戴上耳机，认真听课',laptop:'把今天的学习资料整理好',read:q?'把灵感画下来':'安静读一会儿',think:'陪你想点事情',stand:'静静陪着你'})[pose],posture:fitted.posture};
 }
 function openScenePosePicker(){
   const mode=petSceneModeOf(view), who=[view];
@@ -11745,14 +11746,8 @@ function openScenePosePicker(){
   });
 }
 
-const companionTouchCounts = {u1:0,u2:0};
 function companionTouchPose(uid){
-  const context=contextualPose(uid);
-  if(context&&(['sit','lie','listen','laptop'].includes(context.posture)||context.posture.startsWith('chair-')))return context.src;
-  if(data[uid].session){const active=companionPose(uid);if(active.posture!=='stand')return active.src;}
-  const c=petCfg(uid);
-  const pool=uid==='u1'?[c.scene3dInteract,c.scene3dCheer,c.scene3dArt,'assets/characters/qiyu-3d-sketch-v2.png']:[c.scene3dGentle,c.scene3dThink,'assets/characters/shenxinghui-v65-read.png',c.scene3dFocus];
-  return pool[(companionTouchCounts[uid]++)%pool.length]||c.scene3d;
+  return scene2DAtlas(uid);
 }
 function companionPose(uid,mood=petMood(uid)){
   const interaction=companionInteractionPose(uid);
@@ -11781,7 +11776,7 @@ function companionPose(uid,mood=petMood(uid)){
       label=(q?'祁煜':'沈星回')+' · '+['进入状态','专心陪伴','沉浸专注','辛苦啦，记得舒展一下'][phase];
     }
   }else if(mood==='sleepy'){key='rest';src=q?c.scene3dArt:c.scene3dFocus;label='安静休息，等你回来';}
-  return {src:src||c.scene3d,key,label,posture};
+  return {src:scene2DAtlas(uid),key,label,posture};
 }
 function updateCompanionPoses(){
   document.querySelectorAll('[data-scene3d]').forEach(w=>{
@@ -12036,7 +12031,7 @@ function activeCompanionInteraction(uid){
 function companionInteractionPose(uid){
   const state=activeCompanionInteraction(uid);
   if(!state)return null;
-  return {key:'interaction-'+state.token,src:state.src,posture:'stand',interaction:state.type,elapsed:Date.now()-state.started,label:state.type==='hug'?'给你一个慢慢的拥抱':state.type==='pat'?'轻轻摸摸头，再陪你一会儿':'陪你放松一会儿'};
+  return {key:'interaction-'+state.token,src:state.src,posture:state.posture||'stand',interaction:state.type,elapsed:Date.now()-state.started,label:state.type==='hug'?'给你一个慢慢的拥抱':state.type==='pat'?'轻轻摸摸头，再陪你一会儿':'陪你放松一会儿'};
 }
 function interactionDecoration(type){
   if(type==='pat')return `<svg class="headpat-hand" viewBox="0 0 90 62" aria-hidden="true"><path d="M81 7 59 11 44 15 23 16Q17 17 19 22L35 23 14 25Q9 28 14 31L35 30 16 34Q12 38 18 40L40 37 27 42Q24 46 30 48L49 41Q59 39 67 29L84 25Z" fill="#FFEAD9" stroke="#DFBCA7" stroke-width="1.2" stroke-linejoin="round"/><path d="m73 7 11-3 5 23-12 4Z" fill="#FFFDF5" stroke="#DBC7B1"/><path d="M45 23q10-3 14 0" stroke="#E2BBA6" fill="none"/></svg>`;
@@ -12044,9 +12039,7 @@ function interactionDecoration(type){
   return '';
 }
 function petInteractionPoseSrc(uid,type){
-  const cfg=petCfg(uid)||{};
-  if(type==='hug'||type==='pat')return `assets/characters/${uid==='u1'?'qiyu-3d':'shenxinghui-v65'}-${type}.png`;
-  return uid==='u1'?(type==='note'?cfg.scene3dArt:cfg.scene3dCheer):(type==='note'?cfg.scene3dThink:cfg.scene3dGentle);
+  return scene2DAtlas(uid);
 }
 async function playPetInteractionMotion(uid,type,line=''){
   const home=view, token=Date.now()+'-'+Math.random().toString(36).slice(2);
@@ -12059,7 +12052,8 @@ async function playPetInteractionMotion(uid,type,line=''){
   if(scene){const r=scene.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight){scene.scrollIntoView({behavior:reduced?'instant':'smooth',block:'center'});await new Promise(resolve=>setTimeout(resolve,reduced?0:450))}}
   if(view!==home||companionInteractionRequest[uid]!==token)return false;
   const duration=['hug','pat'].includes(type)?6200:3600;
-  companionInteractionState[uid]={token,type,src,started:Date.now(),until:Date.now()+duration};
+  const posture=companionPose(uid).posture||'stand';
+  companionInteractionState[uid]={token,type,src,posture,started:Date.now(),until:Date.now()+duration};
   nextBigTalk=Date.now()+duration+5000;
   renderPet();
   say(uid===view?'petBubble':'petGuestBubble',line||companionInteractionPose(uid).label,duration);
@@ -12845,7 +12839,7 @@ function renderPet(){
     const mainSlotEl=big.querySelector('#petMainSlot');
     if(mainSlotEl && hostHere) mainSlotEl.dataset.uid=uid;
 
-    big.querySelectorAll("[data-scene-mode]").forEach(btn=>{
+    big.querySelectorAll("button[data-scene-mode]").forEach(btn=>{
       btn.addEventListener("click",e=>{
         e.stopPropagation();
         const mode=btn.dataset.sceneMode;

@@ -8,7 +8,8 @@
     "test:player": "node tests/player.browser.test.cjs",
     "test:multitab": "node tests/multitab.browser.test.cjs",
     "test:sync": "node tests/study-sync.browser.test.cjs",
-    "test:native-player": "node tests/native-player.browser.test.cjs"
+    "test:native-player": "node tests/native-player.browser.test.cjs",
+    "test:milk-scenes": "node tests/milk-scenes.browser.test.cjs"
   },
   "devDependencies": {
     "playwright": "1.62.1"

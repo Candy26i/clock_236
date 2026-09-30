@@ -2,11 +2,15 @@
 
 [夏日奶茶铺](https://candy26i.github.io/clock_236/) · [深空来信](https://candy26i.github.io/clock_236/deepspace/)
 
-奶茶铺首页沿用 2026-09-29 的 GitHub 版本（`22b2588`），顶部可切换两个空间。原有计时、金币、场景与人物素材保留；两边从 `shared/firebase-config.js` 读取同一个 Firebase 项目配置。
+奶茶铺首页以 2026-09-29 的 GitHub 版本（`22b2588`）为基础，顶部可切换两个空间。v66 将场景人物统一为成熟比例的 2D 手绘插画，按每张背景重设桌面、人物和点心位置；计时、金币、解锁与账户规则沿用原版。两边从 `shared/firebase-config.js` 读取同一个 Firebase 项目配置。
 
 深空来信放在独立的 `deepspace/` 目录，包含祁煜 / 沈星回的 10 段动态陪伴、学习与科研任务、专注计时、分支剧情、对话、小游戏和回忆。返回链接会回到奶茶铺首页。
 
 默认陪伴来自叠桌面的官方完整动态壁纸：祁煜《你的轮廓》36.333 秒，沈星回《午后浮光》26.333 秒。保留完整单机位动作，用同一视频元素原生循环，不叠化、不自动换镜。默认只载入当前角色的一支陪学视频；「其他镜头」手动查看保留的 PV 片段，「回到陪学」返回完整镜头。旧 PV 短片仍使用预解码叠化。素材仍是有限长度的官方动作循环，未生成新表演；读取清单不会重启正在播放的同源画面。
+
+## 奶茶铺场景
+
+12 类场景、20 个变体共用 `assets/milk-scene-layout-v66.*` 的承托面配置。人物位置、点心底部和杯底分别锚定；桌面图层按原背景同一缩放/裁切映射，遮住坐姿下半身。单人和串门保持相同场景高度，屋内地坐不添加坐垫。`assets/milk-characters-v66.*` 使用两张透明 2D 姿态图，保留原姿势菜单与互动逻辑；制作记录和提示词见 [2D 角色说明](assets/characters/2d-v66/README.md)。
 
 ## 存档
 
@@ -28,7 +32,7 @@
 
 当前仓库沿用 GitHub Pages 发布方式，首页仍是根目录 `index.html`。`deepspace/` 使用相对资源路径，适用于 `/clock_236/` 子路径。后续更新奶茶铺时保留首页的共享 Firebase 配置引用、`deepspace/portal.css` 引用和 `deepspace-portal` 导航，以及整个 `deepspace/`、`shared/` 目录。
 
-本次不包含之前本地实验版的奶茶铺改造，也不包含 PMX 模型、模型纹理、3D 库或本地备份。深空素材出处见 [素材说明](deepspace/assets/SOURCES.md) 与 [视频片段记录](deepspace/assets/clips/SOURCES.md)。
+本仓库不包含之前本地实验版的整套奶茶铺改造，也不包含 PMX 模型、模型纹理、3D 库或本地备份。v66 仅在当前 GitHub 奶茶铺基础上更新 2D 人物与场景承托。深空素材出处见 [素材说明](deepspace/assets/SOURCES.md) 与 [视频片段记录](deepspace/assets/clips/SOURCES.md)。
 
 ## 本地预览与验证
 
@@ -42,6 +46,7 @@ COMPANION_TEST_URL=http://127.0.0.1:4189/deepspace/ npm run test:player
 COMPANION_TEST_URL=http://127.0.0.1:4189/deepspace/ npm run test:native-player
 npm run test:multitab
 npm run test:sync
+MILK_SCENES_TEST_URL=http://127.0.0.1:4189/clock_236/ npm run test:milk-scenes
 ```
 
 浏览器验证使用 Playwright 和本机 Google Chrome；测试在隔离浏览器中拦截外部 HTTP 与 WebSocket，不连接真实 Firebase，不使用日常浏览器存档。

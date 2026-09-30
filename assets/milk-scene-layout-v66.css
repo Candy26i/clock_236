@@ -1,0 +1,94 @@
+/* One fixed canvas and one contact point per actor. Loaded after the legacy scene rules. */
+#petScene.pet-scene {
+  height:440px!important; min-height:440px!important; max-height:440px!important;
+  position:relative!important; overflow:hidden!important; isolation:isolate;
+  --figure-height:220px; --figure-width:210px; --actor-x:50%; --actor-y:80%;
+  --scene-figure-light:1; --plate-size:44px;
+}
+#petScene.pet-scene[data-scene-mode] .pet-cast {
+  position:absolute!important; inset:0!important; width:100%!important; height:100%!important;
+  min-height:0!important; padding:0!important; margin:0!important; display:block!important;
+  transform:none!important; translate:none!important; gap:0!important; z-index:3!important; pointer-events:none;
+}
+#petScene.pet-scene .pet-cast :is(#petMainSlot,#petGuestSlot) {
+  position:absolute!important; left:var(--actor-x)!important; top:var(--actor-y)!important;
+  right:auto!important; bottom:auto!important; width:var(--figure-width)!important;
+  height:var(--figure-height)!important; min-width:0!important; min-height:0!important;
+  margin:0!important; padding:0!important; transform:translate(-50%,-100%)!important;
+  translate:none!important; display:block!important; overflow:visible!important; pointer-events:none;
+}
+#petScene.pet-scene .pet-cast :is(#petMainSlot,#petGuestSlot)[hidden]{display:none!important}
+#petScene.pet-scene .pet-cast :is(#petMainSlot,#petGuestSlot) .pet-3d-wrap {
+  position:absolute!important; inset:0!important; width:100%!important; height:100%!important;
+  min-height:0!important; margin:0!important; padding:0!important; display:flex!important;
+  align-items:flex-end!important; justify-content:center!important;
+  transform:none!important; translate:none!important; perspective:none!important; transform-style:flat!important;
+  overflow:visible!important; isolation:isolate; pointer-events:none;
+}
+#petScene.pet-scene .pet-cast :is(#petMainSlot,#petGuestSlot) .pet-3d-wrap::before,
+#petScene.pet-scene .pet-cast :is(#petMainSlot,#petGuestSlot) .pet-3d-wrap::after {
+  content:none!important; display:none!important;
+}
+#petScene.pet-scene .pet-cast :is(#petMainSlot,#petGuestSlot) .pet-3d-character {
+  position:absolute!important; bottom:0!important; left:50%!important; top:auto!important; right:auto!important;
+  width:100%!important; height:100%!important; max-width:none!important;
+  object-fit:contain!important; object-position:center bottom!important; aspect-ratio:auto!important;
+  transform:translateX(-50%)!important; translate:none!important; pointer-events:auto;
+  filter:brightness(var(--scene-figure-light)) drop-shadow(0 3px 3px #4a382a20)!important;
+}
+#petScene.pet-scene .pet-cast .pet-2d-sprite {
+  height:var(--figure-height,var(--sprite-height))!important; max-width:none!important;
+  flex-shrink:0; align-self:flex-end; pointer-events:auto;
+  filter:brightness(var(--scene-figure-light)) drop-shadow(0 2px 2px #4a382a18);
+}
+#petScene.pet-scene .pet-3d-depth {display:none!important}
+#petScene.pet-scene .pet-shadow {
+  position:absolute!important; left:50%!important; right:auto!important; top:auto!important; bottom:-3px!important;
+  width:48%!important; height:6px!important; transform:translateX(-50%)!important; translate:none!important;
+  margin:0!important; opacity:.2!important; filter:blur(3px)!important; visibility:visible!important;
+  background:#584434!important; pointer-events:none!important;
+}
+#petScene.pet-scene :is([data-posture^="chair-"],[data-posture="lie"])~.pet-shadow {opacity:.12!important}
+#petScene.pet-scene .pet-bubble {top:-45px!important; max-width:190px!important; z-index:8}
+#petScene.pet-scene .pet-away-card {pointer-events:auto; position:absolute; bottom:0; width:100%; box-sizing:border-box}
+#petScene.pet-scene .headpat-hand{top:0!important;left:43%!important;width:52px!important;height:38px!important}
+#petScene.pet-scene .pet-fx{display:none!important}
+#petScene.pet-scene.daypart-night{--scene-figure-light:.83}
+#petScene.pet-scene.daypart-evening{--scene-figure-light:.93}
+
+/* The existing art remains the background. These identical clipped copies are its foreground. */
+#petScene.pet-scene .meeting-foreground{display:none!important}
+#petScene.pet-scene > .scene-ambient.scene-depth-foreground {
+  position:absolute!important; inset:0!important; width:100%!important; height:100%!important;
+  z-index:4!important; pointer-events:none!important; background-repeat:no-repeat!important;
+}
+#petScene.pet-scene[data-furniture="photo"] > .scene-furniture-layer:not(.scene-snack-surface){display:none!important}
+#petScene.pet-scene .cafe-table-foreground{z-index:4!important}
+#petScene.pet-scene[data-scene-mode="outdoor"] > .scene-furniture-layer.is-picnic{z-index:2!important}
+
+/* Food and tea are anchored to the contact plane, independently of transparent image padding. */
+#petScene.pet-scene .scene-snack-surface{z-index:6!important}
+#petScene.pet-scene .scene-snack-surface .scene-snack-item {
+  width:var(--plate-size)!important; height:var(--plate-size)!important; min-width:0!important;
+  --plate-size:44px; top:var(--plate-main-y)!important; left:var(--plate-main-x)!important;
+  transform:translate(-50%,-100%)!important; align-items:flex-end!important;
+}
+#petScene.pet-scene .scene-snack-surface .scene-snack-item:nth-child(2){left:var(--plate-guest-x)!important;top:var(--plate-guest-y)!important}
+#petScene.pet-scene .scene-snack-surface .snack-illustration{width:100%!important;max-height:100%!important;height:auto!important}
+#petScene.pet-scene .scene-snack-surface :is(.scene-drink-tray,.scene-cup,.scene-cup svg){width:45px!important;height:63px!important}
+#petScene.pet-scene .scene-snack-surface .scene-drink-tray{left:var(--cup-x)!important;top:var(--cup-y)!important}
+@media(max-width:759px){
+  #petScene.pet-scene{height:460px!important;min-height:460px!important;max-height:460px!important}
+  #petScene.pet-scene .scene-snack-surface .scene-snack-item{--plate-size:34px}
+  #petScene.pet-scene .scene-snack-surface :is(.scene-drink-tray,.scene-cup,.scene-cup svg){width:34px!important;height:48px!important}
+  #petScene.pet-scene[data-scene-mode="greenhouse"] .scene-snack-surface .scene-snack-item{--plate-size:28px}
+  #petScene.pet-scene .pet-bubble{max-width:140px!important;font-size:10px!important}
+  #petScene.pet-scene .headpat-hand{width:42px!important;height:30px!important}
+}
+/* The separate illustrated desk and refreshments receive the room's evening light too. */
+#petScene.pet-scene:is(.daypart-night,.daypart-evening) > .scene-furniture-layer {
+  filter:brightness(var(--scene-figure-light)) saturate(.94)!important;
+}
+#petScene.pet-scene:is(.daypart-night,.daypart-evening) .cafe-table-foreground {
+  filter:brightness(var(--scene-figure-light)) drop-shadow(0 6px 4px #54392322)!important;
+}

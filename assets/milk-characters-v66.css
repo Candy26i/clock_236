@@ -1,0 +1,11 @@
+/* One painted 2D art direction for both companions. Source PNG alpha is retained. */
+#petScene .pet-3d-character{visibility:hidden!important;pointer-events:none!important}
+#petScene .pet-2d-sprite{display:block;position:absolute;bottom:0;left:50%;height:var(--figure-height,260px);width:calc(var(--figure-height,260px) * var(--sprite-aspect,.55));max-width:none;transform:translateX(-50%);background-repeat:no-repeat;pointer-events:none;filter:var(--character-light,none);transform-origin:center bottom}
+#petScene [data-posture=sit] .pet-2d-sprite,#petScene [data-posture=listen] .pet-2d-sprite,#petScene [data-posture=laptop] .pet-2d-sprite{height:var(--figure-height,170px);width:calc(var(--figure-height,170px) * var(--sprite-aspect,.95))}
+#petScene [data-posture=lie] .pet-2d-sprite{height:var(--figure-height,140px);width:calc(var(--figure-height,140px) * var(--sprite-aspect,1.8))}
+#petScene .pet-3d-depth{display:none!important}
+#petScene .pet-2d-sprite:before,#petScene .pet-2d-sprite:after{display:none}
+#petScene.daypart-night{--character-light:brightness(.78) saturate(.8)}
+#petScene.daypart-evening{--character-light:brightness(.96) sepia(.09)}
+#petScene.daypart-dawn{--character-light:brightness(.97) sepia(.05)}
+#petScene.scene-room-rain{--character-light:brightness(.94) saturate(.84)}
