@@ -87,7 +87,7 @@ let lastNudge=Date.now(), typeVersion=0, tickBusy=false;
 let scenePlayer=null;
 const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
 const motionReduced=()=>!S.state().settings.motion||motionPreference.matches;
-let sceneClips=Object.fromEntries(['qiyu','xinghui'].map(id=>[id,[{id:`${id}-gaze`,label:id==='qiyu'?'抬眼 · 在你身边':'暖光 · 安静相伴',src:`assets/clips/${id}-original-gaze.mp4`,poster:`assets/${id}-scene.jpg`}]]));
+let sceneClips=Object.fromEntries(['qiyu','xinghui'].map(id=>[id,[{id:`${id}-original-gaze`,label:id==='qiyu'?'抬眼 · 在你身边':'暖光 · 安静相伴',src:`assets/clips/${id}-original-gaze.mp4?v=continuous-1`,poster:`assets/${id}-scene.jpg`}]]));
 const pendingResults=[];
 const relationshipNames=['初见的微光','渐近的心跳','默契的日常','偏爱的轨道','只属于我们的星海'];
 const templates=[
@@ -107,7 +107,7 @@ function mount(){
  <main class="page"><div class="page-heading"><div><div class="eyebrow" id="pageEyebrow">OUR LITTLE ORBIT / 01</div><h1 class="serif" id="pageTitle">把今天，慢慢过成喜欢的样子。</h1></div><div class="profile-switch" aria-label="选择陪伴角色">${['qiyu','xinghui'].map(id=>`<button class="profile-btn" data-profile="${id}"><img class="profile-thumb" src="assets/${id}-portrait.jpg" alt=""><span>${C[id].name}<small>${userNames[id]} 的专属陪伴</small></span></button>`).join('')}</div></div>
  <section class="study-sync" id="studySync" aria-label="共同学习时长"><div class="study-sync-main"><span class="study-sync-total"><span id="studySyncOwner">ljx · 共同累计</span><strong id="sharedTotalMinutes">0</strong><span>分钟</span></span><div class="study-sync-actions"><span id="studySyncStatus" role="status" aria-live="polite">正在连接共同学习时长</span><button type="button" id="studySyncRetry" hidden>重试</button></div></div><p id="studySyncDetails"></p><p class="study-sync-notice" data-study-unindexed hidden></p></section>
  <div id="homeView"><div class="home-grid"><section class="scene" id="scene" aria-label="角色陪伴场景">
- <div class="scene-bg"></div><video class="character-video" id="characterVideo" muted playsinline preload="auto"></video><div class="scene-wash"></div>
+ <div class="scene-bg"></div><div class="character-film"><video class="character-video" id="characterVideo" muted playsinline preload="auto"></video></div><div class="scene-wash"></div>
  <div class="scene-top"><span class="place-tag" id="placeTag"></span><div class="scene-tools"><button class="icon-btn" id="soundToggle" title="播放海浪环境音" aria-label="播放海浪环境音">${icon('mute')}</button><button class="icon-btn" id="sceneSettings" aria-label="更换氛围">${icon('sun')}</button><button class="icon-btn" id="immersiveToggle" aria-label="进入沉浸模式">${icon('expand')}</button></div></div>
  <div class="scene-playback" aria-label="陪伴镜头"><div class="scene-clip-caption"><span id="sceneClipName">此刻，在你身边</span><small id="scenePlaybackStatus" role="status" aria-live="polite">自然轮播</small></div><div class="scene-playback-actions"><button id="sceneLoop" type="button" aria-pressed="false" title="让喜欢的这一幕轻轻循环">${icon('pin')}<span>留在此刻</span></button><button id="sceneNext" type="button" title="看完这一刻，再进入下一镜"><span>下一镜</span>${icon('arrow')}</button></div></div>
  <div class="immersive-clock"><span id="immersiveDigits">25:00</span><button id="immersiveFocusButton">开始专注</button></div><div class="scene-name"><div class="eyebrow" id="characterEnglish"></div><h2 id="characterName"></h2><div class="little-line"></div><p id="characterMotto"></p></div>
@@ -150,7 +150,7 @@ function updateSceneControls(info){
  const clips=sceneClips[info.character]||[],name=$('#sceneClipName'),status=$('#scenePlaybackStatus'),stay=$('#sceneLoop'),next=$('#sceneNext');
  if(!name||!status||!stay||!next)return;
  name.textContent=info.clip?.label||clips[0]?.label||'此刻，在你身边';
- status.textContent=info.state==='unavailable'?'静态陪伴':info.reducedMotion?'静静陪伴':info.nextQueued?'这一刻过后，见下一镜':info.mode==='loop'?'留在喜欢的这一幕':'自然轮播';
+ status.textContent=info.state==='unavailable'?'静态陪伴':info.reducedMotion?'静静陪伴':info.nextQueued?'轻轻走向下一镜':info.state==='loading'?'正在准备这一刻':info.state==='paused'?'这一刻，等你回来':info.mode==='loop'?'留在喜欢的这一幕':'慢慢相伴 · 自然换镜';
  status.title=info.error||'';
  stay.innerHTML=icon(info.mode==='loop'?'play':'pin')+`<span>${info.mode==='loop'?'自然轮播':'留在此刻'}</span>`;
  stay.setAttribute('aria-pressed',String(info.mode==='loop'));
@@ -171,13 +171,13 @@ function syncScenePlayer(){
 }
 async function loadSceneClips(){
  try{
-  const response=await fetch('assets/clips/manifest.json',{cache:'force-cache'});
+  const response=await fetch('assets/clips/manifest.json?v=continuous-1',{cache:'force-cache'});
   if(!response.ok)throw new Error('Scene manifest unavailable');
   const manifest=await response.json();
   for(const id of ['qiyu','xinghui']){
    if(Array.isArray(manifest[id])&&manifest[id].length&&manifest[id].every(clip=>clip&&typeof clip.src==='string'))sceneClips[id]=manifest[id];
   }
-  if(scenePlayer){scenePlayer.setCharacter(uid(),sceneClips[uid()]);updateSceneControls(scenePlayer.getCurrent());playVideo();}
+  if(scenePlayer){scenePlayer.updateClips(sceneClips[uid()]);updateSceneControls(scenePlayer.getCurrent());playVideo();}
  }catch(_){/* A local single-scene fallback remains available when the manifest cannot load. */}
 }
 function playVideo(){

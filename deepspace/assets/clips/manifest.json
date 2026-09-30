@@ -3,60 +3,116 @@
     {
       "id": "qiyu-original-gaze",
       "label": "抬眼·轻轻眨眼",
-      "src": "assets/clips/qiyu-original-gaze.mp4",
-      "poster": "assets/clips/qiyu-original-gaze.jpg",
+      "src": "assets/clips/qiyu-original-gaze.mp4?v=continuous-1",
+      "poster": "assets/clips/qiyu-original-gaze.jpg?v=continuous-1",
       "duration": 3.166667,
-      "sourceUrl": "https://assets.papegames.com/resources/cdn/20240624/6c5e58f3ca96defe.mp4"
+      "sourceUrl": "https://assets.papegames.com/resources/cdn/20240624/6c5e58f3ca96defe.mp4",
+      "dwellSeconds": 48,
+      "transitionSeconds": 0.28
     },
     {
       "id": "qiyu-window-painting",
       "label": "午后·窗边作画",
-      "src": "assets/clips/qiyu-window-painting.mp4",
-      "poster": "assets/clips/qiyu-window-painting.jpg",
-      "duration": 2.9,
-      "sourceUrl": "https://assets.papegames.com/nikkiweb/papegame/deepspacecn/material/ui7ds8r5/qy_pv.mp4"
+      "src": "assets/clips/qiyu-window-painting.mp4?v=continuous-1",
+      "poster": "assets/clips/qiyu-window-painting.jpg?v=continuous-1",
+      "duration": 3.166667,
+      "sourceUrl": "https://assets.papegames.com/nikkiweb/papegame/deepspacecn/material/ui7ds8r5/qy_pv.mp4",
+      "dwellSeconds": 60,
+      "transitionSeconds": 0.48,
+      "sourceFrames": [
+        334,
+        429
+      ],
+      "sourceFps": 30
     },
     {
       "id": "qiyu-brush-pause",
       "label": "提笔·片刻思索",
-      "src": "assets/clips/qiyu-brush-pause.mp4",
-      "poster": "assets/clips/qiyu-brush-pause.jpg",
-      "duration": 2.8,
-      "sourceUrl": "https://assets.papegames.com/nikkiweb/papegame/deepspacecn/material/ui7ds8r5/qy_pv.mp4"
+      "src": "assets/clips/qiyu-brush-pause.mp4?v=continuous-1",
+      "poster": "assets/clips/qiyu-brush-pause.jpg?v=continuous-1",
+      "duration": 3.633333,
+      "sourceUrl": "https://assets.papegames.com/nikkiweb/papegame/deepspacecn/material/ui7ds8r5/qy_pv.mp4",
+      "dwellSeconds": 42,
+      "transitionSeconds": 0.26,
+      "sourceFrames": [
+        777,
+        886
+      ],
+      "sourceFps": 30,
+      "loopEnd": 2.9
     },
     {
       "id": "qiyu-quiet-glance",
       "label": "海光·安静垂眸",
-      "src": "assets/clips/qiyu-quiet-glance.mp4",
-      "poster": "assets/clips/qiyu-quiet-glance.jpg",
-      "duration": 3.298333,
-      "sourceUrl": "https://assets.papegames.com/nikkiweb/papegame/deepspacecn/material/ui7ds8r5/qy_pv.mp4"
+      "src": "assets/clips/qiyu-quiet-glance.mp4?v=continuous-1",
+      "poster": "assets/clips/qiyu-quiet-glance.jpg?v=continuous-1",
+      "duration": 3.633333,
+      "sourceUrl": "https://assets.papegames.com/nikkiweb/papegame/deepspacecn/material/ui7ds8r5/qy_pv.mp4",
+      "dwellSeconds": 60,
+      "transitionSeconds": 0.3,
+      "sourceFrames": [
+        1214,
+        1323
+      ],
+      "sourceFps": 30
+    },
+    {
+      "id": "qiyu-back-desk",
+      "label": "案前·静静作画",
+      "src": "assets/clips/qiyu-back-desk.mp4?v=continuous-1",
+      "poster": "assets/clips/qiyu-back-desk.jpg?v=continuous-1",
+      "sourceUrl": "https://assets.papegames.com/nikkiweb/papegame/deepspacecn/material/ui7ds8r5/qy_pv.mp4",
+      "dwellSeconds": 60,
+      "transitionSeconds": 0.485,
+      "duration": 4.366667,
+      "sourceFrames": [
+        1433,
+        1564
+      ],
+      "sourceFps": 30,
+      "loopEnd": 3.8
     }
   ],
   "xinghui": [
     {
       "id": "xinghui-original-gaze",
       "label": "暖光·看向你",
-      "src": "assets/clips/xinghui-original-gaze.mp4",
-      "poster": "assets/clips/xinghui-original-gaze.jpg",
+      "src": "assets/clips/xinghui-original-gaze.mp4?v=continuous-1",
+      "poster": "assets/clips/xinghui-original-gaze.jpg?v=continuous-1",
       "duration": 4.0,
-      "sourceUrl": "https://assets.papegames.com/resources/cdn/20240624/ff40d89c1c0c31d0.mp4"
+      "sourceUrl": "https://assets.papegames.com/resources/cdn/20240624/ff40d89c1c0c31d0.mp4",
+      "dwellSeconds": 48,
+      "transitionSeconds": 0.28
     },
     {
       "id": "xinghui-choose-record",
       "label": "日常·挑选唱片",
-      "src": "assets/clips/xinghui-choose-record.mp4",
-      "poster": "assets/clips/xinghui-choose-record.jpg",
+      "src": "assets/clips/xinghui-choose-record.mp4?v=continuous-1",
+      "poster": "assets/clips/xinghui-choose-record.jpg?v=continuous-1",
       "duration": 3.75,
-      "sourceUrl": "https://assets.papegames.com/nikkiweb/papegame/deepspacecn/material/r14s05vu/st_pv.mp4"
+      "sourceUrl": "https://assets.papegames.com/nikkiweb/papegame/deepspacecn/material/r14s05vu/st_pv.mp4",
+      "dwellSeconds": 42,
+      "transitionSeconds": 0.26,
+      "sourceFrames": [
+        285,
+        375
+      ],
+      "sourceFps": 24
     },
     {
       "id": "xinghui-afternoon-reading",
       "label": "午后·安静翻页",
-      "src": "assets/clips/xinghui-afternoon-reading.mp4",
-      "poster": "assets/clips/xinghui-afternoon-reading.jpg",
-      "duration": 5.875,
-      "sourceUrl": "https://assets.papegames.com/nikkiweb/papegame/deepspacecn/material/r14s05vu/st_pv.mp4"
+      "src": "assets/clips/xinghui-afternoon-reading.mp4?v=continuous-1",
+      "poster": "assets/clips/xinghui-afternoon-reading.jpg?v=continuous-1",
+      "duration": 6.041667,
+      "sourceUrl": "https://assets.papegames.com/nikkiweb/papegame/deepspacecn/material/r14s05vu/st_pv.mp4",
+      "dwellSeconds": 54,
+      "transitionSeconds": 0.36,
+      "sourceFrames": [
+        549,
+        694
+      ],
+      "sourceFps": 24
     }
   ]
 }
