@@ -9,3 +9,6 @@
 #petScene.daypart-evening{--character-light:brightness(.96) sepia(.09)}
 #petScene.daypart-dawn{--character-light:brightness(.97) sepia(.05)}
 #petScene.scene-room-rain{--character-light:brightness(.94) saturate(.84)}
+
+#petScene .pet-2d-sprite{pointer-events:auto;cursor:pointer;touch-action:manipulation}
+#petScene .pet-2d-sprite:focus-visible{outline:2px solid #d6b17f;outline-offset:5px}

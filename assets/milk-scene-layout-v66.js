@@ -3,15 +3,15 @@
   'use strict';
   // Serving coordinates are [main x/y, guest x/y, tea x/y], in canvas percent.
   const scenes={
-    room:{feet:.78,ground:.79,chair:.96,x:[35,67],desktop:[35,88,69,88,80,90],mobile:[28,93,82,93,66,95]},
+    room:{feet:.78,ground:.79,chair:.96,x:[35,67],desktop:[69,88,79,88,89,92],mobile:[77,93,90,93,68,97]},
     outdoor:{feet:.82,ground:.85,lie:.89,x:[35,66],desktop:[39,91,65,91,76,92],mobile:[41,94,65,94,80,95]},
     cafe:{feet:.96,chair:1.01,x:[38,65],desktop:[48,88,67,91,79,92],mobile:[51,93,68,93,83,94]},
-    library:{feet:.86,chair:.97,x:[36,65],desktop:[35,88,69,88,80,90],mobile:[28,93,82,93,66,95]},
-    meeting:{feet:.99,chair:1.025,x:[36,65],scale:1,desktop:[68,90,80,86,90,91],mobile:[12,82,83,84,93,89]},
-    studio:{feet:.91,chair:1.0,x:[35,66],desktop:[68,89,81,89,92,93],mobile:[76,87,90,88,83,97]},
-    greenhouse:{feet:.77,chair:.92,x:[36,65],desktop:[29,88,74,88,84,91],mobile:[8,89,92,89,69,96]},
-    terrace:{feet:.79,chair:.95,x:[36,65],desktop:[34,93,65,93,79,94],mobile:[62,91,85,91,75,97]},
-    train:{feet:.91,chair:.99,x:[36,66],desktop:[42,93,63,93,55,91],mobile:[52,84,82,84,66,92]},
+    library:{feet:.86,chair:.97,x:[36,65],desktop:[69,88,79,88,89,92],mobile:[77,93,90,93,68,97]},
+    meeting:{feet:.99,chair:1.025,x:[36,65],scale:1,desktop:[69,83,79,83,90,91],mobile:[83,82,83,92,94,88]},
+    studio:{feet:.91,chair:1.0,x:[35,66],desktop:[68,86,79,86,90,93],mobile:[79,87,92,87,85,97]},
+    greenhouse:{feet:.77,chair:.92,x:[36,65],desktop:[71,83,81,83,91,91],mobile:[92,87,92,96,9,97]},
+    terrace:{feet:.79,chair:.95,x:[36,65],desktop:[66,91,77,91,88,95],mobile:[89,90,89,98,67,90]},
+    train:{feet:.91,chair:.99,x:[36,66],desktop:[54,84,64,84,55,95],mobile:[54,82,70,82,85,91]},
     seaside:{feet:.8,ground:.87,lie:.89,x:[33,68],desktop:[40,90,61,90,72,92],mobile:[42,94,65,94,81,95]},
     jiangnan:{feet:.88,chair:.99,x:[35,66],desktop:[72,88,83,89,93,92],mobile:[25,94,85,94,54,96]},
     cloudrealm:{feet:.77,chair:.93,x:[35,66],desktop:[69,92,84,92,77,95],mobile:[70,94,90,95,54,96]}
