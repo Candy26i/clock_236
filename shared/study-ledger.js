@@ -45,7 +45,7 @@
 
   function normalizeSession(session) {
     if (!object(session) || !validId(session.id)) return null;
-    if (!Number.isSafeInteger(session.minutes) || session.minutes <= 0 || session.minutes > 120) return null;
+    if (!Number.isSafeInteger(session.minutes) || session.minutes <= 0) return null;
     if (typeof session.category !== 'string' || !session.category.trim() || session.category.length > 40) return null;
     if (!validTimestamp(session.endedAt)) return null;
     const category = session.category.trim().toLowerCase();
