@@ -84,3 +84,5 @@ body.reduced-motion *,body.reduced-motion *:before,body.reduced-motion *:after{a
 /* The official study scenes already contain the room and character together. */
 .scene[data-official-companion=true] .scene-name{display:none}
 .scene[data-official-companion=true][data-character=xinghui] .character-video{object-position:74% center}
+
+.time-presets[hidden]{display:none!important}.timer-mode-tabs{margin-top:14px}.timer-mode-tabs button{flex:1}

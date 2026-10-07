@@ -87,9 +87,9 @@
     if (timer === null) return;
     keysExactly(timer, ['id', 'durationMs', 'startedAt', 'elapsedMs', 'paused', 'category', 'taskId']);
     assert(shortText(timer.id, 128), '计时会话编号无效');
-    assert(integer(timer.durationMs, 60000, 120 * 60000) && timer.durationMs % 60000 === 0, '计时时长应为 1 至 120 分钟');
+    assert((timer.durationMs === 0 || integer(timer.durationMs, 60000, 120 * 60000)) && timer.durationMs % 60000 === 0, '计时时长应为 1 至 120 分钟');
     assert(integer(timer.startedAt, 0, Number.MAX_SAFE_INTEGER), '计时开始时间无效');
-    assert(integer(timer.elapsedMs, 0, timer.durationMs), '已计时时长无效');
+    assert(integer(timer.elapsedMs, 0, timer.durationMs || Number.MAX_SAFE_INTEGER), '已计时时长无效');
     assert(typeof timer.paused === 'boolean', '计时暂停状态无效');
     assert(shortText(timer.category, 40), '计时分类无效');
     assert(timer.taskId === null || shortText(timer.taskId, 128), '计时关联任务无效');
@@ -121,7 +121,7 @@
       assert(shortText(session.id, 128) && !sessionIds.has(session.id), '专注记录编号无效或重复');
       sessionIds.add(session.id);
       assert(validDateKey(session.date), '专注记录日期无效');
-      assert(integer(session.minutes, 0, 120) && typeof session.completed === 'boolean', '专注记录时长无效');
+      assert(integer(session.minutes) && typeof session.completed === 'boolean', '专注记录时长无效');
       assert(shortText(session.category, 40) && (session.taskId === null || shortText(session.taskId, 128)), '专注记录分类或任务无效');
       assert(session.bond === session.minutes && session.fragments === Math.floor(session.minutes / 5), '专注奖励记录不一致');
       assert(integer(session.endedAt, 0, Number.MAX_SAFE_INTEGER), '专注结束时间无效');
@@ -241,11 +241,11 @@
     const timer = current.profiles[selected].timer;
     if (!timer) return 0;
     const running = timer.paused ? 0 : Math.max(0, Date.now() - timer.startedAt);
-    return Math.min(timer.durationMs, timer.elapsedMs + running);
+    return Math.min(timer.durationMs || Number.MAX_SAFE_INTEGER, timer.elapsedMs + running);
   }
 
   function start(options) {
-    if (!isObject(options) || !integer(options.minutes, 1, 120)) return null;
+    if (!isObject(options) || (options.mode !== 'up' && !integer(options.minutes, 1, 120))) return null;
     if (!shortText(options.category, 40)) return null;
     const taskId = options.taskId == null ? null : options.taskId;
     if (taskId !== null && !shortText(taskId, 128)) return null;
@@ -253,7 +253,7 @@
     if (current.profiles[selected].timer) return null;
     const timer = {
       id: 'focus-' + Date.now().toString(36) + '-' + (++sequence).toString(36) + '-' + Math.random().toString(36).slice(2, 10),
-      durationMs: options.minutes * 60000, startedAt: Date.now(), elapsedMs: 0,
+      durationMs: options.mode === 'up' ? 0 : options.minutes * 60000, startedAt: Date.now(), elapsedMs: 0,
       paused: false, category: options.category, taskId
     };
     return update(state => { state.profiles[selected].timer = timer; }) ? clone(timer) : null;
@@ -298,7 +298,7 @@
     const elapsedMs = elapsed(selected);
     const minutes = Math.floor(elapsedMs / 60000);
     const result = {
-      minutes, completed: elapsedMs >= timer.durationMs, category: timer.category,
+      minutes, completed: timer.durationMs === 0 || elapsedMs >= timer.durationMs, category: timer.category,
       taskId: timer.taskId, fragments: Math.floor(minutes / 5), bond: minutes, id: timer.id
     };
     const endedAt = Date.now();
@@ -319,7 +319,7 @@
     const selected = resolve(id);
     if (!validId(selected)) return null;
     const timer = current.profiles[selected].timer;
-    return timer && elapsed(selected) >= timer.durationMs ? finish(selected) : null;
+    return timer && timer.durationMs > 0 && elapsed(selected) >= timer.durationMs ? finish(selected) : null;
   }
 
   function todayMinutes(id) {
