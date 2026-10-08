@@ -13,12 +13,6 @@
 #petScene .pet-2d-sprite{pointer-events:auto;cursor:pointer;touch-action:manipulation}
 #petScene .pet-2d-sprite:focus-visible{outline:2px solid #d6b17f;outline-offset:5px}
 
-/* A touch never moves the actor's floor/chair anchor or changes posture: the expression frame swaps in,
-   and the figure gives one small shy nod around its contact point (feet, seat or the body resting on the mat). */
-#petScene .pet-touch-nod .pet-2d-sprite{animation:companion-touch-nod 1.05s cubic-bezier(.3,.7,.35,1) both;transform-origin:50% 100%}
-#petScene .pet-touch-nod:is([data-posture=lie],[data-posture=prone]) .pet-2d-sprite{animation-name:companion-touch-nod-flat;transform-origin:30% 100%}
-@keyframes companion-touch-nod{0%{transform:translateX(-50%)}22%{transform:translateX(-50%) scale(1.012,.976)}48%{transform:translateX(-50%) rotate(-1.4deg) scale(.996,1.014)}72%{transform:translateX(-50%) rotate(.6deg)}100%{transform:translateX(-50%)}}
-@keyframes companion-touch-nod-flat{0%{transform:translateX(-50%)}30%{transform:translateX(-50%) scale(1,.975)}58%{transform:translateX(-50%) rotate(-.8deg) scale(1,1.01)}100%{transform:translateX(-50%)}}
-@media(prefers-reduced-motion:reduce){#petScene .pet-touch-nod .pet-2d-sprite{animation:none}}
+/* A touch only swaps in the same-pose expression frame: no body motion, no change of anchor or posture. */
 
 #petScene [data-posture=prone] .pet-2d-sprite{height:var(--figure-height,140px);width:calc(var(--figure-height,140px)*var(--sprite-aspect,2))}

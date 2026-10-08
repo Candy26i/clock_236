@@ -38,6 +38,29 @@
     outdoor:{desktop:{stand:.845,ground:.845,lie:.865},mobile:{stand:.915,ground:.92,lie:.935},size:{stand:.69,ground:.57,lie:.48},plate:{desktop:.94,mobile:.975},cup:{desktop:.945,mobile:.975}},
     seaside:{desktop:{stand:.85,ground:.85,lie:.87},mobile:{stand:.9,ground:.905,lie:.925},size:{stand:.67,ground:.56,lie:.47},plate:{desktop:.945,mobile:.97},cup:{desktop:.95,mobile:.97}}
   };
+  // Where the table edge crosses each posture family (fraction of the figure from the top of the
+  // head), and how tall the figure is when seated right behind the table (fraction of canvas height).
+  const tableCut={stand:.56,chair:.62,ground:.8};
+  const behindTable={desktop:{stand:1.0,chair:.8,ground:.62},mobile:{stand:.86,chair:.72,ground:.55}};
+  // Top-edge profiles of the separately painted furniture images (fraction of image height).
+  const furnitureEdge={
+    desk:{selector:'.scene-furniture-layer.is-desk .scene-furniture-art',edge:()=>.384,alignY:1},
+    cafe:{selector:'.cafe-table-foreground .cafe-study-table',edge:u=>.203+.75*Math.pow(Math.min(.82,Math.max(.18,u))-.5,2),alignY:.5}
+  };
+  function occluderTop(scene,mode,xPx){
+    const plane=tableTop[mode];
+    if(plane){const projection=cover(scene);return projection?projection.map([.5,plane]).y:null;}
+    for(const key of ['cafe','desk']){
+      const spec=furnitureEdge[key],img=scene.querySelector(spec.selector);
+      if(!img||!img.getClientRects().length||getComputedStyle(img).display==='none'||getComputedStyle(img.parentElement).display==='none')continue;
+      if(!img.naturalWidth){img.addEventListener('load',schedule,{once:true});return null;}
+      const sr=scene.getBoundingClientRect(),r=img.getBoundingClientRect();
+      const scale=Math.min(r.width/img.naturalWidth,r.height/img.naturalHeight),pw=img.naturalWidth*scale,ph=img.naturalHeight*scale;
+      const left=r.left-sr.left+(r.width-pw)/2,top=r.top-sr.top+(r.height-ph)*spec.alignY;
+      return top+spec.edge((xPx-left)/pw)*ph;
+    }
+    return null;
+  }
   const tableTop={meeting:.777,studio:.830,greenhouse:.790,terrace:.868,train:.777,jiangnan:.758,cloudrealm:.800};
   const geometry=new WeakMap();
   const dimensions=new Map();
@@ -127,8 +150,19 @@
         const target=h*mat.size[key]*(pair?.9:1)*(mobile?.94:1);
         height=Math.max(70,Math.min(target,(maxWidth*(pair?1:1.08))/aspect,y-(mobile?126:44)));
       }
-      const width=Math.max(90,Math.min(maxWidth,height*aspect+12));
       const x=pair?(mobile?[26,74]:pose==='prone'?[36,77]:pose==='lie'?[34,75]:cfg.x)[index]:50;
+      // Table and desk scenes: the companion sits (or stands) right behind the painted table. Getting
+      // "closer" means the table edge crosses the body lower down the figure - lap for a chair, hips
+      // when standing, knees on the rug - so a larger figure hides more leg instead of rising up.
+      const edge=mat?null:occluderTop(scene,mode,w*x/100);
+      if(edge){
+        const family=chair?'chair':ground?'ground':'stand';
+        const size=behindTable[mobile?'mobile':'desktop'][family]*(pair?(mobile?.84:.9):1);
+        const minTop=mobile?126:(pair?62:38);
+        height=Math.max(70,Math.min(h*size,(edge-minTop)/tableCut[family],(maxWidth*(pair?1:1.08))/aspect));
+        y=edge+height*(1-tableCut[family]);
+      }
+      const width=Math.max(90,Math.min(maxWidth,height*aspect+12));
       slot.style.setProperty('--actor-x',x+'%');slot.style.setProperty('--actor-y',y.toFixed(1)+'px');
       slot.style.setProperty('--figure-height',height.toFixed(1)+'px');slot.style.setProperty('--figure-width',width.toFixed(1)+'px');
       wrap.style.setProperty('--figure-height',height.toFixed(1)+'px');wrap.style.setProperty('--figure-width',width.toFixed(1)+'px');

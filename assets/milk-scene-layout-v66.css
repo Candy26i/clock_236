@@ -41,9 +41,6 @@
   flex-shrink:0; align-self:flex-end; pointer-events:auto;
   filter:brightness(var(--scene-figure-light)) drop-shadow(0 2px 2px #4a382a18);
 }
-#petScene.pet-scene .pet-cast .pet-touch-soft .pet-2d-sprite {
-  filter:brightness(calc(var(--scene-figure-light) * 1.04)) saturate(1.05) drop-shadow(0 2px 2px #4a382a18);
-}
 #petScene.pet-scene .pet-3d-depth {display:none!important}
 #petScene.pet-scene .pet-shadow {
   position:absolute!important; left:50%!important; right:auto!important; top:auto!important; bottom:-3px!important;

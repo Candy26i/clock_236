@@ -38,8 +38,6 @@
       preloadReaction(reaction);
       const source=touched&&reaction&&readyReactions.has(reaction.file)?reaction:normal;
       wrap.classList.toggle('pet-touch-soft',!!touched);
-      if(touched&&wrap.dataset.touchStarted!==String(state.started)){wrap.dataset.touchStarted=String(state.started);wrap.classList.remove('pet-touch-nod');void wrap.offsetWidth;wrap.classList.add('pet-touch-nod');}
-      if(!touched&&wrap.dataset.touchStarted){delete wrap.dataset.touchStarted;wrap.classList.remove('pet-touch-nod');}
       const [x, y, width, height] = source.frame;
       let sprite = wrap.querySelector('.pet-2d-sprite');
       if (!sprite) {
