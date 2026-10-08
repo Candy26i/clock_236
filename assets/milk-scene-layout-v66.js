@@ -29,6 +29,9 @@
   };
   // Contact planes were traced from the unmodified background/table art. They intentionally
   // exclude the floor; source-space planes follow the same cover crop as the image.
+  // Approximate eye-level line of each painted camera (fraction of canvas height).
+  const horizons={room:.42,outdoor:.40,cafe:.40,library:.42,meeting:.40,studio:.40,greenhouse:.40,terrace:.40,train:.40,seaside:.36,jiangnan:.40,cloudrealm:.40};
+  const nearness={room:1.15,outdoor:1.16,cafe:1.12,library:1.15,meeting:1.12,studio:1.14,greenhouse:1.14,terrace:1.15,train:1.13,seaside:1.16,jiangnan:1.14,cloudrealm:1.14};
   const tableTop={meeting:.777,studio:.830,greenhouse:.790,terrace:.868,train:.777,jiangnan:.758,cloudrealm:.800};
   const geometry=new WeakMap();
   const dimensions=new Map();
@@ -83,23 +86,63 @@
     ['plate-main-x','plate-main-y','plate-guest-x','plate-guest-y','cup-x','cup-y'].forEach((name,i)=>scene.style.setProperty('--'+name,servings[i]+'%'));
     for(const [index,slot] of [...scene.querySelectorAll('#petMainSlot,#petGuestSlot')].entries()){
       const wrap=slot.querySelector('[data-posture]');if(!wrap)continue;
-      const pose=wrap.dataset.posture||'stand',chair=pose.startsWith('chair-'),ground=['sit','listen','laptop','read'].includes(pose)&&!chair,lie=pose==='lie';
+      const pose=wrap.dataset.posture||'stand',chair=pose.startsWith('chair-'),ground=['sit','listen','laptop','read'].includes(pose)&&!chair,lie=pose==='lie'||pose==='prone';
       const sprite=wrap.querySelector('.pet-2d-sprite');
       const sourceStyle=sprite?getComputedStyle(sprite):getComputedStyle(wrap);
       const aspect=number(sourceStyle.getPropertyValue('--sprite-aspect'),lie?1.85:chair?.66:ground?.98:.49);
       const baseline=number(sourceStyle.getPropertyValue('--sprite-height'),lie?130:chair?250:ground?165:280);
-      const baseScale=(mobile?.96:1.04)*(cfg.scale||1);
+      // Enlarge around the fixed ground contact, with modest per-scene perspective limits.
+      const closeness=({room:1.13,outdoor:1.15,cafe:1.10,library:1.10,meeting:1.12,studio:1.09,greenhouse:1.08,terrace:1.08,train:1.10,seaside:1.12,jiangnan:1.10,cloudrealm:1.08})[mode]||1.08;
+      const baseScale=(mobile?.96:1.04)*(cfg.scale||1)*(pair?1+(closeness-1)*.5:closeness);
       let y=(lie?(cfg.lie||cfg.ground||cfg.feet):ground?(cfg.ground||cfg.feet):chair?(cfg.chair||cfg.feet):cfg.feet)*h;
       if(mobile&&chair)y=Math.min(y,h*.94);
-      const maxWidth=pair?w*(lie?.43:.45):w*(lie?.72:.55);
+      if(mobile&&mode==='outdoor')y=h*(lie?.94:ground?.92:.91);
+      if(mobile&&mode==='seaside')y=h*(lie?.93:ground?.91:.89);
+      const maxWidth=pair?w*(lie&&!mobile?.37:lie?.43:.45):w*(lie?.72:.55);
       const maxHeight=y-(mobile?122:112);
-      const height=Math.max(70,Math.min(baseline*baseScale,maxWidth/aspect,maxHeight));
+      let height=Math.max(70,Math.min(baseline*baseScale,maxWidth/aspect,maxHeight));
+      // Bring the companion a step closer to the viewer. Size and contact move together along the
+      // floor's perspective (toward the horizon line), so feet, seat or body stay on the same floor,
+      // rug or mat and the traced table/desk layers keep covering whatever is behind them.
+      const horizon=h*(horizons[mode]||.42);
+      const near=pair?(mobile?1.03:1.07):(mobile?1.08:(nearness[mode]||1.15));
+      const nearY=horizon+(y-horizon)*near;
+      const floorLimit=h*(lie?(mobile?.975:.97):chair?1.06:ground?(mobile?.975:.95):1.02);
+      const contact=Math.min(nearY,Math.max(y,floorLimit));
+      const reach=(contact-horizon)/Math.max(1,y-horizon);
+      height=Math.max(70,Math.min(height*reach,(maxWidth*(pair?1:1.08))/aspect,contact-(mobile?126:44)));
+      y=contact;
       const width=Math.max(90,Math.min(maxWidth,height*aspect+12));
-      const x=pair?(mobile?[26,74]:cfg.x)[index]:50;
+      const x=pair?(mobile?[26,74]:pose==='prone'?[36,77]:pose==='lie'?[34,75]:cfg.x)[index]:50;
       slot.style.setProperty('--actor-x',x+'%');slot.style.setProperty('--actor-y',y.toFixed(1)+'px');
       slot.style.setProperty('--figure-height',height.toFixed(1)+'px');slot.style.setProperty('--figure-width',width.toFixed(1)+'px');
       wrap.style.setProperty('--figure-height',height.toFixed(1)+'px');wrap.style.setProperty('--figure-width',width.toFixed(1)+'px');
       wrap.style.setProperty('--figure-scale',(height/baseline).toFixed(4));
+      const bubble=slot.querySelector('.pet-bubble');
+      if(bubble){
+        const center=w*x/100,actorLeft=center-width/2,actorTop=y-height;
+        let bubbleWidth=Math.min(mobile?140:190,w-24),left=center-bubbleWidth/2,top=actorTop-60;
+        const controls=scene.querySelector('.scene-pose-controls');
+        const sr=scene.getBoundingClientRect(),cr=controls?.getBoundingClientRect();
+        const controlBottom=cr?cr.bottom-sr.top:110;
+        if(top<controlBottom+8){
+          if(mobile){
+            // At standing height, use the free side of the head below the controls.
+            top=controlBottom+8;
+            const toLeft=index===1;
+            const available=toLeft?center-width*.38-20:w-center-width*.38-20;
+            bubbleWidth=Math.min(bubbleWidth,Math.max(86,available));
+            left=toLeft?center-width*.38-bubbleWidth-8:center+width*.38+8;
+          }else{
+            top=Math.max(68,top);
+            if(cr)left=Math.min(left,cr.left-sr.left-bubbleWidth-10);
+          }
+        }
+        left=Math.max(10,Math.min(w-bubbleWidth-10,left));
+        bubble.style.setProperty('--bubble-left',(left-actorLeft).toFixed(1)+'px');
+        bubble.style.setProperty('--bubble-top',(top-actorTop).toFixed(1)+'px');
+        bubble.style.setProperty('--bubble-width',bubbleWidth.toFixed(1)+'px');
+      }
     }
     const foregroundPolygon=foreground(scene,mode)||[];
     geometry.set(scene,{mode,width:w,height:h,surfacePolygons:surfacePolygons(scene,mode,mobile),foregroundPolygon});
