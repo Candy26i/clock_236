@@ -1,0 +1,11 @@
+# 祁煜半侧倚休息姿势
+
+生成方式：内置 image_gen。参考原有 qiyu-master.png 的身份、服装和画风，重画休息姿势与脸部比例。输出为透明 PNG。
+
+## qiyu-recline.png
+
+Use case: stylized-concept. Create a replacement transparent character sprite for a cozy study companion app. Reference image is identity/costume/rendering guidance, not pose. Purple-haired young adult male artist, violet eyes, white open-collar shirt sleeves casually rolled, charcoal tailored trousers, white sneakers, slim silver pendant. Refine the appearance: handsome youthful adult in softly stylized small-character proportions, head slightly smaller and less puffy hair than reference, clear gentle violet eyes with elegant lids, natural soft jaw (not pointed), composed subtly playful smile, slender adult torso and long well-proportioned limbs, no baby face or huge eyes. NEW POSE: resting in a relaxed semi-recline on the ground, head and chest toward LEFT of wide composition, legs extending toward RIGHT. Support his upper body with one forearm planted behind/to his side, head upright naturally looking at viewer, NOT hand propping cheek. Other hand rests lightly on upper thigh. Both legs rest along the ground, one knee gently bent, ankles relaxed. Clear believable weight on elbow/hip/legs. No raised foot, no prone bent-knee kick, no exaggerated head tilt. Keep tasteful painterly soft 3D illustration finish of reference, refined fabric folds and fine hair strands. Entire body and hands/feet visible with small margins. Wide landscape sprite approx 2:1. Isolated figure only with TRUE transparent alpha, no mat, no chair, no scenery, no extra props, no shadow backdrop or glow.
+
+## qiyu-recline-smile.png
+
+Use case: identity-preserve. Edit target: supplied transparent reclining companion sprite. Create a subtle touch-response frame. Change ONLY facial expression: soften the eyes into a small relaxed near-closed smile and add a barely perceptible warm blush, gentle amused affection, not exaggerated or babyish. Preserve EXACT same head size, hairstyle, face shape, body pose, hand and finger positions, legs, costume, perspective, full-body framing, subject position and transparent canvas. Do not move the head or any limb. Keep all non-facial regions visually identical. True transparent alpha, no glow, background, text or extra objects.

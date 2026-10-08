@@ -1,0 +1,24 @@
+[
+  {
+    "file": "assets/characters/rest-v71/qiyu-recline.png",
+    "width": 1774,
+    "height": 887,
+    "frame": [
+      19,
+      12,
+      1730,
+      852
+    ]
+  },
+  {
+    "file": "assets/characters/rest-v71/qiyu-recline-smile.png",
+    "width": 1774,
+    "height": 887,
+    "frame": [
+      18,
+      11,
+      1733,
+      855
+    ]
+  }
+]
