@@ -9,7 +9,10 @@
     "test:multitab": "node tests/multitab.browser.test.cjs",
     "test:sync": "node tests/study-sync.browser.test.cjs",
     "test:native-player": "node tests/native-player.browser.test.cjs",
-    "test:milk-scenes": "node tests/milk-scenes.browser.test.cjs"
+    "test:milk-scenes": "node tests/milk-scenes.browser.test.cjs",
+    "test:interaction-updates": "node tests/interaction-updates.browser.test.cjs",
+    "test:companion-touch": "node tests/companion-touch.browser.test.cjs",
+    "test:scene-touch-audit": "node tests/scene-touch-audit.browser.test.cjs"
   },
   "devDependencies": {
     "playwright": "1.62.1"
