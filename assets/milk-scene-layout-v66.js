@@ -162,6 +162,16 @@
         height=Math.max(70,Math.min(h*size,(edge-minTop)/tableCut[family],(maxWidth*(pair?1:1.08))/aspect));
         y=edge+height*(1-tableCut[family]);
       }
+      // Keep the approved chair and cross-legged layouts exactly as they are.
+      // Standing companions take a small step back along the painted floor perspective.
+      if(!chair&&!ground&&!lie){
+        const retreat=.9;
+        height*=retreat;
+        y=horizon+(y-horizon)*retreat;
+      }else if(lie){
+        // Resting figures keep their contact with the mat while occupying less of the scene.
+        height*=pose==='lie'?.9:.94;
+      }
       const width=Math.max(90,Math.min(maxWidth,height*aspect+12));
       slot.style.setProperty('--actor-x',x+'%');slot.style.setProperty('--actor-y',y.toFixed(1)+'px');
       slot.style.setProperty('--figure-height',height.toFixed(1)+'px');slot.style.setProperty('--figure-width',width.toFixed(1)+'px');
