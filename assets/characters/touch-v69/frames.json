@@ -1,0 +1,241 @@
+{
+  "reactions": {
+    "u1": [
+      {
+        "file": "assets/characters/touch-v69/u1-default.png",
+        "width": 1122,
+        "height": 1402,
+        "frame": [
+          364,
+          18,
+          430,
+          1372
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u1-sit.png",
+        "width": 1371,
+        "height": 1148,
+        "frame": [
+          337,
+          26,
+          749,
+          1107
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u1-listen.png",
+        "width": 1368,
+        "height": 1149,
+        "frame": [
+          320,
+          12,
+          877,
+          1136
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u1-laptop.png",
+        "width": 1374,
+        "height": 1145,
+        "frame": [
+          350,
+          14,
+          847,
+          1130
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u1-chair-read.png",
+        "width": 1024,
+        "height": 1536,
+        "frame": [
+          128,
+          9,
+          896,
+          1514
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u1-chair-listen.png",
+        "width": 1024,
+        "height": 1536,
+        "frame": [
+          166,
+          8,
+          758,
+          1489
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u1-chair-laptop.png",
+        "width": 1145,
+        "height": 1374,
+        "frame": [
+          246,
+          55,
+          742,
+          1258
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u1-lie.png",
+        "width": 1536,
+        "height": 1024,
+        "frame": [
+          39,
+          105,
+          1485,
+          844
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u1-prone-smile.png",
+        "width": 1774,
+        "height": 887,
+        "frame": [
+          10,
+          4,
+          1752,
+          871
+        ]
+      }
+    ],
+    "u2": [
+      {
+        "file": "assets/characters/touch-v69/u2-default.png",
+        "width": 1122,
+        "height": 1402,
+        "frame": [
+          369,
+          29,
+          416,
+          1359
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u2-sit.png",
+        "width": 1254,
+        "height": 1254,
+        "frame": [
+          295,
+          15,
+          870,
+          1206
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u2-listen.png",
+        "width": 1254,
+        "height": 1254,
+        "frame": [
+          237,
+          26,
+          890,
+          1198
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u2-laptop.png",
+        "width": 1254,
+        "height": 1254,
+        "frame": [
+          277,
+          30,
+          893,
+          1214
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u2-chair-read.png",
+        "width": 1122,
+        "height": 1402,
+        "frame": [
+          259,
+          19,
+          688,
+          1361
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u2-chair-listen.png",
+        "width": 1122,
+        "height": 1402,
+        "frame": [
+          279,
+          19,
+          607,
+          1365
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u2-chair-laptop.png",
+        "width": 1122,
+        "height": 1402,
+        "frame": [
+          266,
+          23,
+          639,
+          1362
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u2-lie.png",
+        "width": 1672,
+        "height": 941,
+        "frame": [
+          26,
+          113,
+          1633,
+          795
+        ]
+      },
+      {
+        "file": "assets/characters/touch-v69/u2-prone-smile.png",
+        "width": 1774,
+        "height": 887,
+        "frame": [
+          20,
+          19,
+          1743,
+          842
+        ]
+      }
+    ]
+  },
+  "prone": {
+    "u1": {
+      "file": "assets/characters/touch-v69/u1-prone.png",
+      "width": 1774,
+      "height": 887,
+      "frame": [
+        9,
+        7,
+        1751,
+        868
+      ]
+    },
+    "u2": {
+      "file": "assets/characters/touch-v69/u2-prone.png",
+      "width": 1774,
+      "height": 887,
+      "frame": [
+        19,
+        19,
+        1744,
+        840
+      ]
+    }
+  },
+  "thinkReaction": {
+    "file": "assets/characters/touch-v69/u2-think-smile.png",
+    "width": 1121,
+    "height": 1403,
+    "frame": [
+      368,
+      20,
+      410,
+      1356
+    ]
+  }
+}
