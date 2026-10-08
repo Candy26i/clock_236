@@ -32,6 +32,12 @@
   // Approximate eye-level line of each painted camera (fraction of canvas height).
   const horizons={room:.42,outdoor:.40,cafe:.40,library:.42,meeting:.40,studio:.40,greenhouse:.40,terrace:.40,train:.40,seaside:.36,jiangnan:.40,cloudrealm:.40};
   const nearness={room:1.15,outdoor:1.16,cafe:1.12,library:1.15,meeting:1.12,studio:1.14,greenhouse:1.14,terrace:1.15,train:1.13,seaside:1.16,jiangnan:1.14,cloudrealm:1.14};
+  // Contact lines (fraction of canvas height) on the picnic mat, set back from the front edge,
+  // plus the figure height per posture family and the front-of-mat line where plates rest.
+  const picnic={
+    outdoor:{desktop:{stand:.845,ground:.845,lie:.865},mobile:{stand:.915,ground:.92,lie:.935},size:{stand:.69,ground:.57,lie:.48},plate:{desktop:.94,mobile:.975},cup:{desktop:.945,mobile:.975}},
+    seaside:{desktop:{stand:.85,ground:.85,lie:.87},mobile:{stand:.9,ground:.905,lie:.925},size:{stand:.67,ground:.56,lie:.47},plate:{desktop:.945,mobile:.97},cup:{desktop:.95,mobile:.97}}
+  };
   const tableTop={meeting:.777,studio:.830,greenhouse:.790,terrace:.868,train:.777,jiangnan:.758,cloudrealm:.800};
   const geometry=new WeakMap();
   const dimensions=new Map();
@@ -112,6 +118,15 @@
       const reach=(contact-horizon)/Math.max(1,y-horizon);
       height=Math.max(70,Math.min(height*reach,(maxWidth*(pair?1:1.08))/aspect,contact-(mobile?126:44)));
       y=contact;
+      // Picnic scenes: the companion settles a little further back on the mat and a little larger,
+      // so the strip of mat in front of them stays free for the snack plate and the cup.
+      const mat=picnic[mode];
+      if(mat){
+        const key=lie?'lie':ground?'ground':'stand';
+        y=h*mat[mobile?'mobile':'desktop'][key];
+        const target=h*mat.size[key]*(pair?.9:1)*(mobile?.94:1);
+        height=Math.max(70,Math.min(target,(maxWidth*(pair?1:1.08))/aspect,y-(mobile?126:44)));
+      }
       const width=Math.max(90,Math.min(maxWidth,height*aspect+12));
       const x=pair?(mobile?[26,74]:pose==='prone'?[36,77]:pose==='lie'?[34,75]:cfg.x)[index]:50;
       slot.style.setProperty('--actor-x',x+'%');slot.style.setProperty('--actor-y',y.toFixed(1)+'px');
@@ -143,6 +158,28 @@
         bubble.style.setProperty('--bubble-top',(top-actorTop).toFixed(1)+'px');
         bubble.style.setProperty('--bubble-width',bubbleWidth.toFixed(1)+'px');
       }
+    }
+    const mat=picnic[mode];
+    if(mat){
+      // Each plate sits on the mat directly in front of its own companion; the cup beside the host.
+      const slots=[...scene.querySelectorAll('#petMainSlot,#petGuestSlot')].filter(slot=>!slot.hidden&&slot.querySelector('[data-posture]'));
+      const xs=slots.map(slot=>parseFloat(slot.style.getPropertyValue('--actor-x'))||50);
+      const plateY=mat.plate[mobile?'mobile':'desktop']*100,cupY=mat.cup[mobile?'mobile':'desktop']*100;
+      const mainX=xs[0]??50,guestX=xs[1]??Math.min(88,mainX+16);
+      const hostWide=slots[0]?.querySelector('[data-posture]')?.dataset.posture;
+      const hostHalf=(parseFloat(slots[0]?.style.getPropertyValue('--figure-width'))||0)/2/Math.max(1,w)*100;
+      let plateMain,plateGuest,cup;
+      if(pair){plateMain=mainX;plateGuest=guestX;cup=Math.min(92,guestX+13);}
+      else if(mobile){
+        // A phone frame has little mat in front of the figure: the plate goes beside the companion's knee.
+        plateMain=Math.min(84,mainX+hostHalf*.78);plateGuest=Math.max(16,mainX-hostHalf*.78);cup=Math.min(92,plateMain+10);
+      }else{
+        const spread=['lie','prone'].includes(hostWide)?-9:-11;
+        plateMain=mainX+spread;plateGuest=plateMain+9;cup=mainX+12;
+      }
+      scene.style.setProperty('--plate-main-x',plateMain.toFixed(1)+'%');scene.style.setProperty('--plate-main-y',plateY+'%');
+      scene.style.setProperty('--plate-guest-x',plateGuest.toFixed(1)+'%');scene.style.setProperty('--plate-guest-y',plateY+'%');
+      scene.style.setProperty('--cup-x',cup.toFixed(1)+'%');scene.style.setProperty('--cup-y',cupY+'%');
     }
     const foregroundPolygon=foreground(scene,mode)||[];
     geometry.set(scene,{mode,width:w,height:h,surfacePolygons:surfacePolygons(scene,mode,mobile),foregroundPolygon});

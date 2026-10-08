@@ -80,11 +80,14 @@
 #petScene.pet-scene .scene-snack-surface .snack-illustration{width:100%!important;max-height:100%!important;height:auto!important}
 #petScene.pet-scene .scene-snack-surface :is(.scene-drink-tray,.scene-cup,.scene-cup svg){width:45px!important;height:63px!important}
 #petScene.pet-scene .scene-snack-surface .scene-drink-tray{left:var(--cup-x)!important;top:var(--cup-y)!important}
+/* On the picnic mat the plate is nearer the viewer than the companion, so it reads a little larger. */
+#petScene.pet-scene:is([data-scene-mode="outdoor"],[data-scene-mode="seaside"]) .scene-snack-surface .scene-snack-item{--plate-size:52px}
 @media(max-width:759px){
   #petScene.pet-scene{height:460px!important;min-height:460px!important;max-height:460px!important}
   #petScene.pet-scene .scene-snack-surface .scene-snack-item{--plate-size:34px}
   #petScene.pet-scene .scene-snack-surface :is(.scene-drink-tray,.scene-cup,.scene-cup svg){width:34px!important;height:48px!important}
   #petScene.pet-scene[data-scene-mode="greenhouse"] .scene-snack-surface .scene-snack-item{--plate-size:28px}
+  #petScene.pet-scene:is([data-scene-mode="outdoor"],[data-scene-mode="seaside"]) .scene-snack-surface .scene-snack-item{--plate-size:40px}
   #petScene.pet-scene .pet-bubble{max-width:140px!important;font-size:10px!important}
   #petScene.pet-scene .headpat-hand{width:42px!important;height:30px!important}
 }
