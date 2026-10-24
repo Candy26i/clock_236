@@ -130,9 +130,9 @@
       if(mobile&&mode==='outdoor')y=h*(lie?.94:ground?.92:.91);
       if(mobile&&mode==='seaside')y=h*(lie?.93:ground?.91:.89);
       const widePair=pair&&!!scene.querySelector('[data-posture=lie],[data-posture=prone]');
-      const positions=mobile||widePair?[27,73]:cfg.x;
+      const positions=widePair?(mobile?[46,54]:[65,35]):mobile?[27,73]:cfg.x;
       const separation=pair?(positions[1]-positions[0])/100*w:w;
-      const maxWidth=pair?Math.min(w*.43,separation-18):w*(lie?.78:.55);
+      const maxWidth=widePair?w*(lie?(mobile?.88:.58):.46):pair?Math.min(w*.43,separation-18):w*(lie?.86:.55);
       const maxHeight=y-(mobile?122:112);
       let height=Math.max(24,Math.min(baseline*baseScale,maxWidth/fitAspect,maxHeight));
       // Bring the companion a step closer to the viewer. Size and contact move together along the
@@ -155,7 +155,7 @@
         const target=h*mat.size[key]*(pair?.9:1)*(mobile?.94:1);
         height=Math.max(24,Math.min(target,(maxWidth*(pair?1:1.08))/fitAspect,y-(mobile?126:44)));
       }
-      const x=pair?positions[index]:50;
+      let x=pair?positions[index]:50;
       // Table and desk scenes: the companion sits (or stands) right behind the painted table. Getting
       // "closer" means the table edge crosses the body lower down the figure - lap for a chair, hips
       // when standing, knees on the rug - so a larger figure hides more leg instead of rising up.
@@ -175,6 +175,16 @@
       }else if(lie){
         // Resting figures keep their contact with the mat while occupying less of the scene.
         height*=.92;
+      }
+      // Wide reclining art needs body length, not the narrow seated-person lane. Arrange
+      // companions in two depth rows on grass/the mat instead of miniaturizing both.
+      if(widePair&&mat){
+        const wraps=[...scene.querySelectorAll('#petMainSlot [data-posture],#petGuestSlot [data-posture]')];
+        const bothRest=wraps.every(el=>['lie','prone'].includes(el.dataset.posture));
+        const front=bothRest?index===1:lie;
+        height=lie?Math.min(maxWidth/fitAspect,h*.34):Math.min(height,h*.32);
+        y=h*(front?(mobile?.89:.94):(mobile?.66:.77));
+        x=mobile?(bothRest?positions[index]:50):(front?35:65);
       }
       const width=Math.max(90,Math.min(maxWidth,height*aspect+12));
       slot.style.setProperty('--actor-x',x+'%');slot.style.setProperty('--actor-y',y.toFixed(1)+'px');
@@ -217,7 +227,8 @@
       const hostWide=slots[0]?.querySelector('[data-posture]')?.dataset.posture;
       const hostHalf=(parseFloat(slots[0]?.style.getPropertyValue('--figure-width'))||0)/2/Math.max(1,w)*100;
       let plateMain,plateGuest,cup;
-      if(pair){plateMain=mainX;plateGuest=guestX;cup=Math.min(92,guestX+13);}
+      if(pair&&scene.querySelector('[data-posture=lie],[data-posture=prone]')){plateMain=mobile?54:70;plateGuest=mobile?78:80;cup=mobile?12:92;}
+      else if(pair){plateMain=mainX;plateGuest=guestX;cup=Math.min(92,guestX+13);}
       else if(mobile){
         // A phone frame has little mat in front of the figure: the plate goes beside the companion's knee.
         plateMain=Math.min(84,mainX+hostHalf*.78);plateGuest=Math.max(16,mainX-hostHalf*.78);cup=Math.min(92,plateMain+10);

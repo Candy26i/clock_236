@@ -123,3 +123,6 @@
   #petScene.pet-scene .scene-snack-surface .scene-snack-item{--plate-size:42px!important}
   #petScene.pet-scene .scene-snack-surface :is(.scene-drink-tray,.scene-cup,.scene-cup svg){width:50px!important;height:70px!important}
 }
+
+/* Picnic scenes need enough depth for life-size reclining bodies and foreground food. */
+#petScene.pet-scene:is([data-scene-mode="outdoor"],[data-scene-mode="seaside"]){height:620px!important;min-height:620px!important;max-height:620px!important}

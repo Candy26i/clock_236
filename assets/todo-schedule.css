@@ -1,0 +1,23 @@
+.todo-alarm{border:0;border-radius:8px;background:#fff3df;color:#846044;padding:7px;font:inherit;cursor:pointer;min-width:32px;min-height:32px}
+.todo-alarm.is-scheduled{background:#e8eddf}
+.todo-scheduled-time{font-size:11px;color:#705940;font-variant-numeric:tabular-nums}
+.todo-schedule{margin-top:18px;padding-top:16px;border-top:1px solid #e6d9c8;color:#604633}
+.schedule-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.schedule-heading h3{margin:0;font-size:14px}.schedule-heading>span,.schedule-zone{font-size:12px;color:#8b725c}
+.schedule-zone{margin:7px 0 14px}.schedule-empty{font-size:12px;line-height:1.7;color:#8b725c}
+.schedule-axis{display:flex;justify-content:space-between;font-size:10px;color:#90745d;margin:0 0 12px;font-variant-numeric:tabular-nums}
+.schedule-rows{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.schedule-row button{display:block;width:100%;text-align:left;font:inherit;border:0;background:transparent;padding:4px 0;cursor:pointer;color:inherit}
+.schedule-label{display:flex;justify-content:space-between;gap:12px;align-items:baseline;font-size:12px;margin-bottom:7px}
+.schedule-label>span:first-child{overflow-wrap:anywhere;min-width:0}
+.schedule-time{font-size:11px;white-space:nowrap;font-variant-numeric:tabular-nums;color:#8b725c}
+.schedule-track{display:block;position:relative;height:13px;border-radius:5px;background:repeating-linear-gradient(to right,transparent 0,transparent calc(25% - 1px),#dfd2bf calc(25% - 1px),#dfd2bf 25%),#efe6d9}
+.schedule-bar{position:absolute;top:0;height:100%;min-width:2px;border-radius:4px;background:#bc8a52}
+.schedule-bar.has-conflict{background:#bd7565}.schedule-row.is-done .schedule-bar{background:#88a46d}
+.schedule-row.is-done .schedule-label>span:first-child{text-decoration:line-through;color:#7d806c}
+.schedule-fields{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+.schedule-fields label{display:grid;gap:8px;font-size:13px}.schedule-fields input{min-width:0;width:100%;box-sizing:border-box;padding:12px 8px;border:1px solid #d9c4ac;border-radius:10px;background:#fffcf7;font:inherit;color:#604633}
+.schedule-task-title{overflow-wrap:anywhere}.schedule-hint{font-size:12px;line-height:1.7;color:#8b725c}
+#scheduleError{font-size:12px;color:#aa5548}
+.todo-alarm:focus-visible,.schedule-row button:focus-visible{outline:2px solid #a97643;outline-offset:3px}
+@media(max-width:480px){.schedule-label{display:grid;gap:3px}.todo-row{gap:5px;padding:7px 6px}.todo-earned{padding:3px}.todo-level-hint{display:none}}

@@ -9098,6 +9098,8 @@ body{background:radial-gradient(ellipse at 8% 0%,#FFF2CF 0,transparent 44%),radi
 }
 </style>
 <link rel="stylesheet" href="deepspace/portal.css">
+<link rel="stylesheet" href="assets/todo-schedule.css?v=oct24">
+<script src="assets/todo-schedule.js?v=oct24"></script>
 <link rel="stylesheet" href="assets/milk-characters-v66.css?v=balanced-scene-oct24">
 <link rel="stylesheet" href="assets/milk-scene-layout-v66.css?v=balanced-scene-oct24">
 <script defer src="assets/milk-characters-v68.js?v=balanced-scene-oct24"></script>
@@ -9194,6 +9196,7 @@ body{background:radial-gradient(ellipse at 8% 0%,#FFF2CF 0,transparent 44%),radi
         </div>
       </div>
       <div class="todo-msg" id="todoMsg"></div>
+      <section class="todo-schedule" id="todoSchedule" aria-label="今日时间安排"></section>
     </div>
   </section>
 
@@ -9972,22 +9975,24 @@ function renderTodo(){
   bal.textContent=coinsOf(uid);
   cnt.textContent=items.length+" / "+TODO_MAX;
   list.innerHTML=items.length?items.map(t=>{
-    const lv=todoLevelOf(t.level), earned=todoRewardOf(t);
+    const lv=todoLevelOf(t.level), earned=todoRewardOf(t), scheduled=TodoSchedule.interval(t);
     return `<div class="todo-row ${t.done?'done':''}" data-todo-id="${escHTML(t.id)}">
       <input class="todo-check" type="checkbox" ${t.done?'checked disabled':''} aria-label="完成任务">
       <div class="todo-main">
         <div class="todo-text">${escHTML(t.text||"")}</div>
-        <div class="todo-sub"><span class="todo-level-badge ${escHTML(t.level||'mid')}">${lv.em} ${lv.label}</span><span class="todo-level-hint">${lv.hint}</span></div>
+        <div class="todo-sub"><span class="todo-level-badge ${escHTML(t.level||'mid')}">${lv.em} ${lv.label}</span><span class="todo-level-hint">${lv.hint}</span>${scheduled?`<span class="todo-scheduled-time">${escHTML(t.schedule.start)}–${escHTML(t.schedule.end)}</span>`:''}</div>
       </div>
-      <div style="display:flex;align-items:center;gap:3px">${t.done?`<span class="todo-earned">+${earned} 🪙</span>`:''}<button class="todo-edit todo-del" type="button" title="编辑任务" aria-label="编辑任务">✎</button><button class="todo-del todo-remove" type="button" title="删除任务" aria-label="删除任务">×</button></div>
+      <div style="display:flex;align-items:center;gap:3px">${t.done?`<span class="todo-earned">+${earned} 🪙</span>`:''}<button class="todo-alarm ${scheduled?'is-scheduled':''}" type="button" title="安排时间" aria-label="安排任务时间">⏰</button><button class="todo-edit todo-del" type="button" title="编辑任务" aria-label="编辑任务">✎</button><button class="todo-del todo-remove" type="button" title="删除任务" aria-label="删除任务">×</button></div>
     </div>`;
   }).join(""):`<div class="todo-empty">今天还没有安排，写下第一件小事就好 ✎</div>`;
   list.querySelectorAll(".todo-row").forEach(row=>{
     const id=row.dataset.todoId,check=row.querySelector(".todo-check"),del=row.querySelector(".todo-remove");
     row.querySelector(".todo-edit").onclick=()=>editTodo(uid,id);
+    row.querySelector(".todo-alarm").onclick=()=>scheduleTodo(uid,id);
     if(check&&!check.disabled)check.onchange=()=>{if(check.checked)completeTodo(uid,id);};
     if(del)del.onclick=()=>deleteTodo(uid,id);
   });
+  renderTodoSchedule(uid,items);
   const input=document.getElementById("todoInput"),add=document.getElementById("todoAddBtn"),picker=document.getElementById('todoDiffPicker');
   if(picker){
     picker.querySelectorAll('[data-diff]').forEach(btn=>{

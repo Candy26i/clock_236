@@ -192,7 +192,8 @@ function validateScene(record, expectedActors, { surface = true } = {}) {
   }
   if(figures.length===2){
     const [left,right]=figures.slice().sort((a,b)=>a.x-b.x);
-    check(left.right+8 <= right.x, 'companions overlap or have insufficient breathing room');
+    const restingDepth=record.actors.some(actor=>['lie','prone'].includes(actor.posture)) && Math.abs(left.y-right.y)>=Math.max(left.height,right.height)*.5 && Math.abs(left.x+left.width/2-right.x-right.width/2)>=Math.max(left.width,right.width)*.45;
+    check(left.right+8 <= right.x || left.bottom+8 <= right.y || right.bottom+8 <= left.y || restingDepth, 'companions overlap or have insufficient breathing room');
     if(record.actors[0].posture===record.actors[1].posture)
       check(Math.abs(left.height-right.height) <= Math.max(left.height,right.height)*.04, 'same-pose companions have unequal scale');
   }
