@@ -136,3 +136,15 @@
 /* A visible full-size tea beside the viewer's notebook, with matching layout footprint. */
 #petScene.pet-scene[data-scene-mode="greenhouse"] .scene-snack-surface :is(.scene-drink-tray,.scene-cup,.scene-cup svg){width:86px!important;height:120px!important}
 @media(max-width:759px){#petScene.pet-scene[data-scene-mode="greenhouse"] .scene-snack-surface :is(.scene-drink-tray,.scene-cup,.scene-cup svg){width:66px!important;height:92px!important}}
+
+/* Keep empty/full plates at the same contact baseline across legacy scene skins. */
+#petScene.pet-scene .scene-snack-surface .scene-snack-item.empty::before{
+  width:calc(var(--plate-size) * .94)!important;height:calc(var(--plate-size) * .32)!important;
+  bottom:0!important;box-sizing:border-box;opacity:.95;
+}
+#petScene.pet-scene .scene-snack-surface .scene-snack-item.empty{opacity:1!important}
+/* Original PNGs include transparent pixels below the painted plate; offset only that padding. */
+#petScene.pet-scene .scene-snack-surface .snack-illustration[src*="bread-v65"]{transform:translateY(10.7%)}
+#petScene.pet-scene .scene-snack-surface .snack-illustration[src*="berry-v65"]{transform:translateY(10.25%)}
+#petScene.pet-scene .scene-snack-surface .snack-illustration[src*="cookie-v65"]{transform:translateY(10.87%)}
+#petScene.pet-scene .scene-snack-surface .snack-illustration[src*="pudding-v65"]{transform:translateY(5.35%)}

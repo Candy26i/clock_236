@@ -3,10 +3,10 @@
   'use strict';
   // Serving coordinates are [main x/y, guest x/y, tea x/y], in canvas percent.
   const scenes={
-    room:{feet:.78,ground:.79,chair:.96,x:[35,67],desktop:[69,88,79,88,89,92],mobile:[77,92,91,98,68,98]},
+    room:{feet:.78,ground:.79,chair:.96,x:[35,67],desktop:[72,94,83,94,93,96],mobile:[77,92,91,98,68,98]},
     outdoor:{feet:.82,ground:.85,lie:.89,x:[35,66],desktop:[39,91,65,91,76,92],mobile:[41,94,65,94,80,95]},
     cafe:{feet:.96,chair:1.01,x:[38,65],desktop:[48,88,67,91,79,92],mobile:[51,93,68,93,83,94]},
-    library:{feet:.86,chair:.97,x:[36,65],desktop:[69,88,79,88,89,92],mobile:[77,92,91,98,68,98]},
+    library:{feet:.86,chair:.97,x:[36,65],desktop:[72,94,83,94,93,96],mobile:[77,92,91,98,68,98]},
     meeting:{feet:.99,chair:1.025,x:[36,65],scale:1,desktop:[69,83,79,83,90,91],mobile:[83,82,83,92,94,88]},
     studio:{feet:.91,chair:1.0,x:[35,66],desktop:[68,86,79,86,90,93],mobile:[82,90,91,98,24,98]},
     greenhouse:{feet:.77,chair:.92,x:[30,70],desktop:[54,76,69,78,80,95],mobile:[47,73,68,74,88,80]},
@@ -278,7 +278,7 @@
     let previousRight=0;
     for(const [i,[key,size]] of items.entries()){
       let y=parseFloat(scene.style.getPropertyValue('--'+key+'-y'))/100*h-(mat?4:7);
-      y=Math.max(top+12,Math.min(bottom,y));
+      y=Math.max(top+(key==='cup'?12:plateSize*.35+6),Math.min(bottom,y));
       // Intersect the surface polygon at the contact line to respect curved/cropped tables.
       const crossings=[];
       polygon.forEach((a,j)=>{const b=polygon[(j+1)%polygon.length];if((a.y<=y&&b.y>y)||(b.y<=y&&a.y>y))crossings.push(a.x+(y-a.y)*(b.x-a.x)/(b.y-a.y));});
