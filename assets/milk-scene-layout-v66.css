@@ -115,3 +115,11 @@
   width:var(--bubble-width,140px)!important;max-width:var(--bubble-width,140px)!important;
   min-width:0!important;box-sizing:border-box!important;
 }
+
+/* Consistent serving sizes; layout projects their bases onto each painted surface. */
+#petScene.pet-scene .scene-snack-surface .scene-snack-item{--plate-size:56px!important}
+#petScene.pet-scene .scene-snack-surface :is(.scene-drink-tray,.scene-cup,.scene-cup svg){width:66px!important;height:92px!important}
+@media(max-width:759px){
+  #petScene.pet-scene .scene-snack-surface .scene-snack-item{--plate-size:42px!important}
+  #petScene.pet-scene .scene-snack-surface :is(.scene-drink-tray,.scene-cup,.scene-cup svg){width:50px!important;height:70px!important}
+}

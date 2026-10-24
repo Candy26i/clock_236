@@ -3,18 +3,18 @@
   'use strict';
   // Serving coordinates are [main x/y, guest x/y, tea x/y], in canvas percent.
   const scenes={
-    room:{feet:.78,ground:.79,chair:.96,x:[35,67],desktop:[69,88,79,88,89,92],mobile:[77,93,90,93,68,97]},
+    room:{feet:.78,ground:.79,chair:.96,x:[35,67],desktop:[69,88,79,88,89,92],mobile:[77,92,91,98,68,98]},
     outdoor:{feet:.82,ground:.85,lie:.89,x:[35,66],desktop:[39,91,65,91,76,92],mobile:[41,94,65,94,80,95]},
     cafe:{feet:.96,chair:1.01,x:[38,65],desktop:[48,88,67,91,79,92],mobile:[51,93,68,93,83,94]},
-    library:{feet:.86,chair:.97,x:[36,65],desktop:[69,88,79,88,89,92],mobile:[77,93,90,93,68,97]},
+    library:{feet:.86,chair:.97,x:[36,65],desktop:[69,88,79,88,89,92],mobile:[77,92,91,98,68,98]},
     meeting:{feet:.99,chair:1.025,x:[36,65],scale:1,desktop:[69,83,79,83,90,91],mobile:[83,82,83,92,94,88]},
-    studio:{feet:.91,chair:1.0,x:[35,66],desktop:[68,86,79,86,90,93],mobile:[79,87,92,87,85,97]},
-    greenhouse:{feet:.77,chair:.92,x:[36,65],desktop:[71,83,81,83,91,91],mobile:[92,87,92,96,9,97]},
-    terrace:{feet:.79,chair:.95,x:[36,65],desktop:[66,91,77,91,88,95],mobile:[89,90,89,98,67,90]},
-    train:{feet:.91,chair:.99,x:[36,66],desktop:[54,84,64,84,55,95],mobile:[54,82,70,82,85,91]},
+    studio:{feet:.91,chair:1.0,x:[35,66],desktop:[68,86,79,86,90,93],mobile:[82,90,91,98,24,98]},
+    greenhouse:{feet:.77,chair:.92,x:[36,65],desktop:[71,83,81,83,91,91],mobile:[91,86,91,97,9,98]},
+    terrace:{feet:.79,chair:.95,x:[36,65],desktop:[66,91,77,91,88,95],mobile:[90,88,90,98,9,96]},
+    train:{feet:.91,chair:.99,x:[36,66],desktop:[54,84,64,84,55,95],mobile:[54,84,73,84,87,96]},
     seaside:{feet:.8,ground:.87,lie:.89,x:[33,68],desktop:[40,90,61,90,72,92],mobile:[42,94,65,94,81,95]},
     jiangnan:{feet:.88,chair:.99,x:[35,66],desktop:[72,88,83,89,93,92],mobile:[25,94,85,94,54,96]},
-    cloudrealm:{feet:.77,chair:.93,x:[35,66],desktop:[69,92,84,92,77,95],mobile:[70,94,90,95,54,96]}
+    cloudrealm:{feet:.77,chair:.93,x:[35,66],desktop:[69,92,84,92,77,95],mobile:[73,98,91,98,53,98]}
   };
   // Foreground outlines in the unchanged source image's normalized coordinates.
   // The notch follows the laptop silhouette; CSS maps the source's cover crop at every width.
@@ -115,11 +115,13 @@
     ['plate-main-x','plate-main-y','plate-guest-x','plate-guest-y','cup-x','cup-y'].forEach((name,i)=>scene.style.setProperty('--'+name,servings[i]+'%'));
     for(const [index,slot] of [...scene.querySelectorAll('#petMainSlot,#petGuestSlot')].entries()){
       const wrap=slot.querySelector('[data-posture]');if(!wrap)continue;
-      const pose=wrap.dataset.posture||'stand',chair=pose.startsWith('chair-'),ground=['sit','listen','laptop','read'].includes(pose)&&!chair,lie=pose==='lie'||pose==='prone';
+      const pose=wrap.dataset.layoutPosture||wrap.dataset.posture||'stand',chair=pose.startsWith('chair-'),ground=['sit','listen','laptop'].includes(pose)&&!chair,lie=pose==='lie'||pose==='prone';
       const sprite=wrap.querySelector('.pet-2d-sprite');
       const sourceStyle=sprite?getComputedStyle(sprite):getComputedStyle(wrap);
       const aspect=number(sourceStyle.getPropertyValue('--sprite-aspect'),lie?1.85:chair?.66:ground?.98:.49);
-      const baseline=number(sourceStyle.getPropertyValue('--sprite-height'),lie?130:chair?250:ground?165:280);
+      // A shared posture envelope prevents the wider artwork from shrinking just one person.
+      const fitAspect=lie?2.09:chair?.69:ground?.76:.43;
+      const baseline=lie?140:chair?250:ground?170:280;
       // Enlarge around the fixed ground contact, with modest per-scene perspective limits.
       const closeness=({room:1.13,outdoor:1.15,cafe:1.10,library:1.10,meeting:1.12,studio:1.09,greenhouse:1.08,terrace:1.08,train:1.10,seaside:1.12,jiangnan:1.10,cloudrealm:1.08})[mode]||1.08;
       const baseScale=(mobile?.96:1.04)*(cfg.scale||1)*(pair?1+(closeness-1)*.5:closeness);
@@ -127,9 +129,12 @@
       if(mobile&&chair)y=Math.min(y,h*.94);
       if(mobile&&mode==='outdoor')y=h*(lie?.94:ground?.92:.91);
       if(mobile&&mode==='seaside')y=h*(lie?.93:ground?.91:.89);
-      const maxWidth=pair?w*(lie&&!mobile?.37:lie?.43:.45):w*(lie?.72:.55);
+      const widePair=pair&&!!scene.querySelector('[data-posture=lie],[data-posture=prone]');
+      const positions=mobile||widePair?[27,73]:cfg.x;
+      const separation=pair?(positions[1]-positions[0])/100*w:w;
+      const maxWidth=pair?Math.min(w*.43,separation-18):w*(lie?.78:.55);
       const maxHeight=y-(mobile?122:112);
-      let height=Math.max(70,Math.min(baseline*baseScale,maxWidth/aspect,maxHeight));
+      let height=Math.max(24,Math.min(baseline*baseScale,maxWidth/fitAspect,maxHeight));
       // Bring the companion a step closer to the viewer. Size and contact move together along the
       // floor's perspective (toward the horizon line), so feet, seat or body stay on the same floor,
       // rug or mat and the traced table/desk layers keep covering whatever is behind them.
@@ -139,7 +144,7 @@
       const floorLimit=h*(lie?(mobile?.975:.97):chair?1.06:ground?(mobile?.975:.95):1.02);
       const contact=Math.min(nearY,Math.max(y,floorLimit));
       const reach=(contact-horizon)/Math.max(1,y-horizon);
-      height=Math.max(70,Math.min(height*reach,(maxWidth*(pair?1:1.08))/aspect,contact-(mobile?126:44)));
+      height=Math.max(24,Math.min(height*reach,(maxWidth*(pair?1:1.08))/fitAspect,contact-(mobile?126:44)));
       y=contact;
       // Picnic scenes: the companion settles a little further back on the mat and a little larger,
       // so the strip of mat in front of them stays free for the snack plate and the cup.
@@ -148,21 +153,20 @@
         const key=lie?'lie':ground?'ground':'stand';
         y=h*mat[mobile?'mobile':'desktop'][key];
         const target=h*mat.size[key]*(pair?.9:1)*(mobile?.94:1);
-        height=Math.max(70,Math.min(target,(maxWidth*(pair?1:1.08))/aspect,y-(mobile?126:44)));
+        height=Math.max(24,Math.min(target,(maxWidth*(pair?1:1.08))/fitAspect,y-(mobile?126:44)));
       }
-      const x=pair?(mobile?[26,74]:pose==='prone'?[36,77]:pose==='lie'?[34,75]:cfg.x)[index]:50;
+      const x=pair?positions[index]:50;
       // Table and desk scenes: the companion sits (or stands) right behind the painted table. Getting
       // "closer" means the table edge crosses the body lower down the figure - lap for a chair, hips
       // when standing, knees on the rug - so a larger figure hides more leg instead of rising up.
-      const edge=mat?null:occluderTop(scene,mode,w*x/100);
+      const edge=mat||lie?null:occluderTop(scene,mode,w*x/100);
       if(edge){
         const family=chair?'chair':ground?'ground':'stand';
         const size=behindTable[mobile?'mobile':'desktop'][family]*(pair?(mobile?.84:.9):1);
         const minTop=mobile?126:(pair?62:38);
-        height=Math.max(70,Math.min(h*size,(edge-minTop)/tableCut[family],(maxWidth*(pair?1:1.08))/aspect));
+        height=Math.max(24,Math.min(h*size,(edge-minTop)/tableCut[family],(maxWidth*(pair?1:1.08))/fitAspect));
         y=edge+height*(1-tableCut[family]);
       }
-      // Keep the approved chair and cross-legged layouts exactly as they are.
       // Standing companions take a small step back along the painted floor perspective.
       if(!chair&&!ground&&!lie){
         const retreat=.9;
@@ -170,7 +174,7 @@
         y=horizon+(y-horizon)*retreat;
       }else if(lie){
         // Resting figures keep their contact with the mat while occupying less of the scene.
-        height*=pose==='lie'?.9:.94;
+        height*=.92;
       }
       const width=Math.max(90,Math.min(maxWidth,height*aspect+12));
       slot.style.setProperty('--actor-x',x+'%');slot.style.setProperty('--actor-y',y.toFixed(1)+'px');
@@ -224,6 +228,30 @@
       scene.style.setProperty('--plate-main-x',plateMain.toFixed(1)+'%');scene.style.setProperty('--plate-main-y',plateY+'%');
       scene.style.setProperty('--plate-guest-x',plateGuest.toFixed(1)+'%');scene.style.setProperty('--plate-guest-y',plateY+'%');
       scene.style.setProperty('--cup-x',cup.toFixed(1)+'%');scene.style.setProperty('--cup-y',cupY+'%');
+    }
+    // Fit the enlarged servings onto the painted contact plane, with a gap between each.
+    const polygons=surfacePolygons(scene,mode,mobile),polygon=polygons[0];
+    const plateSize=mobile?42:56,cupSize=mobile?50:66;
+    const top=Math.max(...polygon.slice(0,2).map(p=>p.y));
+    const bottom=Math.min(h-8,Math.max(...polygon.map(p=>p.y))-8);
+    const items=[['plate-main',plateSize],['plate-guest',plateSize],['cup',cupSize]];
+    let previousRight=0;
+    for(const [i,[key,size]] of items.entries()){
+      let y=parseFloat(scene.style.getPropertyValue('--'+key+'-y'))/100*h-(mat?4:7);
+      y=Math.max(top+12,Math.min(bottom,y));
+      // Intersect the surface polygon at the contact line to respect curved/cropped tables.
+      const crossings=[];
+      polygon.forEach((a,j)=>{const b=polygon[(j+1)%polygon.length];if((a.y<=y&&b.y>y)||(b.y<=y&&a.y>y))crossings.push(a.x+(y-a.y)*(b.x-a.x)/(b.y-a.y));});
+      const left=Math.max(8,Math.min(...crossings)),right=Math.min(w-8,Math.max(...crossings));
+      const requested=parseFloat(scene.style.getPropertyValue('--'+key+'-x'))/100*w;
+      const remaining=items.slice(i+1).reduce((n,item)=>n+item[1]+8,0);
+      // On phones, use the individually art-directed staggered arrangement: a single
+      // horizontal row would push plates over the painted laptop or book.
+      const x=mobile?Math.max(left+size/2,Math.min(right-size/2,requested)):
+        Math.max(left+size/2,previousRight+8+size/2,Math.min(right-size/2-remaining,requested));
+      previousRight=x+size/2;
+      scene.style.setProperty('--'+key+'-x',x.toFixed(1)+'px');
+      scene.style.setProperty('--'+key+'-y',y.toFixed(1)+'px');
     }
     const foregroundPolygon=foreground(scene,mode)||[];
     geometry.set(scene,{mode,width:w,height:h,surfacePolygons:surfacePolygons(scene,mode,mobile),foregroundPolygon});

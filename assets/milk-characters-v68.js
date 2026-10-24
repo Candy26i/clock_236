@@ -30,6 +30,7 @@
       const requested=wrap.dataset.posture;
       const safePosture=floor&&requested.startsWith('chair-')?(requested==='chair-listen'?'listen':requested==='chair-laptop'?'laptop':'sit'):requested;
       const index = poseIndex[safePosture] ?? 0;
+      wrap.dataset.layoutPosture = safePosture === 'read' ? 'stand' : safePosture;
       const special=wrap.dataset.interaction || wrap.dataset.posture;
       const normal = wrap.dataset.scene3d==='u2' && shenExtra[special] ? shenExtra[special] : atlas.poses[index];
       const state=touchStates.get(wrap.dataset.scene3d);

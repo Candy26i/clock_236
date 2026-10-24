@@ -186,6 +186,16 @@ function validateScene(record, expectedActors, { surface = true } = {}) {
         `${actor.uid}: old CSS cushion is still visible`);
     }
   }
+  const figures=record.actors.map(actor=>actor.sprite).filter(Boolean);
+  for(const figure of figures){
+    check(figure.x >= -1 && figure.right <= record.width+1, 'figure clipped at horizontal scene edge');
+  }
+  if(figures.length===2){
+    const [left,right]=figures.slice().sort((a,b)=>a.x-b.x);
+    check(left.right+8 <= right.x, 'companions overlap or have insufficient breathing room');
+    if(record.actors[0].posture===record.actors[1].posture)
+      check(Math.abs(left.height-right.height) <= Math.max(left.height,right.height)*.04, 'same-pose companions have unequal scale');
+  }
   check(record.minutes.every(value => value.ky === 0 && value.xx === 0), 'visual fixture unexpectedly created study minutes');
   if (surface) {
     const geometry = record.geometry || {};
@@ -292,8 +302,11 @@ async function checkInteractions(page, scenes, report) {
       }
       console.log(`✓ captured ${viewport.name} scene matrix (${scenes.length} variants)`);
     }
+    for (const viewport of viewports) {
+      await page.setViewportSize({width:viewport.width,height:viewport.height});
+      await checkPoseMenus(page, scenes, report);
+    }
     await page.setViewportSize({ width: 1440, height: 1100 });
-    await checkPoseMenus(page, scenes, report);
     await checkInteractions(page, scenes, report);
     assert.deepEqual(report.pageErrors, [], 'page script errors');
     const failures = [...report.cases, ...report.poses, ...report.interactions].flatMap(item => item.failures.map(message => `${item.name || `${item.mode || 'interaction'}/${item.uid || ''}/${item.pose || item.type || ''}`}: ${message}`));
