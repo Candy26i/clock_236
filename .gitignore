@@ -8,3 +8,10 @@ backups/
 *.pmx
 *.pmd
 *.7z
+
+# Deployment repository: keep local tests, package tooling and generation records off GitHub.
+tests/
+package.json
+package-lock.json
+assets/**/*.md
+assets/characters/**/frames.json

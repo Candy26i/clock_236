@@ -34,23 +34,10 @@
 
 本仓库不包含之前本地实验版的整套奶茶铺改造，也不包含 PMX 模型、模型纹理、3D 库或本地备份。v66 仅在当前 GitHub 奶茶铺基础上更新 2D 人物与场景承托。深空素材出处见 [素材说明](deepspace/assets/SOURCES.md) 与 [视频片段记录](deepspace/assets/clips/SOURCES.md)。
 
-## 本地预览与验证
+## 本地预览与仓库清理约定
 
-无需构建：在仓库目录运行 `python3 -m http.server 4189 --bind 127.0.0.1`，打开 `http://127.0.0.1:4189/`。
+本项目是静态页面，无需构建。运行 `python3 -m http.server 4189 --bind 127.0.0.1` 即可本地预览。
 
-```sh
-npm install
-npm test
-INTEGRATION_TEST_URL=http://127.0.0.1:4189/ npm run test:integration
-COMPANION_TEST_URL=http://127.0.0.1:4189/deepspace/ npm run test:player
-COMPANION_TEST_URL=http://127.0.0.1:4189/deepspace/ npm run test:native-player
-npm run test:multitab
-npm run test:sync
-MILK_SCENES_TEST_URL=http://127.0.0.1:4189/clock_236/ npm run test:milk-scenes
-```
+按仓库使用者要求，后续更新只上传运行和部署需要的文件。测试、截图、生成提示词、废弃图片、旧版本脚本和备份留在本地；提交前核对 HTML、CSS、JS、资源清单和动态拼接路径，删除确认无引用的旧资源。保留 Firebase 配置、实际使用的素材、素材来源说明和必要仓库元数据。不要因为简单文本搜索没找到完整文件名，就删除动态加载的文件。
 
-浏览器验证使用 Playwright 和本机 Google Chrome；测试在隔离浏览器中拦截外部 HTTP 与 WebSocket，不连接真实 Firebase，不使用日常浏览器存档。
-
-多标签页测试会自行启动临时本地服务器，验证另一页切换角色或修改进度后，人物、计时、任务和剧情同步显示。普通本页操作不会触发额外界面重建。
-
-互通测试使用独立的模拟 Firebase；覆盖双向累计、两人隔离、原时区、剧情解锁、同 ID 去重、并发和离线重试。不会为验证功能向真实账户写入测试分钟。
+历史提交可用于恢复，日常清理不改写共享仓库历史。删除文件会减少当前检出的内容，但不会直接清除旧提交中已有的数据。
