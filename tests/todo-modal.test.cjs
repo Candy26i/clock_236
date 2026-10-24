@@ -37,3 +37,15 @@ let custom=0;context.showModal('<button id="mNo"></button>',box=>box.querySelect
 box.querySelector('#mNo').onclick();assert.equal(custom,1);
 assert.equal(task.text,'原任务');assert.equal(task.schedule.start,'09:00');
 console.log('Real edit/time modal handlers: unchanged/changed cancel closes without writes; custom handlers preserved.');
+
+// Notes preserve task time/completion and do not write on cancel or resurrect deleted tasks.
+context.scheduleNote('u1','a');box.querySelector('#taskNote').value='draft';
+box.querySelector('#mNo').onclick();assert.equal(writes,0);assert.equal(wrap.hidden,true);
+let persisted={...task,done:true,earned:5},committed=false;
+context.DB.txn=(path,update,callback)=>{const next=update(persisted);committed=!!next;if(next)persisted=next;callback(committed);};
+context.scheduleNote('u1','a');box.querySelector('#taskNote').value='  今天的重点  ';
+box.querySelector('#saveTaskNote').onclick();assert.equal(persisted.note,'今天的重点');
+assert.equal(persisted.done,true);assert.equal(persisted.earned,5);assert.equal(persisted.schedule.start,'09:00');assert.ok(persisted.startedAt);
+context.scheduleNote('u1','a');persisted=null;box.querySelector('#saveTaskNote').onclick();assert.equal(committed,false);assert.equal(wrap.hidden,false);
+assert.match(box.querySelector('#noteError').textContent,/变化/);
+console.log('Notes passed: cancel, save, preserve task fields, and deleted-task protection.');

@@ -18,7 +18,12 @@
     return rows.map(row=>({...row,conflicts:rows.filter(other=>other!==row&&overlaps(row,other)).map(other=>other.task.id)}));
   }
   function progress(start,end,now,done=false){return done?1:Math.max(0,Math.min(1,(now-start)/(end-start)));}
-  const api={minutes,time,interval,overlaps,plan,progress};
+  function segments(tasks){
+    const rows=plan(tasks),bounds=[...new Set(rows.flatMap(r=>[r.start,r.end]))].sort((a,b)=>a-b);
+    return bounds.slice(0,-1).map((start,i)=>({start,end:bounds[i+1],tasks:rows.filter(r=>r.start<bounds[i+1]&&r.end>start).map(r=>r.task)})).filter(s=>s.tasks.length);
+  }
+  function phase(task,now){const r=interval(task);return !r?'unscheduled':now<r.start?'future':now<r.end?'active':task.done?'lit':'missed';}
+  const api={minutes,time,interval,overlaps,plan,progress,segments,phase};
   if(typeof module==='object'&&module.exports)module.exports=api;
   root.TodoSchedule=api;
 })(typeof window==='undefined'?globalThis:window);
@@ -62,33 +67,71 @@ function scheduleNow(uid){
   const get=type=>Number(parts.find(p=>p.type===type).value);
   return get('hour')*60+get('minute')+get('second')/60;
 }
-function updateTodoJourney(){
-  const host=document.getElementById('todoSchedule');if(!host?.dataset.uid)return;
-  const now=scheduleNow(host.dataset.uid);
-  host.querySelectorAll('[data-start]').forEach(el=>{
-    const start=Number(el.dataset.start),end=Number(el.dataset.end),done=el.dataset.done==='true';
-    const progress=TodoSchedule.progress(start,end,now,done);
-    el.style.setProperty('--journey-progress',(progress*100).toFixed(2)+'%');
-    el.classList.toggle('is-walking',!done&&now>=start&&now<end);
-    const status=el.querySelector('[data-progress-label]');
-    if(status)status.textContent=done?'已完成 · 奖励已领取':now<start?'还没开始 · 慢慢准备':now<end?'进行中 · 剩余 '+Math.ceil(end-now)+' 分钟':'时间到啦 · 完成后勾选领取奖励';
-    if(el.getAttribute('role')==='progressbar')el.setAttribute('aria-valuenow',String(Math.round(progress*100)));
+
+const scheduleSelections=new Map();
+const scheduleColors=[['#d5c8b7','#eab64e'],['#c5cdbd','#89bc72'],['#c0cbd0','#76b9dd'],['#d2c0c5','#e49eae'],['#cac3d4','#af94d9'],['#cfcbc0','#e3a476'],['#bfd0cb','#65bca5'],['#c9c8b0','#c5be56']];
+function scheduleColor(id,lit,rows){return scheduleColors[Math.max(0,rows.findIndex(r=>r.task.id===id))%scheduleColors.length][lit?1:0];}
+function scheduleNote(uid,id){
+  const task=todoObjOf(uid)[id];if(!task)return;
+  const dayKey=todayKeyFor(uid),original=task.note||'';
+  showModal(`<h3>${escHTML(task.text)}</h3><label class="schedule-note-label">这一段的小笔记<textarea id="taskNote" maxlength="4000" rows="6" placeholder="记下进展、灵感，或下一步想做什么…">${escHTML(original)}</textarea></label><p id="noteError" role="alert"></p><div class="mbtns"><button class="btn ghost" id="mNo">取消</button><button class="btn start" id="saveTaskNote">${task.startedAt?'保存笔记':'开始并保存'}</button></div>`,box=>{
+    const field=box.querySelector('#taskNote');field.focus();
+    box.querySelector('#saveTaskNote').onclick=()=>{
+      const note=field.value.trim();
+      if(dayKey!==todayKeyFor(uid)){box.querySelector('#noteError').textContent='已经跨天，请回到今天的任务再记录。';return;}
+      DB.txn('users/'+uid+'/days/'+dayKey+'/todos/'+id,cur=>{
+        if(!cur||(cur.note||'')!==original)return undefined;
+        return {...cur,note,startedAt:cur.startedAt||Date.now(),noteUpdatedAt:Date.now()};
+      },ok=>{if(ok){closeModal();renderTodo();}else box.querySelector('#noteError').textContent='任务或笔记已发生变化，请关闭后重新打开；你的草稿仍保留在这里。';});
+    };
   });
+}
+function scheduleStatus(task,now){
+  const phase=TodoSchedule.phase(task,now);
+  if(phase==='lit')return '这段时光已点亮，辛苦啦 ✨';
+  if(phase==='missed')return '这段时光还差一个完成勾，做完再来点亮吧。';
+  if(task.done)return '任务已完成，时间走完后，这一段就会亮起来。';
+  return phase==='active'?'进行中 · 剩余 '+Math.ceil(TodoSchedule.interval(task).end-now)+' 分钟':'还没开始，可以先记下准备事项。';
+}
+function updateTodoJourney(){
+  const host=document.getElementById('todoSchedule'),state=host?._scheduleState;if(!state)return;
+  const {uid,rows,segments,dayKey}=state;if(dayKey!==todayKeyFor(uid))return;
+  const now=scheduleNow(uid),rail=host.querySelector('.schedule-journey');
+  rail.style.setProperty('--journey-progress',(now/14.4).toFixed(3)+'%');
+  rail.classList.toggle('is-walking',rows.some(r=>now>=r.start&&now<r.end));
+  host.querySelectorAll('[data-segment]').forEach(el=>{
+    const part=segments[Number(el.dataset.segment)],colors=part.tasks.map(t=>scheduleColor(t.id,TodoSchedule.phase(t,now)==='lit',rows));
+    el.style.background=colors.length===1?colors[0]:'linear-gradient(to bottom,'+colors.flatMap((c,i)=>[c+' '+i*100/colors.length+'%',c+' '+(i+1)*100/colors.length+'%']).join(',')+')';
+    el.classList.toggle('is-lit',part.tasks.every(t=>TodoSchedule.phase(t,now)==='lit'));
+  });
+  const key=uid+'|'+dayKey;
+  if(!rows.some(r=>r.task.id===scheduleSelections.get(key)))scheduleSelections.delete(key);
+  const choice=scheduleSelections.get(key);
+  const selected=rows.find(r=>r.task.id===choice)||rows.find(r=>r.start<=now&&r.end>now)||rows.find(r=>r.start>now)||rows[rows.length-1];
+  const panel=host.querySelector('.schedule-detail');
+  if(!selected){panel.innerHTML='<p class="schedule-empty">点任务旁的小闹钟，安排第一段同行时光。</p>';return;}
+  const task=selected.task,phase=TodoSchedule.phase(task,now),signature=task.id+'|'+phase+'|'+!!task.done;
+  host.querySelectorAll('[data-segment]').forEach(el=>{const chosen=segments[Number(el.dataset.segment)].tasks.some(t=>t.id===task.id);el.classList.toggle('is-selected',chosen);el.setAttribute('aria-pressed',String(chosen));});
+  if(panel.dataset.signature!==signature){
+    panel.dataset.signature=signature;
+    panel.innerHTML=`<div class="schedule-selected-heading"><div><small>${choice?'选中的任务':phase==='active'?'当前任务':phase==='future'?'接下来':'最近一段'}</small><h4>${escHTML(task.text)} <button type="button" class="schedule-note-edit" aria-label="编辑任务笔记" title="编辑笔记">✎</button></h4></div><button type="button" class="schedule-time-edit" aria-label="调整任务时间">${TodoSchedule.time(selected.start)}–${TodoSchedule.time(selected.end)} ✎</button></div><p class="schedule-selected-status" role="status"></p>${selected.conflicts.length?'<p class="schedule-overlap">这一段有重叠安排，可从下方选择要查看的任务。</p>':''}<p class="schedule-note-preview">${task.note?escHTML(task.note):'还没有笔记，开始时记一点小想法吧。'}</p><div class="schedule-selected-actions"><button class="schedule-start" type="button">${task.startedAt?'继续记笔记':'开始 · 写笔记'}</button><button class="schedule-finish" type="button" ${task.done?'disabled':''}>${task.done?'✓ 已完成':'✓ 完成任务'} · +${todoRewardOf(task)} 金币</button></div><label class="schedule-task-select">查看任务<select aria-label="选择时间轴上的任务">${rows.map(r=>`<option value="${escHTML(r.task.id)}" ${r.task.id===task.id?'selected':''}>${TodoSchedule.time(r.start)}–${TodoSchedule.time(r.end)} · ${escHTML(r.task.text)}</option>`).join('')}</select></label>${choice?'<button class="schedule-follow-now" type="button">回到当前时段</button>':''}`;
+    panel.querySelector('.schedule-note-edit').onclick=panel.querySelector('.schedule-start').onclick=()=>scheduleNote(uid,task.id);
+    panel.querySelector('.schedule-time-edit').onclick=()=>scheduleTodo(uid,task.id);
+    panel.querySelector('.schedule-finish').onclick=()=>completeTodo(uid,task.id);
+    panel.querySelector('select').onchange=e=>{scheduleSelections.set(key,e.target.value);panel.dataset.signature='';updateTodoJourney();};
+    const follow=panel.querySelector('.schedule-follow-now');if(follow)follow.onclick=()=>{scheduleSelections.delete(key);panel.dataset.signature='';updateTodoJourney();};
+  }
+  panel.querySelector('.schedule-selected-status').textContent=scheduleStatus(task,now);
 }
 function renderTodoSchedule(uid,items){
   const host=document.getElementById('todoSchedule');if(!host)return;
-  host.dataset.uid=uid;
-  const rows=TodoSchedule.plan(items),pending=items.length-rows.length,done=rows.filter(r=>r.task.done).length;
-  const start=rows[0]?.start??0,end=rows.length?Math.max(...rows.map(r=>r.end)):1440;
-  host.innerHTML=`<div class="schedule-heading"><h3>今天也一起慢慢来</h3><span>${done} / ${rows.length} 项完成${pending?' · '+pending+' 项待安排':''}</span></div><p class="schedule-zone">${escHTML(todayKeyFor(uid))} · ${escHTML(tzShort(uid))}</p>`+(rows.length?`
-    <div class="schedule-journey" data-start="${start}" data-end="${end}" data-done="${done===rows.length}" role="progressbar" aria-label="今日安排的时间进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-      <div class="journey-rail"><span class="journey-fill"></span><span class="journey-buddy ${uid==='u2'?'is-xinghui':''}" aria-hidden="true"></span><span class="journey-goal" aria-hidden="true">✦</span></div>
-      <div class="journey-caption"><span>${TodoSchedule.time(start)} 出发</span><span>${TodoSchedule.time(end)} 抵达</span></div>
-    </div><p class="journey-note">搭子跟着时间前进，勾选完成收下金币。每项奖励只领取一次。</p>
-    <div class="schedule-axis" aria-hidden="true"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div><ol class="schedule-rows">${rows.map(({task,start,end,conflicts})=>`<li class="schedule-row ${task.done?'is-done':''}" data-start="${start}" data-end="${end}" data-done="${!!task.done}">
-      <button class="schedule-edit" type="button" data-schedule-id="${escHTML(task.id)}" aria-label="调整 ${escHTML(task.text)} 的时间"><span class="schedule-label"><span>${task.done?'✓ ':''}${escHTML(task.text)}</span><span class="schedule-time">${TodoSchedule.time(start)}–${TodoSchedule.time(end)}${conflicts.length?' · 时间重叠':''}</span></span><span class="schedule-track" aria-hidden="true"><span class="schedule-bar ${conflicts.length?'has-conflict':''}" style="left:${start/14.4}%;width:${(end-start)/14.4}%"><span class="schedule-elapsed"></span></span></span></button>
-      <div class="schedule-row-footer"><span data-progress-label></span><button class="schedule-reward" type="button" data-complete-id="${escHTML(task.id)}" ${task.done?'disabled':''} aria-label="${task.done?'已完成':'完成'} ${escHTML(task.text)}">${task.done?'已收下':'✓ 完成'} · +${todoRewardOf(task)} 金币</button></div></li>`).join('')}</ol>`:'<p class="schedule-empty">点任务旁的红色小闹钟，安排今天的第一段同行时光。</p>');
-  host.querySelectorAll('[data-schedule-id]').forEach(button=>button.onclick=()=>scheduleTodo(uid,button.dataset.scheduleId));
-  host.querySelectorAll('[data-complete-id]').forEach(button=>button.onclick=()=>completeTodo(uid,button.dataset.completeId));
+  const rows=TodoSchedule.plan(items),segments=TodoSchedule.segments(items),dayKey=todayKeyFor(uid),pending=items.length-rows.length;
+  host.dataset.uid=uid;host._scheduleState={uid,rows,segments,dayKey};
+  host.innerHTML=`<div class="schedule-heading"><h3>今天也一起慢慢来</h3><span>${rows.filter(r=>r.task.done).length} / ${rows.length} 项完成${pending?' · '+pending+' 项待安排':''}</span></div><p class="schedule-zone">${escHTML(dayKey)} · ${escHTML(tzShort(uid))}</p><div class="schedule-journey"><div class="journey-rail segmented-rail" role="group" aria-label="今日任务时间轴">${segments.map((part,i)=>`<button type="button" class="journey-segment" data-segment="${i}" style="left:${part.start/14.4}%;width:${(part.end-part.start)/14.4}%" aria-label="${escHTML(part.tasks.map(t=>t.text).join('、'))} ${TodoSchedule.time(part.start)}–${TodoSchedule.time(part.end)}" title="${escHTML(part.tasks.map(t=>t.text).join('、'))} ${TodoSchedule.time(part.start)}–${TodoSchedule.time(part.end)}"></button>`).join('')}<span class="journey-buddy ${uid==='u2'?'is-xinghui':''}" aria-hidden="true"></span><span class="journey-goal" aria-hidden="true">🎁</span></div><div class="journey-caption"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div></div><div class="schedule-detail"></div>`;
+  host.querySelectorAll('[data-segment]').forEach(button=>button.onclick=()=>{
+    const part=segments[Number(button.dataset.segment)],key=uid+'|'+dayKey;
+    const current=scheduleSelections.get(key),next=part.tasks[(part.tasks.findIndex(t=>t.id===current)+1)%part.tasks.length];
+    scheduleSelections.set(key,next.id);host.querySelector('.schedule-detail').dataset.signature='';updateTodoJourney();
+  });
   updateTodoJourney();
 }

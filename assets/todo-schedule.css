@@ -47,3 +47,30 @@
 .schedule-row.is-done{border-color:#dce4cd;background:#f9fcf5}.schedule-row.is-walking{border-color:#c7d2b5}
 @media(max-width:480px){.todo-schedule{padding:16px 10px}.schedule-row{padding:10px}.schedule-row-footer{align-items:flex-start}.schedule-time{white-space:normal}.schedule-heading{gap:5px}}
 @media(prefers-reduced-motion:reduce){.journey-buddy{animation:none!important;transition:none}.journey-fill{transition:none}}
+/* A single day axis; only the selected/current task is expanded below it. */
+.segmented-rail{height:22px;background:#e9e3d7;isolation:isolate}
+.journey-segment{position:absolute;top:0;height:100%;min-width:1px;padding:0;border:0;border-right:2px solid #fffcf5;border-radius:4px;cursor:pointer;box-sizing:border-box;transition:background .4s,box-shadow .4s}
+.journey-segment::after{content:"";position:absolute;inset:-7px 0}
+.journey-segment.is-selected{outline:2px solid #8e775b;outline-offset:3px;z-index:1}
+.journey-segment.is-lit{box-shadow:0 0 9px #e9bf7670,inset 0 1px 2px #fff8}
+.segmented-rail .journey-buddy{bottom:20px;pointer-events:none;z-index:3}
+.segmented-rail .journey-goal{right:-13px;top:-9px;font-size:25px;pointer-events:none;z-index:4}
+.schedule-detail{margin-top:20px;padding:16px;border-radius:16px;background:#fffdf8;border:1px solid #e8decb}
+.schedule-selected-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.schedule-selected-heading small{font-size:10px;color:#9b8569}.schedule-selected-heading h4{font-size:15px;margin:5px 0;overflow-wrap:anywhere;line-height:1.5}
+.schedule-selected-heading>div{min-width:0}
+.schedule-note-edit,.schedule-time-edit,.schedule-follow-now{border:0;background:transparent;color:#947b5b;cursor:pointer;font:inherit;padding:4px}
+.schedule-time-edit{font-size:11px;white-space:nowrap;padding-top:6px}.schedule-note-edit{font-size:17px}
+.schedule-selected-status{font-size:12px;color:#7c875e;line-height:1.7;margin:8px 0}
+.schedule-overlap{font-size:11px;color:#a47663;line-height:1.6}
+.schedule-note-preview{font-size:12px;color:#8b7b66;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;max-height:120px;overflow:auto;border-left:2px solid #e4d7bd;padding-left:10px}
+.schedule-selected-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.schedule-start,.schedule-finish{border:1px solid #e4d5bb;border-radius:18px;padding:8px 12px;background:#fbf0da;color:#745a35;font:inherit;font-size:12px;cursor:pointer}
+.schedule-finish:disabled{background:#edf2e5;color:#5f7a54;border-color:#d7e2ca;cursor:default}
+.schedule-task-select{display:flex;align-items:center;gap:8px;margin-top:15px;font-size:11px;color:#9b8569}
+.schedule-task-select select{min-width:0;flex:1;width:0;font:inherit;color:#725a43;border:1px solid #e5dac6;border-radius:8px;padding:7px;background:#fffcf6}
+.schedule-follow-now{font-size:11px;margin-top:8px}
+.schedule-note-label{display:grid;gap:10px;font-size:13px}.schedule-note-label textarea{box-sizing:border-box;width:100%;resize:vertical;border:1px solid #dfcdbb;border-radius:12px;padding:12px;font:inherit;color:#604633;background:#fffcf7}
+#noteError{font-size:12px;color:#aa5548}
+.journey-segment:focus-visible,.schedule-detail button:focus-visible{outline:2px solid #9b7947;outline-offset:3px}
+@media(max-width:480px){.schedule-detail{padding:12px}.schedule-selected-heading{display:block}.schedule-time-edit{padding-left:0}.schedule-journey{padding-left:10px;padding-right:10px}.schedule-selected-heading h4{font-size:14px}}

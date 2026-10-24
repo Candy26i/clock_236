@@ -156,3 +156,10 @@
   background:radial-gradient(ellipse at center,#fffaf0 0 58%,#eee1c9 61%,#fffcf5 67% 86%,#d6b678 91%,#fff9eb 95%)!important;
   box-shadow:0 2px 2px #74522d22!important;
 }
+/* Give two seated companions usable blanket space on narrow screens; crop the basket side. */
+@media(max-width:759px){
+  #petScene.pet-scene[data-scene-mode="outdoor"]>.scene-furniture-layer.is-picnic{
+    left:-35%!important;right:auto!important;bottom:0!important;width:140%!important;max-width:none!important;
+  }
+  #petScene.pet-scene[data-scene-mode="outdoor"]>.scene-furniture-layer.is-picnic .scene-furniture-art{width:100%!important;max-width:none!important}
+}

@@ -16,3 +16,17 @@ assert.equal(progress(540,600,570),.5);
 assert.equal(progress(540,600,610),1);
 assert.equal(progress(540,600,530,true),1);
 console.log('Journey progress passed: before, during, after, and checked completion.');
+
+const {segments,phase}=require('../assets/todo-schedule.js');
+assert.deepEqual(segments(tasks).map(s=>[s.start,s.end,s.tasks.map(t=>t.id)]),[
+ [540,570,['a']],[570,600,['a','b']],[600,615,['b','c']],[615,630,['c']]
+]);
+const task={schedule:{start:'09:00',end:'10:00'}};
+assert.equal(phase(task,539),'future');
+assert.equal(phase(task,540),'active');
+assert.equal(phase(task,600),'missed');
+assert.equal(phase({...task,done:true},599),'active');
+assert.equal(phase({...task,done:true},600),'lit');
+assert.deepEqual(segments([]),[]);
+assert.equal(segments([{id:'a',schedule:{start:'09:00',end:'10:00'}},{id:'b',schedule:{start:'11:00',end:'12:00'}}]).length,2);
+console.log('Single-axis segmentation passed: overlaps, gaps, empty day, and elapsed + completed lighting gate.');

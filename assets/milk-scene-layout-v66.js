@@ -91,6 +91,16 @@
     const ox=(w-dw)*px,oy=(h-dh)*py;
     return {style,map:([x,y])=>({x:ox+x*dw,y:oy+y*dh})};
   }
+  function picnicProjection(scene){
+    const img=scene.querySelector('.scene-furniture-layer.is-picnic .scene-furniture-art');
+    if(!img||!img.getClientRects().length)return null;
+    if(!img.naturalWidth){img.addEventListener('load',schedule,{once:true});return null;}
+    const sr=scene.getBoundingClientRect(),r=img.getBoundingClientRect();
+    const scale=Math.min(r.width/img.naturalWidth,r.height/img.naturalHeight);
+    const width=img.naturalWidth*scale,height=img.naturalHeight*scale;
+    const left=r.left-sr.left+(r.width-width)/2,top=r.bottom-sr.top-height;
+    return ([x,y])=>({x:left+x*width,y:top+y*height});
+  }
   function surfacePolygons(scene,mode,mobile){
     if(mode==='greenhouse'){
       const projection=cover(scene);
@@ -140,7 +150,7 @@
       const sourceStyle=sprite?getComputedStyle(sprite):getComputedStyle(wrap);
       const aspect=number(sourceStyle.getPropertyValue('--sprite-aspect'),lie?1.85:chair?.66:ground?.98:.49);
       // A shared posture envelope prevents the wider artwork from shrinking just one person.
-      const fitAspect=lie?2.09:chair?.69:ground?.76:.43;
+      const fitAspect=lie?Math.max(1.4,aspect):chair?.69:ground?.76:.43;
       const baseline=lie?140:chair?250:ground?170:280;
       // Enlarge around the fixed ground contact, with modest per-scene perspective limits.
       const closeness=({room:1.13,outdoor:1.15,cafe:1.10,library:1.10,meeting:1.12,studio:1.09,greenhouse:1.08,terrace:1.08,train:1.10,seaside:1.12,jiangnan:1.10,cloudrealm:1.08})[mode]||1.08;
@@ -205,6 +215,27 @@
         height=lie?Math.min(maxWidth/fitAspect,h*.34):Math.min(height,h*.32);
         y=h*(front?(mobile?.89:.94):(mobile?.66:.77));
         x=mobile?(bothRest?positions[index]:50):(front?35:65);
+      }
+      // Anchor outdoor poses to the actual painted blanket, including its mobile size.
+      // Standing feet remain on the grass behind it; seated hips and reclining bodies rest on it.
+      if(mode==='outdoor'){
+        const project=picnicProjection(scene);
+        if(project){
+          const wraps=[...scene.querySelectorAll('#petMainSlot [data-posture],#petGuestSlot [data-posture]')];
+          const bothRest=pair&&wraps.every(el=>['lie','prone'].includes(el.dataset.posture));
+          const seated=chair||ground||lie;
+          const depth=!seated?.27:bothRest?(index===0?.64:.88):lie?.82:.74;
+          y=project([.5,depth]).y;
+          if(seated){
+            // Keep clear of the painted basket/books at the blanket's left edge.
+            const half=height*aspect/2,lo=project([.27,depth]).x+half,hi=project([.95,depth]).x-half;
+            const desired=pair?(bothRest?(index===0?.64:.58):(index===0?.43:.77)):.62;
+            if(lo>hi){height=Math.min(height,(project([.95,depth]).x-project([.27,depth]).x)/aspect);}
+            const margin=height*aspect/2;
+            x=Math.max(project([.27,depth]).x+margin,Math.min(project([.95,depth]).x-margin,project([desired,depth]).x))/w*100;
+          }
+          height=Math.min(height,y-(mobile?126:72));
+        }
       }
       // At this close bistro table, both figures share one anatomical scale. A seated
       // body is hidden at the lap and sits lower; it is not independently miniaturized.
