@@ -29,7 +29,10 @@
       const floor=['room','outdoor','seaside'].includes(scene.dataset.sceneMode);
       const requested=wrap.dataset.posture;
       const safePosture=floor&&requested.startsWith('chair-')?(requested==='chair-listen'?'listen':requested==='chair-laptop'?'laptop':'sit'):requested;
-      const index = poseIndex[safePosture] ?? 0;
+      // At the conservatory table use Qiyu's matching working pose without the bulky
+      // lounge chair. The tabletop hides the lower body; requested actions stay intact.
+      const greenhouseWorking=scene.dataset.sceneMode==='greenhouse'&&wrap.dataset.scene3d==='u1'&&safePosture.startsWith('chair-');
+      const index = greenhouseWorking ? (safePosture==='chair-read'?1:safePosture==='chair-listen'?2:3) : (poseIndex[safePosture] ?? 0);
       // Measured hair widths relative to the cropped frame height, used by the close
       // greenhouse composition to match physical scale across differently drawn poses.
       const headRatios=wrap.dataset.scene3d==='u1'?[.255,.41,.44,.42,.33,.35,.40,.12,.12]:[.256,.30,.30,.30,.256,.256,.256,.15,.12];

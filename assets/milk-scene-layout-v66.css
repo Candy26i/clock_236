@@ -129,7 +129,7 @@
 
 /* The replacement background and its foreground mask use exactly the same crop. */
 #petScene.pet-scene[data-scene-mode="greenhouse"] > .scene-ambient{
-  background-image:url("scenes/greenhouse-study-table-v73.png")!important;
+  background-image:url("scenes/greenhouse-low-laptop-v75.png")!important;
   background-size:cover!important;background-position:center center!important;
 }
 
@@ -148,3 +148,11 @@
 #petScene.pet-scene .scene-snack-surface .snack-illustration[src*="berry-v65"]{transform:translateY(10.25%)}
 #petScene.pet-scene .scene-snack-surface .snack-illustration[src*="cookie-v65"]{transform:translateY(10.87%)}
 #petScene.pet-scene .scene-snack-surface .snack-illustration[src*="pudding-v65"]{transform:translateY(5.35%)}
+
+/* Match the illustrated snack plates: warm porcelain, fine gold rim, same perspective. */
+#petScene.pet-scene .scene-snack-surface .scene-snack-item.empty::before{
+  height:calc(var(--plate-size) * .53)!important;
+  border:1px solid #b99556!important;
+  background:radial-gradient(ellipse at center,#fffaf0 0 58%,#eee1c9 61%,#fffcf5 67% 86%,#d6b678 91%,#fff9eb 95%)!important;
+  box-shadow:0 2px 2px #74522d22!important;
+}

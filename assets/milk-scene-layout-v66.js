@@ -9,7 +9,7 @@
     library:{feet:.86,chair:.97,x:[36,65],desktop:[72,94,83,94,93,96],mobile:[77,92,91,98,68,98]},
     meeting:{feet:.99,chair:1.025,x:[36,65],scale:1,desktop:[69,83,79,83,90,91],mobile:[83,82,83,92,94,88]},
     studio:{feet:.91,chair:1.0,x:[35,66],desktop:[68,86,79,86,90,93],mobile:[82,90,91,98,24,98]},
-    greenhouse:{feet:.77,chair:.92,x:[30,70],desktop:[54,76,69,78,80,95],mobile:[47,73,68,74,88,80]},
+    greenhouse:{feet:.77,chair:.92,x:[30,70],desktop:[54,76,69,76,80,95],mobile:[47,73,68,74,88,80]},
     terrace:{feet:.79,chair:.95,x:[36,65],desktop:[66,91,77,91,88,95],mobile:[90,88,90,98,9,96]},
     train:{feet:.91,chair:.99,x:[36,66],desktop:[54,84,64,84,55,95],mobile:[54,84,73,84,87,96]},
     seaside:{feet:.8,ground:.87,lie:.89,x:[33,68],desktop:[40,90,61,90,72,92],mobile:[42,94,65,94,81,95]},
@@ -111,13 +111,8 @@
     if(!front){front=ambient.cloneNode(false);front.classList.add('scene-depth-foreground');front.setAttribute('aria-hidden','true');scene.insertBefore(front,scene.querySelector('.pet-cast'));}
     const projection=cover(scene);if(!projection)return [];
     const {style}=projection;
-    let outline=outlines[mode];
-    if(mode==='greenhouse'){
-      // Walk the ellipse's rear edge, detouring around the laptop screen once.
-      const rear=outline.slice(0,33);
-      const left=rear.filter(([x])=>x<.235),right=rear.filter(([x])=>x>.414);
-      outline=[...left,[.224,.608],[.229,.595],[.405,.575],[.410,.582],[.417,.649],...right,...outline.slice(33)];
-    }
+    // The low laptop stays inside the table silhouette; no raised screen mask is needed.
+    const outline=outlines[mode];
     const points=outline.map(projection.map);
     front.style.backgroundImage=style.backgroundImage;
     front.style.backgroundSize=style.backgroundSize;
@@ -212,7 +207,7 @@
         const headRatio=number(sourceStyle.getPropertyValue('--sprite-head-ratio'),.256);
         const headSize=Math.min(h*.22,maxWidth/.69*.256,(edge-(mobile?130:72))/2.2);
         height=headSize/headRatio;
-        const visibleHeads=chair||ground?1.8:2.2;
+        const visibleHeads=chair||ground?(wrap.dataset.scene3d==='u2'?2.05:1.95):2.2;
         y=edge+height-headSize*visibleHeads;
       }
       const width=Math.max(90,Math.min(maxWidth,height*aspect+12));
