@@ -111,8 +111,13 @@
     if(!front){front=ambient.cloneNode(false);front.classList.add('scene-depth-foreground');front.setAttribute('aria-hidden','true');scene.insertBefore(front,scene.querySelector('.pet-cast'));}
     const projection=cover(scene);if(!projection)return [];
     const {style}=projection;
-    // The low laptop stays inside the table silhouette; no raised screen mask is needed.
-    const outline=outlines[mode];
+    let outline=outlines[mode];
+    if(mode==='greenhouse'){
+      // Restore the upright laptop's foreground silhouette; the solo seat remains centered.
+      const rear=outline.slice(0,33);
+      const left=rear.filter(([x])=>x<.235),right=rear.filter(([x])=>x>.414);
+      outline=[...left,[.224,.608],[.229,.595],[.405,.575],[.410,.582],[.417,.649],...right,...outline.slice(33)];
+    }
     const points=outline.map(projection.map);
     front.style.backgroundImage=style.backgroundImage;
     front.style.backgroundSize=style.backgroundSize;

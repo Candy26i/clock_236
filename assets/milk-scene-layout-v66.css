@@ -129,7 +129,7 @@
 
 /* The replacement background and its foreground mask use exactly the same crop. */
 #petScene.pet-scene[data-scene-mode="greenhouse"] > .scene-ambient{
-  background-image:url("scenes/greenhouse-low-laptop-v75.png")!important;
+  background-image:url("scenes/greenhouse-study-table-v73.png")!important;
   background-size:cover!important;background-position:center center!important;
 }
 
