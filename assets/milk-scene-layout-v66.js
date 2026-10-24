@@ -9,7 +9,7 @@
     library:{feet:.86,chair:.97,x:[36,65],desktop:[69,88,79,88,89,92],mobile:[77,92,91,98,68,98]},
     meeting:{feet:.99,chair:1.025,x:[36,65],scale:1,desktop:[69,83,79,83,90,91],mobile:[83,82,83,92,94,88]},
     studio:{feet:.91,chair:1.0,x:[35,66],desktop:[68,86,79,86,90,93],mobile:[82,90,91,98,24,98]},
-    greenhouse:{feet:.77,chair:.92,x:[30,70],desktop:[38,86,61,86,78,92],mobile:[30,86,67,86,82,96]},
+    greenhouse:{feet:.77,chair:.92,x:[30,70],desktop:[54,76,69,78,80,95],mobile:[47,73,68,74,88,80]},
     terrace:{feet:.79,chair:.95,x:[36,65],desktop:[66,91,77,91,88,95],mobile:[90,88,90,98,9,96]},
     train:{feet:.91,chair:.99,x:[36,66],desktop:[54,84,64,84,55,95],mobile:[54,84,73,84,87,96]},
     seaside:{feet:.8,ground:.87,lie:.89,x:[33,68],desktop:[40,90,61,90,72,92],mobile:[42,94,65,94,81,95]},
@@ -110,7 +110,15 @@
     if(!outlines[mode]||!ambient){if(front)front.remove();return;}
     if(!front){front=ambient.cloneNode(false);front.classList.add('scene-depth-foreground');front.setAttribute('aria-hidden','true');scene.insertBefore(front,scene.querySelector('.pet-cast'));}
     const projection=cover(scene);if(!projection)return [];
-    const {style}=projection,points=outlines[mode].map(projection.map);
+    const {style}=projection;
+    let outline=outlines[mode];
+    if(mode==='greenhouse'){
+      // Walk the ellipse's rear edge, detouring around the laptop screen once.
+      const rear=outline.slice(0,33);
+      const left=rear.filter(([x])=>x<.235),right=rear.filter(([x])=>x>.414);
+      outline=[...left,[.224,.608],[.229,.595],[.405,.575],[.410,.582],[.417,.649],...right,...outline.slice(33)];
+    }
+    const points=outline.map(projection.map);
     front.style.backgroundImage=style.backgroundImage;
     front.style.backgroundSize=style.backgroundSize;
     front.style.backgroundPosition=style.backgroundPosition;
@@ -263,7 +271,7 @@
     }
     // Fit the enlarged servings onto the painted contact plane, with a gap between each.
     const polygons=surfacePolygons(scene,mode,mobile),polygon=polygons[0];
-    const plateSize=mobile?42:56,cupSize=mobile?50:66;
+    const plateSize=mobile?42:56,cupSize=mode==='greenhouse'?(mobile?66:86):(mobile?50:66);
     const top=mode==='greenhouse'?Math.min(...polygon.map(p=>p.y)):Math.max(...polygon.slice(0,2).map(p=>p.y));
     const bottom=Math.min(h-8,Math.max(...polygon.map(p=>p.y))-8);
     const items=[['plate-main',plateSize],['plate-guest',plateSize],['cup',cupSize]];

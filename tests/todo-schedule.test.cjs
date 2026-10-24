@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');
-const {minutes,interval,plan}=require('../assets/todo-schedule.js');
+const {minutes,interval,plan,progress}=require('../assets/todo-schedule.js');
 assert.equal(minutes('00:00'),0);assert.equal(minutes('23:59'),1439);
 for(const bad of ['24:00','12:60','9:00','',null,'-1:30'])assert.equal(minutes(bad),null);
 assert.equal(interval({schedule:{start:'14:00',end:'13:00'}}),null);
@@ -10,3 +10,9 @@ assert.deepEqual(rows.map(r=>r.task.id),['a','b','c']);
 assert.deepEqual(rows.map(r=>r.conflicts),[['b'],['a','c'],['b']]);
 assert.equal(JSON.stringify(tasks),before);
 console.log('Schedule validation, chronological order, touching boundaries and overlap checks passed.');
+
+assert.equal(progress(540,600,530),0);
+assert.equal(progress(540,600,570),.5);
+assert.equal(progress(540,600,610),1);
+assert.equal(progress(540,600,530,true),1);
+console.log('Journey progress passed: before, during, after, and checked completion.');

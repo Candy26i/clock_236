@@ -129,6 +129,10 @@
 
 /* The replacement background and its foreground mask use exactly the same crop. */
 #petScene.pet-scene[data-scene-mode="greenhouse"] > .scene-ambient{
-  background-image:url("scenes/greenhouse-white-round-table-v72.png")!important;
+  background-image:url("scenes/greenhouse-study-table-v73.png")!important;
   background-size:cover!important;background-position:center center!important;
 }
+
+/* A visible full-size tea beside the viewer's notebook, with matching layout footprint. */
+#petScene.pet-scene[data-scene-mode="greenhouse"] .scene-snack-surface :is(.scene-drink-tray,.scene-cup,.scene-cup svg){width:86px!important;height:120px!important}
+@media(max-width:759px){#petScene.pet-scene[data-scene-mode="greenhouse"] .scene-snack-surface :is(.scene-drink-tray,.scene-cup,.scene-cup svg){width:66px!important;height:92px!important}}

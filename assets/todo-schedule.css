@@ -21,3 +21,29 @@
 #scheduleError{font-size:12px;color:#aa5548}
 .todo-alarm:focus-visible,.schedule-row button:focus-visible{outline:2px solid #a97643;outline-offset:3px}
 @media(max-width:480px){.schedule-label{display:grid;gap:3px}.todo-row{gap:5px;padding:7px 6px}.todo-earned{padding:3px}.todo-level-hint{display:none}}
+/* Small inline alarm: status lives in the stroke, not in a boxed emoji. */
+.todo-alarm{display:inline-flex;align-items:center;justify-content:center;background:transparent!important;color:#bd5752;padding:5px;border-radius:50%;width:34px;height:34px;min-width:34px;flex-shrink:0}
+.todo-alarm.is-scheduled{color:#507d60}.todo-alarm:hover{color:#813d38;transform:rotate(-8deg)}.todo-alarm.is-scheduled:hover{color:#315940}
+.todo-schedule{padding:20px 16px 16px;border:1px solid #eadfcd;border-radius:22px;background:linear-gradient(145deg,#fffcf6,#f8f1e5);box-shadow:0 5px 18px #77553708}
+.schedule-heading h3{font-size:15px;letter-spacing:.04em}.schedule-heading>span{font-size:11px}
+.schedule-journey{padding:44px 16px 0;margin-top:8px}
+.journey-rail{position:relative;height:10px;border-radius:20px;background:#e8deca;box-shadow:inset 0 1px 3px #66503315}
+.journey-fill{display:block;width:var(--journey-progress,0%);height:100%;border-radius:inherit;background:linear-gradient(90deg,#c7cf9e,#7d9e75);transition:width .5s linear}
+.journey-buddy{position:absolute;left:var(--journey-progress,0%);bottom:7px;width:29px;height:52px;transform:translateX(-50%);background:url('characters/q-v67/qiyu-study-sheet.png') 5.5814% 10.6346% / 624.3902% 232.1995% no-repeat;filter:drop-shadow(0 2px 2px #79664c22);transition:left .5s linear;z-index:1}
+.journey-buddy.is-xinghui{width:27px;background-image:url('characters/q-v67/xinghui-study-sheet.png');background-size:632.0988% 214.2259%;background-position:6.4192% 7.6923%}
+.is-walking .journey-buddy{animation:companion-stroll 1s ease-in-out infinite}
+@keyframes companion-stroll{0%,100%{transform:translateX(-50%) rotate(-3deg)}50%{transform:translate(-50%,-3px) rotate(3deg)}}
+.journey-goal{position:absolute;right:-5px;top:-9px;color:#bb8844;font-size:25px;text-shadow:0 1px #fff}
+.journey-caption{display:flex;justify-content:space-between;margin-top:9px;font-size:10px;color:#7b785e;font-variant-numeric:tabular-nums}
+.journey-note{font-size:11px;line-height:1.7;color:#8b725c;margin:12px 0 18px}
+.schedule-axis{margin:0 12px 8px}
+.schedule-rows{gap:12px}.schedule-row{padding:12px;border:1px solid #e9decb;border-radius:14px;background:#fffdf8;box-shadow:0 2px 6px #79593d05}
+.schedule-row .schedule-edit{padding:0}.schedule-label{margin-bottom:11px;font-size:13px;line-height:1.5}.schedule-label>span:first-child{font-weight:600}
+.schedule-track{height:8px;border-radius:8px;background:repeating-linear-gradient(to right,transparent 0,transparent calc(25% - 1px),#e3dacb calc(25% - 1px),#e3dacb 25%),#f2ecdf}
+.schedule-bar{background:#dec9a8;overflow:hidden}.schedule-bar.has-conflict{background:#e7c6bd}.schedule-elapsed{display:block;width:var(--journey-progress,0%);height:100%;background:#b68b54}.has-conflict .schedule-elapsed{background:#b77565}.is-done .schedule-elapsed{background:#88a46d}
+.schedule-row-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:11px}.schedule-row-footer>span{font-size:10px;color:#93816b;line-height:1.5}
+.schedule-row .schedule-reward{width:auto;flex-shrink:0;font-size:11px;font-weight:600;color:#725931;border:1px solid #e6d5b5;background:#fbf0da;border-radius:20px;padding:6px 10px;white-space:nowrap;text-align:center}
+.schedule-row .schedule-reward:disabled{color:#5f7a54;background:#edf2e5;border-color:#d7e2ca;cursor:default}
+.schedule-row.is-done{border-color:#dce4cd;background:#f9fcf5}.schedule-row.is-walking{border-color:#c7d2b5}
+@media(max-width:480px){.todo-schedule{padding:16px 10px}.schedule-row{padding:10px}.schedule-row-footer{align-items:flex-start}.schedule-time{white-space:normal}.schedule-heading{gap:5px}}
+@media(prefers-reduced-motion:reduce){.journey-buddy{animation:none!important;transition:none}.journey-fill{transition:none}}
