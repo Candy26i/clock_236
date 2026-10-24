@@ -131,7 +131,7 @@ async function readScene(page) {
       const pseudo = getComputedStyle(wrapper, '::after');
       return {
         uid: wrapper.dataset.scene3d, posture: wrapper.dataset.posture, interaction: wrapper.dataset.interaction || null,
-        sprite: sprite ? { ...rect(sprite), visible: visible(sprite), background: getComputedStyle(sprite).backgroundImage, aspect: getComputedStyle(sprite).getPropertyValue('--sprite-aspect') } : null,
+        sprite: sprite ? { ...rect(sprite), visible: visible(sprite), background: getComputedStyle(sprite).backgroundImage, aspect: getComputedStyle(sprite).getPropertyValue('--sprite-aspect'), headRatio: parseFloat(getComputedStyle(sprite).getPropertyValue('--sprite-head-ratio')) || .256 } : null,
         visibleOldImages: Array.from(wrapper.querySelectorAll('img.pet-3d-character')).filter(visible).map(image => image.src),
         cushion: { content: pseudo.content, display: pseudo.display, opacity: Number(pseudo.opacity), height: parseFloat(pseudo.height) || 0 }
       };
@@ -194,7 +194,10 @@ function validateScene(record, expectedActors, { surface = true } = {}) {
     const [left,right]=figures.slice().sort((a,b)=>a.x-b.x);
     const restingDepth=record.actors.some(actor=>['lie','prone'].includes(actor.posture)) && Math.abs(left.y-right.y)>=Math.max(left.height,right.height)*.5 && Math.abs(left.x+left.width/2-right.x-right.width/2)>=Math.max(left.width,right.width)*.45;
     check(left.right+8 <= right.x || left.bottom+8 <= right.y || right.bottom+8 <= left.y || restingDepth, 'companions overlap or have insufficient breathing room');
-    if(record.actors[0].posture===record.actors[1].posture)
+    if(record.mode==='greenhouse'){
+      const a=left.height*left.headRatio,b=right.height*right.headRatio;
+      check(Math.abs(a-b)<=Math.max(a,b)*.04, 'greenhouse companions have unequal anatomical scale');
+    }else if(record.actors[0].posture===record.actors[1].posture)
       check(Math.abs(left.height-right.height) <= Math.max(left.height,right.height)*.04, 'same-pose companions have unequal scale');
   }
   check(record.minutes.every(value => value.ky === 0 && value.xx === 0), 'visual fixture unexpectedly created study minutes');

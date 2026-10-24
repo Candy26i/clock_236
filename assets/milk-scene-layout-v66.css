@@ -126,3 +126,9 @@
 
 /* Picnic scenes need enough depth for life-size reclining bodies and foreground food. */
 #petScene.pet-scene:is([data-scene-mode="outdoor"],[data-scene-mode="seaside"]){height:620px!important;min-height:620px!important;max-height:620px!important}
+
+/* The replacement background and its foreground mask use exactly the same crop. */
+#petScene.pet-scene[data-scene-mode="greenhouse"] > .scene-ambient{
+  background-image:url("scenes/greenhouse-white-round-table-v72.png")!important;
+  background-size:cover!important;background-position:center center!important;
+}

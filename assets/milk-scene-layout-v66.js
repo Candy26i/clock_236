@@ -9,7 +9,7 @@
     library:{feet:.86,chair:.97,x:[36,65],desktop:[69,88,79,88,89,92],mobile:[77,92,91,98,68,98]},
     meeting:{feet:.99,chair:1.025,x:[36,65],scale:1,desktop:[69,83,79,83,90,91],mobile:[83,82,83,92,94,88]},
     studio:{feet:.91,chair:1.0,x:[35,66],desktop:[68,86,79,86,90,93],mobile:[82,90,91,98,24,98]},
-    greenhouse:{feet:.77,chair:.92,x:[36,65],desktop:[71,83,81,83,91,91],mobile:[91,86,91,97,9,98]},
+    greenhouse:{feet:.77,chair:.92,x:[30,70],desktop:[38,86,61,86,78,92],mobile:[30,86,67,86,82,96]},
     terrace:{feet:.79,chair:.95,x:[36,65],desktop:[66,91,77,91,88,95],mobile:[90,88,90,98,9,96]},
     train:{feet:.91,chair:.99,x:[36,66],desktop:[54,84,64,84,55,95],mobile:[54,84,73,84,87,96]},
     seaside:{feet:.8,ground:.87,lie:.89,x:[33,68],desktop:[40,90,61,90,72,92],mobile:[42,94,65,94,81,95]},
@@ -19,7 +19,8 @@
   // Foreground outlines in the unchanged source image's normalized coordinates.
   // The notch follows the laptop silhouette; CSS maps the source's cover crop at every width.
   const outlines={
-    greenhouse:[[0,.790],[1,.790],[1,1],[0,1]],
+    // Trace the round table's outer ellipse, including its carved apron.
+    greenhouse:Array.from({length:65},(_,i)=>{const t=Math.PI+i*Math.PI*2/64;return [.5+.442*Math.cos(t),.846+.202*Math.sin(t)];}),
     terrace:[[0,.868],[1,.868],[1,1],[0,1]],
     jiangnan:[[0,.758],[.426,.758],[.430,.740],[.445,.738],[.452,.758],[1,.758],[1,1],[0,1]],
     cloudrealm:[[0,.800],[.436,.800],[.437,.767],[.472,.757],[.488,.800],[1,.800],[1,1],[0,1]],
@@ -48,6 +49,13 @@
     cafe:{selector:'.cafe-table-foreground .cafe-study-table',edge:u=>.203+.75*Math.pow(Math.min(.82,Math.max(.18,u))-.5,2),alignY:.5}
   };
   function occluderTop(scene,mode,xPx){
+    if(mode==='greenhouse'){
+      const projection=cover(scene);if(!projection)return null;
+      const origin=projection.map([0,0]),unit=projection.map([1,1]);
+      const u=(xPx-origin.x)/(unit.x-origin.x);
+      const v=.846-.202*Math.sqrt(Math.max(0,1-Math.pow((u-.5)/.442,2)));
+      return projection.map([u,v]).y;
+    }
     const plane=tableTop[mode];
     if(plane){const projection=cover(scene);return projection?projection.map([.5,plane]).y:null;}
     for(const key of ['cafe','desk']){
@@ -61,7 +69,7 @@
     }
     return null;
   }
-  const tableTop={meeting:.777,studio:.830,greenhouse:.790,terrace:.868,train:.777,jiangnan:.758,cloudrealm:.800};
+  const tableTop={meeting:.777,studio:.830,terrace:.868,train:.777,jiangnan:.758,cloudrealm:.800};
   const geometry=new WeakMap();
   const dimensions=new Map();
   let scheduled=0, current=null;
@@ -84,6 +92,10 @@
     return {style,map:([x,y])=>({x:ox+x*dw,y:oy+y*dh})};
   }
   function surfacePolygons(scene,mode,mobile){
+    if(mode==='greenhouse'){
+      const projection=cover(scene);
+      if(projection)return [Array.from({length:65},(_,i)=>{const t=Math.PI+i*Math.PI*2/64;return projection.map([.5+.412*Math.cos(t),.84+.182*Math.sin(t)]);})];
+    }
     const w=scene.clientWidth,h=scene.clientHeight,plane=tableTop[mode],projection=plane&&cover(scene);
     if(projection)return [[[0,plane],[1,plane],[1,mode==='meeting'?.94:.985],[0,mode==='meeting'?.94:.985]].map(projection.map)];
     let points;
@@ -186,6 +198,15 @@
         y=h*(front?(mobile?.89:.94):(mobile?.66:.77));
         x=mobile?(bothRest?positions[index]:50):(front?35:65);
       }
+      // At this close bistro table, both figures share one anatomical scale. A seated
+      // body is hidden at the lap and sits lower; it is not independently miniaturized.
+      if(mode==='greenhouse'&&edge){
+        const headRatio=number(sourceStyle.getPropertyValue('--sprite-head-ratio'),.256);
+        const headSize=Math.min(h*.22,maxWidth/.69*.256,(edge-(mobile?130:72))/2.2);
+        height=headSize/headRatio;
+        const visibleHeads=chair||ground?1.8:2.2;
+        y=edge+height-headSize*visibleHeads;
+      }
       const width=Math.max(90,Math.min(maxWidth,height*aspect+12));
       slot.style.setProperty('--actor-x',x+'%');slot.style.setProperty('--actor-y',y.toFixed(1)+'px');
       slot.style.setProperty('--figure-height',height.toFixed(1)+'px');slot.style.setProperty('--figure-width',width.toFixed(1)+'px');
@@ -243,7 +264,7 @@
     // Fit the enlarged servings onto the painted contact plane, with a gap between each.
     const polygons=surfacePolygons(scene,mode,mobile),polygon=polygons[0];
     const plateSize=mobile?42:56,cupSize=mobile?50:66;
-    const top=Math.max(...polygon.slice(0,2).map(p=>p.y));
+    const top=mode==='greenhouse'?Math.min(...polygon.map(p=>p.y)):Math.max(...polygon.slice(0,2).map(p=>p.y));
     const bottom=Math.min(h-8,Math.max(...polygon.map(p=>p.y))-8);
     const items=[['plate-main',plateSize],['plate-guest',plateSize],['cup',cupSize]];
     let previousRight=0;
