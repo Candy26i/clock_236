@@ -69,7 +69,7 @@ function scheduleNow(uid){
 }
 
 const scheduleSelections=new Map();
-const scheduleColors=[['#b9789b','#f3a3cf'],['#6c94bd','#8bcbf5'],['#74a58a','#98ddad'],['#977eb5','#c6a5f0'],['#bd906b','#ffc18d'],['#68a4a5','#8eddd8'],['#bc7e86','#f6a8b1'],['#b2a165','#f4da8a']];
+const scheduleColors=[['#9d9299','#f3a3cf'],['#909aa2','#8bcbf5'],['#939e96','#98ddad'],['#99939f','#c6a5f0'],['#a29991','#ffc18d'],['#919e9d','#8eddd8'],['#9f9395','#f6a8b1'],['#9f9b8f','#f4da8a']];
 function scheduleColor(id,lit,rows){return scheduleColors[Math.max(0,rows.findIndex(r=>r.task.id===id))%scheduleColors.length][lit?1:0];}
 function scheduleNote(uid,id){
   const task=todoObjOf(uid)[id];if(!task)return;
