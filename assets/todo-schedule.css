@@ -52,7 +52,7 @@
 .journey-segment{position:absolute;top:0;height:100%;min-width:1px;padding:0;border:0;border-right:2px solid #fffcf5;border-radius:4px;cursor:pointer;box-sizing:border-box;transition:background .4s,box-shadow .4s}
 .journey-segment::after{content:"";position:absolute;inset:-7px 0}
 .journey-segment.is-selected{outline:2px solid #8e775b;outline-offset:3px;z-index:1}
-.journey-segment.is-lit{box-shadow:0 0 9px #e9bf7670,inset 0 1px 2px #fff8}
+.journey-segment.is-lit{box-shadow:0 0 9px var(--segment-glow,#e9bf7670),inset 0 1px 2px #fff8}
 .segmented-rail .journey-buddy{bottom:20px;pointer-events:none;z-index:3}
 .segmented-rail .journey-goal{right:-13px;top:-9px;font-size:25px;pointer-events:none;z-index:4}
 .schedule-detail{margin-top:20px;padding:16px;border-radius:16px;background:#fffdf8;border:1px solid #e8decb}

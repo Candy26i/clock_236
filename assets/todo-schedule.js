@@ -69,7 +69,7 @@ function scheduleNow(uid){
 }
 
 const scheduleSelections=new Map();
-const scheduleColors=[['#d5c8b7','#eab64e'],['#c5cdbd','#89bc72'],['#c0cbd0','#76b9dd'],['#d2c0c5','#e49eae'],['#cac3d4','#af94d9'],['#cfcbc0','#e3a476'],['#bfd0cb','#65bca5'],['#c9c8b0','#c5be56']];
+const scheduleColors=[['#b9789b','#f3a3cf'],['#6c94bd','#8bcbf5'],['#74a58a','#98ddad'],['#977eb5','#c6a5f0'],['#bd906b','#ffc18d'],['#68a4a5','#8eddd8'],['#bc7e86','#f6a8b1'],['#b2a165','#f4da8a']];
 function scheduleColor(id,lit,rows){return scheduleColors[Math.max(0,rows.findIndex(r=>r.task.id===id))%scheduleColors.length][lit?1:0];}
 function scheduleNote(uid,id){
   const task=todoObjOf(uid)[id];if(!task)return;
@@ -102,6 +102,7 @@ function updateTodoJourney(){
   host.querySelectorAll('[data-segment]').forEach(el=>{
     const part=segments[Number(el.dataset.segment)],colors=part.tasks.map(t=>scheduleColor(t.id,TodoSchedule.phase(t,now)==='lit',rows));
     el.style.background=colors.length===1?colors[0]:'linear-gradient(to bottom,'+colors.flatMap((c,i)=>[c+' '+i*100/colors.length+'%',c+' '+(i+1)*100/colors.length+'%']).join(',')+')';
+    el.style.setProperty('--segment-glow',colors[0]+'66');
     el.classList.toggle('is-lit',part.tasks.every(t=>TodoSchedule.phase(t,now)==='lit'));
   });
   const key=uid+'|'+dayKey;
